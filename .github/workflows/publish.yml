@@ -1,0 +1,272 @@
+# Publishes the package in this repository to npm when a tag `v<version>` is pushed.
+#
+# Nothing here builds anything. The files in this repository are the built
+# package, copied from the private source repository by its release workflow,
+# which then pushes the tag that starts this one. This workflow checks that the
+# files are the ones the tag names, publishes them with npm trusted publishing
+# (OIDC, no token stored anywhere) and provenance, attaches the bundle and its
+# checksums to a GitHub Release (with the LICENSE and the third-party notices the
+# bundle needs), and installs the published version once to prove it runs and
+# carries its licence.
+#
+#   tag                 npm dist-tag   GitHub Release
+#   v0.1.0              latest         release, marked latest
+#   v0.2.0-beta.1       beta           prerelease
+#
+# A published version is never changed. A tag that already has a release, and a
+# version that is already on npm, are skipped rather than overwritten.
+#
+# One-time setup (npm trusted publisher, the `npm-publish` environment, tag
+# protection) is in the runbook of the source repository.
+
+name: publish
+
+on:
+  push:
+    tags: ['v*']
+
+permissions: {}
+
+concurrency:
+  group: publish-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    name: Check the tag and the files
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    outputs:
+      name: ${{ steps.facts.outputs.name }}
+      bin: ${{ steps.facts.outputs.bin }}
+      version: ${{ steps.facts.outputs.version }}
+      dist_tag: ${{ steps.facts.outputs.dist_tag }}
+      prerelease: ${{ steps.facts.outputs.prerelease }}
+    steps:
+      # Full history, so the check below can ask whether the tagged commit is on the default branch.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+
+      - name: Check that the tag names this package version
+        id: facts
+        env:
+          TAG: ${{ github.ref_name }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -euo pipefail
+
+          if ! [[ "$TAG" =~ ^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "::error::The tag '$TAG' must be v followed by a semantic version, such as v0.1.0 or v0.2.0-beta.1."
+            exit 1
+          fi
+
+          name=$(node -p "require('./package.json').name")
+          version=$(node -p "require('./package.json').version")
+          bin=$(node -p "Object.keys(require('./package.json').bin)[0]")
+          private=$(node -p "require('./package.json').private === true")
+
+          if [ "$version" != "${TAG#v}" ]; then
+            echo "::error::The tag is $TAG but package.json is at $version. Tag the commit that carries the version."
+            exit 1
+          fi
+          if [ "$private" = "true" ]; then
+            echo "::error::package.json is private, so npm would refuse to publish it."
+            exit 1
+          fi
+
+          # A tag on a commit that is not on the default branch is a release nobody reviewed.
+          git fetch --no-tags origin "$DEFAULT_BRANCH"
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" "origin/$DEFAULT_BRANCH"; then
+            echo "::error::The tagged commit is not on $DEFAULT_BRANCH."
+            exit 1
+          fi
+
+          case "$version" in
+            *-*) dist_tag=beta; prerelease=true ;;
+            *)   dist_tag=latest; prerelease=false ;;
+          esac
+
+          {
+            echo "name=$name"
+            echo "bin=$bin"
+            echo "version=$version"
+            echo "dist_tag=$dist_tag"
+            echo "prerelease=$prerelease"
+          } >> "$GITHUB_OUTPUT"
+          echo "$name $version, dist-tag $dist_tag"
+
+      - name: Check the files against checksums.txt
+        run: sha256sum --check --strict checksums.txt
+
+      # The bundle contains other people's code and data, and the official vendor icons.
+      # Their licences and notices must be in the package that is published, so a
+      # tarball without LICENSE or THIRD-PARTY-NOTICES.md stops here.
+      - name: Check that the tarball carries the licence and the notices
+        run: |
+          set -euo pipefail
+          test -s LICENSE
+          test -s THIRD-PARTY-NOTICES.md
+          npm pack --dry-run --json --ignore-scripts | node -e 'const files = JSON.parse(require("fs").readFileSync(0, "utf8"))[0].files.map((file) => file.path); for (const name of ["LICENSE", "THIRD-PARTY-NOTICES.md", "README.md", "package.json"]) { if (!files.includes(name)) { console.error("The tarball lacks " + name); process.exit(1) } } console.log("The tarball lists " + files.length + " files, with the licence and the notices.")'
+
+  publish:
+    name: Publish to npm
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # Create this environment under Settings, Environments, and add required
+    # reviewers if a person should approve every publish. The npm trusted
+    # publisher entry names it too.
+    environment: npm-publish
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # No `registry-url` on purpose: it writes an .npmrc that expects a token,
+      # and trusted publishing needs there to be none.
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+
+      # Trusted publishing needs npm 11.5.1 or newer, and the npm that ships
+      # with Node 22 is older. An exact version, not `latest`.
+      - name: Install an npm that supports trusted publishing
+        run: |
+          set -euo pipefail
+          npm install --global --ignore-scripts npm@11.19.1
+          npm --version
+
+      # What npm compares against the trusted publisher entry, printed from the
+      # token this job holds. Every mismatch otherwise surfaces as a bare
+      # ENEEDAUTH. Claims only; the token is never printed.
+      - name: Show the identity npm will check
+        run: |
+          set -euo pipefail
+          if [ -z "${ACTIONS_ID_TOKEN_REQUEST_URL:-}" ]; then
+            echo "::error::No OIDC token is available: the job needs 'id-token: write'."
+            exit 1
+          fi
+          curl -sS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=npm:registry.npmjs.org" \
+            | node -e '
+              let body = "";
+              process.stdin.on("data", (chunk) => (body += chunk));
+              process.stdin.on("end", () => {
+                const claims = JSON.parse(Buffer.from(JSON.parse(body).value.split(".")[1], "base64url").toString());
+                const keys = ["repository", "repository_owner", "workflow_ref", "job_workflow_ref", "environment", "ref", "event_name"];
+                console.log(JSON.stringify(Object.fromEntries(keys.map((key) => [key, claims[key]])), null, 2));
+              });
+            '
+          echo "The npm trusted publisher must read: owner = repository_owner, repository = the part after the slash, workflow = the file in workflow_ref, environment = the value above."
+
+      - name: Publish with provenance
+        env:
+          NAME: ${{ needs.verify.outputs.name }}
+          VERSION: ${{ needs.verify.outputs.version }}
+          DIST_TAG: ${{ needs.verify.outputs.dist_tag }}
+        run: |
+          set -euo pipefail
+          if npm view "$NAME@$VERSION" version >/dev/null 2>&1; then
+            echo "::notice::$NAME@$VERSION is already on npm; nothing to publish. A published version is never replaced."
+            exit 0
+          fi
+          npm pack --dry-run
+          if ! npm publish --provenance --access public --tag "$DIST_TAG"; then
+            echo "::error::npm publish failed. ENEEDAUTH means the trusted publisher entry on npmjs.com does not match the identity printed above. A 422 about provenance means the repository is private or package.json repository.url names another repository."
+            exit 1
+          fi
+          echo "Published $NAME@$VERSION under the $DIST_TAG dist-tag." >> "$GITHUB_STEP_SUMMARY"
+
+  release:
+    name: GitHub Release
+    needs: [verify, publish]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Create the release with the bundle and the checksums
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+          NAME: ${{ needs.verify.outputs.name }}
+          VERSION: ${{ needs.verify.outputs.version }}
+          PRERELEASE: ${{ needs.verify.outputs.prerelease }}
+        run: |
+          set -euo pipefail
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "::notice::The release $TAG already exists; leaving it as it is."
+            exit 0
+          fi
+          sha256sum --check --strict checksums.txt
+          bundle=$(node -p "Object.values(require('./package.json').bin)[0].replace(/^\.\//, '')")
+          args=(--verify-tag --title "$NAME $VERSION" --generate-notes --draft)
+          if [ "$PRERELEASE" = "true" ]; then args+=(--prerelease --latest=false); else args+=(--latest); fi
+          # Created as a draft and published after the assets are attached, so a release
+          # that is made immutable on publication already holds its files. The licence and
+          # the notices travel with the bundle, because the bundle holds other people's work.
+          gh release create "$TAG" "$bundle" checksums.txt LICENSE THIRD-PARTY-NOTICES.md "${args[@]}"
+          gh release edit "$TAG" --draft=false
+
+  smoke:
+    name: Install the published version
+    needs: [verify, publish]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+
+      - name: Wait for the registry to serve the version
+        env:
+          NAME: ${{ needs.verify.outputs.name }}
+          VERSION: ${{ needs.verify.outputs.version }}
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 20); do
+            if npm view "$NAME@$VERSION" version >/dev/null 2>&1; then echo "visible after $attempt check(s)"; exit 0; fi
+            sleep 15
+          done
+          echo "::error::$NAME@$VERSION is not visible on npm after 5 minutes."
+          exit 1
+
+      # A fresh empty project, the exact version from the registry. Fails the
+      # run so a broken version is noticed within minutes; the remedy is a new
+      # patch version and `npm deprecate`, never an unpublish.
+      - name: Install it and talk to it
+        env:
+          NAME: ${{ needs.verify.outputs.name }}
+          BIN: ${{ needs.verify.outputs.bin }}
+          VERSION: ${{ needs.verify.outputs.version }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/smoke" && cd "$RUNNER_TEMP/smoke"
+          npm init -y >/dev/null
+          npm install --no-fund --ignore-scripts "$NAME@$VERSION"
+          test "$(./node_modules/.bin/"$BIN" --version)" = "$VERSION"
+          # The published package carries its licence and the notices for the code and data inside it.
+          test -s "node_modules/$NAME/LICENSE"
+          test -s "node_modules/$NAME/THIRD-PARTY-NOTICES.md"
+          npm audit signatures
+          # Standard input closes after the one request, so the server answers and exits.
+          printf '%s\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"smoke","version":"0"}}}' \
+            | timeout 30 ./node_modules/.bin/"$BIN" > reply.txt 2>/dev/null || true
+          grep -q '"serverInfo"' reply.txt
+          echo "Installed $NAME@$VERSION, printed its version, and completed the MCP handshake." >> "$GITHUB_STEP_SUMMARY"

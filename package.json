@@ -1,0 +1,44 @@
+{
+  "name": "@buun_group/plotwork-mcp",
+  "version": "0.1.0-beta.1",
+  "description": "No API key and no account. Plotwork MCP server for local use over stdio: read-only tools that draw, validate, outline, convert, and render twenty kinds of diagram, from flow, sequence, and database to Gantt, state, mind map, and treemap. It sends nothing unless you opt in.",
+  "mcpName": "dev.plotwork/mcp",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "plotwork-mcp": "./plotwork-mcp.mjs"
+  },
+  "files": [
+    "plotwork-mcp.mjs",
+    "README.md",
+    "LICENSE",
+    "THIRD-PARTY-NOTICES.md"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/plotwork-official/plotwork-mcp.git"
+  },
+  "homepage": "https://docs.plotwork.dev",
+  "bugs": {
+    "url": "https://github.com/plotwork-official/plotwork-mcp/issues"
+  },
+  "keywords": [
+    "plotwork",
+    "mcp",
+    "model-context-protocol",
+    "diagrams",
+    "flowchart",
+    "sequence-diagram",
+    "database-schema",
+    "svg",
+    "ai-agents",
+    "stdio"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}

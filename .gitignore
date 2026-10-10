@@ -1,0 +1,9 @@
+node_modules/
+*.log
+*.map
+*.tgz
+.DS_Store
+.env
+.env.*
+.dev.vars
+.npmrc
