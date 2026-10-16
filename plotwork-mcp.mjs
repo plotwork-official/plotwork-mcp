@@ -51,7 +51,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 var package_default;
 var init_package = __esm({
   "package.json"() {
-    package_default = { version: "0.1.0-beta.3" };
+    package_default = { version: "0.1.0-beta.4" };
   }
 });
 
@@ -709,7 +709,7 @@ var init_style_rules = __esm({
       /** The address of the JSON Schema an editor reads from `$schema`; the docs app serves it. Nothing in Plotwork fetches it. */
       schemaUrl: "https://docs.plotwork.dev/schemas/plotwork.config.json",
       /** The largest settings file read, in bytes. */
-      maxBytes: 65536,
+      maxBytes: 262144,
       /** The longest value a header default may have, in characters. */
       maxValueLength: 200
     };
@@ -723,7 +723,7 @@ var init_generate = __esm({
     "use strict";
     GENERATE = {
       /** The most sources one settings file lists. */
-      maxSources: 50,
+      maxSources: 250,
       /** The most patterns one source's `from` lists. */
       maxPatterns: 20,
       /** The most files one source reads, after its patterns are expanded. */
@@ -3807,13 +3807,14 @@ var init_diagnostics = __esm({
       settingIgnored: "S200",
       // Generated diagrams (src/generate). S101-S104 stop one source: a source the run cannot use, an overrides file that does not check,
       // a source whose files are missing, a Markdown fence that is not there. S201-S202 are warnings: an override whose target is gone, and
-      // one the diagram could not take.
+      // one the diagram could not take. S203 is an overrides file a source names that is not there.
       sourceInvalid: "S101",
       overridesInvalid: "S102",
       sourceNoFiles: "S103",
       fenceMissing: "S104",
       overrideStale: "S201",
-      overrideRefused: "S202"
+      overrideRefused: "S202",
+      overridesMissing: "S203"
     };
   }
 });
@@ -109984,7 +109985,7 @@ async function layoutWith2(diagram, boxes2, direction) {
     // A stretch moved off a tab can land past a sibling edge's stub; that stub then steps past it, so the two do not cross by their node.
     edges: orderStubs(routes.map((edge) => routeAroundTabs2(edge, tabRects, nodeRects)), nodeRects, tabRects)
   };
-  return makeRoomFor(layout, spanned.grown);
+  return makeRoomFor(layout, [...spanned.grown, ...layout.edges.flatMap((edge) => edge.label === null ? [] : [edge.label.rect])]);
 }
 async function layoutFlowOnce(diagram) {
   const boxes2 = evenFlowBoxes(diagram, new Map(diagram.nodes.map((node3) => [node3.id, sizeNode(node3)])));
