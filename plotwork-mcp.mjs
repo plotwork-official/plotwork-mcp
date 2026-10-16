@@ -51,7 +51,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 var package_default;
 var init_package = __esm({
   "package.json"() {
-    package_default = { version: "0.1.0-beta.2" };
+    package_default = { version: "0.1.0-beta.3" };
   }
 });
 
@@ -628,7 +628,7 @@ var init_view_links = __esm({
     };
     CLI_RELEASE = {
       packageName: "@buun_group/plotwork",
-      version: "0.1.0-beta.1",
+      version: "0.1.0-beta.2",
       onNpm: true
     };
   }
@@ -6660,10 +6660,10 @@ function cloudPhrases(generic) {
       const bases = [normalizePhrase(spec.name), ...(spec.aliases ?? []).map(normalizePhrase)];
       const title = normalizePhrase(spec.title);
       const phrases = /* @__PURE__ */ new Set([title, ...bases]);
-      for (const providerName of providerNames) for (const base of bases) phrases.add(`${providerName} ${base}`);
+      for (const providerName2 of providerNames) for (const base of bases) phrases.add(`${providerName2} ${base}`);
       for (const phrase2 of phrases) {
         if (spec.vendor !== void 0 && claimed.has(phrase2)) continue;
-        const isScoped = spec.scopeToProvider === true && phrase2 !== title && !providerNames.some((providerName) => phrase2.startsWith(`${providerName} `));
+        const isScoped = spec.scopeToProvider === true && phrase2 !== title && !providerNames.some((providerName2) => phrase2.startsWith(`${providerName2} `));
         out.push({ phrase: phrase2, words: phrase2.split(" ").length, ref, set: set2, isGeneric: generic.has(phrase2) || isScoped, isBrand: false });
         if (spec.vendor === void 0) claimed.add(phrase2);
       }
@@ -6772,11 +6772,11 @@ function indexIcon(ref) {
     for (const base of [...plainNames, ...aliases, normalizePhrase(spec.title)]) stems.add(stemPhrase(base));
     const provider = CLOUD_PROVIDER_SPECS[cloudSet];
     phrases.add(normalizePhrase(spec.title));
-    if (spec.kind === "provider") for (const providerName of provider.names) phrases.add(providerName);
+    if (spec.kind === "provider") for (const providerName2 of provider.names) phrases.add(providerName2);
     const kindPhraseList = CLOUD_KIND_SPECS[spec.kind].phrases.map(normalizePhrase);
-    for (const providerName of provider.names) {
-      for (const base of [...plainNames, ...aliases]) phrases.add(`${providerName} ${base}`);
-      for (const kindPhrase of kindPhraseList) providerKindPhrases.add(`${providerName} ${kindPhrase}`);
+    for (const providerName2 of provider.names) {
+      for (const base of [...plainNames, ...aliases]) phrases.add(`${providerName2} ${base}`);
+      for (const kindPhrase of kindPhraseList) providerKindPhrases.add(`${providerName2} ${kindPhrase}`);
     }
     for (const kindPhrase of kindPhraseList) kindPhrases.add(kindPhrase);
   }
@@ -104329,9 +104329,9 @@ function cleanLabel(raw) {
     changes.push("markdown");
   }
   text3 = text3.replace(/\\n/g, "\n");
-  const tagged = stripTags(text3);
-  if (tagged.removed) changes.push("html");
-  const iconed = stripIcons(tagged.text);
+  const tagged2 = stripTags(text3);
+  if (tagged2.removed) changes.push("html");
+  const iconed = stripIcons(tagged2.text);
   const lines = decodeEntities(iconed.text).split("\n").map((line3) => line3.replace(/\s+/g, " ").trim()).filter((line3) => line3 !== "");
   return { lines, changes, icons: iconed.icons };
 }
@@ -107596,8 +107596,8 @@ function densityWarning2(diagram) {
 }
 function orphanWarning2(diagram) {
   if (diagram.relations.length === 0 && diagram.notes.length === 0) return null;
-  const joined = new Set(diagram.relations.flatMap((relation2) => [relation2.from, relation2.to]));
-  const alone = diagram.classes.filter((node3) => !joined.has(node3.id) && !diagram.notes.some((note) => note.target === node3.id)).map((node3) => node3.id);
+  const joined2 = new Set(diagram.relations.flatMap((relation2) => [relation2.from, relation2.to]));
+  const alone = diagram.classes.filter((node3) => !joined2.has(node3.id) && !diagram.notes.some((note) => note.target === node3.id)).map((node3) => node3.id);
   if (alone.length === 0) return null;
   return warningAt(DIAGNOSTIC_CODES.orphanNode, `Not related to any other class: ${alone.join(", ")}`, HEADER, "Relate each class to another, or remove it.");
 }
@@ -112545,13 +112545,13 @@ var init_scan = __esm({
 
 // ../../packages/diagrams/src/import/flowchart.ts
 function joinDataBlocks(lines) {
-  const joined = [];
+  const joined2 = [];
   let index2 = 0;
   while (index2 < lines.length) {
     const line3 = lines[index2];
     const open2 = line3.text.lastIndexOf("@{");
     if (open2 === -1 || line3.text.indexOf("}", open2) !== -1) {
-      joined.push(line3);
+      joined2.push(line3);
       index2 += 1;
       continue;
     }
@@ -112565,14 +112565,14 @@ function joinDataBlocks(lines) {
     }
     const closed = parts.some((part, position) => position > 0 && part.includes("}"));
     if (closed) {
-      joined.push({ number: line3.number, text: parts.join(", ") });
+      joined2.push({ number: line3.number, text: parts.join(", ") });
       index2 = cursor;
     } else {
-      joined.push(line3);
+      joined2.push(line3);
       index2 += 1;
     }
   }
-  return joined;
+  return joined2;
 }
 function readHeaderDirection(state, rest) {
   const start2 = skipSpaces(rest, 0);
@@ -115287,7 +115287,7 @@ function pointAt(orientation, time3, lane) {
   return orientation === "right" ? { x: time3, y: lane } : { x: lane, y: time3 };
 }
 function forkOffsets(diagram, history) {
-  const offsets = history.links.map(() => 0);
+  const offsets2 = history.links.map(() => 0);
   const reach2 = diagram.commits.map(() => 0);
   const laneOfCommit = (index2) => history.laneOf.get(diagram.commits[index2]?.branch ?? "") ?? 0;
   const meeting = /* @__PURE__ */ new Map();
@@ -115305,12 +115305,12 @@ function forkOffsets(diagram, history) {
       const forks = sameWay.filter((entry2) => entry2.link.kind === "fork").sort((a, b) => b.link.crossings - a.link.crossings || a.at - b.at);
       forks.forEach((entry2, step) => {
         const offset = GIT_METRICS.slotStep * (step + (hasMerge ? 1 : 0));
-        offsets[entry2.at] = offset;
+        offsets2[entry2.at] = offset;
         reach2[commit] = Math.max(reach2[commit] ?? 0, offset);
       });
     }
   }
-  return { offsets, reach: reach2 };
+  return { offsets: offsets2, reach: reach2 };
 }
 function laneCoordinate(frame, branch) {
   return frame.lane[frame.history.laneOf.get(branch) ?? 0] ?? 0;
@@ -115506,7 +115506,7 @@ function layoutDown(diagram, history) {
   const items2 = sizeCommits(diagram, "down", history.pickedFrom);
   const lanes = [...diagram.branches].sort((a, b) => a.lane - b.lane);
   const tabs = lanes.map((branch) => ({ branch, size: sizeTab(branch.name) }));
-  const { offsets, reach: reach2 } = forkOffsets(diagram, history);
+  const { offsets: offsets2, reach: reach2 } = forkOffsets(diagram, history);
   const laneX = [];
   tabs.forEach(({ size }, lane) => {
     const previous = laneX[lane - 1];
@@ -115525,7 +115525,7 @@ function layoutDown(diagram, history) {
   const columnX = lastLane + widestMarker + GIT_METRICS.textColumnGap;
   const idWidth = items2.reduce((widest8, item) => Math.max(widest8, ...item.text.lines.filter((line3) => !inMessage(line3)).map((line3) => lineWidth(line3.text, line3.role))), 0);
   const messageX = idWidth === 0 ? columnX : columnX + idWidth + GIT_METRICS.rowItemGap;
-  const frame = { diagram, history, orientation: "down", items: items2, time: time3, lane: laneX, offsets, stub: STUB };
+  const frame = { diagram, history, orientation: "down", items: items2, time: time3, lane: laneX, offsets: offsets2, stub: STUB };
   const placed = placeMarkers(frame).map((marker) => ({ marker, ...fillRow(marker, items2[marker.index], columnX, messageX) }));
   const textRight = placed.reduce((farthest, entry2) => Math.max(farthest, entry2.right), 0);
   const lastTab = tabs[tabs.length - 1];
@@ -115570,7 +115570,7 @@ function layoutRight(diagram, history) {
   const lanes = [...diagram.branches].sort((a, b) => a.lane - b.lane);
   const tabs = lanes.map((branch) => ({ branch, size: sizeTab(branch.name) }));
   const tabColumn = tabs.reduce((widest8, tab) => Math.max(widest8, tab.size.width), 0);
-  const { offsets, reach: reach2 } = forkOffsets(diagram, history);
+  const { offsets: offsets2, reach: reach2 } = forkOffsets(diagram, history);
   const rightOf = (index2) => {
     const item = items2[index2];
     if (item === void 0) return 0;
@@ -115600,7 +115600,7 @@ function layoutRight(diagram, history) {
   const lastIndex = diagram.commits.length - 1;
   const lastTime = time3[lastIndex] ?? 0;
   const stub = GIT_METRICS.minPitch;
-  const frame = { diagram, history, orientation: "right", items: items2, time: time3, lane: laneY, offsets, stub };
+  const frame = { diagram, history, orientation: "right", items: items2, time: time3, lane: laneY, offsets: offsets2, stub };
   const links = placeLinks(frame);
   const stubEnd = links.reduce((farthest, link2) => Math.max(farthest, ...link2.points.map((point) => point.x)), 0);
   const width = Math.ceil(Math.max(lastTime + rightOf(lastIndex), stubEnd) + GIT_METRICS.padding);
@@ -115814,9 +115814,9 @@ function readAttributes(text3, startAt) {
     let colon = end;
     while (colon < text3.length && isSpace3(text3.charAt(colon))) colon += 1;
     if (end === at3 || text3.charAt(colon) !== ":") return { attributes: attributes2, leftover: text3.slice(at3).trim(), leftoverAt: at3 };
-    let valueAt = colon + 1;
-    while (valueAt < text3.length && isSpace3(text3.charAt(valueAt))) valueAt += 1;
-    const read = readValue(text3, valueAt);
+    let valueAt2 = colon + 1;
+    while (valueAt2 < text3.length && isSpace3(text3.charAt(valueAt2))) valueAt2 += 1;
+    const read = readValue(text3, valueAt2);
     attributes2.push({ key: text3.slice(at3, end).toLowerCase(), value: read.value, column: at3 + 1 });
     at3 = read.end;
   }
@@ -116453,16 +116453,16 @@ function explainSlashNames(lines, report3) {
     const slashes = report3.filter((diagnostic) => diagnostic.line === line3.line && diagnostic.code === DIAGNOSTIC_CODES.syntax && diagnostic.message === SLASH_MESSAGE);
     const first = slashes[0];
     if (first === void 0) continue;
-    const joined = joinAtSlashes(line3.tokens, new Set(slashes.map((slash) => slash.column)));
+    const joined2 = joinAtSlashes(line3.tokens, new Set(slashes.map((slash) => slash.column)));
     for (const slash of slashes) report3.splice(report3.indexOf(slash), 1);
     handled.add(line3.line);
-    const name2 = `"${joined?.name ?? "feature/search"}"`;
-    const fix = joined?.option == null ? `${word2.text} ${name2}` : `${joined.option}=${name2}`;
+    const name2 = `"${joined2?.name ?? "feature/search"}"`;
+    const fix = joined2?.option == null ? `${word2.text} ${name2}` : `${joined2.option}=${name2}`;
     report3.push(
       errorAt(
         DIAGNOSTIC_CODES.syntax,
         'A name with a "/" goes in double quotes',
-        joined === null ? { line: first.line, column: first.column, length: first.length } : { line: line3.line, column: joined.column, length: joined.length },
+        joined2 === null ? { line: first.line, column: first.column, length: first.length } : { line: line3.line, column: joined2.column, length: joined2.length },
         `Write: ${fix}`
       )
     );
@@ -121281,7 +121281,7 @@ function packRow(children, contours, gap2) {
 function packSubtrees(topics2, boxes2, direction) {
   const count3 = topics2.length;
   const contours = new Array(count3).fill(void 0);
-  const offsets = new Array(count3).fill(0);
+  const offsets2 = new Array(count3).fill(0);
   for (let index2 = count3 - 1; index2 >= 1; index2 -= 1) {
     const topic = topics2[index2];
     const half = stackedSize(boxes2[index2], direction) / 2;
@@ -121292,12 +121292,12 @@ function packSubtrees(topics2, boxes2, direction) {
     const row = packRow(topic.children, contours, siblingGap(topic.depth, direction));
     const middle2 = (row.positions[0] + row.positions[row.positions.length - 1]) / 2;
     topic.children.forEach((child, position) => {
-      offsets[child] = row.positions[position] - middle2;
+      offsets2[child] = row.positions[position] - middle2;
       contours[child] = void 0;
     });
     contours[index2] = { low: [-half, ...row.low.map((value) => value - middle2)], high: [half, ...row.high.map((value) => value - middle2)] };
   }
-  return { offsets, contours };
+  return { offsets: offsets2, contours };
 }
 function packBranches(group2, packing, direction) {
   if (group2.length === 0) return { low: [], high: [] };
@@ -121308,9 +121308,9 @@ function packBranches(group2, packing, direction) {
   });
   return { low: row.low.map((value) => value - middle2), high: row.high.map((value) => value - middle2) };
 }
-function stackedPositions(topics2, offsets) {
+function stackedPositions(topics2, offsets2) {
   const positions2 = new Array(topics2.length).fill(0);
-  for (let index2 = 1; index2 < topics2.length; index2 += 1) positions2[index2] = positions2[topics2[index2].parent] + offsets[index2];
+  for (let index2 = 1; index2 < topics2.length; index2 += 1) positions2[index2] = positions2[topics2[index2].parent] + offsets2[index2];
   return positions2;
 }
 function levelDistances(thickest, direction) {
@@ -125553,9 +125553,9 @@ function buildChains(diagram, layer2, totals) {
 }
 function orderColumns(chains, columns, sort) {
   const { items: items2, segments, ins, outs } = chains;
-  const valueOf = (id) => items2[id]?.value ?? 0;
-  const keyOf4 = (id) => items2[id]?.key ?? 0;
-  const tie = (a, b) => (sort === "desc" ? valueOf(b) - valueOf(a) : 0) || keyOf4(a) - keyOf4(b);
+  const valueOf3 = (id) => items2[id]?.value ?? 0;
+  const keyOf5 = (id) => items2[id]?.key ?? 0;
+  const tie = (a, b) => (sort === "desc" ? valueOf3(b) - valueOf3(a) : 0) || keyOf5(a) - keyOf5(b);
   const order = Array.from({ length: columns }, () => []);
   items2.forEach((item, id) => order[item.column]?.push(id));
   const position = new Array(items2.length).fill(0);
@@ -127863,19 +127863,19 @@ function noteWidth(text3) {
   const textWidth3 = lines.reduce((max, line3) => Math.max(max, measureRole(line3, "sub")), 0);
   return { width: Math.max(SEQUENCE_METRICS.noteMinWidth, Math.ceil(textWidth3 + chrome)), lines };
 }
-function collectSpans(items2, indexOf2, out) {
+function collectSpans(items2, indexOf3, out) {
   for (const item of items2) {
     if (item.kind === "block") {
-      item.branches.forEach((branch) => collectSpans(branch.items, indexOf2, out));
+      item.branches.forEach((branch) => collectSpans(branch.items, indexOf3, out));
     } else if (item.kind === "message") {
-      const from = indexOf2.get(item.from) ?? 0;
-      const to = indexOf2.get(item.to) ?? 0;
+      const from = indexOf3.get(item.from) ?? 0;
+      const to = indexOf3.get(item.to) ?? 0;
       const label = measureRole(item.label, "edgeLabel") + (item.step === void 0 ? 0 : stepBadgeWidth(item.step) + STEP_METRICS.labelGap);
       const isSelf = from === to;
       const needed = isSelf ? SEQUENCE_METRICS.selfLoopWidth + label + SEQUENCE_METRICS.selfLabelClearance : label + SEQUENCE_METRICS.labelPadding;
       out.push({ first: Math.min(from, to), last: Math.max(from, to), needed, isSelf });
     } else {
-      const indexes2 = item.over.map((id) => indexOf2.get(id) ?? 0);
+      const indexes2 = item.over.map((id) => indexOf3.get(id) ?? 0);
       const first = Math.min(...indexes2);
       const last = Math.max(...indexes2);
       const needed = last === first ? 0 : noteWidth(item.text).width - 32;
@@ -127884,10 +127884,10 @@ function collectSpans(items2, indexOf2, out) {
   }
 }
 function computeColumns(actors, boxes2, items2) {
-  const indexOf2 = new Map(actors.map((actor, index2) => [actor.id, index2]));
+  const indexOf3 = new Map(actors.map((actor, index2) => [actor.id, index2]));
   const gaps = boxes2.slice(0, -1).map((box, index2) => (box.width + (boxes2[index2 + 1]?.width ?? 0)) / 2 + SEQUENCE_METRICS.actorGap);
   const spans = [];
-  collectSpans(items2, indexOf2, spans);
+  collectSpans(items2, indexOf3, spans);
   let rightExtra = 0;
   for (const span of spans) {
     if (span.isSelf) {
@@ -130631,7 +130631,7 @@ function planState(ir, ctx) {
     origin: node3.span.line
   }));
   const kindOf3 = new Map(real.map((node3) => [node3.key, node3.kind]));
-  const nameOf9 = (key) => {
+  const nameOf10 = (key) => {
     const marker = ir.nodes.find((node3) => node3.key === key);
     return marker !== void 0 && (marker.kind === "start" || marker.kind === "end") ? `the ${marker.kind} marker` : `"${key}"`;
   };
@@ -130654,7 +130654,7 @@ function planState(ir, ctx) {
     }
     const isNested = transition.from !== transition.to && (lineageOf2(transition.to, parentKeys).includes(transition.from) || lineageOf2(transition.from, parentKeys).includes(transition.to));
     if (isNested) {
-      reporter.add(DIAGNOSTIC_CODES.mermaidDroppedMeaning, span, `Dropped a transition between ${nameOf9(transition.from)} and ${nameOf9(transition.to)}, because one is inside the other. A transition cannot join a state to one inside it.`, "Start the transition from a state inside the composite state, or from its own start marker.", "nested-transition");
+      reporter.add(DIAGNOSTIC_CODES.mermaidDroppedMeaning, span, `Dropped a transition between ${nameOf10(transition.from)} and ${nameOf10(transition.to)}, because one is inside the other. A transition cannot join a state to one inside it.`, "Start the transition from a state inside the composite state, or from its own start marker.", "nested-transition");
       continue;
     }
     const { composite, region } = transition.scope;
@@ -131786,8 +131786,8 @@ function layoutBands(plan, across2, trackSize, minThickness) {
     rows.set(key, list);
   }
   const strip = (lane, side) => (rows.get(`${lane}:${side}`) ?? []).reduce((total, row) => total + row.height, 0);
-  const stackOf = (cell2) => cell2.reduce((total, item) => total + (across2[item] ?? 0), 0) + Math.max(0, cell2.length - 1) * BAND.stackGap;
-  const needed = plan.cells.map((row, lane) => Math.max(minThickness[lane] ?? 0, BAND.lanePad * 2 + strip(lane, "top") + strip(lane, "bottom") + row.reduce((most, cell2) => Math.max(most, stackOf(cell2)), 0)));
+  const stackOf2 = (cell2) => cell2.reduce((total, item) => total + (across2[item] ?? 0), 0) + Math.max(0, cell2.length - 1) * BAND.stackGap;
+  const needed = plan.cells.map((row, lane) => Math.max(minThickness[lane] ?? 0, BAND.lanePad * 2 + strip(lane, "top") + strip(lane, "bottom") + row.reduce((most, cell2) => Math.max(most, stackOf2(cell2)), 0)));
   const thickest = Math.max(0, ...needed);
   const thickness = needed.map((size) => size >= EVEN_SHARE * thickest ? thickest : size);
   const top = [];
@@ -131800,7 +131800,7 @@ function layoutBands(plan, across2, trackSize, minThickness) {
   plan.cells.forEach((row, lane) => {
     const inner = (thickness[lane] ?? 0) - BAND.lanePad * 2 - strip(lane, "top") - strip(lane, "bottom");
     for (const cell2 of row) {
-      let at3 = Math.round((top[lane] ?? 0) + BAND.lanePad + strip(lane, "top") + (inner - stackOf(cell2)) / 2);
+      let at3 = Math.round((top[lane] ?? 0) + BAND.lanePad + strip(lane, "top") + (inner - stackOf2(cell2)) / 2);
       for (const item of cell2) {
         itemAt[item] = at3;
         at3 += (across2[item] ?? 0) + BAND.stackGap;
@@ -131876,9 +131876,9 @@ function layer(count3, edges) {
 }
 function planGrid(diagram) {
   const laneOf2 = new Map(diagram.lanes.map((lane2, index2) => [lane2.id, index2]));
-  const indexOf2 = new Map(diagram.items.map((item, index2) => [item.id, index2]));
+  const indexOf3 = new Map(diagram.items.map((item, index2) => [item.id, index2]));
   const lane = diagram.items.map((item) => laneOf2.get(item.lane) ?? 0);
-  const edges = diagram.flows.map((flow) => [indexOf2.get(flow.from) ?? 0, indexOf2.get(flow.to) ?? 0]);
+  const edges = diagram.flows.map((flow) => [indexOf3.get(flow.from) ?? 0, indexOf3.get(flow.to) ?? 0]);
   const { rank, back } = layer(diagram.items.length, edges);
   const ranks = rank.reduce((most, value) => Math.max(most, value + 1), 0);
   const rankOf2 = (item) => rank[item] ?? 0;
@@ -132010,12 +132010,12 @@ function wire(input2) {
     attach3(pf.t, "left", { pf, end: "t" });
   }
   const heading = ({ pf, end }) => pf.kind === "channel" ? trackAt.get(pf.flow) ?? 0 : level2(end === "s" ? pf.t : pf.s);
-  const offsets = /* @__PURE__ */ new Map();
+  const offsets2 = /* @__PURE__ */ new Map();
   for (const { item, side, ports } of sides.values()) {
     ports.sort((a, b) => (side === "bottom" ? -1 : 1) * (heading(a) - heading(b)) || a.pf.flow - b.pf.flow);
-    ports.forEach((port, index2) => offsets.set(`${port.pf.flow}:${port.end}`, ports.length === 1 ? 0 : (index2 / (ports.length - 1) - 0.5) * usable(item, side)));
+    ports.forEach((port, index2) => offsets2.set(`${port.pf.flow}:${port.end}`, ports.length === 1 ? 0 : (index2 / (ports.length - 1) - 0.5) * usable(item, side)));
   }
-  const offsetOf = (pf, end) => offsets.get(`${pf.flow}:${end}`) ?? 0;
+  const offsetOf = (pf, end) => offsets2.get(`${pf.flow}:${end}`) ?? 0;
   const startLevel = (pf) => level2(pf.s) + offsetOf(pf, "s");
   const endLevel = (pf) => level2(pf.t) + offsetOf(pf, "t");
   const gutters = Math.max(0, plan.ranks - 1);
@@ -134582,7 +134582,7 @@ function place({ diagram, flat: flat3, cards, hang: hang2 }) {
   const gap2 = isDown ? TREE_METRICS.siblingGap : 14;
   const deepest = flat3.reduce((most, entry2) => Math.max(most, entry2.depth), 0);
   const stackWidth2 = (index2) => Math.max(0, ...kids(index2).map((child) => size(child).width));
-  const offsets = flat3.map(() => 0);
+  const offsets2 = flat3.map(() => 0);
   const contour = (index2) => {
     const half = breadth(index2) / 2;
     if (isHanging[index2] === true) {
@@ -134595,7 +134595,7 @@ function place({ diagram, flat: flat3, cards, hang: hang2 }) {
     const shifts = children.map((child) => pack(placed, contour(child), gap2));
     const middle2 = ((shifts[0] ?? 0) + (shifts[shifts.length - 1] ?? 0)) / 2;
     children.forEach((child, position) => {
-      offsets[child] = (shifts[position] ?? 0) - middle2;
+      offsets2[child] = (shifts[position] ?? 0) - middle2;
     });
     return [{ left: -half, right: half }, ...placed.map((extent2) => ({ left: extent2.left - middle2, right: extent2.right - middle2 }))];
   };
@@ -134603,10 +134603,10 @@ function place({ diagram, flat: flat3, cards, hang: hang2 }) {
   const forest = [];
   const rootShifts = roots.map((root) => pack(forest, contour(root), gap2));
   roots.forEach((root, position) => {
-    offsets[root] = rootShifts[position] ?? 0;
+    offsets2[root] = rootShifts[position] ?? 0;
   });
   const centers = [];
-  for (const entry2 of flat3) centers[entry2.index] = (entry2.parent < 0 ? 0 : centers[entry2.parent]) + offsets[entry2.index];
+  for (const entry2 of flat3) centers[entry2.index] = (entry2.parent < 0 ? 0 : centers[entry2.parent]) + offsets2[entry2.index];
   const levelSize = Array.from({ length: deepest + 1 }, () => 0);
   const noteSize = [...levelSize];
   for (const entry2 of flat3) {
@@ -137341,9 +137341,9 @@ function measurePill2(spec) {
   const valueWidth = spec.value === null ? 0 : measureRole(spec.value, "sub");
   const lead = (spec.key === "none" ? 0 : KEY_WIDTH[spec.key] + P.keyGap) + (spec.icon === null ? 0 : P.iconSize + P.iconGap);
   const name2 = oneLine9(spec.name);
-  const nameText = fitLine(name2, "groupLabel", P.maxWidth - 2 * P.paddingX - lead - (spec.value === null ? 0 : P.gap + valueWidth));
-  const nameWidth = measureRole(nameText, "groupLabel");
-  return { ...spec, nameText, nameWidth, valueWidth, width: Math.ceil(2 * P.paddingX + lead + nameWidth + (spec.value === null ? 0 : P.gap + valueWidth)), isShortened: nameText !== name2 };
+  const nameText2 = fitLine(name2, "groupLabel", P.maxWidth - 2 * P.paddingX - lead - (spec.value === null ? 0 : P.gap + valueWidth));
+  const nameWidth = measureRole(nameText2, "groupLabel");
+  return { ...spec, nameText: nameText2, nameWidth, valueWidth, width: Math.ceil(2 * P.paddingX + lead + nameWidth + (spec.value === null ? 0 : P.gap + valueWidth)), isShortened: nameText2 !== name2 };
 }
 function placePill2(content, x, top) {
   const middle2 = top + P.height / 2;
@@ -139667,16 +139667,34 @@ function entriesOf3(source, rename2) {
     return { key: count3 === 1 ? base : `${base}#${count3}`, element, subject: subjectOf(element), parent: parentOf3(element) };
   });
 }
+function valueChange(before, after) {
+  if (before.length <= LONG_VALUE && after.length <= LONG_VALUE) return `"${before}" became "${after}"`;
+  const a = before.split(" ");
+  const b = after.split(" ");
+  let start2 = 0;
+  while (start2 < a.length && start2 < b.length && a[start2] === b[start2]) start2 += 1;
+  let end = 0;
+  while (end < a.length - start2 && end < b.length - start2 && a[a.length - 1 - end] === b[b.length - 1 - end]) end += 1;
+  const was = a.slice(start2, a.length - end).join(" ");
+  const now = b.slice(start2, b.length - end).join(" ");
+  if (was === "") return `changed: "${now}" added`;
+  if (now === "") return `changed: "${was}" removed`;
+  return `changed: "${was}" became "${now}"`;
+}
 function differences(before, after) {
   const found = [];
   if (before.keyword !== after.keyword) found.push(`${before.keyword ?? "statement"} became ${after.keyword ?? "statement"}`);
   if (before.role === "edge" && before.arrow !== after.arrow) found.push(`arrow ${before.arrow} became ${after.arrow}`);
-  if (before.rest !== after.rest) found.push(before.rest === "" ? `"${after.rest}" added` : after.rest === "" ? `"${before.rest}" removed` : `"${before.rest}" became "${after.rest}"`);
+  if (before.rest !== after.rest) found.push(before.rest === "" ? `"${after.rest}" added` : after.rest === "" ? `"${before.rest}" removed` : valueChange(before.rest, after.rest));
   const old = new Map(before.options.map((option) => [option.key, option.value]));
   const now = new Map(after.options.map((option) => [option.key, option.value]));
   for (const [key, value] of now) if (!old.has(key)) found.push(`${key}=${value} added`);
   for (const [key, value] of old) if (!now.has(key)) found.push(`${key}=${value} removed`);
-  for (const [key, value] of now) if (old.has(key) && old.get(key) !== value) found.push(`${key} ${old.get(key)} became ${value}`);
+  for (const [key, value] of now) {
+    const was = old.get(key);
+    if (was === void 0 || was === value) continue;
+    found.push(was.length <= LONG_VALUE && value.length <= LONG_VALUE ? `${key} ${was} became ${value}` : `${key} ${valueChange(was, value)}`);
+  }
   return found;
 }
 function labelChange(before, after) {
@@ -139684,7 +139702,7 @@ function labelChange(before, after) {
   const noun = before.role === "header" ? "title" : "label";
   if (before.label === null) return `${noun} "${after.label}" added`;
   if (after.label === null) return `${noun} "${before.label}" removed`;
-  return `${noun} "${before.label}" became "${after.label}"`;
+  return `${noun} ${valueChange(before.label, after.label)}`;
 }
 function renamedIds(before, after) {
   const afterKeys = new Set(after.map((entry2) => entry2.key));
@@ -139729,12 +139747,13 @@ function compareSources(before, after) {
   for (const entry2 of now) if (!oldKeys.has(entry2.key)) changes.push({ change: "added", subject: entry2.subject, name: entry2.key, line: entry2.element.start, detail: `line ${entry2.element.start}` });
   return changes;
 }
-var SERIES_KEYWORDS;
+var SERIES_KEYWORDS, LONG_VALUE;
 var init_compare = __esm({
   "../../packages/diagrams/src/edit/compare.ts"() {
     "use strict";
     init_scan2();
     SERIES_KEYWORDS = /* @__PURE__ */ new Set(["bar", "line", "area"]);
+    LONG_VALUE = 60;
   }
 });
 
@@ -143135,7 +143154,7 @@ var init_schemas = __esm({
         }
         return propValues;
       });
-      const isObject3 = isObject;
+      const isObject4 = isObject;
       const catchall = def.catchall;
       let value;
       const memo3 = globalConfig.memoizer;
@@ -143143,7 +143162,7 @@ var init_schemas = __esm({
       inst._zod.parse = (payload, ctx) => {
         value ?? (value = _normalized.value);
         const input2 = payload.value;
-        if (!isObject3(input2)) {
+        if (!isObject4(input2)) {
           payload.issues.push({
             expected: "object",
             code: "invalid_type",
@@ -143279,7 +143298,7 @@ var init_schemas = __esm({
         return doc.compile();
       };
       let fastpass;
-      const isObject3 = isObject;
+      const isObject4 = isObject;
       const jit = !globalConfig.jitless;
       const allowsEval2 = allowsEval;
       const fastEnabled = jit && allowsEval2.value;
@@ -143288,7 +143307,7 @@ var init_schemas = __esm({
       inst._zod.parse = (payload, ctx) => {
         value ?? (value = _normalized.value);
         const input2 = payload.value;
-        if (!isObject3(input2)) {
+        if (!isObject4(input2)) {
           payload.issues.push({
             expected: "object",
             code: "invalid_type",
@@ -149319,11 +149338,11 @@ var init_nl = __esm({
           case "too_small": {
             const adj = issue3.inclusive ? ">=" : ">";
             const sizing = getSizing(issue3.origin);
-            const shortName = issue3.origin === "date" ? "vroeg" : issue3.origin === "string" ? "kort" : "klein";
+            const shortName2 = issue3.origin === "date" ? "vroeg" : issue3.origin === "string" ? "kort" : "klein";
             if (sizing) {
-              return `Te ${shortName}: verwacht dat ${issue3.origin} ${adj}${issue3.minimum.toString()} ${sizing.unit} ${sizing.verb}`;
+              return `Te ${shortName2}: verwacht dat ${issue3.origin} ${adj}${issue3.minimum.toString()} ${sizing.unit} ${sizing.verb}`;
             }
-            return `Te ${shortName}: verwacht dat ${issue3.origin} ${adj}${issue3.minimum.toString()} is`;
+            return `Te ${shortName2}: verwacht dat ${issue3.origin} ${adj}${issue3.minimum.toString()} is`;
           }
           case "invalid_format": {
             const _issue = issue3;
@@ -160220,8 +160239,8 @@ function summarize(changes) {
       const same = ofType.filter((change) => change.subject === subject);
       return `${counted(same.length, subject)} (${names4(same, SHOWN[type])})`;
     });
-    const joined = parts.length === 1 ? parts[0] : `${parts.slice(0, -1).join(", ")} and ${parts[parts.length - 1]}`;
-    sentences.push(`${VERBS[type]} ${joined}.`);
+    const joined2 = parts.length === 1 ? parts[0] : `${parts.slice(0, -1).join(", ")} and ${parts[parts.length - 1]}`;
+    sentences.push(`${VERBS[type]} ${joined2}.`);
   }
   return sentences.join(" ");
 }
@@ -160256,7 +160275,8 @@ var init_compare_report = __esm({
       removed: (change) => change.name,
       renamed: (change) => change.detail,
       moved: (change) => `${change.name} ${change.detail}`,
-      changed: (change) => `${change.name} (${change.detail})`
+      /* A changed header is `Changed 1 header (desc ...)`: its name is the word already counted, so only the detail is shown. */
+      changed: (change) => change.name === change.subject ? change.detail : `${change.name} (${change.detail})`
     };
     VERBS = { added: "Added", removed: "Removed", renamed: "Renamed", moved: "Moved", changed: "Changed" };
     cell = (text3) => text3.replace(/\|/g, "\\|").replace(/\n/g, " ");
@@ -161892,8 +161912,8 @@ function linesOverBoxes(lines, boxes2) {
     const ends = endsOf2(line3);
     for (const box of boxes2) {
       if (box.id !== null && (box.id === line3.from || box.id === line3.to)) continue;
-      const joined = inflate(box.rect, JOIN_CLEARANCE_PX);
-      if (ends.some((end) => contains(joined, end))) continue;
+      const joined2 = inflate(box.rect, JOIN_CLEARANCE_PX);
+      if (ends.some((end) => contains(joined2, end))) continue;
       const inside = inflate(box.rect, -BOX_INSET_PX);
       if (inside.width <= 0 || inside.height <= 0) continue;
       if (segmentsOf2(line3).some(([a, b]) => segmentHitsRect(a, b, inside))) {
@@ -169685,9 +169705,9 @@ var init_ajvProvider_CEoC_sr = __esm({
         else f(xs);
       }
       exports.eachItem = eachItem;
-      function makeMergeEvaluated({ mergeNames, mergeToName, mergeValues: mergeValues2, resultToName }) {
+      function makeMergeEvaluated({ mergeNames, mergeToName, mergeValues: mergeValues3, resultToName }) {
         return (gen, from, to, toName) => {
-          const res = to === void 0 ? from : to instanceof codegen_1.Name ? (from instanceof codegen_1.Name ? mergeNames(gen, from, to) : mergeToName(gen, from, to), to) : from instanceof codegen_1.Name ? (mergeToName(gen, to, from), from) : mergeValues2(from, to);
+          const res = to === void 0 ? from : to instanceof codegen_1.Name ? (from instanceof codegen_1.Name ? mergeNames(gen, from, to) : mergeToName(gen, from, to), to) : from instanceof codegen_1.Name ? (mergeToName(gen, to, from), from) : mergeValues3(from, to);
           return toName === codegen_1.Name && !(res instanceof codegen_1.Name) ? resultToName(gen, res) : res;
         };
       }
@@ -173907,23 +173927,23 @@ var init_ajvProvider_CEoC_sr = __esm({
         type: "object",
         schemaType: "object",
         error: {
-          message: ({ params: { discrError, tagName: tagName2 } }) => discrError === types_1.DiscrError.Tag ? `tag "${tagName2}" must be string` : `value of tag "${tagName2}" must be in oneOf`,
-          params: ({ params: { discrError, tag, tagName: tagName2 } }) => (0, codegen_1._)`{error: ${discrError}, tag: ${tagName2}, tagValue: ${tag}}`
+          message: ({ params: { discrError, tagName: tagName3 } }) => discrError === types_1.DiscrError.Tag ? `tag "${tagName3}" must be string` : `value of tag "${tagName3}" must be in oneOf`,
+          params: ({ params: { discrError, tag, tagName: tagName3 } }) => (0, codegen_1._)`{error: ${discrError}, tag: ${tagName3}, tagValue: ${tag}}`
         },
         code(cxt) {
           const { gen, data, schema, parentSchema, it } = cxt;
           const { oneOf } = parentSchema;
           if (!it.opts.discriminator) throw new Error("discriminator: requires discriminator option");
-          const tagName2 = schema.propertyName;
-          if (typeof tagName2 != "string") throw new Error("discriminator: requires propertyName");
+          const tagName3 = schema.propertyName;
+          if (typeof tagName3 != "string") throw new Error("discriminator: requires propertyName");
           if (schema.mapping) throw new Error("discriminator: mapping is not supported");
           if (!oneOf) throw new Error("discriminator: requires oneOf keyword");
           const valid = gen.let("valid", false);
-          const tag = gen.const("tag", (0, codegen_1._)`${data}${(0, codegen_1.getProperty)(tagName2)}`);
+          const tag = gen.const("tag", (0, codegen_1._)`${data}${(0, codegen_1.getProperty)(tagName3)}`);
           gen.if((0, codegen_1._)`typeof ${tag} == "string"`, () => validateMapping(), () => cxt.error(false, {
             discrError: types_1.DiscrError.Tag,
             tag,
-            tagName: tagName2
+            tagName: tagName3
           }));
           cxt.ok(valid);
           function validateMapping() {
@@ -173937,7 +173957,7 @@ var init_ajvProvider_CEoC_sr = __esm({
             cxt.error(false, {
               discrError: types_1.DiscrError.Mapping,
               tag,
-              tagName: tagName2
+              tagName: tagName3
             });
             gen.endIf();
           }
@@ -173963,23 +173983,23 @@ var init_ajvProvider_CEoC_sr = __esm({
                 if (sch instanceof compile_1.SchemaEnv) sch = sch.schema;
                 if (sch === void 0) throw new ref_error_1.default(it.opts.uriResolver, it.baseId, ref);
               }
-              const propSch = (_a3 = sch === null || sch === void 0 ? void 0 : sch.properties) === null || _a3 === void 0 ? void 0 : _a3[tagName2];
-              if (typeof propSch != "object") throw new Error(`discriminator: oneOf subschemas (or referenced schemas) must have "properties/${tagName2}"`);
+              const propSch = (_a3 = sch === null || sch === void 0 ? void 0 : sch.properties) === null || _a3 === void 0 ? void 0 : _a3[tagName3];
+              if (typeof propSch != "object") throw new Error(`discriminator: oneOf subschemas (or referenced schemas) must have "properties/${tagName3}"`);
               tagRequired = tagRequired && (topRequired || hasRequired(sch));
               addMappings(propSch, i);
             }
-            if (!tagRequired) throw new Error(`discriminator: "${tagName2}" must be required`);
+            if (!tagRequired) throw new Error(`discriminator: "${tagName3}" must be required`);
             return oneOfMapping;
             function hasRequired({ required: required2 }) {
-              return Array.isArray(required2) && required2.includes(tagName2);
+              return Array.isArray(required2) && required2.includes(tagName3);
             }
             function addMappings(sch, i) {
               if (sch.const) addMapping(sch.const, i);
               else if (sch.enum) for (const tagValue of sch.enum) addMapping(tagValue, i);
-              else throw new Error(`discriminator: "properties/${tagName2}" must have "const" or "enum"`);
+              else throw new Error(`discriminator: "properties/${tagName3}" must have "const" or "enum"`);
             }
             function addMapping(tagValue, i) {
-              if (typeof tagValue != "string" || tagValue in oneOfMapping) throw new Error(`discriminator: "${tagName2}" values must be unique strings`);
+              if (typeof tagValue != "string" || tagValue in oneOfMapping) throw new Error(`discriminator: "${tagName3}" values must be unique strings`);
               oneOfMapping[tagValue] = i;
             }
           }
@@ -177885,10 +177905,10 @@ var IMPORT_FORMATS, IMPORT_VIEWS, IMPORT_CHARTS, IMPORT_GROUP_BY, NO_STATS;
 var init_types2 = __esm({
   "../../packages/diagrams/src/importers/types.ts"() {
     "use strict";
-    IMPORT_FORMATS = ["sql", "prisma", "drizzle", "openapi", "terraform", "compose", "kubernetes", "github-actions", "csv", "json", "tree", "git-log"];
+    IMPORT_FORMATS = ["sql", "prisma", "drizzle", "openapi", "terraform", "bicep", "arm", "pulumi", "cloudformation", "compose", "kubernetes", "github-actions", "csv", "json", "tree", "git-log"];
     IMPORT_VIEWS = ["endpoints", "map", "sequence", "git", "timeline"];
     IMPORT_CHARTS = ["auto", "xychart", "pie", "sankey", "treemap", "matrix"];
-    IMPORT_GROUP_BY = ["network", "file"];
+    IMPORT_GROUP_BY = ["module", "network", "file"];
     NO_STATS = { items: 0, links: 0, groups: 0, dropped: 0 };
   }
 });
@@ -177913,8 +177933,9 @@ var init_sources = __esm({
       tables: external_exports.array(external_exports.string().min(1).max(200)).max(200).optional().describe("sql, prisma and drizzle: the tables to draw, each a name or a prefix ending in * (org_*)."),
       paths: external_exports.array(external_exports.string().min(1).max(200)).max(200).optional().describe("openapi: the path prefixes to read, such as /orders."),
       tags: external_exports.array(external_exports.string().min(1).max(200)).max(200).optional().describe("openapi: the tags to read."),
-      groupBy: external_exports.enum(IMPORT_GROUP_BY).optional().describe("terraform: network (the default) nests resources by what they name; file frames them by their .tf file."),
-      varFiles: external_exports.array(repositoryPath).max(20).optional().describe("terraform: the variables files to apply, as -var-file would.")
+      groupBy: external_exports.enum(IMPORT_GROUP_BY).optional().describe("terraform, bicep, arm, pulumi, cloudformation: module (the default) frames each module's resources and nests them by what they name; network nests by what they name alone; file (terraform) frames them by their .tf file."),
+      varFiles: external_exports.array(repositoryPath).max(20).optional().describe("terraform: the variables files to apply, as -var-file would; bicep: the .bicepparam file; arm: the parameters file; pulumi: the Pulumi.<stack>.yaml file."),
+      root: repositoryPath.optional().describe("terraform, bicep, pulumi, cloudformation: the root module, deployment, program, or template to draw when the files hold several, such as envs/prod; each is a part of its own when left out.")
     }).meta({ id: "SourceOptions", description: "The reader options of one source, as import_source takes them." });
     SourcePublishSchema = external_exports.strictObject({
       alias: external_exports.string().min(1).max(60).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "An alias is lower-case words joined by single hyphens, such as checkout-flow").optional().describe("A stable link of a personal key: one address that always shows the latest version."),
@@ -178498,7 +178519,7 @@ var init_import_source = __esm({
     init_kinds2();
     init_workflows();
     ImportSourceInputSchema = external_exports.object({
-      format: external_exports.enum(IMPORT_FORMATS).describe("What the text is. sql, prisma, drizzle: a schema. openapi: an endpoint matrix or a sequence. terraform, compose, kubernetes, github-actions: a flow. csv, json: a chart. tree: a folder tree. git-log: a git graph or timeline."),
+      format: external_exports.enum(IMPORT_FORMATS).describe("What the text is. sql, prisma, drizzle: a schema. openapi: endpoints or a sequence. terraform, bicep, arm, pulumi, cloudformation, compose, kubernetes, github-actions: a flow. csv, json: a chart. tree: a tree. git-log: a git graph or timeline."),
       // Neither text nor files has a length here: a call over the limits is answered with I102 and a hint, as data.
       text: external_exports.string().optional().describe("The file content, as text. Send text or files, not both."),
       files: external_exports.array(
@@ -178506,7 +178527,7 @@ var init_import_source = __esm({
           path: external_exports.string().min(1).max(WORKFLOW_LIMITS.maxPathLength).describe("The file path, such as infra/network.tf; diagnostics name it."),
           text: external_exports.string().describe("The file content, as text.")
         })
-      ).optional().describe("The files of a folder, for a format that spans files: every .tf file of a Terraform stack, SQL migrations, Kubernetes manifests. Other formats read the first file."),
+      ).optional().describe("The files of a folder, for a format that spans files: a Terraform or Bicep stack, SQL migrations, Kubernetes manifests. Other formats read the first file."),
       title: external_exports.string().max(200).optional().describe("The diagram title; taken from the file when left out."),
       partsPage: external_exports.number().int().min(1).max(1e5).optional().describe(`Which page of parts to return when a split import has more than ${WORKFLOW_LIMITS.maxImportParts} diagrams: 1 (default) is the first ${WORKFLOW_LIMITS.maxImportParts}.`),
       options: external_exports.object({
@@ -178516,8 +178537,9 @@ var init_import_source = __esm({
         tables: external_exports.array(external_exports.string().min(1).max(80)).max(40).optional().describe("sql, prisma, drizzle: tables to draw, by name or prefix* (org_*); for a big schema."),
         paths: external_exports.array(external_exports.string().min(1).max(200)).max(40).optional().describe("openapi: path prefixes to read, such as /orders; for a big API."),
         tags: external_exports.array(external_exports.string().min(1).max(80)).max(40).optional().describe("openapi: tags to read; an operation with any of them is read."),
-        varFiles: external_exports.array(external_exports.string().min(1).max(WORKFLOW_LIMITS.maxPathLength)).max(20).optional().describe('terraform: the .tfvars files sent in files to apply, like -var-file, such as ["env/dev.tfvars"]; terraform.tfvars and *.auto.tfvars always apply.'),
-        groupBy: external_exports.enum(IMPORT_GROUP_BY).optional().describe("terraform: network (default) nests resources in their resource group, network, subnet, and the resource that holds them; file frames them by the .tf file that declares them.")
+        varFiles: external_exports.array(external_exports.string().min(1).max(WORKFLOW_LIMITS.maxPathLength)).max(20).optional().describe("Variables files: .tfvars, .bicepparam, ARM parameters, Pulumi.<stack>.yaml."),
+        groupBy: external_exports.enum(IMPORT_GROUP_BY).optional().describe("module (default) frames modules; network only nests; file frames by .tf file."),
+        root: external_exports.string().max(WORKFLOW_LIMITS.maxPathLength).optional().describe("The root to draw of several: envs/prod.")
       }).strict().default({})
     }).meta({ id: "ImportSourceInput", description: "A file of another format to turn into Plotwork source." });
     StatsSchema2 = external_exports.object({
@@ -181004,6 +181026,10 @@ var init_detect = __esm({
       { format: "drizzle", test: (text3) => /\b(?:pgTable|sqliteTable|mysqlTable)\s*\(/.test(text3) },
       { format: "openapi", test: (text3) => /^\s*["']?openapi["']?\s*:\s*["']?3\./m.test(text3) || /"openapi"\s*:\s*"3\./.test(text3) },
       { format: "terraform", test: (text3) => /^\s*resource\s+"[A-Za-z0-9_]+"\s+"[^"]+"\s*\{/m.test(text3) },
+      { format: "bicep", test: (text3) => /^\s*(?:resource|module)\s+[A-Za-z_]\w*\s+'[^'\n]+'\s*(?:existing\s*)?=/m.test(text3) || /^\s*targetScope\s*=\s*'/m.test(text3) },
+      { format: "arm", test: (text3) => /"\$schema"\s*:\s*"https?:\/\/schema\.management\.azure\.com\/schemas\/[^"]*(?:deploymentTemplate|DeploymentTemplate)/.test(text3) },
+      { format: "pulumi", test: (text3) => /^runtime\s*:\s*(?:yaml|\{\s*name\s*:\s*yaml)/m.test(text3) && /^resources\s*:/m.test(text3) || /"urn"\s*:\s*"urn:pulumi:/.test(text3) },
+      { format: "cloudformation", test: (text3) => /^\s*"?AWSTemplateFormatVersion"?\s*:/m.test(text3) || /^Transform\s*:\s*AWS::Serverless/m.test(text3) || /^\s*"?Resources"?\s*:/m.test(text3) && /"?Type"?\s*:\s*["']?AWS::[A-Za-z0-9]+::/.test(text3) },
       { format: "kubernetes", test: (text3) => /^\s*apiVersion\s*:/m.test(text3) && /^\s*kind\s*:\s*\w+/m.test(text3) },
       { format: "github-actions", test: (text3) => /^jobs\s*:/m.test(text3) && (/^\s*runs-on\s*:/m.test(text3) || /^["']?on["']?\s*:/m.test(text3)) },
       { format: "compose", test: (text3) => /^services\s*:/m.test(text3) && /^\s+(?:image|build)\s*:/m.test(text3) },
@@ -181017,7 +181043,11 @@ var init_detect = __esm({
       { format: "compose", words: /\b(?:docker[- ]compose|compose (?:file|yaml|yml|stack))\b/i },
       { format: "kubernetes", words: /\b(?:kubernetes|k8s)\b/i },
       { format: "github-actions", words: /\b(?:github actions?|workflow (?:file|yaml|yml)|ci workflow)\b/i },
-      { format: "terraform", words: /\b(?:terraform|hcl|\.tf files?)\b/i },
+      { format: "terraform", words: /\b(?:terraform|opentofu|hcl|\.tf files?)\b/i },
+      { format: "bicep", words: /\b(?:bicep|\.bicep files?)\b/i },
+      { format: "arm", words: /\b(?:arm templates?|azure resource manager|azuredeploy\.json)\b/i },
+      { format: "pulumi", words: /\bpulumi\b/i },
+      { format: "cloudformation", words: /\b(?:cloudformation|cfn templates?|sam templates?|serverless application model)\b/i },
       { format: "openapi", words: /\b(?:openapi|swagger|api spec(?:ification)?)\b/i },
       { format: "prisma", words: /\bprisma\b/i },
       { format: "drizzle", words: /\bdrizzle\b/i },
@@ -181027,7 +181057,111 @@ var init_detect = __esm({
       { format: "json", words: /\bjson (?:data|file|records|export)\b/i },
       { format: "tree", words: /\b(?:tree output|folder (?:structure|tree|listing)|directory (?:tree|listing))\b/i }
     ];
-    SURE_FROM_DATA = /* @__PURE__ */ new Set(["sql", "prisma", "drizzle", "openapi", "terraform", "compose", "kubernetes", "github-actions", "git-log"]);
+    SURE_FROM_DATA = /* @__PURE__ */ new Set(["sql", "prisma", "drizzle", "openapi", "terraform", "bicep", "arm", "pulumi", "cloudformation", "compose", "kubernetes", "github-actions", "git-log"]);
+  }
+});
+
+// ../../packages/diagrams/src/importers/terraform/azure-families.ts
+function azureFamilyIcon(type) {
+  if (!type.startsWith("azurerm_")) return null;
+  const name2 = type.slice("azurerm_".length);
+  let best;
+  for (const family of AZURE_FAMILIES) if (name2.startsWith(family[0]) && family[0].length > (best?.[0].length ?? -1)) best = family;
+  return best?.[1] ?? null;
+}
+var AZURE_FAMILIES;
+var init_azure_families = __esm({
+  "../../packages/diagrams/src/importers/terraform/azure-families.ts"() {
+    "use strict";
+    AZURE_FAMILIES = [
+      ["aadb2c_", "azure:ad-b2c"],
+      ["active_directory_domain_service", "azure:entra-domain-services"],
+      ["advanced_threat_protection", "azure:defender-for-cloud"],
+      ["attestation_", "azure:azureattestation"],
+      ["automanage_", "azure:automanaged-vm"],
+      ["automation_", "azure:automation-accounts"],
+      ["backup_", "azure:recovery-services-vaults"],
+      ["batch_", "azure:batch-accounts"],
+      ["bot_", "azure:bot-services"],
+      ["cognitive_", "azure:cognitive-services"],
+      ["container_connected_registry", "azure:container-registries"],
+      ["container_group", "azure:container-instances"],
+      ["cosmosdb_postgresql_", "azure:database-postgresql-server-group"],
+      ["cosmosdb_", "azure:cosmos-db"],
+      ["custom_provider", "azure:resource-groups"],
+      ["data_protection_", "azure:backup-vault"],
+      ["database_migration_", "azure:database-migration-services"],
+      ["dev_center", "azure:dev-box"],
+      ["dev_test_", "azure:devtest-labs"],
+      ["elastic_cloud_", "simple:elasticsearch"],
+      ["eventgrid_domain", "azure:event-grid-domains"],
+      ["eventgrid_", "azure:event-grid"],
+      ["eventhub_cluster", "azure:event-hub-clusters"],
+      ["eventhub", "azure:event-hubs"],
+      ["express_route_", "azure:expressroute-circuits"],
+      ["fabric_", "azure:power-bi-embedded"],
+      ["federated_identity_credential", "azure:managed-identities"],
+      ["frontdoor", "azure:front-door"],
+      ["gallery_application", "azure:image-definitions"],
+      ["graph_services_", "azure:resource-graph-explorer"],
+      ["hdinsight_", "azure:hd-insight-clusters"],
+      ["healthbot", "azure:bot-services"],
+      ["healthcare_", "azure:fhir-service"],
+      ["iotcentral_", "azure:iot-central-applications"],
+      ["iothub", "azure:iot-hub"],
+      ["kubernetes_automatic", "azure:aks-automatic"],
+      ["kubernetes_fleet", "azure:kubernetes-fleet-manager"],
+      ["kubernetes_", "azure:kubernetes-services"],
+      ["kusto_", "azure:data-explorer-clusters"],
+      ["maintenance_", "azure:maintenance-configuration"],
+      ["managed_application", "azure:managed-applications-center"],
+      ["management_lock", "azure:resource-groups"],
+      ["mongo_cluster", "azure:cosmos-db"],
+      ["mssql_elasticpool", "azure:sql-elastic-pools"],
+      ["mssql_job", "azure:elastic-job-agents"],
+      ["mssql_managed", "azure:sql-managed-instance"],
+      ["mssql_", "azure:sql-database"],
+      ["mysql_", "azure:database-for-mysql"],
+      ["netapp_", "azure:netapp-files"],
+      ["network_function_", "azure:network-function-manager"],
+      ["network_profile", "azure:virtual-network"],
+      ["nginx_", "simple:nginx"],
+      ["oracle_", "azure:oracle-database"],
+      ["pim_", "azure:entra-identity-roles-and-administrators"],
+      ["playwright_", "azure:load-testing"],
+      ["point_to_site_vpn_gateway", "azure:virtual-network-gateways"],
+      ["policy_", "azure:policy"],
+      ["portal_", "azure:management-portal"],
+      ["powerbi_", "azure:power-bi-embedded"],
+      ["purview_", "azure:identity-governance"],
+      ["redhat_openshift", "azure:red-hat-openshift"],
+      ["redis_", "azure:cache-redis"],
+      ["resource_deployment_script", "azure:templates"],
+      ["resource_policy", "azure:policy"],
+      ["resource_provider_", "azure:subscriptions"],
+      ["role_definition", "azure:entra-identity-custom-roles"],
+      ["role_management", "azure:entra-identity-roles-and-administrators"],
+      ["route_map", "azure:virtual-router"],
+      ["route_server", "azure:virtual-router"],
+      ["route", "azure:route-tables"],
+      ["service_fabric", "azure:service-fabric-clusters"],
+      ["site_recovery_", "azure:recovery-services-vaults"],
+      ["snapshot", "azure:disks-snapshots"],
+      ["spring_cloud_", "azure:spring-apps"],
+      ["ssh_public_key", "azure:ssh-keys"],
+      ["stack_hci_", "azure:stack-hci-premium"],
+      ["storage_blob", "azure:blob-storage"],
+      ["storage_sync", "azure:storage-sync-services"],
+      ["storage_", "azure:storage-accounts"],
+      ["stream_analytics_", "azure:stream-analytics-jobs"],
+      ["traffic_manager_", "azure:traffic-manager-profiles"],
+      ["trusted_signing_", "azure:key-vaults"],
+      ["virtual_hub", "azure:virtual-wan-hub"],
+      ["vmware_", "azure:vmware-solution"],
+      ["vpn_", "azure:virtual-network-gateways"],
+      ["web_app", "azure:app-service"],
+      ["workloads_sap_", "azure:virtual-instance-for-sap"]
+    ];
   }
 });
 
@@ -181966,6 +182100,5307 @@ var init_shared2 = __esm({
   }
 });
 
+// ../../packages/diagrams/src/importers/terraform/tokens.ts
+function stringEnd(text3, start2) {
+  const modes = ["string"];
+  for (let index2 = start2 + 1; index2 < text3.length; index2 += 1) {
+    const char = text3.charAt(index2);
+    const mode = modes[modes.length - 1];
+    if (mode === "string") {
+      if (char === "\\") index2 += 1;
+      else if (char === '"') {
+        modes.pop();
+        if (modes.length === 0) return index2 + 1;
+      } else if ((char === "$" || char === "%") && text3.charAt(index2 + 1) === "{") {
+        modes.push("template");
+        index2 += 1;
+      } else if (char === "\n") return -1;
+    } else if (char === '"') modes.push("string");
+    else if (char === "{") modes.push("brace");
+    else if (char === "}") modes.pop();
+  }
+  return -1;
+}
+function heredocEnd(text3, start2) {
+  const match = /^<<-?([A-Za-z_][A-Za-z0-9_]*)[ \t]*\n/.exec(text3.slice(start2, start2 + 200));
+  if (match === null) return null;
+  const marker = match[1] ?? "";
+  const bodyStart = start2 + match[0].length;
+  for (let lineStart = bodyStart; lineStart <= text3.length; ) {
+    const lineEnd = text3.indexOf("\n", lineStart);
+    const line3 = text3.slice(lineStart, lineEnd === -1 ? text3.length : lineEnd);
+    if (line3.trim() === marker) return { end: lineEnd === -1 ? text3.length : lineEnd, body: text3.slice(bodyStart, lineStart) };
+    if (lineEnd === -1) break;
+    lineStart = lineEnd + 1;
+  }
+  return { end: -1, body: "" };
+}
+function tokenize2(text3) {
+  const tokens = [];
+  let index2 = 0;
+  while (index2 < text3.length) {
+    const char = text3.charAt(index2);
+    const next = text3.charAt(index2 + 1);
+    if (char === "\n") {
+      tokens.push({ kind: "newline", text: "\n", start: index2, end: index2 + 1 });
+      index2 += 1;
+    } else if (char === " " || char === "	" || char === "\r") {
+      index2 += 1;
+    } else if (char === "#" || char === "/" && next === "/") {
+      const end = text3.indexOf("\n", index2);
+      index2 = end === -1 ? text3.length : end;
+    } else if (char === "/" && next === "*") {
+      const end = text3.indexOf("*/", index2 + 2);
+      if (end === -1) return { tokens, problem: { offset: index2, message: "A /* comment is never closed.", hint: "Close the comment with */." } };
+      index2 = end + 2;
+    } else if (char === '"') {
+      const end = stringEnd(text3, index2);
+      if (end === -1) return { tokens, problem: { offset: index2, message: "A string is never closed on its line.", hint: "Close the string with a double quote, or use a heredoc (<<EOF) for text over several lines." } };
+      tokens.push({ kind: "string", text: text3.slice(index2 + 1, end - 1), start: index2, end });
+      index2 = end;
+    } else if (char === "<" && next === "<" && /[-A-Za-z_]/.test(text3.charAt(index2 + 2))) {
+      const heredoc = heredocEnd(text3, index2);
+      if (heredoc === null || heredoc.end === -1) return { tokens, problem: { offset: index2, message: "A heredoc is never closed.", hint: "End the heredoc with its marker alone on a line." } };
+      tokens.push({ kind: "string", text: heredoc.body, start: index2, end: heredoc.end });
+      index2 = heredoc.end;
+    } else if (isWordChar(char)) {
+      let end = index2;
+      while (end < text3.length && isWordChar(text3.charAt(end))) end += 1;
+      tokens.push({ kind: "word", text: text3.slice(index2, end), start: index2, end });
+      index2 = end;
+    } else {
+      const pair2 = `${char}${next}`;
+      const width = TWO_CHAR_SIGNS.has(pair2) ? 2 : 1;
+      tokens.push({ kind: "sign", text: text3.slice(index2, index2 + width), start: index2, end: index2 + width });
+      index2 += width;
+    }
+  }
+  return { tokens, problem: null };
+}
+var isWordChar, TWO_CHAR_SIGNS;
+var init_tokens = __esm({
+  "../../packages/diagrams/src/importers/terraform/tokens.ts"() {
+    "use strict";
+    isWordChar = (char) => /[A-Za-z0-9_.\-*]/.test(char);
+    TWO_CHAR_SIGNS = /* @__PURE__ */ new Set(["==", "!=", "<=", ">=", "=>", "&&", "||", "::"]);
+  }
+});
+
+// ../../packages/diagrams/src/importers/terraform/parse.ts
+function unescapeHcl(raw) {
+  return raw.replace(/\\(.)/g, (_match, char) => char === "n" ? "\n" : char === "t" ? "	" : char);
+}
+function parseHcl(text3) {
+  const split = tokenize2(text3);
+  if (split.problem !== null) return { blocks: [], attributes: [], problem: split.problem };
+  const read = new HclReader(text3, split.tokens).body(0);
+  if ("message" in read) return { blocks: [], attributes: [], problem: read };
+  return { blocks: read.blocks, attributes: read.attributes, problem: null };
+}
+function allAttributes(block) {
+  const out = [];
+  const queue = [block];
+  for (let index2 = 0; index2 < queue.length; index2 += 1) {
+    const current = queue[index2];
+    out.push(...current.attributes);
+    queue.push(...current.blocks);
+  }
+  return out;
+}
+var MAX_DEPTH2, HclReader;
+var init_parse21 = __esm({
+  "../../packages/diagrams/src/importers/terraform/parse.ts"() {
+    "use strict";
+    init_tokens();
+    MAX_DEPTH2 = 32;
+    HclReader = class {
+      constructor(text3, tokens) {
+        this.text = text3;
+        this.tokens = tokens;
+      }
+      text;
+      tokens;
+      index = 0;
+      peek(offset = 0) {
+        return this.tokens[this.index + offset];
+      }
+      /** The blocks and attributes of a body, up to its closing `}` (or the end of the text at the top). */
+      body(depth) {
+        const attributes2 = [];
+        const blocks2 = [];
+        while (this.index < this.tokens.length) {
+          const token = this.peek();
+          if (token.kind === "newline" || token.kind === "sign" && token.text === ",") {
+            this.index += 1;
+            continue;
+          }
+          if (token.kind === "sign" && token.text === "}") {
+            if (depth === 0) return { offset: token.start, message: "A } closes no block.", hint: "Remove it, or add the block it should close." };
+            this.index += 1;
+            return { attributes: attributes2, blocks: blocks2, closed: true };
+          }
+          if (token.kind !== "word" && token.kind !== "string") return { offset: token.start, message: `Expected an attribute or a block, found "${token.text}".`, hint: 'Write name = value, or type "label" { ... }.' };
+          const after = this.peek(1);
+          if (after?.kind === "sign" && (after.text === "=" || after.text === ":")) {
+            this.index += 2;
+            attributes2.push(this.attribute(token.text));
+            continue;
+          }
+          const block = this.block(depth);
+          if ("message" in block) return block;
+          blocks2.push(block);
+        }
+        if (depth > 0) return { offset: this.text.length - 1, message: "A block is never closed.", hint: "Add the } that closes it." };
+        return { attributes: attributes2, blocks: blocks2, closed: false };
+      }
+      /** The value of an attribute: every token to the end of the line, or further while a bracket is open. */
+      attribute(name2) {
+        const first = this.peek();
+        let depth = 0;
+        let last;
+        while (this.index < this.tokens.length) {
+          const token = this.peek();
+          if (token.kind === "newline" && depth <= 0) break;
+          if (token.kind === "sign" && (token.text === "}" || token.text === ",") && depth <= 0) break;
+          if (token.kind === "sign" && "([{".includes(token.text)) depth += 1;
+          if (token.kind === "sign" && ")]}".includes(token.text)) depth -= 1;
+          last = token;
+          this.index += 1;
+        }
+        const raw = first === void 0 || last === void 0 ? "" : this.text.slice(first.start, last.end);
+        const literal3 = first !== void 0 && first === last && first.kind === "string" && !first.text.includes("${") ? unescapeHcl(first.text) : null;
+        return { name: name2, raw, literal: literal3 };
+      }
+      /** A block: its type, its labels, and its body in braces. */
+      block(depth) {
+        const head = this.peek();
+        if (depth >= MAX_DEPTH2) return { offset: head.start, message: "The blocks are nested too deep.", hint: `Keep nesting under ${MAX_DEPTH2} levels.` };
+        const labels2 = [];
+        this.index += 1;
+        for (; ; ) {
+          const token = this.peek();
+          if (token === void 0 || token.kind === "newline") return { offset: head.start, message: `"${head.text}" is neither an attribute nor a block.`, hint: 'Write name = value, or type "label" { ... } with the { on the same line.' };
+          if (token.kind === "sign" && token.text === "{") break;
+          if (token.kind !== "word" && token.kind !== "string") return { offset: token.start, message: `Unexpected "${token.text}" in the header of a block.`, hint: 'A block is written type "label" { ... }.' };
+          labels2.push(token.text);
+          this.index += 1;
+        }
+        const open2 = this.peek();
+        this.index += 1;
+        const body6 = this.body(depth + 1);
+        if ("message" in body6) return body6;
+        const close2 = this.tokens[this.index - 1];
+        return { type: head.text, labels: labels2, start: head.start, body: this.text.slice(open2.end, close2?.start ?? this.text.length), attributes: body6.attributes, blocks: body6.blocks };
+      }
+    };
+  }
+});
+
+// ../../packages/diagrams/src/importers/terraform/labels.ts
+function literal2(resource, name2) {
+  return resource.values.get(name2) ?? null;
+}
+function rawValue(resource, name2) {
+  return resource.block.attributes.find((attribute2) => attribute2.name === name2)?.raw ?? null;
+}
+function tagName(resource) {
+  const resolved = resource.values.get("tags.Name");
+  if (resolved !== void 0 && !resolved.includes("{")) return resolved;
+  const tags = rawValue(resource, "tags");
+  if (tags === null) return null;
+  const match = /\bName\s*=\s*"((?:[^"\\$\n]|\\.)*)"/.exec(tags);
+  return match?.[1] === void 0 ? null : unescapeHcl(match[1]);
+}
+function humanize(name2) {
+  const words2 = name2.split(/[_-]+/).filter((word2) => word2 !== "").map((word2) => ACRONYMS.has(word2.toLowerCase()) ? word2.toUpperCase() : word2);
+  if (words2.length === 0) return name2;
+  const first = words2[0];
+  return [`${first.charAt(0).toUpperCase()}${first.slice(1)}`, ...words2.slice(1)].join(" ");
+}
+function ownName(resource, shared = NO_NAMES) {
+  const named = tagName(resource) ?? NAME_ATTRIBUTES.map((attribute2) => literal2(resource, attribute2)).find((value) => value !== null && value !== "") ?? null;
+  if (named !== null) return cleanText(named);
+  const partly = NAME_ATTRIBUTES.map((attribute2) => resource.readable?.get(attribute2) ?? null).find((value) => value !== null && /[A-Za-z0-9]{2}/.test(value.replace(/\{[^}]*\}/g, ""))) ?? null;
+  if (partly !== null) return cleanText(partly);
+  return GENERIC_NAMES.has(resource.name.toLowerCase()) || shared.has(resource.name) ? null : humanize(resource.name);
+}
+function inSentence(product) {
+  const words2 = product.split(" ");
+  const proper = words2.slice(1).some((word2) => /^[A-Z]/.test(word2)) || /[A-Z]/.test(words2[0]?.slice(1) ?? "") || PROPER_WORDS.has(words2[0] ?? "");
+  return proper ? product : `${product.charAt(0).toLowerCase()}${product.slice(1)}`;
+}
+function nameOrProduct(resource, product, shared = NO_NAMES) {
+  const name2 = ownName(resource, shared);
+  if (name2 !== null) return { label: name2, named: true };
+  if (product === "" || GENERIC_NAMES.has(resource.name.toLowerCase())) return { label: product === "" ? humanize(resource.name) : product, named: false };
+  return { label: `${humanize(resource.name)} ${inSentence(product)}`, named: false };
+}
+function nodeText(resource, product, detail, shared = NO_NAMES) {
+  const name2 = nameOrProduct(resource, product, shared);
+  const details = detail.map((attribute2) => literal2(resource, attribute2)).filter((value) => value !== null && value !== "");
+  const sub = [[...name2.named ? [product] : [], ...details].join(" "), ...resource.kind === "data" ? ["existing"] : []].filter((part) => part !== "").join(", ");
+  return { label: name2.label, sub: sub === "" ? null : cleanText(sub) };
+}
+function multiplicity(resource) {
+  if (resource.instance === true) return null;
+  if (typeof resource.copies === "number") return `${resource.copies} copies`;
+  if (rawValue(resource, "for_each") !== null) return "for each";
+  const count3 = rawValue(resource, "count");
+  if (count3 === null) return null;
+  if (/^[0-9]+$/.test(count3)) return count3 === "1" ? null : `${count3} copies`;
+  return /\?\s*1\s*:\s*0\s*$/.test(count3) ? "optional" : "by count";
+}
+function withParts(sub, ...parts) {
+  const all = [...new Set([sub, ...parts].flatMap((part) => part === null ? [] : part.split(", ")).filter((part) => part !== ""))];
+  return all.length === 0 ? null : cleanText(all.join(", "));
+}
+function variableLabel(name2) {
+  const last = name2.split(".").pop() ?? name2;
+  return humanize(last.replace(/_(?:ids?|names?)$/, ""));
+}
+function moduleText(resource) {
+  const source = literal2(resource, "source") ?? "";
+  const short3 = source.replace(/^[a-z]+::/, "").replace(/^(?:git@|https?:\/\/)/, "").replace(/[?#].*$/, "").replace(/\.git$/, "").replace(/^\.\//, "");
+  const tail = short3.length > 32 ? short3.split("/").filter((part) => part !== "").slice(-2).join("/") : short3;
+  return { label: humanize(resource.name), sub: tail === "" ? "Module" : `Module ${cleanText(tail)}` };
+}
+function groupTypeOf(resource, declared2) {
+  if (declared2 !== "subnet") return declared2;
+  if (rawValue(resource, "map_public_ip_on_launch") === "true") return "public-subnet";
+  const words2 = `${resource.name} ${ownName(resource) ?? ""}`.toLowerCase();
+  if (/\bpublic\b|[_-]public|public[_-]/.test(words2)) return "public-subnet";
+  if (/\bprivate\b|[_-]private|private[_-]/.test(words2)) return "private-subnet";
+  return "subnet";
+}
+function groupText(resource, type, shared = NO_NAMES) {
+  const range = literal2(resource, "cidr_block") ?? literal2(resource, "ip_cidr_range") ?? firstString(rawValue(resource, "address_space")) ?? firstString(rawValue(resource, "address_prefixes"));
+  const zone = literal2(resource, "availability_zone") ?? literal2(resource, "region") ?? literal2(resource, "location");
+  const sub = [[range, zone].filter((value) => value !== null && value !== "").join(" "), ...resource.kind === "data" ? ["existing"] : []].filter((part) => part !== "").join(", ");
+  const product = resource.role.role === "group" ? resource.role.product ?? GROUP_TYPE_SPECS[type].title : GROUP_TYPE_SPECS[type].title;
+  return { label: nameOrProduct(resource, product, shared).label, sub: sub === "" ? null : cleanText(sub) };
+}
+function firstString(raw) {
+  if (raw === null) return null;
+  const match = /"([^"$\n]*)"/.exec(raw);
+  return match?.[1] ?? null;
+}
+function partNoun(type, holderType) {
+  const rest = type.startsWith(`${holderType}_`) ? type.slice(holderType.length + 1) : type.split("_").slice(2).join("_");
+  return PART_NOUNS[rest] ?? humanize(rest === "" ? type : rest);
+}
+var GENERIC_NAMES, NAME_ATTRIBUTES, ACRONYMS, NO_NAMES, PROPER_WORDS, PART_NOUNS;
+var init_labels = __esm({
+  "../../packages/diagrams/src/importers/terraform/labels.ts"() {
+    "use strict";
+    init_constants();
+    init_shared2();
+    init_parse21();
+    GENERIC_NAMES = /* @__PURE__ */ new Set(["main", "this", "default", "example", "primary", "the", "it", "resource", "self"]);
+    NAME_ATTRIBUTES = ["name", "bucket", "identifier", "function_name", "cluster_identifier", "cluster_name", "domain_name"];
+    ACRONYMS = /* @__PURE__ */ new Set(["api", "db", "sql", "vpc", "cdn", "dns", "alb", "nlb", "lb", "vm", "ecs", "eks", "aks", "gke", "nat", "waf", "kms", "iam", "s3", "sns", "sqs", "ui", "id", "kv", "acr", "apim", "aca", "nsg", "pe", "url"]);
+    NO_NAMES = /* @__PURE__ */ new Set();
+    PROPER_WORDS = /* @__PURE__ */ new Set(["Entra", "Azure", "Lambda", "Cloud", "Spanner", "Firestore", "Memorystore", "Aurora", "Kinesis", "Cognito", "Fargate", "Route", "Secrets"]);
+    PART_NOUNS = {
+      active_directory_administrator: "Entra admin",
+      api_version_set: "Version set",
+      configuration: "Setting",
+      firewall_rule: "Firewall rule"
+    };
+  }
+});
+
+// ../../packages/diagrams/src/importers/terraform/resources.ts
+function providerOf2(type) {
+  if (type.startsWith("aws_")) return "aws";
+  if (type.startsWith("azurerm_") || type.startsWith("azuread_")) return "azure";
+  if (type.startsWith("google_")) return "gcp";
+  return null;
+}
+var node2, group, link, attach2, IN_STORAGE, RESOURCE_ROLES, PLACEMENT_ATTRIBUTES, PLACEMENT_GROUP_TYPES;
+var init_resources = __esm({
+  "../../packages/diagrams/src/importers/terraform/resources.ts"() {
+    "use strict";
+    node2 = (type, icon, product, detail = [], parent) => ({ role: "node", type, icon, product, detail, ...parent === void 0 ? {} : { parent } });
+    group = (type, icon, product) => ({ role: "group", group: type, ...icon === void 0 ? {} : { icon }, ...product === void 0 ? {} : { product } });
+    link = (from, to, label, labelFrom, icon) => ({
+      role: "link",
+      from,
+      to,
+      ...label === void 0 ? {} : { label },
+      ...labelFrom === void 0 ? {} : { labelFrom },
+      ...icon === void 0 ? {} : { icon }
+    });
+    attach2 = (subject, host) => ({ role: "attach", subject, host });
+    IN_STORAGE = ["storage_account_id", "storage_account_name"];
+    RESOURCE_ROLES = {
+      // AWS
+      aws_vpc: group("network"),
+      aws_subnet: group("subnet"),
+      aws_instance: node2("service", "aws:ec2", "EC2", ["instance_type"]),
+      aws_autoscaling_group: node2("service", "aws:auto-scaling-group", "Auto Scaling group"),
+      aws_lb: node2("gateway", "aws:elastic-load-balancing", "Load balancer"),
+      aws_alb: node2("gateway", "aws:elastic-load-balancing", "Load balancer"),
+      aws_lb_target_group: node2("gateway", "aws:elastic-load-balancing", "Target group", ["port"]),
+      aws_alb_target_group: node2("gateway", "aws:elastic-load-balancing", "Target group", ["port"]),
+      aws_ecs_service: node2("service", "aws:fargate", "ECS service", ["launch_type"]),
+      aws_ecs_task_definition: node2("service", "aws:ecs-task", "Task definition"),
+      aws_eks_cluster: node2("service", "aws:eks", "EKS cluster", ["version"]),
+      aws_lambda_function: node2("function", "aws:lambda", "Lambda", ["runtime"]),
+      aws_db_instance: node2("database", "aws:rds", "RDS", ["engine", "instance_class"]),
+      aws_rds_cluster: node2("database", "aws:aurora", "Aurora", ["engine"]),
+      aws_dynamodb_table: node2("database", "aws:dynamodb", "DynamoDB"),
+      aws_elasticache_cluster: node2("cache", "aws:elasticache", "ElastiCache", ["engine"]),
+      aws_elasticache_replication_group: node2("cache", "aws:elasticache", "ElastiCache"),
+      aws_opensearch_domain: node2("database", "aws:opensearch", "OpenSearch"),
+      aws_s3_bucket: node2("storage", "aws:s3", "S3 bucket"),
+      aws_efs_file_system: node2("storage", "aws:efs", "EFS"),
+      aws_ecr_repository: node2("storage", "aws:ecr", "ECR repository"),
+      aws_sqs_queue: node2("queue", "aws:sqs", "SQS queue"),
+      aws_sns_topic: node2("queue", "aws:sns", "SNS topic"),
+      aws_kinesis_stream: node2("queue", "aws:kinesis", "Kinesis stream"),
+      aws_cloudwatch_event_rule: node2("queue", "aws:eventbridge", "EventBridge rule"),
+      aws_sfn_state_machine: node2("function", "aws:step-functions", "Step Functions"),
+      aws_cloudfront_distribution: node2("gateway", "aws:cloudfront", "CloudFront"),
+      aws_api_gateway_rest_api: node2("gateway", "aws:api-gateway", "API Gateway"),
+      aws_apigatewayv2_api: node2("gateway", "aws:api-gateway", "API Gateway", ["protocol_type"]),
+      aws_route53_record: node2("gateway", "aws:route-53", "Route 53 record", ["type"]),
+      aws_cognito_user_pool: node2("identity", "aws:cognito", "Cognito user pool"),
+      aws_secretsmanager_secret: node2("secret", "aws:secrets-manager", "Secrets Manager"),
+      aws_kms_key: node2("secret", "aws:kms", "KMS key"),
+      aws_nat_gateway: node2("gateway", "aws:nat-gateway", "NAT gateway"),
+      aws_internet_gateway: node2("gateway", "aws:internet-gateway", "Internet gateway"),
+      aws_route_table: node2("gateway", "aws:route-53-route-table", "Route table"),
+      aws_security_group: node2("secret", "aws:vpc-network-access-control-list", "Security group"),
+      aws_wafv2_web_acl: node2("gateway", "aws:waf", "WAF"),
+      aws_iam_role: node2("identity", "aws:identity-access-management-role", "IAM role"),
+      aws_cloudwatch_log_group: node2("service", "aws:cloudwatch-logs", "Log group"),
+      aws_lb_listener: link(["aws_lb", "aws_alb"], ["target_group_arn"], void 0, ["protocol", "port"]),
+      aws_alb_listener: link(["aws_lb", "aws_alb"], ["target_group_arn"], void 0, ["protocol", "port"]),
+      aws_lb_target_group_attachment: link(["target_group_arn"], ["target_id"], "targets"),
+      aws_lambda_event_source_mapping: link(["event_source_arn"], ["function_name"], "triggers"),
+      aws_sns_topic_subscription: link(["topic_arn"], ["endpoint"], "delivers", ["protocol"]),
+      aws_cloudwatch_event_target: link(["rule"], ["arn"], "triggers"),
+      aws_api_gateway_integration: link(["rest_api_id"], ["uri"], "calls"),
+      aws_apigatewayv2_integration: link(["api_id"], ["integration_uri"], "calls"),
+      aws_iam_role_policy_attachment: link(["role"], ["policy_arn"], "policy"),
+      aws_route_table_association: attach2(["route_table_id"], ["subnet_id"]),
+      // Azure
+      azurerm_subscription: group("account", "azure:subscriptions", "Subscription"),
+      azurerm_resource_group: group("resource-group"),
+      azurerm_virtual_network: group("network"),
+      azurerm_subnet: group("subnet"),
+      azurerm_service_plan: group("service-plan"),
+      azurerm_app_service_plan: group("service-plan"),
+      azurerm_container_app_environment: group("cluster", "azure:container-apps-environments", "Container Apps environment"),
+      azurerm_kubernetes_cluster: node2("service", "azure:aks", "AKS cluster"),
+      azurerm_linux_virtual_machine: node2("service", "azure:virtual-machines", "Virtual machine", ["size"]),
+      azurerm_windows_virtual_machine: node2("service", "azure:virtual-machines", "Virtual machine", ["size"]),
+      azurerm_linux_web_app: node2("service", "azure:app-service", "App Service"),
+      azurerm_windows_web_app: node2("service", "azure:app-service", "App Service"),
+      azurerm_linux_function_app: node2("function", "azure:functions", "Function app"),
+      azurerm_windows_function_app: node2("function", "azure:functions", "Function app"),
+      azurerm_container_app: node2("service", "azure:container-apps", "Container app"),
+      azurerm_container_app_job: node2("service", "azure:container-apps", "Container Apps job"),
+      azurerm_mssql_server: node2("database", "azure:sql-server", "SQL server"),
+      azurerm_mssql_database: node2("database", "azure:sql-database", "SQL database", ["sku_name"], ["server_id"]),
+      azurerm_postgresql_flexible_server: node2("database", "azure:database-for-postgresql", "PostgreSQL flexible server", ["sku_name"]),
+      azurerm_mysql_flexible_server: node2("database", "azure:database-for-mysql", "MySQL flexible server", ["sku_name"]),
+      azurerm_cosmosdb_account: node2("database", "azure:cosmos-db", "Cosmos DB"),
+      azurerm_redis_cache: node2("cache", "azure:cache-redis", "Azure Cache for Redis", ["sku_name"]),
+      azurerm_storage_account: node2("storage", "azure:storage-accounts", "Storage account", ["account_tier"]),
+      azurerm_storage_container: node2("storage", "azure:storage-container", "Blob container", [], IN_STORAGE),
+      azurerm_storage_queue: node2("queue", "azure:storage-queue", "Storage queue", [], IN_STORAGE),
+      azurerm_storage_table: node2("database", "azure:table", "Storage table", [], IN_STORAGE),
+      azurerm_storage_share: node2("storage", "azure:fileshares", "File share", [], IN_STORAGE),
+      azurerm_container_registry: node2("storage", "azure:container-registries", "Container registry", ["sku"]),
+      azurerm_key_vault: node2("secret", "azure:key-vault", "Key Vault", ["sku_name"]),
+      azurerm_key_vault_secret: node2("secret", "azure:keys", "Secret", [], ["key_vault_id"]),
+      azurerm_key_vault_key: node2("secret", "azure:keys", "Key", [], ["key_vault_id"]),
+      azurerm_key_vault_certificate: node2("secret", "azure:app-service-certificates", "Certificate", [], ["key_vault_id"]),
+      azurerm_servicebus_namespace: node2("queue", "azure:service-bus", "Service Bus namespace", ["sku"]),
+      azurerm_servicebus_queue: node2("queue", "azure:service-bus", "Service Bus queue", [], ["namespace_id", "namespace_name"]),
+      azurerm_servicebus_topic: node2("queue", "azure:service-bus", "Service Bus topic", [], ["namespace_id", "namespace_name"]),
+      azurerm_eventhub_namespace: node2("queue", "azure:event-hubs", "Event Hubs namespace"),
+      azurerm_eventgrid_topic: node2("queue", "azure:event-grid", "Event Grid topic"),
+      azurerm_application_gateway: node2("gateway", "azure:application-gateway", "Application gateway"),
+      azurerm_lb: node2("gateway", "azure:load-balancers", "Load balancer"),
+      azurerm_cdn_frontdoor_profile: node2("gateway", "azure:front-door", "Front Door"),
+      azurerm_api_management: node2("gateway", "azure:api-management", "API Management", ["sku_name"]),
+      azurerm_application_insights: node2("service", "azure:application-insights", "Application Insights", ["application_type"]),
+      azurerm_log_analytics_workspace: node2("service", "azure:log-analytics-workspaces", "Log Analytics workspace", ["sku"]),
+      azurerm_cognitive_account: { role: "node", type: "service", icon: "azure:cognitive-services", product: "Azure AI services", detail: ["kind"], kinds: { OpenAI: "azure:openai" } },
+      azurerm_user_assigned_identity: node2("identity", "azure:managed-identities", "Managed identity"),
+      azurerm_network_security_group: node2("secret", "azure:network-security-groups", "Network security group"),
+      azurerm_public_ip: node2("gateway", "azure:public-ip-addresses", "Public IP", ["allocation_method"]),
+      azurerm_private_dns_zone: node2("gateway", "azure:dns-zones", "Private DNS zone"),
+      azurerm_network_interface: node2("gateway", "azure:network-interfaces", "Network interface"),
+      azurerm_private_endpoint: { role: "endpoint" },
+      azurerm_role_assignment: { role: "grant", principal: ["principal_id"], scope: ["scope"], label: ["role_definition_name"], icon: "azure:entra-identity-roles-and-administrators" },
+      azurerm_monitor_diagnostic_setting: link(["target_resource_id"], ["log_analytics_workspace_id", "storage_account_id", "eventhub_authorization_rule_id"], "diagnostics", void 0, "azure:diagnostics-settings"),
+      azurerm_private_dns_zone_virtual_network_link: link(["private_dns_zone_name"], ["virtual_network_id"], "DNS link", void 0, "azure:dns-zones"),
+      azurerm_subnet_network_security_group_association: attach2(["network_security_group_id"], ["subnet_id"]),
+      azurerm_subnet_nat_gateway_association: attach2(["nat_gateway_id"], ["subnet_id"]),
+      azurerm_subnet_route_table_association: attach2(["route_table_id"], ["subnet_id"]),
+      azurerm_api_management_product_api: link(["product_id", "product_name"], ["api_name", "api_id"], "includes"),
+      // Google Cloud
+      google_project: group("account", void 0, "Project"),
+      google_compute_network: group("network"),
+      google_compute_subnetwork: group("subnet"),
+      google_compute_instance: node2("service", "gcp:compute-engine", "Compute Engine", ["machine_type"]),
+      google_container_cluster: node2("service", "gcp:gke", "GKE cluster"),
+      google_cloud_run_service: node2("service", "gcp:cloud-run", "Cloud Run"),
+      google_cloud_run_v2_service: node2("service", "gcp:cloud-run", "Cloud Run"),
+      google_cloudfunctions_function: node2("function", "gcp:cloud-functions", "Cloud Functions", ["runtime"]),
+      google_cloudfunctions2_function: node2("function", "gcp:cloud-functions", "Cloud Functions"),
+      google_sql_database_instance: node2("database", "gcp:cloud-sql", "Cloud SQL", ["database_version"]),
+      google_spanner_instance: node2("database", "gcp:spanner", "Spanner"),
+      google_firestore_database: node2("database", "gcp:firestore", "Firestore"),
+      google_bigquery_dataset: node2("database", "gcp:bigquery", "BigQuery dataset"),
+      google_redis_instance: node2("cache", "gcp:memorystore", "Memorystore", ["tier"]),
+      google_storage_bucket: node2("storage", "gcp:cloud-storage", "Cloud Storage bucket", ["storage_class"]),
+      google_artifact_registry_repository: node2("storage", "gcp:artifact-registry", "Artifact Registry", ["format"]),
+      google_pubsub_topic: node2("queue", "gcp:pubsub", "Pub/Sub topic"),
+      google_secret_manager_secret: node2("secret", "gcp:secret-manager", "Secret Manager"),
+      google_compute_global_forwarding_rule: node2("gateway", "gcp:cloud-load-balancing", "Forwarding rule"),
+      google_compute_target_https_proxy: node2("gateway", "gcp:cloud-load-balancing", "HTTPS proxy"),
+      google_compute_target_http_proxy: node2("gateway", "gcp:cloud-load-balancing", "HTTP proxy"),
+      google_compute_url_map: node2("gateway", "gcp:cloud-load-balancing", "URL map"),
+      google_compute_backend_service: node2("gateway", "gcp:cloud-load-balancing", "Backend service"),
+      google_compute_region_network_endpoint_group: node2("gateway", "gcp:cloud-load-balancing", "Network endpoint group"),
+      google_service_account: node2("identity", "gcp:iam", "Service account"),
+      google_pubsub_subscription: link(["topic"], ["push_config"], "subscription")
+    };
+    PLACEMENT_ATTRIBUTES = /* @__PURE__ */ new Set([
+      "vpc_id",
+      "subnet_id",
+      "subnet_ids",
+      "subnets",
+      "vpc_zone_identifier",
+      "db_subnet_group_name",
+      "subnet_group_name",
+      "virtual_network_name",
+      "resource_group_name",
+      "service_plan_id",
+      "app_service_plan_id",
+      "network",
+      "subnetwork",
+      "private_network",
+      "authorized_network",
+      "virtual_network_subnet_id",
+      "network_interface_ids",
+      "vnet_subnet_id",
+      "container_app_environment_id",
+      "infrastructure_subnet_id",
+      "delegated_subnet_id"
+    ]);
+    PLACEMENT_GROUP_TYPES = {
+      resource_group_name: "resource-group",
+      virtual_network_name: "network",
+      virtual_network_id: "network",
+      vpc_id: "network",
+      network: "network",
+      subnet_id: "subnet",
+      subnet_ids: "subnet",
+      virtual_network_subnet_id: "subnet",
+      infrastructure_subnet_id: "subnet",
+      delegated_subnet_id: "subnet",
+      vnet_subnet_id: "subnet",
+      subnetwork: "subnet"
+    };
+  }
+});
+
+// ../../packages/diagrams/src/importers/terraform/generic.ts
+function forms(word2) {
+  return [word2, `${word2}s`, word2.endsWith("y") ? `${word2.slice(0, -1)}ies` : `${word2}es`];
+}
+function iconOfName(type, fromServiceWord = false) {
+  const provider = providerOf2(type);
+  if (provider === null) return null;
+  const words2 = type.split("_").slice(1);
+  for (let length = words2.length; length >= 1; length -= 1) {
+    for (let start2 = 0; start2 + length <= words2.length; start2 += 1) {
+      if (fromServiceWord && start2 > 0) break;
+      const run3 = words2.slice(start2, start2 + length);
+      if (length === 1 && VAGUE_WORDS.has(run3[0] ?? "")) continue;
+      const last = run3.pop() ?? "";
+      for (const tail of forms(last)) {
+        const ref = `${provider}:${[...run3, tail].join("-")}`;
+        if (isKnownIcon(ref)) return ref;
+      }
+    }
+  }
+  return null;
+}
+function nodeTypeOf(icon) {
+  const spec = icon === null ? void 0 : cloudSpecOf(icon);
+  if (spec === void 0) return "service";
+  const byKind = NODE_TYPE_OF_KIND[spec.kind];
+  if (byKind !== void 0) return byKind;
+  const folder = spec.vendor?.categories[0] ?? "";
+  return NODE_TYPE_OF_FOLDER.find(([pattern3]) => pattern3.test(folder))?.[1] ?? "service";
+}
+function productOf(type) {
+  return humanize(type.split("_").slice(1).join("_"));
+}
+function familyIcon(type) {
+  const words2 = type.split("_");
+  for (let length = words2.length - 1; length >= 2; length -= 1) {
+    const role = RESOURCE_ROLES[words2.slice(0, length).join("_")];
+    if (role?.role === "node" && role.icon !== null) return role.icon;
+    if (role?.role === "group" && role.icon !== void 0) return role.icon;
+  }
+  return null;
+}
+function genericRole(type) {
+  if (GRANTS.test(type)) return { role: "grant", principal: ["member", "members"], scope: [], label: ["role"] };
+  const join7 = JOINS.exec(type);
+  if (join7 !== null) return { role: "link", from: [], to: [], label: join7[1] ?? "link" };
+  const icon = iconOfName(type, true) ?? azureFamilyIcon(type) ?? iconOfName(type) ?? familyIcon(type);
+  return { role: "node", type: nodeTypeOf(icon), icon, product: productOf(type), generic: true };
+}
+function roleOf2(type) {
+  if (providerOf2(type) === null) return { role: "node", type: "service", icon: OTHER_ICONS.get(type) ?? null, product: productOf(type), generic: true };
+  return RESOURCE_ROLES[type] ?? genericRole(type);
+}
+var GRANTS, JOINS, VAGUE_WORDS, NODE_TYPE_OF_KIND, NODE_TYPE_OF_FOLDER, OTHER_ICONS;
+var init_generic = __esm({
+  "../../packages/diagrams/src/importers/terraform/generic.ts"() {
+    "use strict";
+    init_constants();
+    init_icons();
+    init_azure_families();
+    init_labels();
+    init_resources();
+    GRANTS = /_iam_(?:member|binding)$/;
+    JOINS = /_(association|attachment|link)$/;
+    VAGUE_WORDS = /* @__PURE__ */ new Set([
+      "account",
+      "api",
+      "app",
+      "apps",
+      "cloud",
+      "cluster",
+      "compute",
+      "config",
+      "configuration",
+      "container",
+      "database",
+      "endpoint",
+      "function",
+      "gateway",
+      "group",
+      "identity",
+      "instance",
+      "job",
+      "key",
+      "linux",
+      "network",
+      "policy",
+      "resource",
+      "rule",
+      "server",
+      "service",
+      "set",
+      "sql",
+      "storage",
+      "user",
+      "users",
+      "web",
+      "windows",
+      "workspace",
+      "zone"
+    ]);
+    NODE_TYPE_OF_KIND = {
+      function: "function",
+      "container-registry": "storage",
+      "object-storage": "storage",
+      "block-storage": "storage",
+      "file-storage": "storage",
+      "relational-database": "database",
+      "nosql-database": "database",
+      "data-warehouse": "database",
+      cache: "cache",
+      queue: "queue",
+      stream: "queue",
+      pubsub: "queue",
+      "api-gateway": "gateway",
+      "load-balancer": "gateway",
+      cdn: "gateway",
+      dns: "gateway",
+      network: "gateway",
+      firewall: "gateway",
+      identity: "identity",
+      "key-management": "secret",
+      secrets: "secret"
+    };
+    NODE_TYPE_OF_FOLDER = [
+      [/database/i, "database"],
+      [/storage/i, "storage"],
+      [/network/i, "gateway"],
+      [/identity/i, "identity"],
+      [/security/i, "secret"],
+      [/integration/i, "queue"]
+    ];
+    OTHER_ICONS = /* @__PURE__ */ new Map([
+      ["random_password", "lucide:key-round"],
+      ["random_string", "lucide:key-round"],
+      ["tls_private_key", "lucide:key-round"],
+      ["time_sleep", "lucide:timer"],
+      ["time_rotating", "lucide:timer"],
+      ["null_resource", "lucide:terminal"],
+      ["terraform_data", "lucide:terminal"]
+    ]);
+  }
+});
+
+// ../../packages/diagrams/src/importers/iac/attributes.ts
+function snake(name2) {
+  return name2.replace(/([a-z0-9])([A-Z])/g, "$1_$2").replace(/([A-Z]+)([A-Z][a-z])/g, "$1_$2").replace(/[^A-Za-z0-9]+/g, "_").replace(/^_+|_+$/g, "").toLowerCase();
+}
+function attributeOf(path) {
+  for (let index2 = path.length - 1; index2 >= 0; index2 -= 1) {
+    const key = snake(path[index2] ?? "");
+    if (key === "" || VAGUE_KEYS.has(key)) continue;
+    return ALIASES[key] ?? key;
+  }
+  return "properties";
+}
+function skuAttribute(detail) {
+  return detail.includes("sku") ? "sku" : "sku_name";
+}
+function valueAttributeOf(key) {
+  const name2 = snake(key);
+  return VALUE_ALIASES[name2] ?? name2;
+}
+function typedAttribute(type, name2) {
+  return TYPE_ALIASES[type]?.[name2] ?? name2;
+}
+var ALIASES, VAGUE_KEYS, VALUE_ALIASES, TYPE_ALIASES;
+var init_attributes = __esm({
+  "../../packages/diagrams/src/importers/iac/attributes.ts"() {
+    "use strict";
+    ALIASES = {
+      server_farm_id: "service_plan_id",
+      subnet: "subnet_id",
+      subnets: "subnet_ids",
+      delegated_subnet_resource_id: "delegated_subnet_id",
+      private_dns_zone_arm_resource_id: "private_dns_zone_id",
+      private_link_service_id: "private_connection_resource_id",
+      workspace_resource_id: "workspace_id",
+      log_analytics_destination_type: "log_analytics_workspace_id",
+      user_assigned_identities: "identity_ids",
+      key_vault_reference_identity: "key_vault_reference_identity_id",
+      managed_environment_id: "container_app_environment_id",
+      environment_id: "container_app_environment_id",
+      virtual_network: "virtual_network_id",
+      remote_virtual_network: "virtual_network_id",
+      network_security_group: "network_security_group_id",
+      nat_gateway: "nat_gateway_id",
+      route_table: "route_table_id",
+      public_ip_address: "public_ip_address_id",
+      vault_uri: "key_vault_id",
+      key_vault: "key_vault_id",
+      vpc: "vpc_id",
+      vpc_zone_identifier: "vpc_zone_identifier",
+      security_group_ids: "vpc_security_group_ids",
+      security_groups: "security_groups",
+      role: "role",
+      role_arn: "role",
+      execution_role_arn: "execution_role_arn",
+      task_role_arn: "task_role_arn",
+      kms_key_id: "kms_key_id",
+      target_group_arn: "target_group_arn",
+      target_group_arns: "target_group_arn",
+      load_balancer_arn: "load_balancer_arn",
+      db_subnet_group_name: "db_subnet_group_name",
+      topic_arn: "topic_arn",
+      queue_arn: "event_source_arn",
+      event_source_arn: "event_source_arn",
+      function_name: "function_name",
+      resource_group: "resource_group_name",
+      private_zone_name: "private_dns_zone_name",
+      vpc_security_groups: "vpc_security_group_ids"
+    };
+    VAGUE_KEYS = /* @__PURE__ */ new Set(["id", "properties", "value", "resource_id", "arn", "ref", "fn_get_att", "target", "item", "items", "config", "configuration", "settings", "spec"]);
+    VALUE_ALIASES = { db_instance_class: "instance_class", service_name: "name" };
+    TYPE_ALIASES = {
+      azurerm_monitor_diagnostic_setting: { workspace_id: "log_analytics_workspace_id", resource_uri: "target_resource_id", scope: "target_resource_id", storage_account: "storage_account_id" }
+    };
+  }
+});
+
+// ../../packages/diagrams/src/importers/iac/items.ts
+function blockOf(item, name2) {
+  const attributes2 = item.attributes.map((attribute2) => ({ name: attribute2.name, raw: attribute2.value === null ? "" : JSON.stringify(attribute2.value), literal: attribute2.value }));
+  if (item.copies?.kind === "many" && item.copies.count === null) attributes2.push({ name: "for_each", raw: "items", literal: null });
+  if (item.copies?.kind === "optional") attributes2.push({ name: "count", raw: "condition ? 1 : 0", literal: null });
+  if (item.source !== void 0) attributes2.push({ name: "source", raw: JSON.stringify(item.source), literal: item.source });
+  return { type: item.type === "module" ? "module" : item.existing ? "data" : "resource", labels: item.type === "module" ? [name2] : [item.type, name2], start: item.start, body: "", attributes: attributes2, blocks: [] };
+}
+function withAssociations(items2) {
+  const out = [];
+  for (const written3 of items2) {
+    const item = { ...written3, attributes: written3.attributes.map((attribute2) => ({ ...attribute2, name: typedAttribute(written3.type, attribute2.name) })) };
+    const joins = item.type === "azurerm_subnet" ? SUBNET_JOINS.filter(([attribute2]) => item.attributes.some((entry2) => entry2.name === attribute2 && entry2.refs.length > 0)) : [];
+    if (joins.length === 0) {
+      out.push(item);
+      continue;
+    }
+    out.push({ ...item, attributes: item.attributes.filter((entry2) => !joins.some(([attribute2]) => attribute2 === entry2.name)) });
+    for (const [attribute2, type] of joins) {
+      const refs = item.attributes.filter((entry2) => entry2.name === attribute2).flatMap((entry2) => entry2.refs);
+      out.push({ name: `${item.name}/${attribute2}`, type, label: `${item.label}_${attribute2.replace(/_id$/, "")}`, existing: false, start: item.start, scope: item.scope, attributes: [{ name: "subnet_id", refs: [item.name], value: null }, { name: attribute2, refs, value: null }] });
+    }
+  }
+  return out;
+}
+function withParentNamed(item) {
+  const role = item.type === "module" ? null : roleOf2(item.type);
+  const parent = role?.role === "node" ? role.parent : void 0;
+  if (parent === void 0 || item.attributes.some((attribute2) => parent.includes(attribute2.name) && attribute2.refs.length > 0)) return item;
+  const named = item.attributes.find((attribute2) => attribute2.name.endsWith("_name") && !PLACING_NAMES.has(attribute2.name) && attribute2.refs.length === 1);
+  if (named === void 0) return item;
+  return { ...item, attributes: item.attributes.map((attribute2) => attribute2 === named ? { ...attribute2, name: parent[0] ?? attribute2.name } : attribute2) };
+}
+function itemsToStack(written3, modules) {
+  const items2 = withAssociations(written3);
+  const keyOf5 = /* @__PURE__ */ new Map();
+  const stable = /* @__PURE__ */ new Map();
+  const used = /* @__PURE__ */ new Set();
+  for (const item of items2) {
+    const base = item.type === "module" ? `${item.scope}module.${safe(item.label)}` : `${item.scope}${item.existing ? "data." : ""}${item.type}.${safe(item.label)}`;
+    let key = base;
+    for (let count3 = 2; used.has(key); count3 += 1) key = `${base}_${count3}`;
+    used.add(key);
+    keyOf5.set(item.name, key);
+    stable.set(key, item.name);
+  }
+  const resources = /* @__PURE__ */ new Map();
+  for (const written4 of items2) {
+    const item = withParentNamed(written4);
+    const key = keyOf5.get(item.name);
+    const name2 = key.slice(key.lastIndexOf(".") + 1);
+    const byAttribute = /* @__PURE__ */ new Map();
+    const vars = /* @__PURE__ */ new Map();
+    const values = /* @__PURE__ */ new Map();
+    const readable2 = /* @__PURE__ */ new Map();
+    for (const attribute2 of item.attributes) {
+      const refs = attribute2.refs.map((ref) => keyOf5.get(ref)).filter((ref) => ref !== void 0 && ref !== key);
+      if (refs.length > 0) byAttribute.set(attribute2.name, [.../* @__PURE__ */ new Set([...byAttribute.get(attribute2.name) ?? [], ...refs])]);
+      if ((attribute2.vars ?? []).length > 0) vars.set(attribute2.name, [.../* @__PURE__ */ new Set([...vars.get(attribute2.name) ?? [], ...attribute2.vars ?? []])]);
+      if (attribute2.value !== null) values.set(attribute2.name, attribute2.value);
+      else if (attribute2.readable !== void 0 && attribute2.readable !== null) readable2.set(attribute2.name, attribute2.readable);
+    }
+    if (item.source !== void 0) values.set("source", item.source);
+    const all = [...byAttribute];
+    const pick3 = (placement) => [...new Set(all.filter(([attribute2]) => PLACEMENT_ATTRIBUTES.has(attribute2) === placement).flatMap(([, refs]) => refs))];
+    resources.set(key, {
+      key,
+      kind: item.type === "module" ? "module" : item.existing ? "data" : "resource",
+      type: item.type,
+      name: name2,
+      block: blockOf(item, name2),
+      role: item.type === "module" ? { role: "node", type: "service", icon: "lucide:package", product: "Module" } : roleOf2(item.type),
+      refs: pick3(false),
+      placement: pick3(true),
+      byAttribute,
+      vars,
+      values,
+      readable: readable2,
+      local: item.type === "module" ? `module.${name2}` : `${item.type}.${name2}`,
+      scope: item.scope,
+      instance: item.copies?.kind === "instance",
+      ...item.copies?.kind === "many" ? { copies: item.copies.count } : {}
+    });
+  }
+  const frames = modules.map((module) => ({
+    prefix: module.scope,
+    key: module.name,
+    name: module.label,
+    instance: module.instance,
+    source: module.source,
+    block: { type: "module", labels: [module.label], start: module.start, body: "", attributes: [], blocks: [] },
+    ...module.noun === void 0 ? {} : { noun: module.noun }
+  }));
+  const moduleNames = new Map(modules.map((module) => [`module:${module.scope}`, `module:${module.name}`]));
+  const stableName = (key) => {
+    const named = moduleNames.get(key);
+    if (named !== void 0) return named;
+    const prefix = /^(?:frame|anchor):/.exec(key)?.[0] ?? "";
+    const found = stable.get(key.slice(prefix.length));
+    return found === void 0 ? key : `${prefix}${found}`;
+  };
+  return { resources, modules: frames, stableName };
+}
+var safe, SUBNET_JOINS, PLACING_NAMES;
+var init_items2 = __esm({
+  "../../packages/diagrams/src/importers/iac/items.ts"() {
+    "use strict";
+    init_generic();
+    init_resources();
+    init_attributes();
+    safe = (name2) => name2.replace(/([a-z0-9])([A-Z])/g, "$1_$2").toLowerCase().replace(/[^a-z0-9_-]+/g, "_").replace(/^_+|_+$/g, "") || "item";
+    SUBNET_JOINS = [
+      ["network_security_group_id", "azurerm_subnet_network_security_group_association"],
+      ["nat_gateway_id", "azurerm_subnet_nat_gateway_association"],
+      ["route_table_id", "azurerm_subnet_route_table_association"]
+    ];
+    PLACING_NAMES = /* @__PURE__ */ new Set(["resource_group_name", "virtual_network_name", "name"]);
+  }
+});
+
+// ../../packages/diagrams/src/importers/terraform/bundle.ts
+function bundleArrows(nodes, groups, edges, ownBox, joinPairs = true) {
+  const frameOf3 = new Map(nodes.map((node3) => [node3.key, node3.group ?? null]));
+  const parents = new Map(groups.map((group2) => [group2.key, group2.parent ?? null]));
+  const typeOf = new Map(groups.map((group2) => [group2.key, group2.type ?? ""]));
+  const inside = (key, frame) => {
+    let current = frameOf3.get(key) ?? null;
+    for (let depth = 0; current !== null && depth < MAX_DEPTH3; depth += 1) {
+      if (current === frame) return true;
+      current = parents.get(current) ?? null;
+    }
+    return false;
+  };
+  const bundles = /* @__PURE__ */ new Map();
+  for (const edge of edges) {
+    const frame = frameOf3.get(edge.from) ?? null;
+    if (frame === null || edge.label === null || edge.label === void 0 || inside(edge.to, frame)) continue;
+    const key = `${frame}\0${edge.label}\0${edge.to}`;
+    bundles.set(key, [...bundles.get(key) ?? [], edge]);
+  }
+  const joinable = new Set([...bundles.values()].filter((list) => list.length >= BUNDLE_AT).flat());
+  const pairs = /* @__PURE__ */ new Map();
+  for (const [key, list] of bundles) if (list.length >= BUNDLE_AT) pairs.set(key.split("\0")[0], (pairs.get(key.split("\0")[0]) ?? 0) + 1);
+  const added = [];
+  const known3 = new Map(nodes.map((node3) => [node3.key, node3]));
+  const joined2 = /* @__PURE__ */ new Set();
+  const replacements = /* @__PURE__ */ new Map();
+  for (const [key, list] of bundles) {
+    const frame = key.split("\0")[0];
+    const members2 = list.filter((edge) => known3.get(edge.from)?.group === frame);
+    if (members2.length < BUNDLE_AT) continue;
+    const own2 = [...known3.values(), ...added].find((node3) => node3.group === frame && (frame === `frame:${node3.key}` || node3.key === `anchor:${frame}`)) ?? ownBox(frame);
+    if (own2 === null) continue;
+    if (!known3.has(own2.key) && !added.some((node3) => node3.key === own2.key)) added.push(own2);
+    const first = members2[0];
+    const sources = members2.filter((edge) => edge.from !== own2.key);
+    if (sources.length < BUNDLE_AT) continue;
+    if (sources.length < FEW && (!joinPairs || !HOSTS2.has(typeOf.get(frame) ?? "") || (pairs.get(frame) ?? 0) < 2 || sources.some((edge) => !edges.some((other) => !joinable.has(other) && (other.from === edge.from || other.to === edge.from))))) continue;
+    for (const edge of sources) joined2.add(edge);
+    replacements.set(first, { from: own2.key, to: first.to, label: `${first.label ?? ""} (${sources.length})` });
+  }
+  const out = [];
+  const written3 = /* @__PURE__ */ new Set();
+  for (const edge of edges) {
+    const replaced = replacements.get(edge);
+    const next = replaced ?? (joined2.has(edge) ? null : edge);
+    if (next === null) continue;
+    const pair2 = `${next.from}\0${next.to}`;
+    if (written3.has(pair2)) {
+      const index2 = out.findIndex((candidate2) => `${candidate2.from}\0${candidate2.to}` === pair2);
+      const before = out[index2];
+      out[index2] = { ...before, label: [before.label, next.label].filter((label) => label !== null && label !== void 0 && label !== "").join(", ") };
+      continue;
+    }
+    written3.add(pair2);
+    out.push(next);
+  }
+  return { nodes: [...nodes, ...added], edges: out };
+}
+var BUNDLE_AT, FEW, HOSTS2, MAX_DEPTH3;
+var init_bundle = __esm({
+  "../../packages/diagrams/src/importers/terraform/bundle.ts"() {
+    "use strict";
+    BUNDLE_AT = 2;
+    FEW = 3;
+    HOSTS2 = /* @__PURE__ */ new Set(["service-plan", "cluster"]);
+    MAX_DEPTH3 = 32;
+  }
+});
+
+// ../../packages/diagrams/src/importers/terraform/plan.ts
+function sharedWords(a, b) {
+  const left = a.split("_");
+  const right = b.split("_");
+  let count3 = 0;
+  while (count3 < left.length && count3 < right.length && left[count3] === right[count3]) count3 += 1;
+  return count3;
+}
+function listAt(map2, key) {
+  const known3 = map2.get(key);
+  if (known3 !== void 0) return known3;
+  const made = [];
+  map2.set(key, made);
+  return made;
+}
+var NOT_SCOPES, MAX_PLACEMENT_HOPS, MAX_DEPTH4, GROUP_RANK, SELF_BOXED, VARIABLE_WORDS, sameKind, familyOf, containerFrame, anchorOf, StackPlan;
+var init_plan9 = __esm({
+  "../../packages/diagrams/src/importers/terraform/plan.ts"() {
+    "use strict";
+    init_resources();
+    NOT_SCOPES = /* @__PURE__ */ new Set(["count", "for_each", "depends_on", "provider", "lifecycle"]);
+    MAX_PLACEMENT_HOPS = 3;
+    MAX_DEPTH4 = 12;
+    GROUP_RANK = { account: 0, "resource-group": 1, network: 2, subnet: 4, "public-subnet": 4, "private-subnet": 4, "service-plan": 5, cluster: 6 };
+    SELF_BOXED = /* @__PURE__ */ new Set(["service-plan", "cluster"]);
+    VARIABLE_WORDS = { "resource-group": /resource_group|(?:^|_)rg(?:_|$)/, network: /vnet|vpc|network/, subnet: /subnet/ };
+    sameKind = (a, b) => a === b || a.endsWith("subnet") && b.endsWith("subnet");
+    familyOf = (type) => type.split("_")[1] ?? "";
+    containerFrame = (key) => `frame:${key}`;
+    anchorOf = (key) => `anchor:${key}`;
+    StackPlan = class {
+      constructor(resources, groupTypeOf2, providers, variableName, variableValue, regionOf = () => null) {
+        this.resources = resources;
+        this.groupTypeOf = groupTypeOf2;
+        this.providers = providers;
+        this.variableName = variableName;
+        this.variableValue = variableValue;
+        this.regionOf = regionOf;
+        this.decide();
+        this.findHolders();
+        this.findAttachments();
+        this.place();
+      }
+      resources;
+      groupTypeOf;
+      providers;
+      variableName;
+      variableValue;
+      regionOf;
+      shapes = /* @__PURE__ */ new Map();
+      /** For a box, the resource that holds it, which is drawn as a container. */
+      holder = /* @__PURE__ */ new Map();
+      /** For a subject of an `attach` resource, the frame it is drawn in. */
+      attached = /* @__PURE__ */ new Map();
+      /** The frame named by variables of each value, by frame type and value, so two variables with one value are one frame. */
+      outerByValue = /* @__PURE__ */ new Map();
+      /** For a role drawn as a box whose scope is a frame (a resource group), that frame. */
+      scoped = /* @__PURE__ */ new Map();
+      /** For a subject of an `attach` resource, the resources that attach it. */
+      attachedBy = /* @__PURE__ */ new Map();
+      /** Frames that stand for no resource: variables and accounts, by key. */
+      outer = /* @__PURE__ */ new Map();
+      /** The frame each box and each frame sits in, by key; absent at the top. Container frames are keyed by `containerFrame`. */
+      parents = /* @__PURE__ */ new Map();
+      /** Frame resources that carry a box of their own inside their frame. */
+      anchored = /* @__PURE__ */ new Set();
+      /** The calls to local modules drawn as frames around their resources, by frame key (`module-frames.ts`). */
+      modules = /* @__PURE__ */ new Map();
+      /**
+       * True for a Terraform stack with no module drawn from its files and no `for_each` or `count`: it is drawn exactly as the
+       * importer drew it before those were read, so a repository's committed diagrams do not drift on an upgrade. The rules added
+       * with them (dashed `depends_on` arrows, two boxes' arrows joined, names kept with their unknown parts, `existing` on a
+       * holder, region frames) apply to every other stack and to every other tool.
+       */
+      compatible = false;
+      /** The items drawn, and how: every resource and module, and a data source only when something drawn names it. */
+      decide() {
+        const included = /* @__PURE__ */ new Set();
+        for (const resource of this.resources.values()) if (resource.kind !== "data") included.add(resource.key);
+        for (let pass = 0; pass <= this.resources.size; pass += 1) {
+          const before = included.size;
+          for (const key of [...included]) {
+            const resource = this.resources.get(key);
+            for (const ref of [...resource.refs, ...resource.placement]) if (this.resources.get(ref)?.kind === "data") included.add(ref);
+          }
+          if (included.size === before) break;
+        }
+        for (const resource of this.resources.values()) {
+          const role = resource.role;
+          let shape;
+          if (!included.has(resource.key)) shape = "none";
+          else if (resource.kind === "data" && (role.role === "node" ? role.generic === true : role.role !== "group")) shape = "none";
+          else if (role.role === "group") shape = "frame";
+          else if (role.role === "node" || role.role === "endpoint") shape = "node";
+          else if (role.role === "attach") shape = "nested";
+          else shape = "edge";
+          this.shapes.set(resource.key, shape);
+          if (role.role === "group" && SELF_BOXED.has(role.group)) this.anchored.add(resource.key);
+        }
+      }
+      /** True when the item is drawn as a box (or a container, whose box is inside its frame). */
+      isBox(key) {
+        const shape = this.shapes.get(key);
+        return shape === "node" || shape === "container";
+      }
+      /** The resource that holds a box: named by the role's parent attributes, or of its own family for a type read from its name. */
+      holderOf(resource) {
+        const role = resource.role;
+        if (role.role !== "node" || resource.kind === "module") return null;
+        if (role.parent !== void 0) {
+          for (const attribute2 of role.parent) for (const ref of resource.byAttribute.get(attribute2) ?? []) if (this.isBox(ref)) return ref;
+          return null;
+        }
+        if (role.generic !== true) return null;
+        const family = familyOf(resource.type);
+        const candidates2 = [.../* @__PURE__ */ new Set([...resource.refs, ...resource.placement])].filter((ref) => {
+          const other = this.resources.get(ref);
+          return other !== void 0 && this.isBox(ref) && other.type !== resource.type && familyOf(other.type) === family && providerOf2(other.type) !== null;
+        });
+        const score = (ref) => {
+          const type = this.resources.get(ref)?.type ?? "";
+          return resource.type.startsWith(`${type}_`) ? 100 + type.length : sharedWords(resource.type, type);
+        };
+        return candidates2.sort((a, b) => score(b) - score(a))[0] ?? null;
+      }
+      /** Each box's holder, without loops; a resource that holds another becomes a container. */
+      findHolders() {
+        for (const resource of this.resources.values()) {
+          if (!this.isBox(resource.key)) continue;
+          const holder = this.holderOf(resource);
+          if (holder === null) continue;
+          let current = holder;
+          let loops = false;
+          for (let depth = 0; current !== void 0 && depth < MAX_DEPTH4; depth += 1) {
+            if (current === resource.key) loops = true;
+            current = this.holder.get(current);
+          }
+          if (!loops) this.holder.set(resource.key, holder);
+        }
+        this.holdUngranted();
+        for (const holder of this.holder.values()) this.shapes.set(holder, "container");
+      }
+      /**
+       * A role given to principals the stack does not declare (`principal_id = each.value`) has no arrow to start from, so it is a box
+       * of its own, drawn inside its scope: in the vault or the storage account it grants on, or in the frame of a resource group.
+       */
+      holdUngranted() {
+        for (const resource of this.resources.values()) {
+          const role = resource.role;
+          if (role.role !== "grant" || this.shapes.get(resource.key) !== "edge") continue;
+          const principals = role.principal.flatMap((attribute2) => resource.byAttribute.get(attribute2) ?? []);
+          if (principals.some((ref) => this.isBox(ref) || this.shapes.get(ref) === "frame")) continue;
+          const scopeAttributes = role.scope.length > 0 ? role.scope : [...resource.byAttribute.keys()].filter((attribute2) => !role.principal.includes(attribute2) && !NOT_SCOPES.has(attribute2));
+          const scope = scopeAttributes.flatMap((attribute2) => resource.byAttribute.get(attribute2) ?? []).find((ref) => this.isBox(ref) || this.shapes.get(ref) === "frame");
+          if (scope === void 0) continue;
+          this.shapes.set(resource.key, "node");
+          if (this.isBox(scope)) this.holder.set(resource.key, scope);
+          else this.scoped.set(resource.key, scope);
+        }
+      }
+      /** The boxes an `attach` resource draws inside a frame, such as a network security group in its subnet. */
+      findAttachments() {
+        const claims = /* @__PURE__ */ new Map();
+        for (const resource of this.resources.values()) {
+          const role = resource.role;
+          if (role.role !== "attach" || this.shapes.get(resource.key) !== "nested") continue;
+          const subjects = role.subject.flatMap((attribute2) => resource.byAttribute.get(attribute2) ?? []).filter((ref) => this.isBox(ref) && !this.holder.has(ref));
+          const hosts = role.host.flatMap((attribute2) => resource.byAttribute.get(attribute2) ?? []).filter((ref) => this.shapes.get(ref) === "frame");
+          if (subjects.length !== 1 || hosts.length !== 1) {
+            this.shapes.set(resource.key, "edge");
+            continue;
+          }
+          listAt(claims, subjects[0]).push(`${hosts[0]}\0${resource.key}`);
+        }
+        for (const [subject, list] of claims) {
+          const hosts = new Set(list.map((entry2) => entry2.split("\0")[0]));
+          if (hosts.size === 1) {
+            this.attached.set(subject, [...hosts][0]);
+            this.attachedBy.set(subject, list.map((entry2) => entry2.split("\0")[1]));
+          } else for (const entry2 of list) this.shapes.set(entry2.split("\0")[1], "edge");
+        }
+      }
+      /** The variable a placement attribute names for a frame of a type, when it names no resource. */
+      variableFrame(resource, attribute2) {
+        const type = PLACEMENT_GROUP_TYPES[attribute2];
+        const names7 = resource.vars.get(attribute2) ?? [];
+        if (type === void 0 || names7.length === 0 || (resource.byAttribute.get(attribute2) ?? []).length > 0) return null;
+        const words2 = VARIABLE_WORDS[type];
+        const name2 = names7.length === 1 ? names7[0] : names7.find((candidate2) => words2?.test(candidate2) === true);
+        if (name2 === void 0) return null;
+        const value = this.variableValue(name2);
+        const same = value === null ? void 0 : [...this.resources.values()].find((other) => this.shapes.get(other.key) === "frame" && other.key !== resource.key && this.frameType(other.key) !== null && sameKind(this.frameType(other.key), type) && other.values.get("name") === value);
+        if (same !== void 0) return same.key;
+        const own2 = this.outer.get(`var.${name2}`) === void 0 || this.outer.get(`var.${name2}`)?.type === type ? `var.${name2}` : `var.${name2}:${type}`;
+        const key = value === null ? own2 : this.outerByValue.get(`${type}\0${value}`) ?? own2;
+        if (value !== null) this.outerByValue.set(`${type}\0${value}`, key);
+        const provider = providerOf2(resource.type) ?? (this.providers.size === 1 ? [...this.providers.keys()][0] ?? null : null);
+        if (!this.outer.has(key)) this.outer.set(key, { key, type, variable: name2, provider });
+        return key;
+      }
+      /** The type of a frame key: a frame resource's group type, or an outer frame's. */
+      frameType(key) {
+        const outer = this.outer.get(key);
+        if (outer !== void 0) return outer.type;
+        const resource = this.resources.get(key);
+        return resource === void 0 || this.shapes.get(key) !== "frame" ? null : this.groupTypeOf(resource);
+      }
+      /**
+       * The frames a resource's placement names, each with its rank: frame resources directly, frames of resources it is placed by
+       * (a database through its subnet group), and frames named by variables.
+       */
+      placementFrames(resource) {
+        const found = [];
+        const seen = /* @__PURE__ */ new Set([resource.key]);
+        const visit2 = (current, hops) => {
+          for (const ref of current.placement) {
+            if (seen.has(ref)) continue;
+            seen.add(ref);
+            const type = this.frameType(ref);
+            const target = this.resources.get(ref);
+            if (type !== null) found.push({ key: ref, rank: GROUP_RANK[type] ?? 0 });
+            else if (target !== void 0 && hops < MAX_PLACEMENT_HOPS) visit2(target, hops + 1);
+          }
+          for (const attribute2 of current.vars.keys()) {
+            if (!PLACEMENT_ATTRIBUTES.has(attribute2)) continue;
+            const key = this.variableFrame(current, attribute2);
+            const type = key === null ? null : this.frameType(key);
+            if (key !== null && type !== null && !seen.has(key)) {
+              seen.add(key);
+              found.push({ key, rank: GROUP_RANK[type] ?? 0 });
+            }
+          }
+        };
+        visit2(resource, 0);
+        return found;
+      }
+      /** The most specific frame of a resource's placement, ranked below `under` when given (a frame never sits in a smaller one). */
+      bestFrame(resource, under = Number.POSITIVE_INFINITY) {
+        let best = null;
+        for (const candidate2 of this.placementFrames(resource)) {
+          if (candidate2.rank >= under) continue;
+          if (best === null || candidate2.rank > best.rank) best = candidate2;
+        }
+        return best?.key ?? null;
+      }
+      /** Where every box and frame sits. */
+      place() {
+        for (const resource of this.resources.values()) {
+          const shape = this.shapes.get(resource.key);
+          if (shape === "frame") {
+            const own2 = this.groupTypeOf(resource);
+            const parent = this.bestFrame(resource, own2 === null ? void 0 : GROUP_RANK[own2] ?? 0);
+            if (parent !== null) this.parents.set(resource.key, parent);
+          } else if (shape === "node" || shape === "container") {
+            const holder = this.holder.get(resource.key);
+            const attached = this.attached.get(resource.key);
+            const parent = holder !== void 0 ? containerFrame(holder) : attached ?? this.scoped.get(resource.key) ?? this.bestFrame(resource);
+            if (shape === "container") {
+              if (parent !== null) this.parents.set(containerFrame(resource.key), parent);
+              this.parents.set(resource.key, containerFrame(resource.key));
+            } else if (parent !== null) this.parents.set(resource.key, parent);
+          }
+        }
+        this.nestVariableFrames();
+        this.placeBesideUsers();
+        this.moveIntoSubnets();
+        this.wrapAccounts();
+      }
+      /**
+       * A box that names no frame and is of no cloud (a `random_password`, a `tls_private_key`) sits beside the first box that uses
+       * it, in that box's frame, rather than alone outside the account.
+       */
+      placeBesideUsers() {
+        for (const resource of this.resources.values()) {
+          if (!this.isBox(resource.key) || this.parents.has(resource.key) || this.parents.has(containerFrame(resource.key)) || providerOf2(resource.type) !== null) continue;
+          const user = [...this.resources.values()].find((other) => this.isBox(other.key) && other.refs.includes(resource.key) && this.parents.has(other.key));
+          const parent = user === void 0 ? void 0 : this.parents.get(user.key);
+          if (parent !== void 0) this.parents.set(this.shapes.get(resource.key) === "container" ? containerFrame(resource.key) : resource.key, parent);
+        }
+      }
+      /**
+       * A network named by a variable sits in the resource group named beside it: a subnet's `resource_group_name` is its network's,
+       * so a subnet that names both by variables places the network in the group.
+       */
+      nestVariableFrames() {
+        for (const resource of this.resources.values()) {
+          if (this.shapes.get(resource.key) !== "frame" && !this.isBox(resource.key)) continue;
+          const network = this.variableFrame(resource, "virtual_network_name");
+          const group2 = this.variableFrame(resource, "resource_group_name");
+          if (network !== null && group2 !== null && !this.parents.has(network)) this.parents.set(network, group2);
+        }
+      }
+      /**
+       * A plan or an environment that names no subnet sits in the subnet every one of its apps is joined to (an app's
+       * `virtual_network_subnet_id`), so the apps, the plan, and the subnet nest as they run.
+       */
+      moveIntoSubnets() {
+        for (const resource of this.resources.values()) {
+          if (this.shapes.get(resource.key) !== "frame" || !SELF_BOXED.has(this.groupTypeOf(resource))) continue;
+          const members2 = [...this.resources.values()].filter((other) => this.parents.get(other.key) === resource.key);
+          if (members2.length === 0) continue;
+          const subnets = new Set(members2.map((member) => this.bestFrame(member, GROUP_RANK["service-plan"])));
+          const subnet = subnets.size === 1 ? [...subnets][0] : null;
+          const own2 = this.parents.get(resource.key);
+          const subnetRank = subnet === null || subnet === void 0 ? -1 : GROUP_RANK[this.frameType(subnet)] ?? 0;
+          const ownRank = own2 === void 0 ? -1 : GROUP_RANK[this.frameType(own2)] ?? 0;
+          if (subnet !== null && subnet !== void 0 && subnetRank > ownRank) this.parents.set(resource.key, subnet);
+        }
+      }
+      /** The account of each provider the stack configures: a frame around everything of that provider at the top. */
+      wrapAccounts() {
+        const tops = /* @__PURE__ */ new Set();
+        for (const [key, shape] of this.shapes) {
+          if (shape === "frame") tops.add(key);
+          else if (shape === "container") tops.add(containerFrame(key));
+          else if (shape === "node") tops.add(key);
+        }
+        for (const key of this.outer.keys()) tops.add(key);
+        for (const key of tops) {
+          if (this.parents.has(key)) continue;
+          const resource = this.resources.get(key.startsWith("frame:") ? key.slice("frame:".length) : key);
+          const only = this.providers.size === 1 ? [...this.providers.keys()][0] ?? null : null;
+          const provider = resource !== void 0 ? providerOf2(resource.type) ?? (resource.kind === "module" ? only : null) : this.outer.get(key)?.provider ?? null;
+          if (provider === null || !this.providers.has(provider) || this.frameType(key) === "account") continue;
+          const account = this.accountFrame(provider);
+          if (account === key) continue;
+          const region = resource === void 0 ? null : this.regionOf(resource);
+          if (region === null) {
+            this.parents.set(key, account);
+            continue;
+          }
+          const frame = `region:${provider}:${region}`;
+          if (!this.outer.has(frame)) {
+            this.outer.set(frame, { key: frame, type: "region", variable: null, provider, label: region });
+            this.parents.set(frame, account);
+          }
+          this.parents.set(key, frame);
+        }
+      }
+      /** The frame of a provider's account: a data source of the subscription when the stack reads one, else one for the provider block. */
+      accountFrame(provider) {
+        for (const resource of this.resources.values()) {
+          if (this.shapes.get(resource.key) === "frame" && this.groupTypeOf(resource) === "account" && providerOf2(resource.type) === provider) return resource.key;
+        }
+        const key = `provider.${provider}`;
+        if (!this.outer.has(key)) this.outer.set(key, { key, type: "account", variable: null, provider });
+        return key;
+      }
+      /** The chain of frames around a key, innermost first, bounded so a loop ends. */
+      ancestors(key) {
+        const out = [];
+        let current = this.parents.get(key);
+        for (let depth = 0; current !== void 0 && depth < MAX_DEPTH4 && !out.includes(current); depth += 1) {
+          out.push(current);
+          current = this.parents.get(current);
+        }
+        return out;
+      }
+      /** The literal of a provider block's attribute, such as a Google Cloud project, for the account frame's name. */
+      providerName(provider) {
+        return this.providers.get(provider) ?? null;
+      }
+    };
+  }
+});
+
+// ../../packages/diagrams/src/importers/terraform/edges.ts
+function innerKey(from, attribute2, target) {
+  const raw = from.block.attributes.find((item) => item.name === attribute2)?.raw;
+  if (raw === void 0 || !raw.includes("=")) return null;
+  const reference = (target.local ?? target.key).replace(/^data\./, "");
+  for (const line3 of raw.split("\n")) {
+    const match = /^\s*([a-z_][a-z0-9_]*)\s*=\s*(.*)$/.exec(line3);
+    if (match?.[2]?.includes(reference) === true) return match[1] ?? null;
+  }
+  return null;
+}
+function keyLabel(key) {
+  return ATTRIBUTE_LABELS[key] ?? key.replace(/_(?:ids?|names?)$/, "").replace(/_/g, " ");
+}
+function referenceLabel(attribute2, from, target, holderType) {
+  const known3 = ATTRIBUTE_LABELS[attribute2];
+  if (known3 !== void 0) return known3;
+  const inner = innerKey(from, attribute2, target);
+  if (inner !== null) return keyLabel(inner);
+  if (PLACEMENT_ATTRIBUTES.has(attribute2)) return attribute2.replace(/_(?:ids?|names?)$/, "").replace(/_/g, " ");
+  if (from.role.role === "node" && from.role.type === "secret") return "holds";
+  if (/insights/.test(target.type)) return "telemetry";
+  if (/log_analytics|cloudwatch_log/.test(target.type)) return "logs";
+  if (/registry|ecr_repository/.test(target.type)) return "images";
+  if (target.role.role === "node" && target.role.generic === true && holderType !== null) return inSentence(partNoun(target.type, holderType));
+  const byType = target.role.role === "node" ? TYPE_LABELS[target.role.type] ?? null : null;
+  if (byType === "calls" && !VAGUE_ATTRIBUTES.has(attribute2)) return keyLabel(attribute2);
+  return byType;
+}
+function endsOf3(resource, entries2) {
+  return entries2.flatMap((entry2) => providerOf2(entry2) !== null ? resource.refs.filter((ref) => ref.includes(`${entry2}.`) && ref.split(".").at(-2) === entry2) : resource.byAttribute.get(entry2) ?? []);
+}
+function linkLabel(resource) {
+  const role = resource.role;
+  if (role.role !== "link") return null;
+  if (role.labelFrom !== void 0) {
+    const words2 = role.labelFrom.map((name2) => literal2(resource, name2) ?? resource.block.attributes.find((attribute2) => attribute2.name === name2 && /^[0-9]+$/.test(attribute2.raw))?.raw ?? null).filter((word2) => word2 !== null && word2 !== "");
+    if (words2.length > 0) return words2.join(" ");
+  }
+  return role.label ?? null;
+}
+function stackArrows(plan) {
+  const resources = plan.resources;
+  const arrows = [];
+  const unjoined = /* @__PURE__ */ new Set();
+  const endOf = (key) => {
+    if (plan.isBox(key)) return key;
+    if (plan.shapes.get(key) === "frame" || plan.outer.has(key)) {
+      plan.anchored.add(key);
+      return anchorOf(key);
+    }
+    return null;
+  };
+  const push = (from, to, label, via, grant = false) => {
+    if (from === null || to === null || from === to) return;
+    arrows.push({ from, to, label, grant, via });
+  };
+  const variableEnds = (resource, attributes2) => attributes2.map((attribute2) => providerOf2(attribute2) === null ? plan.variableFrame(resource, attribute2) : null).filter((key) => key !== null);
+  for (const resource of resources.values()) {
+    const shape = plan.shapes.get(resource.key);
+    const role = resource.role;
+    if (shape === "edge" && role.role === "grant") {
+      const principals = role.principal.flatMap((attribute2) => resource.byAttribute.get(attribute2) ?? []).filter((ref) => endOf(ref) !== null);
+      const scopeAttributes = role.scope.length > 0 ? role.scope : [...resource.byAttribute.keys()].filter((attribute2) => !role.principal.includes(attribute2) && !NOT_SCOPES.has(attribute2));
+      const scopes = [...scopeAttributes.flatMap((attribute2) => resource.byAttribute.get(attribute2) ?? []).filter((ref) => endOf(ref) !== null), ...variableEnds(resource, scopeAttributes)];
+      const label = role.label.map((name2) => literal2(resource, name2)).find((value) => value !== null) ?? null;
+      if (principals.some((principal) => scopes.some((scope) => endOf(principal) !== endOf(scope)))) {
+        for (const principal of principals) for (const scope of scopes) push(endOf(principal), endOf(scope), label, resource.key, true);
+      } else {
+        unjoined.add(resource.key);
+        for (const principal of principals) push(endOf(principal), resource.key, "principal", resource.key);
+        for (const scope of scopes) if (!principals.some((principal) => endOf(principal) === endOf(scope))) push(resource.key, endOf(scope), "grants", resource.key);
+      }
+      continue;
+    }
+    if (shape === "edge" && role.role === "link") {
+      const drawn = (refs) => refs.filter((ref) => endOf(ref) !== null);
+      let sources = [...drawn(endsOf3(resource, role.from)), ...variableEnds(resource, role.from)];
+      let targets = [...drawn(endsOf3(resource, role.to)), ...variableEnds(resource, role.to)].filter((ref) => !sources.includes(ref));
+      if (role.from.length === 0 && role.to.length === 0) {
+        const all = drawn(resource.refs);
+        sources = all.slice(0, 1);
+        targets = all.slice(1);
+      }
+      const label = linkLabel(resource);
+      if (sources.some((from2) => targets.some((to) => endOf(from2) !== endOf(to)))) {
+        for (const from2 of sources) for (const to of targets) push(endOf(from2), endOf(to), label, resource.key);
+      } else {
+        unjoined.add(resource.key);
+        for (const from2 of sources) push(endOf(from2), resource.key, label, resource.key);
+        for (const to of targets) push(resource.key, endOf(to), label, resource.key);
+      }
+      continue;
+    }
+    if (shape === "edge" && role.role === "attach") {
+      const subjects = role.subject.flatMap((attribute2) => resource.byAttribute.get(attribute2) ?? []);
+      const hosts = role.host.flatMap((attribute2) => resource.byAttribute.get(attribute2) ?? []);
+      const ends = [...subjects, ...hosts].filter((ref) => endOf(ref) !== null);
+      if (subjects.length > 0 && hosts.length > 0 && ends.length === subjects.length + hosts.length) {
+        for (const subject of subjects) for (const host of hosts) push(endOf(subject), endOf(host), "attached", resource.key);
+      } else {
+        unjoined.add(resource.key);
+        for (const end of ends) push(resource.key, endOf(end), "attached", resource.key);
+      }
+      continue;
+    }
+    if (!plan.isBox(resource.key) && !plan.anchored.has(resource.key)) continue;
+    const from = plan.isBox(resource.key) ? resource.key : anchorOf(resource.key);
+    const frames = plan.isBox(resource.key) ? plan.ancestors(from) : [resource.key, ...plan.ancestors(resource.key)];
+    const around2 = new Set(frames.map((key) => key.startsWith("frame:") ? key.slice("frame:".length) : key));
+    if (role.role === "endpoint") {
+      for (const target of resource.byAttribute.get("private_connection_resource_id") ?? []) push(from, endOf(target), "private link", resource.key);
+    }
+    for (const ref of plan.compatible ? [] : resource.byAttribute.get("depends_on") ?? []) if (plan.isBox(ref) && plan.holder.get(resource.key) !== ref) arrows.push({ from, to: ref, label: ORDER_LABEL, grant: false, via: resource.key, order: true });
+    for (const [attribute2, refs] of resource.byAttribute) {
+      if (QUIET.has(attribute2) || attribute2 === "private_connection_resource_id") continue;
+      for (const ref of refs) {
+        if (plan.shapes.get(ref) === "frame" && !around2.has(ref) && PLACEMENT_GROUP_TYPES[attribute2] === "subnet") push(from, endOf(ref), attribute2 === "virtual_network_subnet_id" ? "VNet integration" : "subnet", resource.key);
+        if (around2.has(ref) || plan.holder.get(resource.key) === ref || plan.shapes.get(ref) === "frame") continue;
+        if (resource.placement.includes(ref) && !plan.isBox(ref)) continue;
+        const target = resources.get(ref);
+        if (!plan.isBox(ref)) continue;
+        if (plan.holder.get(ref) === resource.key) continue;
+        const label = referenceLabel(attribute2, resource, target, resources.get(plan.holder.get(ref) ?? "")?.type ?? null);
+        if (INBOUND.has(target.type)) push(ref, from, null, resource.key);
+        else push(from, ref, label, resource.key);
+      }
+    }
+  }
+  const touched = new Set(arrows.flatMap((arrow) => [arrow.from, arrow.to]));
+  for (const [child, holder] of plan.holder) {
+    if (touched.has(child) || !plan.isBox(child)) continue;
+    const type = resources.get(child)?.type ?? "";
+    const role = resources.get(child)?.role;
+    push(child, holder, role?.role === "grant" ? "grants on" : /polic/.test(type) ? "applies to" : "part of", child);
+  }
+  return { arrows, unjoined };
+}
+function joinArrows(arrows) {
+  const joined2 = new Set(arrows.filter((arrow) => arrow.order !== true).flatMap((arrow) => [`${arrow.from}\0${arrow.to}`, `${arrow.to}\0${arrow.from}`]));
+  const byPair = /* @__PURE__ */ new Map();
+  for (const arrow of arrows) if (arrow.order !== true || !joined2.has(`${arrow.from}\0${arrow.to}`)) listAt(byPair, `${arrow.from}\0${arrow.to}`).push(arrow);
+  return [...byPair.values()].map((group2) => {
+    const first = group2[0];
+    const grants = group2.filter((arrow) => arrow.grant);
+    const others = [...new Set(group2.filter((arrow) => !arrow.grant).map((arrow) => arrow.label).filter((label2) => label2 !== null && label2 !== ""))];
+    const grantWords = grants.length === 0 ? [] : grants.length === 1 ? [grants[0]?.label ?? "role"] : [`${grants.length} roles`];
+    const words2 = [...grantWords, ...others];
+    const label = words2.length === 0 ? null : words2.length <= MAX_LABELS2 ? words2.join(", ") : `${group2.length} links`;
+    return { from: first.from, to: first.to, label, ...group2.every((arrow) => arrow.order === true) ? { arrow: "-->" } : {} };
+  });
+}
+var ORDER_LABEL, INBOUND, QUIET, ATTRIBUTE_LABELS, TYPE_LABELS, VAGUE_ATTRIBUTES, MAX_LABELS2;
+var init_edges2 = __esm({
+  "../../packages/diagrams/src/importers/terraform/edges.ts"() {
+    "use strict";
+    init_labels();
+    init_plan9();
+    init_resources();
+    ORDER_LABEL = "depends on";
+    INBOUND = /* @__PURE__ */ new Set(["aws_lb_target_group", "aws_alb_target_group"]);
+    QUIET = /* @__PURE__ */ new Set(["depends_on", "name", "count", "for_each", "provider", "lifecycle"]);
+    ATTRIBUTE_LABELS = {
+      identity_ids: "identity",
+      user_assigned_identity_id: "identity",
+      key_vault_reference_identity_id: "identity",
+      identity_id: "identity",
+      storage_account_name: "storage",
+      storage_account_id: "storage",
+      storage_account_access_key: "storage",
+      log_analytics_workspace_id: "logs",
+      workspace_id: "logs",
+      application_insights_id: "telemetry",
+      application_insights_connection_string: "telemetry",
+      application_insights_key: "telemetry",
+      key_vault_id: "secrets",
+      key_vault_secret_id: "secret",
+      container_registry_id: "images",
+      private_connection_resource_id: "private link",
+      private_dns_zone_ids: "DNS",
+      public_ip_address_id: "public IP",
+      security_groups: "firewall",
+      vpc_security_group_ids: "firewall",
+      network_security_group_id: "firewall",
+      gateway_id: "route",
+      nat_gateway_id: "route",
+      api_management_logger_id: "logs to",
+      backend_id: "backend",
+      product_id: "product",
+      private_dns_zone_id: "DNS",
+      administrator_password: "password",
+      administrator_login_password: "password",
+      role: "role",
+      computer_name: "naming",
+      tags: "tags",
+      policy_arn: "policy",
+      dead_letter_target_arn: "dead letters",
+      deadLetterTargetArn: "dead letters",
+      next_hop_ip_address: "next hop",
+      next_hop_in_ip_address: "next hop"
+    };
+    TYPE_LABELS = {
+      secret: "secret",
+      database: "data",
+      storage: "storage",
+      cache: "cache",
+      queue: "messages",
+      identity: "identity",
+      gateway: "calls",
+      function: "calls",
+      service: "calls"
+    };
+    VAGUE_ATTRIBUTES = /* @__PURE__ */ new Set(["value", "values", "config", "configuration", "settings", "properties", "body", "content", "input", "inputs", "parameters", "source", "data"]);
+    MAX_LABELS2 = 2;
+  }
+});
+
+// ../../packages/diagrams/src/importers/terraform/module-frames.ts
+function scopeOf(plan, key) {
+  if (key.startsWith("module:")) return key.slice("module:".length);
+  const bare = key.replace(/^(?:frame|anchor):/, "");
+  return plan.resources.get(bare)?.scope ?? "";
+}
+function commonFrame(plan, frames) {
+  if (frames.some((frame) => frame === null)) return null;
+  const chains = frames.map((frame) => [frame, ...plan.ancestors(frame)]);
+  return chains[0]?.find((candidate2) => chains.every((chain2) => chain2.includes(candidate2))) ?? null;
+}
+function frameModules(plan, modules) {
+  const sorted = [...modules].sort((a, b) => b.prefix.length - a.prefix.length || (a.prefix < b.prefix ? -1 : 1));
+  for (const module of sorted) plan.modules.set(moduleFrame(module.prefix), module);
+  for (const module of sorted) {
+    const own2 = moduleFrame(module.prefix);
+    const placed = [];
+    for (const [key, shape] of plan.shapes) {
+      if (shape === "node") placed.push(key);
+      else if (shape === "container") placed.push(containerFrame(key));
+      else if (shape === "frame") placed.push(key);
+    }
+    for (const other of sorted) if (other !== module && other.prefix.startsWith(module.prefix)) placed.push(moduleFrame(other.prefix));
+    const members2 = placed.filter((key) => {
+      const scope = scopeOf(plan, key);
+      if (key.startsWith("module:")) return scope !== module.prefix && scope.startsWith(module.prefix) && !sorted.some((between2) => between2.prefix !== module.prefix && between2.prefix !== scope && scope.startsWith(between2.prefix) && between2.prefix.startsWith(module.prefix));
+      return scope === module.prefix;
+    });
+    if (members2.length === 0) continue;
+    const left = [];
+    for (const key of members2) {
+      const parent2 = plan.parents.get(key) ?? null;
+      if (parent2 !== null && scopeOf(plan, parent2).startsWith(module.prefix) && parent2 !== own2) continue;
+      left.push(parent2);
+      plan.parents.set(key, own2);
+    }
+    const parent = commonFrame(plan, left);
+    if (parent !== null && parent !== own2) plan.parents.set(own2, parent);
+  }
+}
+var moduleFrame;
+var init_module_frames = __esm({
+  "../../packages/diagrams/src/importers/terraform/module-frames.ts"() {
+    "use strict";
+    init_plan9();
+    moduleFrame = (prefix) => `module:${prefix}`;
+  }
+});
+
+// ../../packages/diagrams/src/importers/terraform/module-icons.ts
+function moduleWords(name2, source) {
+  const segments = source.replace(/[?#].*$/, "").replace(/\.git$/, "").split(/[/:]/).filter((part) => part !== "" && !NOISE.has(part.toLowerCase()));
+  const segment = segments.pop() ?? "";
+  return `${name2} ${segment}`.toLowerCase().split(/[^a-z0-9]+/).filter((word2) => word2 !== "" && !NOISE.has(word2));
+}
+function providerPrefix(name2, source, stackProvider2) {
+  const text3 = `${source} ${name2}`.toLowerCase().replace(/[^a-z0-9]+/g, " ");
+  for (const [pattern3, prefix] of PROVIDER_WORDS) if (pattern3.test(text3)) return prefix;
+  if (stackProvider2 === "azure") return "azurerm";
+  if (stackProvider2 === "aws") return "aws";
+  if (stackProvider2 === "gcp") return "google";
+  return null;
+}
+function moduleIcon(name2, source, stackProvider2) {
+  const prefix = providerPrefix(name2, source, stackProvider2);
+  if (prefix === null) return null;
+  const words2 = moduleWords(name2, source);
+  const candidates2 = [...words2.map((word2) => SHORT_NAMES.get(word2)).filter((type) => type !== void 0), words2.join("_"), ...words2];
+  for (const words3 of candidates2) {
+    const role = roleOf2(`${prefix}_${words3}`);
+    const icon = role.role === "node" ? role.icon : role.role === "group" ? role.icon ?? groupIcon(role.group, providerOf2(`${prefix}_`)) : null;
+    if (icon !== null && !icon.startsWith("lucide:")) return icon;
+  }
+  return null;
+}
+var PROVIDER_WORDS, SHORT_NAMES, NOISE;
+var init_module_icons = __esm({
+  "../../packages/diagrams/src/importers/terraform/module-icons.ts"() {
+    "use strict";
+    init_icons();
+    init_generic();
+    init_resources();
+    PROVIDER_WORDS = [
+      [/\b(?:azurerm|azure)\b/, "azurerm"],
+      [/\b(?:aws|amazon)\b/, "aws"],
+      [/\b(?:google|gcp)\b/, "google"]
+    ];
+    SHORT_NAMES = /* @__PURE__ */ new Map([
+      ["vnet", "virtual_network"],
+      ["vpc", "vpc"],
+      ["nsg", "network_security_group"],
+      ["asg", "application_security_group"],
+      ["nic", "network_interface"],
+      ["pip", "public_ip"],
+      ["lb", "lb"],
+      ["alb", "lb"],
+      ["appgw", "application_gateway"],
+      ["agw", "application_gateway"],
+      ["aks", "kubernetes_cluster"],
+      ["eks", "eks_cluster"],
+      ["gke", "container_cluster"],
+      ["acr", "container_registry"],
+      ["ecr", "ecr_repository"],
+      ["kv", "key_vault"],
+      ["keyvault", "key_vault"],
+      ["sa", "storage_account"],
+      ["rg", "resource_group"],
+      ["law", "log_analytics_workspace"],
+      ["vm", "linux_virtual_machine"],
+      ["vmss", "linux_virtual_machine_scale_set"],
+      ["ec2", "instance"],
+      ["rds", "db_instance"],
+      ["s3", "s3_bucket"],
+      ["sql", "mssql_server"],
+      ["psql", "postgresql_flexible_server"],
+      ["postgres", "postgresql_flexible_server"],
+      ["postgresql", "postgresql_flexible_server"],
+      ["mysql", "mysql_flexible_server"],
+      ["cosmos", "cosmosdb_account"],
+      ["redis", "redis_cache"],
+      ["apim", "api_management"],
+      ["func", "linux_function_app"],
+      ["function", "linux_function_app"],
+      ["webapp", "linux_web_app"],
+      ["bastion", "bastion_host"],
+      ["firewall", "firewall"],
+      ["dns", "dns_zone"],
+      ["nat", "nat_gateway"],
+      ["ssh", "ssh_public_key"]
+    ]);
+    NOISE = /* @__PURE__ */ new Set(["module", "modules", "terraform", "tf", "iac", "azurerm", "azure", "aws", "amazon", "google", "gcp", "main", "ref", "git", "github", "com", "registry", "hashicorp"]);
+  }
+});
+
+// ../../packages/diagrams/src/importers/terraform/picture.ts
+function fileOf(resource, files) {
+  let path = files[0]?.path ?? "";
+  for (const file2 of files) if (file2.start <= resource.block.start) path = file2.path;
+  return path;
+}
+function stackProvider(plan) {
+  return [...plan.resources.values()].map((item) => providerOf2(item.type)).find((provider) => provider !== null) ?? null;
+}
+function productOf2(resource, plan) {
+  const role = resource.role;
+  if (role.role !== "node") return "";
+  const holder = plan.resources.get(plan.holder.get(resource.key) ?? "");
+  return holder !== void 0 && role.generic === true ? partNoun(resource.type, holder.type) : role.product;
+}
+function boxOf2(resource, plan, shared) {
+  const role = resource.role;
+  if (resource.kind === "module") {
+    const text4 = moduleText(resource);
+    const icon = moduleIcon(resource.name, resource.values.get("source") ?? "", stackProvider(plan)) ?? "lucide:package";
+    return { key: resource.key, type: "service", label: text4.label, sub: withParts(text4.sub, multiplicity(resource)), icon, idHint: resource.name };
+  }
+  if (role.role === "node") {
+    const holder = plan.resources.get(plan.holder.get(resource.key) ?? "");
+    const holderBox = holder === void 0 ? null : boxOf2(holder, plan, shared);
+    const product2 = productOf2(resource, plan);
+    const text4 = nodeText(resource, product2, role.detail ?? [], shared);
+    const kind = literal2(resource, "kind");
+    const icon = (kind === null ? void 0 : role.kinds?.[kind]) ?? role.icon ?? holderBox?.icon ?? null;
+    return { key: resource.key, type: role.type, label: text4.label, sub: withParts(text4.sub, multiplicity(resource)), icon, idHint: resource.name };
+  }
+  if (role.role === "endpoint") {
+    const text4 = nodeText(resource, "Private endpoint", [], shared);
+    return { key: resource.key, type: "gateway", label: text4.label, sub: withParts(text4.sub, multiplicity(resource)), icon: "azure:private-endpoints", idHint: resource.name };
+  }
+  if (role.role === "grant") {
+    const granted = role.label.map((name2) => literal2(resource, name2)).find((value) => value !== null) ?? null;
+    return { key: resource.key, type: "identity", label: granted ?? "Role assignment", sub: withParts(granted === null ? null : "Role assignment", multiplicity(resource)), icon: role.icon ?? null, idHint: resource.name };
+  }
+  const words2 = role.role === "link" ? role.label ?? "link" : "association";
+  const product = `${words2.charAt(0).toUpperCase()}${words2.slice(1)}`;
+  const text3 = nodeText(resource, product, [], shared);
+  return { key: resource.key, type: "service", label: text3.label, sub: withParts(text3.sub, multiplicity(resource)), icon: role.role === "link" ? role.icon ?? null : null, idHint: resource.name };
+}
+function picture(plan, context, groupType) {
+  const resources = plan.resources;
+  const byFile = context.options.groupBy === "file";
+  const { arrows, unjoined } = stackArrows(plan);
+  for (const key of unjoined) {
+    plan.shapes.set(key, "node");
+    const own2 = plan.bestFrame(resources.get(key));
+    const other = arrows.find((arrow) => arrow.via === key && (arrow.from === key || arrow.to === key));
+    const near3 = own2 ?? (other === void 0 ? void 0 : plan.parents.get(other.from === key ? other.to : other.from));
+    if (near3 !== void 0 && near3 !== null) plan.parents.set(key, near3);
+  }
+  plan.wrapAccounts();
+  const names7 = /* @__PURE__ */ new Map();
+  for (const resource of resources.values()) if (plan.isBox(resource.key) || plan.shapes.get(resource.key) === "frame") names7.set(resource.name, (names7.get(resource.name) ?? 0) + 1);
+  const shared = new Set([...names7].filter(([, count3]) => count3 > 1).map(([name2]) => name2));
+  const files = /* @__PURE__ */ new Map();
+  const fileFrame = (resource) => {
+    const path = fileOf(resource, context.files);
+    const key = `file:${path}`;
+    files.set(key, path);
+    return key;
+  };
+  const groups = [];
+  const nodes = [];
+  const drawn = /* @__PURE__ */ new Set();
+  const parentOf3 = (key, resource) => {
+    if (!byFile) return plan.parents.get(key) ?? null;
+    const holder = plan.holder.get(resource.key);
+    const holderResource = holder === void 0 ? void 0 : resources.get(holder);
+    if (holderResource !== void 0 && fileOf(holderResource, context.files) === fileOf(resource, context.files)) return containerFrame(holder);
+    return fileFrame(resource);
+  };
+  for (const resource of resources.values()) {
+    const shape = plan.shapes.get(resource.key);
+    const role = resource.role;
+    if (shape === "frame" && role.role === "group") {
+      const type = groupType(resource);
+      const text3 = groupText(resource, type, shared);
+      const provider = providerOf2(resource.type);
+      if (byFile) {
+        const product = role.product ?? GROUP_TYPE_SPECS[type].title;
+        nodes.push({ key: anchorOf(resource.key), type: "service", label: text3.label, sub: withParts(text3.label === product ? null : product, text3.sub), icon: role.icon ?? groupIcon(type, provider), group: fileFrame(resource), idHint: resource.name });
+        plan.anchored.add(resource.key);
+      } else {
+        groups.push({ key: resource.key, label: text3.label, type, icon: role.icon ?? null, sub: withParts(text3.sub, multiplicity(resource)), parent: plan.parents.get(resource.key) ?? null, idHint: resource.name });
+      }
+      drawn.add(resource.key);
+    } else if (shape === "node" || shape === "container") {
+      const box = boxOf2(resource, plan, shared);
+      if (shape === "container") {
+        const frame = containerFrame(resource.key);
+        const parent = byFile ? parentOf3(frame, resource) : plan.parents.get(frame) ?? null;
+        groups.push({ key: frame, label: box.label, type: null, icon: box.icon ?? null, sub: null, parent, idHint: `${resource.name}_group` });
+        const product = role.role === "node" ? productOf2(resource, plan) : box.label;
+        nodes.push({ ...box, label: box.label === product ? box.label : product, sub: box.label === product ? box.sub ?? null : withParts(literalDetails(resource), multiplicity(resource), resource.kind === "data" && !plan.compatible ? "existing" : null), group: frame });
+      } else {
+        nodes.push({ ...box, group: parentOf3(resource.key, resource) });
+      }
+      drawn.add(resource.key);
+    } else if (shape === "nested") {
+      drawn.add(resource.key);
+    }
+  }
+  if (!byFile) {
+    for (const outer of plan.outer.values()) {
+      const provider = outer.provider;
+      const label = outer.label ?? (outer.variable !== null ? plan.variableName(outer.variable) : plan.providerName(outer.provider ?? "") ?? ACCOUNT_NAMES[provider ?? "aws"] ?? "Account");
+      groups.push({ key: outer.key, label, type: outer.type, icon: null, sub: outer.variable === null || plan.variableValue(outer.variable) !== null ? null : `var.${outer.variable}`, parent: plan.parents.get(outer.key) ?? null, idHint: outer.type === "region" ? `region_${outer.label ?? ""}` : outer.variable ?? `${outer.provider ?? "cloud"}_account` });
+    }
+    for (const [key, module] of plan.modules) {
+      const source = module.source.replace(/^(?:\.\.?\/)+/, "");
+      const label = `${humanize(module.name)}${module.instance === null ? "" : ` ${module.instance}`}`;
+      groups.push({ key, label, type: null, icon: moduleIcon(module.name, module.source, stackProvider(plan)) ?? "lucide:package", sub: cleanText(`${module.noun ?? "Module"} ${source}`), parent: plan.parents.get(key) ?? null, idHint: `${module.name}${module.instance === null ? "" : `_${module.instance}`}` });
+    }
+    const holding = /* @__PURE__ */ new Set();
+    for (const node3 of nodes) for (const key of [node3.group ?? "", ...plan.ancestors(node3.group ?? "")]) holding.add(key);
+    for (const group2 of groups) if (!holding.has(group2.key) && resources.has(group2.key)) plan.anchored.add(group2.key);
+  }
+  for (const key of plan.anchored) {
+    if (nodes.some((node3) => node3.key === anchorOf(key))) continue;
+    const box = anchorBox(plan, key, groupType, byFile);
+    if (box !== null) nodes.push(box);
+  }
+  for (const [key, path] of files) groups.push({ key, label: path === "" ? "main.tf" : path, type: null, icon: "lucide:file-code", sub: null, parent: null, idHint: path.replace(/\.tf$/, "") });
+  if (byFile) {
+    for (const [child, holder] of plan.holder) if (parentOf3(child, resources.get(child)) !== containerFrame(holder)) arrows.push({ from: child, to: holder, label: "in", grant: false, via: child });
+    for (const [subject, host] of plan.attached) for (const via of plan.attachedBy.get(subject) ?? []) arrows.push({ from: subject, to: anchorOf(host), label: "attached", grant: false, via });
+  }
+  return { groups, nodes, arrows, drawn };
+}
+function withoutIdleBoxes(nodes, groups, edges) {
+  const touched = new Set(edges.flatMap((edge) => [edge.from, edge.to]));
+  const frameOfSelf = (node3) => {
+    if (node3.group === null || node3.group === void 0) return null;
+    return node3.group === containerFrame(node3.key) || node3.key === anchorOf(node3.group) ? node3.group : null;
+  };
+  const parents = new Map(groups.map((group2) => [group2.key, group2.parent ?? null]));
+  const holds = /* @__PURE__ */ new Map();
+  for (const node3 of nodes) {
+    let key = node3.group ?? null;
+    for (let depth = 0; key !== null && depth < groups.length; depth += 1) {
+      holds.set(key, (holds.get(key) ?? 0) + 1);
+      key = parents.get(key) ?? null;
+    }
+  }
+  const idle = /* @__PURE__ */ new Map();
+  for (const node3 of nodes) {
+    const frame = frameOfSelf(node3);
+    if (frame !== null && !touched.has(node3.key) && (holds.get(frame) ?? 0) > 1) idle.set(frame, node3);
+  }
+  const kept2 = nodes.filter((node3) => idle.get(node3.group ?? "") !== node3);
+  const framed = groups.map((group2) => {
+    const box = idle.get(group2.key);
+    if (box === void 0) return group2;
+    const said = group2.label.includes(box.label) || group2.type !== null && group2.type !== void 0 ? null : box.label;
+    return { ...group2, sub: withParts(group2.sub ?? null, said, box.sub ?? null) };
+  });
+  return { nodes: kept2, groups: framed };
+}
+function anchorBox(plan, key, groupType, byFile) {
+  const outer = plan.outer.get(key);
+  if (outer !== void 0) {
+    const icon = groupIcon(outer.type, outer.provider);
+    if (byFile) return { key: anchorOf(key), type: "service", label: outer.variable === null ? GROUP_TYPE_SPECS[outer.type].title : plan.variableName(outer.variable), sub: outer.variable === null || plan.variableValue(outer.variable) !== null ? null : `var.${outer.variable}`, icon, group: null, idHint: `${outer.variable ?? "account"}_box` };
+    return { key: anchorOf(key), type: "service", label: GROUP_TYPE_SPECS[outer.type].title, sub: null, icon, group: key, idHint: `${outer.variable ?? "account"}_box` };
+  }
+  const resource = plan.resources.get(key);
+  if (resource === void 0 || resource.role.role !== "group") return null;
+  const type = groupType(resource);
+  const details = withParts(literalDetails(resource), multiplicity(resource));
+  return { key: anchorOf(key), type: "service", label: resource.role.product ?? GROUP_TYPE_SPECS[type].title, sub: details, icon: resource.role.icon ?? groupIcon(type, providerOf2(resource.type)), group: key, idHint: `${resource.name}_${type.replace(/-/g, "_")}` };
+}
+function literalDetails(resource) {
+  const role = resource.role;
+  const names7 = role.role === "node" ? role.detail ?? [] : ["sku_name", "os_type", "sku"];
+  const values = names7.map((name2) => literal2(resource, name2)).filter((value) => value !== null && value !== "");
+  return values.length === 0 ? null : values.join(" ");
+}
+var ACCOUNT_NAMES;
+var init_picture = __esm({
+  "../../packages/diagrams/src/importers/terraform/picture.ts"() {
+    "use strict";
+    init_constants();
+    init_icons();
+    init_shared2();
+    init_edges2();
+    init_labels();
+    init_module_icons();
+    init_plan9();
+    init_resources();
+    ACCOUNT_NAMES = { aws: "AWS account", azure: "Azure subscription", gcp: "Google Cloud project" };
+  }
+});
+
+// ../../packages/diagrams/src/importers/terraform/draw.ts
+function drawStack(input2) {
+  let context = input2.context;
+  const groupType = (resource) => resource.role.role === "group" ? groupTypeOf(resource, resource.role.group) : null;
+  const compatible = input2.compatible === true;
+  const resources = compatible ? new Map([...input2.resources].map(([key, resource]) => [key, withoutNewNames(resource)])) : input2.resources;
+  const plan = new StackPlan(resources, groupType, input2.providers, input2.variableName, input2.variableValue, compatible ? void 0 : input2.regionOf);
+  plan.compatible = compatible;
+  if (context.options.groupBy === void 0 || context.options.groupBy === "module") frameModules(plan, input2.modules);
+  const frameless = ![...plan.shapes.values()].some((shape) => shape === "frame" || shape === "container") && ![...plan.outer.values()].some((outer) => outer.type !== "account") && plan.modules.size === 0;
+  const boxCount = [...plan.shapes.values()].filter((shape) => shape === "node").length;
+  const fileCount = new Set(context.files.map((file2) => file2.path)).size;
+  const byFile = context.options.groupBy === void 0 && frameless && boxCount > SPLIT_ABOVE && fileCount > 1 && fileCount * 3 <= boxCount;
+  if (byFile) context = { ...context, options: { ...context.options, groupBy: "file" } };
+  const drafted = picture(plan, context, groupType);
+  const { arrows, drawn } = drafted;
+  const boxes2 = new Set(drafted.nodes.map((node3) => node3.key));
+  const written3 = arrows.filter((arrow) => boxes2.has(arrow.from) && boxes2.has(arrow.to));
+  for (const arrow of written3) drawn.add(arrow.via);
+  const bundled = bundleArrows(drafted.nodes, drafted.groups, joinArrows(written3), (frame) => plan.resources.has(frame) || plan.outer.has(frame) ? anchorBox(plan, frame, groupType, context.options.groupBy === "file") : null, !compatible);
+  const edges = bundled.edges;
+  const { nodes, groups } = withoutIdleBoxes(bundled.nodes, drafted.groups, edges);
+  let total = 0;
+  let counted2 = 0;
+  for (const resource of resources.values()) {
+    if (resource.kind === "data") continue;
+    total += 1;
+    if (drawn.has(resource.key)) counted2 += 1;
+  }
+  const providers = new Set([...resources.values()].filter((resource) => plan.shapes.get(resource.key) !== "none").map((resource) => providerOf2(resource.type)).filter((provider2) => provider2 !== null));
+  const provider = providers.size === 1 ? [...providers][0] : providers.size === 0 ? input2.cloud ?? null : null;
+  const owner = provider === null ? null : SHORT_NAMES2[provider] ?? CLOUD_PROVIDER_SPECS[provider].title;
+  const where = owner === null ? "on more than one cloud" : `on ${owner}`;
+  const nesting2 = context.options.groupBy === "file" ? "framed by the file that declares them" : plan.modules.size > 0 ? "framed by the module that declares them and nested in the groups, networks, and subnets that hold them" : "nested in the groups, networks, and subnets that hold them";
+  const title = context.title ?? (owner === null ? "Cloud infrastructure" : `${owner} infrastructure`);
+  const draft = {
+    title,
+    desc: `${countOf2(total, "resource")} ${where}, ${nesting2}, imported from ${input2.tool}. An arrow means one resource refers to another, and its label says how: a role, a private link, logs, or a secret.`,
+    // Modules read as layers, from the root's callers down to what they use.
+    direction: plan.modules.size > 0 ? "down" : directionOf4(nodes.map((node3) => node3.key), edges),
+    provider,
+    nodes,
+    groups,
+    edges,
+    noun: "resources",
+    cap: LAYOUT_LIMITS.maxFlowNodes,
+    capSpan: input2.span,
+    advice: `Check that every arrow is a real call or flow of data: ${input2.tool} references also say which resource configures which.`,
+    coverage: { noun: "resources", total, drawn: counted2, summarised: 0 }
+  };
+  const parts = splitFlow(draft, writeFlow);
+  const renamed = (draftOut) => input2.stableName === void 0 ? draftOut : { ...draftOut, ids: renameIds(draftOut.ids ?? {}, input2.stableName), ...draftOut.parts === void 0 ? {} : { parts: draftOut.parts.map((part) => part.ids === void 0 ? part : { ...part, ids: renameIds(part.ids, input2.stableName) }) } };
+  if (parts.length === 0) return renamed(writeFlow(draft, context.report));
+  const whole2 = writeFlow({ ...draft, cap: Number.POSITIVE_INFINITY }, new ImportReporter());
+  return renamed({ ...whole2, source: parts[0]?.source ?? whole2.source, parts });
+}
+function withoutNewNames(resource) {
+  const values = new Map(resource.values);
+  values.delete("tags.Name");
+  return { ...resource, values, readable: /* @__PURE__ */ new Map() };
+}
+function renameIds(ids, stableName) {
+  const out = {};
+  for (const [key, id] of Object.entries(ids)) out[stableName(key)] = id;
+  return out;
+}
+function joinRoots(drafts2) {
+  const first = drafts2[0];
+  if (first === void 0) return null;
+  const parts = drafts2.flatMap(
+    ({ root, draft }) => draft.parts !== void 0 && draft.parts.length > 0 ? draft.parts.map((part) => ({ ...part, title: `${root}: ${part.title}` })) : [{ title: root, kind: draft.kind, source: draft.source, items: draft.stats.items, ids: draft.ids ?? {} }]
+  );
+  const sum = (pick3) => drafts2.reduce((total, entry2) => total + pick3(entry2.draft), 0);
+  return {
+    kind: first.draft.kind,
+    source: parts[0]?.source ?? first.draft.source,
+    stats: { items: sum((draft) => draft.stats.items), links: sum((draft) => draft.stats.links), groups: sum((draft) => draft.stats.groups), dropped: sum((draft) => draft.stats.dropped) },
+    advice: first.draft.advice,
+    coverage: { noun: "resources", total: sum((draft) => draft.coverage?.total ?? draft.stats.items), drawn: sum((draft) => draft.coverage?.drawn ?? draft.stats.items), summarised: sum((draft) => draft.coverage?.summarised ?? 0) },
+    parts,
+    ids: parts[0]?.ids ?? {}
+  };
+}
+var SHORT_NAMES2;
+var init_draw = __esm({
+  "../../packages/diagrams/src/importers/terraform/draw.ts"() {
+    "use strict";
+    init_constants();
+    init_shared2();
+    init_bundle();
+    init_edges2();
+    init_labels();
+    init_module_frames();
+    init_picture();
+    init_plan9();
+    init_resources();
+    SHORT_NAMES2 = { aws: "AWS", azure: "Azure", gcp: "Google Cloud" };
+  }
+});
+
+// ../../packages/diagrams/src/importers/terraform/address.ts
+function references(text3) {
+  const out = [];
+  let index2 = 0;
+  while (index2 < text3.length) {
+    const char = text3.charAt(index2);
+    if (!isStart(char) || index2 > 0 && (isWord(text3.charAt(index2 - 1)) || text3.charAt(index2 - 1) === ".")) {
+      index2 += 1;
+      continue;
+    }
+    const steps = [];
+    let end = index2;
+    while (end < text3.length && isWord(text3.charAt(end))) end += 1;
+    steps.push({ kind: "name", text: text3.slice(index2, end) });
+    for (; ; ) {
+      let next = end;
+      while (text3.charAt(next) === " " || text3.charAt(next) === "	") next += 1;
+      const sign = text3.charAt(next);
+      if (sign === "." && steps.length < MAX_STEPS) {
+        let start2 = next + 1;
+        while (text3.charAt(start2) === " ") start2 += 1;
+        let stop = start2;
+        if (text3.charAt(stop) === "*") stop += 1;
+        else while (stop < text3.length && isWord(text3.charAt(stop))) stop += 1;
+        if (stop === start2) break;
+        steps.push({ kind: "name", text: text3.slice(start2, stop) });
+        end = stop;
+      } else if (sign === "[" && steps.length < MAX_STEPS) {
+        const close2 = text3.indexOf("]", next + 1);
+        if (close2 === -1 || close2 - next > MAX_INDEX) break;
+        steps.push({ kind: "index", text: text3.slice(next + 1, close2).trim() });
+        end = close2 + 1;
+      } else break;
+    }
+    out.push(steps);
+    index2 = end;
+  }
+  return out;
+}
+function indexSuffix(key) {
+  if (key === null) return "";
+  return typeof key === "number" ? `[${key}]` : `[${JSON.stringify(key)}]`;
+}
+var MAX_STEPS, MAX_INDEX, isStart, isWord;
+var init_address = __esm({
+  "../../packages/diagrams/src/importers/terraform/address.ts"() {
+    "use strict";
+    MAX_STEPS = 12;
+    MAX_INDEX = 120;
+    isStart = (char) => /[A-Za-z_]/.test(char);
+    isWord = (char) => /[A-Za-z0-9_-]/.test(char);
+  }
+});
+
+// ../../packages/diagrams/src/importers/terraform/instances.ts
+function instancesOf(block, resolver) {
+  const attribute2 = (name2) => block.attributes.find((entry2) => entry2.name === name2)?.raw ?? null;
+  const forEach = attribute2("for_each");
+  if (forEach !== null) {
+    const collection = resolver.collection(forEach);
+    if (collection === null) return { kind: "unknown", count: null };
+    const instances = [];
+    if (collection.kind === "map") {
+      for (const [key, value2] of collection.entries) instances.push({ suffix: indexSuffix(key), key, binding: { key, value: value2, index: null } });
+    } else {
+      for (const item of collection.items) {
+        const key = item.scope.value(item.raw);
+        if (key === null) return { kind: "unknown", count: collection.items.length };
+        instances.push({ suffix: indexSuffix(key), key, binding: { key, value: item, index: null } });
+      }
+    }
+    if (instances.length === 0) return { kind: "none" };
+    if (instances.length > MAX_INSTANCES) return { kind: "unknown", count: instances.length };
+    return { kind: "known", instances };
+  }
+  const count3 = attribute2("count");
+  if (count3 === null) return { kind: "one" };
+  const value = resolver.value(count3);
+  if (value === null || !/^[0-9]+$/.test(value)) return { kind: "unknown", count: null };
+  const total = Number(value);
+  if (total === 0) return { kind: "none" };
+  if (total > MAX_INSTANCES) return { kind: "unknown", count: total };
+  return { kind: "known", instances: Array.from({ length: total }, (_unused, index2) => ({ suffix: indexSuffix(index2), key: String(index2), binding: { key: null, value: null, index: index2 } })) };
+}
+var MAX_INSTANCES;
+var init_instances = __esm({
+  "../../packages/diagrams/src/importers/terraform/instances.ts"() {
+    "use strict";
+    init_address();
+    MAX_INSTANCES = 12;
+  }
+});
+
+// ../../packages/diagrams/src/importers/terraform/expressions.ts
+function splitTop(text3, separators2) {
+  const out = [];
+  let depth = 0;
+  let quoted5 = false;
+  let start2 = 0;
+  for (let index2 = 0; index2 < text3.length; index2 += 1) {
+    const char = text3.charAt(index2);
+    if (quoted5) {
+      if (char === "\\") index2 += 1;
+      else if (char === '"') quoted5 = false;
+    } else if (char === '"') quoted5 = true;
+    else if ("([{".includes(char)) depth += 1;
+    else if (")]}".includes(char)) depth -= 1;
+    else if (separators2.includes(char) && depth === 0) {
+      out.push(text3.slice(start2, index2).trim());
+      start2 = index2 + 1;
+    }
+  }
+  if (depth !== 0 || quoted5) return null;
+  out.push(text3.slice(start2).trim());
+  return out.filter((part) => part !== "");
+}
+function argumentsOf(text3) {
+  return splitTop(text3, ",");
+}
+function interpolationEnd(text3, start2) {
+  let depth = 0;
+  let quoted5 = false;
+  for (let index2 = start2; index2 < text3.length; index2 += 1) {
+    const char = text3.charAt(index2);
+    if (quoted5) {
+      if (char === "\\") index2 += 1;
+      else if (char === '"') quoted5 = false;
+    } else if (char === '"') quoted5 = true;
+    else if (char === "{") depth += 1;
+    else if (char === "}") {
+      depth -= 1;
+      if (depth === 0) return index2 + 1;
+    }
+  }
+  return -1;
+}
+function conditionalParts(text3) {
+  let depth = 0;
+  let quoted5 = false;
+  let question = -1;
+  let nested2 = 0;
+  for (let index2 = 0; index2 < text3.length; index2 += 1) {
+    const char = text3.charAt(index2);
+    if (quoted5) {
+      if (char === "\\") index2 += 1;
+      else if (char === '"') quoted5 = false;
+    } else if (char === '"') quoted5 = true;
+    else if ("([{".includes(char)) depth += 1;
+    else if (")]}".includes(char)) depth -= 1;
+    else if (depth === 0 && char === "?") {
+      if (question === -1) question = index2;
+      else nested2 += 1;
+    } else if (depth === 0 && char === ":" && question !== -1) {
+      if (nested2 > 0) nested2 -= 1;
+      else return { test: text3.slice(0, question).trim(), yes: text3.slice(question + 1, index2).trim(), no: text3.slice(index2 + 1).trim() };
+    }
+  }
+  return null;
+}
+function shortName(expression2) {
+  const text3 = expression2.trim();
+  const call = /^([A-Za-z_][A-Za-z0-9_]*)\s*\(/.exec(text3);
+  if (call !== null) return call[1] ?? text3;
+  const words2 = text3.split(/[.[\]"\s]+/).filter((word2) => /^[A-Za-z_][A-Za-z0-9_-]*$/.test(word2));
+  if (words2.length === 0) return "value";
+  const first = words2[0];
+  if (["var", "local", "each", "count", "module", "data"].includes(first)) return words2[first === "data" ? 2 : 1] ?? first;
+  return words2[1] ?? first;
+}
+function interpolationsClosed(text3) {
+  const body6 = text3.slice(1, -1);
+  for (let index2 = 0; index2 < body6.length; index2 += 1) {
+    const char = body6.charAt(index2);
+    if (char === "\\") index2 += 1;
+    else if (char === '"') return false;
+    else if (char === "$" && body6.charAt(index2 + 1) === "{") {
+      const end = interpolationEnd(body6, index2 + 1);
+      if (end === -1) return false;
+      index2 = end - 1;
+    }
+  }
+  return true;
+}
+function formatted(pattern3, values) {
+  let next = 0;
+  return pattern3.replace(VERB, (_whole, zero, width, verb) => {
+    if (verb === "%") return "%";
+    const value = values[next] ?? "";
+    next += 1;
+    const text3 = verb === "q" ? JSON.stringify(value) : value;
+    return width === "" ? text3 : text3.padStart(Number(width), zero === "0" ? "0" : " ");
+  });
+}
+var ENTRY, VERB;
+var init_expressions = __esm({
+  "../../packages/diagrams/src/importers/terraform/expressions.ts"() {
+    "use strict";
+    ENTRY = /^(?:"((?:[^"\\\n]|\\.)*)"|([A-Za-z_][A-Za-z0-9_-]*))\s*(?:=(?![=>])|:)\s*/;
+    VERB = /%(0?)([0-9]{0,3})([sdvq%])/g;
+  }
+});
+
+// ../../packages/diagrams/src/importers/terraform/values.ts
+function declaredVariables(blocks2) {
+  const out = /* @__PURE__ */ new Map();
+  for (const block of blocks2) {
+    if (block.type !== "variable" || block.labels[0] === void 0) continue;
+    const attribute2 = (name2) => block.attributes.find((entry2) => entry2.name === name2);
+    out.set(block.labels[0], { fallback: attribute2("default")?.raw ?? null, sensitive: attribute2("sensitive")?.raw === "true" });
+  }
+  return out;
+}
+function localValues(blocks2) {
+  const out = /* @__PURE__ */ new Map();
+  for (const block of blocks2) if (block.type === "locals") for (const attribute2 of block.attributes) out.set(attribute2.name, attribute2.raw);
+  return out;
+}
+function lastPart(value) {
+  if (!value.includes("/")) return value;
+  return value.split("/").filter((part) => part !== "").pop() ?? value;
+}
+var MAX_DEPTH5, MAX_VALUE_LENGTH, MAX_ENTRIES, ValueResolver;
+var init_values2 = __esm({
+  "../../packages/diagrams/src/importers/terraform/values.ts"() {
+    "use strict";
+    init_expressions();
+    init_parse21();
+    MAX_DEPTH5 = 8;
+    MAX_VALUE_LENGTH = 600;
+    MAX_ENTRIES = 64;
+    ValueResolver = class _ValueResolver {
+      constructor(variables, assigned, locals, inputs = /* @__PURE__ */ new Map(), binding = null, site = "") {
+        this.variables = variables;
+        this.assigned = assigned;
+        this.locals = locals;
+        this.inputs = inputs;
+        this.binding = binding;
+        this.site = site;
+      }
+      variables;
+      assigned;
+      locals;
+      inputs;
+      binding;
+      site;
+      memo = /* @__PURE__ */ new Map();
+      /** The same scope with `each` and `count` bound to one instance. */
+      with(binding) {
+        return new _ValueResolver(this.variables, this.assigned, this.locals, this.inputs, binding, this.site);
+      }
+      /** What `each.value` is in this instance, as written, or null outside one. */
+      eachValue() {
+        return this.binding?.value ?? null;
+      }
+      /** The value at a path of fields of a value written as a map, with the scope to read it in, or null. */
+      field(base, fields) {
+        return this.fieldOf(base, fields, 0);
+      }
+      /** The value of a variable as a string, or null when it is unknown, not a string, or sensitive. */
+      variable(name2, depth = 0) {
+        const dot2 = name2.indexOf(".");
+        if (dot2 !== -1) {
+          if (this.variables.get(name2.slice(0, dot2))?.sensitive === true) return null;
+          const field = this.fieldOf(this.variableRaw(name2.slice(0, dot2)), name2.slice(dot2 + 1).split("."), depth + 1);
+          return field === null ? null : field.scope.value(field.raw, depth + 1);
+        }
+        if (this.variables.get(name2)?.sensitive === true) return null;
+        const raw = this.variableRaw(name2);
+        if (raw === null) return null;
+        if (raw.raw.trim() === "null") return "";
+        return raw.scope.value(raw.raw, depth + 1);
+      }
+      /** The text a variable is given, with the scope to read it in: a module input, an assigned value, or the default. */
+      variableRaw(name2) {
+        const input2 = this.inputs.get(name2);
+        if (input2 !== void 0) return input2;
+        const raw = this.assigned.get(name2) ?? this.variables.get(name2)?.fallback ?? null;
+        return raw === null ? null : { raw, scope: this };
+      }
+      /** True when the stack declares, assigns, or passes the variable. */
+      has(name2) {
+        return this.variables.has(name2) || this.assigned.has(name2) || this.inputs.has(name2);
+      }
+      /** The value of an expression as written, or null when it cannot be known from the text. */
+      value(raw, depth = 0) {
+        if (depth > MAX_DEPTH5) return null;
+        const text3 = raw.trim();
+        const memoKey = `${depth}\0${text3}`;
+        if (this.memo.has(memoKey)) return this.memo.get(memoKey) ?? null;
+        this.memo.set(memoKey, null);
+        const found = this.evaluate(text3, depth);
+        const kept2 = found === null || found.length > MAX_VALUE_LENGTH ? null : found;
+        this.memo.set(memoKey, kept2);
+        return kept2;
+      }
+      /**
+       * The value of an expression, or a readable form of it when parts are unknown: `"kv-${var.env}"` with `env` unknown is
+       * `kv-{env}`, and `format("%s-api", var.prefix)` is `{prefix}-api`. Null when the expression is not a name made of parts.
+       */
+      readable(raw, depth = 0) {
+        const known3 = this.value(raw, depth);
+        if (known3 !== null) return known3;
+        const text3 = raw.trim();
+        const part = (expression2) => this.value(expression2, depth + 1) ?? this.readable(expression2, depth + 1) ?? `{${shortName(expression2)}}`;
+        if (text3.startsWith('"') && text3.endsWith('"') && text3.length >= 2 && interpolationsClosed(text3)) return this.template(text3.slice(1, -1), depth, part);
+        const call = /^(format|join|lower|upper)\(([\s\S]*)\)$/.exec(text3);
+        if (call === null || depth > MAX_DEPTH5) return null;
+        const args = argumentsOf(call[2] ?? "");
+        if (args === null || args.length === 0) return null;
+        if (call[1] === "format") {
+          const pattern3 = this.value(args[0], depth + 1);
+          return pattern3 === null ? null : formatted(pattern3, args.slice(1).map(part));
+        }
+        if (call[1] === "join") {
+          const separator = this.value(args[0], depth + 1);
+          const list = args[1] === void 0 ? null : this.collection(args[1], depth + 1);
+          if (separator === null || list?.kind !== "list") return null;
+          return list.items.map((item) => item.scope.value(item.raw, depth + 1) ?? item.scope.readable(item.raw, depth + 1) ?? `{${shortName(item.raw)}}`).join(separator);
+        }
+        const inner = this.readable(args[0], depth + 1);
+        return inner === null ? null : call[1] === "lower" ? inner.toLowerCase() : inner.toUpperCase();
+      }
+      /** The value of `field` in a map written as an expression (`merge(local.tags, { Name = ... })`), or null. */
+      fieldValue(raw, field) {
+        const found = this.fieldOf({ raw, scope: this }, [field], 0);
+        return found === null ? null : found.scope.value(found.raw) ?? found.scope.readable(found.raw);
+      }
+      /**
+       * The entries of a map or the items of a list written as an expression: a literal, a variable or local that holds one,
+       * `toset`, `tolist`, `keys`, `values`, `merge`, `each.value`, and a `for` over a known map or list. Null when unknown.
+       */
+      collection(raw, depth = 0) {
+        if (depth > MAX_DEPTH5) return null;
+        const text3 = raw.trim();
+        if (text3.startsWith("{") && text3.endsWith("}")) {
+          const forMap = /^\{\s*for\s+([A-Za-z_]\w*)\s*(?:,\s*([A-Za-z_]\w*)\s*)?in\s+([^:]+):\s*([A-Za-z_]\w*)\s*=>/.exec(text3);
+          if (forMap !== null) {
+            const over = this.collection(forMap[3] ?? "", depth + 1);
+            const keyName = forMap[4];
+            if (over === null) return null;
+            if (over.kind === "map" && keyName === forMap[1]) return { kind: "map", entries: over.entries };
+            if (over.kind === "list" && keyName === forMap[1] && forMap[2] === void 0) return { kind: "map", entries: over.items.map((item) => [item.scope.value(item.raw, depth + 1) ?? "", item]).filter(([key]) => key !== "") };
+            return null;
+          }
+          const parts = splitTop(text3.slice(1, -1), ",\n");
+          if (parts === null || parts.length > MAX_ENTRIES) return null;
+          const entries2 = [];
+          for (const part of parts) {
+            const entry2 = ENTRY.exec(part);
+            if (entry2 === null) return null;
+            const key = entry2[1] === void 0 ? entry2[2] ?? "" : unescapeHcl(entry2[1]);
+            entries2.push([key, { raw: part.slice(entry2[0].length), scope: this }]);
+          }
+          return { kind: "map", entries: entries2 };
+        }
+        if (text3.startsWith("[") && text3.endsWith("]")) {
+          const forList = /^\[\s*for\s+([A-Za-z_]\w*)\s*(?:,\s*[A-Za-z_]\w*\s*)?in\s+([^:]+):/.exec(text3);
+          if (forList !== null) {
+            const over = this.collection(forList[2] ?? "", depth + 1);
+            if (over === null) return null;
+            return { kind: "list", items: over.kind === "list" ? over.items : over.entries.map(([, value]) => value) };
+          }
+          const parts = splitTop(text3.slice(1, -1), ",\n");
+          if (parts === null || parts.length > MAX_ENTRIES) return null;
+          return { kind: "list", items: parts.map((part) => ({ raw: part, scope: this })) };
+        }
+        const call = /^(toset|tolist|tomap|keys|values|merge|concat|distinct|sort)\(([\s\S]*)\)$/.exec(text3);
+        if (call !== null) {
+          const args = argumentsOf(call[2] ?? "");
+          if (args === null) return null;
+          const read = args.map((arg) => this.collection(arg, depth + 1));
+          if (read.some((entry2) => entry2 === null)) return null;
+          const all = read;
+          if (call[1] === "merge") {
+            const merged = /* @__PURE__ */ new Map();
+            for (const entry2 of all) {
+              if (entry2.kind !== "map") return null;
+              for (const [key, value] of entry2.entries) merged.set(key, value);
+            }
+            return { kind: "map", entries: [...merged] };
+          }
+          if (call[1] === "concat") return all.every((entry2) => entry2.kind === "list") ? { kind: "list", items: all.flatMap((entry2) => entry2.kind === "list" ? entry2.items : []) } : null;
+          const first = all[0];
+          if (first === void 0 || all.length !== 1) return null;
+          if (call[1] === "keys") return { kind: "list", items: first.kind === "map" ? first.entries.map(([key]) => ({ raw: JSON.stringify(key), scope: this })) : [] };
+          if (call[1] === "values") return first.kind === "map" ? { kind: "list", items: first.entries.map(([, value]) => value) } : null;
+          if (call[1] === "toset" || call[1] === "distinct" || call[1] === "sort") {
+            if (first.kind !== "list") return null;
+            const seen = /* @__PURE__ */ new Set();
+            const items2 = first.items.filter((item) => {
+              const value = item.scope.value(item.raw, depth + 1) ?? item.raw;
+              if (seen.has(value)) return false;
+              seen.add(value);
+              return true;
+            });
+            return { kind: "list", items: items2 };
+          }
+          return first;
+        }
+        const reference = this.reference(text3);
+        if (reference !== null) return reference.scope.collection(reference.raw, depth + 1);
+        return null;
+      }
+      /** What a plain reference stands for, as written: a variable, a local, `each.value`, or a field of one of them; null otherwise. */
+      reference(text3) {
+        const match = /^(var|local|each)\.([A-Za-z_][A-Za-z0-9_-]*)((?:\s*(?:\.[A-Za-z_][A-Za-z0-9_-]*|\[\s*"[^"\n]*"\s*\]))*)$/.exec(text3);
+        if (match === null) return null;
+        const fields = [...(match[3] ?? "").matchAll(/\.([A-Za-z_][A-Za-z0-9_-]*)|\["([^"\n]*)"\]/g)].map((field) => field[1] ?? field[2] ?? "");
+        let base;
+        if (match[1] === "var") {
+          if (this.variables.get(match[2] ?? "")?.sensitive === true) return null;
+          base = this.variableRaw(match[2] ?? "");
+        } else if (match[1] === "local") {
+          const raw = this.locals.get(match[2] ?? "");
+          base = raw === void 0 ? null : { raw, scope: this };
+        } else {
+          if (match[2] !== "value") return null;
+          base = this.binding?.value ?? null;
+        }
+        if (base === null) return null;
+        return fields.length === 0 ? base : this.fieldOf(base, fields, 0);
+      }
+      /** The value at a path of fields inside a map written as an expression, with the scope to read it in. */
+      fieldOf(base, fields, depth) {
+        let current = base;
+        for (const field of fields) {
+          if (current === null || depth > MAX_DEPTH5) return null;
+          const map2 = current.scope.collection(current.raw, depth + 1);
+          if (map2?.kind !== "map") return null;
+          current = map2.entries.find(([key]) => key === field)?.[1] ?? null;
+        }
+        return current;
+      }
+      evaluate(text3, depth) {
+        if (/^-?[0-9]+(?:\.[0-9]+)?$/.test(text3) || text3 === "true" || text3 === "false") return text3;
+        if (text3.startsWith("(") && text3.endsWith(")") && splitTop(text3.slice(1, -1), ",") !== null) return this.value(text3.slice(1, -1), depth + 1);
+        if (text3 === "each.key") return this.binding?.key ?? null;
+        if (text3 === "count.index") return this.binding?.index === null || this.binding?.index === void 0 ? null : String(this.binding.index);
+        const variable = /^var\.([A-Za-z0-9_-]+)$/.exec(text3);
+        if (variable !== null) return this.variable(variable[1] ?? "", depth);
+        const local2 = /^local\.([A-Za-z0-9_-]+)$/.exec(text3);
+        if (local2 !== null) {
+          const raw = this.locals.get(local2[1] ?? "");
+          return raw === void 0 ? null : this.value(raw, depth + 1);
+        }
+        if (text3.startsWith('"') && text3.endsWith('"') && text3.length >= 2 && interpolationsClosed(text3)) return this.template(text3.slice(1, -1), depth);
+        const reference = this.reference(text3);
+        if (reference !== null) return reference.scope === this && reference.raw.trim() === text3 ? null : reference.scope.value(reference.raw, depth + 1);
+        const conditional = conditionalParts(text3);
+        if (conditional !== null) {
+          const test = this.truth(conditional.test, depth + 1);
+          return test === null ? null : this.value(test ? conditional.yes : conditional.no, depth + 1);
+        }
+        const call = /^([a-z]+)\(([\s\S]*)\)$/.exec(text3);
+        if (call === null) return null;
+        const args = argumentsOf(call[2] ?? "");
+        if (args === null) return null;
+        return this.call(call[1] ?? "", args, depth);
+      }
+      /** The value of one function call whose arguments are known, or null. */
+      call(name2, args, depth) {
+        const value = (index2) => args[index2] === void 0 ? null : this.value(args[index2], depth + 1);
+        switch (name2) {
+          case "coalesce": {
+            for (const part of args) {
+              if (part === "null") continue;
+              const found = this.value(part, depth + 1);
+              if (found === null) return null;
+              if (found !== "") return found;
+            }
+            return null;
+          }
+          case "lower":
+          case "upper":
+          case "title":
+          case "trimspace":
+          case "tostring": {
+            const found = args.length === 1 ? value(0) : null;
+            if (found === null) return null;
+            if (name2 === "lower") return found.toLowerCase();
+            if (name2 === "upper") return found.toUpperCase();
+            if (name2 === "title") return found.replace(/\b[a-z]/g, (char) => char.toUpperCase());
+            return name2 === "trimspace" ? found.trim() : found;
+          }
+          case "format": {
+            const pattern3 = value(0);
+            if (pattern3 === null) return null;
+            const parts = args.slice(1).map((_arg, index2) => value(index2 + 1));
+            return parts.some((part) => part === null) ? null : formatted(pattern3, parts);
+          }
+          case "join": {
+            const separator = value(0);
+            const list = args[1] === void 0 ? null : this.collection(args[1], depth + 1);
+            if (separator === null || list?.kind !== "list") return null;
+            const parts = list.items.map((item) => item.scope.value(item.raw, depth + 1));
+            return parts.some((part) => part === null) ? null : parts.join(separator);
+          }
+          case "lookup": {
+            const key = value(1);
+            const map2 = args[0] === void 0 ? null : this.collection(args[0], depth + 1);
+            if (key === null || map2?.kind !== "map") return null;
+            const found = map2.entries.find(([entry2]) => entry2 === key)?.[1];
+            if (found !== void 0) return found.scope.value(found.raw, depth + 1);
+            return args[2] === void 0 ? null : value(2);
+          }
+          case "replace": {
+            const [subject, search, replacement] = [value(0), value(1), value(2)];
+            if (subject === null || search === null || replacement === null || /^\/.*\/$/.test(search)) return null;
+            return subject.split(search).join(replacement);
+          }
+          case "substr": {
+            const [subject, offset, length] = [value(0), value(1), value(2)];
+            if (subject === null || offset === null || length === null || !/^[0-9]+$/.test(offset) || !/^-?[0-9]+$/.test(length)) return null;
+            const start2 = Number(offset);
+            return Number(length) < 0 ? subject.slice(start2) : subject.slice(start2, start2 + Number(length));
+          }
+          case "element": {
+            const list = args[0] === void 0 ? null : this.collection(args[0], depth + 1);
+            const at3 = value(1);
+            if (list?.kind !== "list" || at3 === null || !/^[0-9]+$/.test(at3) || list.items.length === 0) return null;
+            const item = list.items[Number(at3) % list.items.length];
+            return item.scope.value(item.raw, depth + 1);
+          }
+          default:
+            return null;
+        }
+      }
+      /** Whether a condition holds: `true`, `false`, a variable that holds one, or a comparison of two known values. */
+      truth(text3, depth) {
+        const comparison = /^([\s\S]+?)\s*(==|!=)\s*([\s\S]+)$/.exec(text3);
+        if (comparison !== null) {
+          const left = this.value(comparison[1] ?? "", depth + 1);
+          const right = this.value(comparison[3] ?? "", depth + 1);
+          if (left === null || right === null) return null;
+          return comparison[2] === "==" ? left === right : left !== right;
+        }
+        const negated = text3.startsWith("!");
+        const found = this.value(negated ? text3.slice(1) : text3, depth + 1);
+        if (found !== "true" && found !== "false") return null;
+        return found === "true" !== negated;
+      }
+      /**
+       * A string with its `${ }` parts filled in, or null when one of them is unknown or the string holds a `%{ }` directive. With
+       * `unknown`, a part that cannot be known is written as that function says instead.
+       */
+      template(body6, depth, unknown2 = null) {
+        if (body6.includes("%{")) return null;
+        let out = "";
+        let index2 = 0;
+        while (index2 < body6.length) {
+          const open2 = body6.indexOf("${", index2);
+          if (open2 === -1) {
+            out += body6.slice(index2);
+            break;
+          }
+          if (open2 > 0 && body6.charAt(open2 - 1) === "$") {
+            out += body6.slice(index2, open2 + 2);
+            index2 = open2 + 2;
+            continue;
+          }
+          out += body6.slice(index2, open2);
+          const end = interpolationEnd(body6, open2 + 1);
+          if (end === -1) return null;
+          const expression2 = body6.slice(open2 + 2, end - 1);
+          const value = this.value(expression2, depth + 1) ?? unknown2?.(expression2) ?? null;
+          if (value === null) return null;
+          out += value;
+          index2 = end;
+        }
+        return unescapeHcl(out);
+      }
+    };
+  }
+});
+
+// ../../packages/diagrams/src/importers/terraform/modules.ts
+function joinFolder(folder, relative) {
+  const parts = folder === "" ? [] : folder.split("/");
+  for (const part of relative.split(/[\\/]/)) {
+    if (part === "" || part === ".") continue;
+    if (part === "..") {
+      if (parts.length === 0) return null;
+      parts.pop();
+    } else parts.push(part);
+  }
+  return parts.join("/");
+}
+function pathOf2(block, files) {
+  let path = files[0]?.path ?? "";
+  for (const file2 of files) if (file2.start <= block.start) path = file2.path;
+  return path;
+}
+function foldersOf(blocks2, files) {
+  const byFolder = /* @__PURE__ */ new Map();
+  for (const block of blocks2) {
+    const folder = folderOf(pathOf2(block, files));
+    byFolder.set(folder, [...byFolder.get(folder) ?? [], block]);
+  }
+  const targets = /* @__PURE__ */ new Map();
+  const called = /* @__PURE__ */ new Set();
+  for (const [folder, list] of byFolder) {
+    for (const block of list) {
+      if (block.type !== "module") continue;
+      const source = block.attributes.find((attribute2) => attribute2.name === "source")?.literal ?? "";
+      if (!/^\.\.?[\\/]/.test(source)) continue;
+      const target = joinFolder(folder, source);
+      if (target === null || target === folder || !byFolder.has(target)) continue;
+      targets.set(block, target);
+      called.add(target);
+    }
+  }
+  const roots = [...byFolder.keys()].filter((folder) => !called.has(folder) && (byFolder.get(folder) ?? []).some(isItem)).sort((a, b) => a < b ? -1 : a > b ? 1 : 0);
+  return { blocks: byFolder, targets, roots };
+}
+function outputsOf(blocks2) {
+  const out = /* @__PURE__ */ new Map();
+  for (const block of blocks2) {
+    if (block.type !== "output" || block.labels[0] === void 0) continue;
+    const value = block.attributes.find((attribute2) => attribute2.name === "value");
+    if (value !== void 0) out.set(block.labels[0], value.raw);
+  }
+  return out;
+}
+function buildScope(folders, root, assigned) {
+  const make = (folder, prefix, caller, depth, seen) => {
+    const blocks2 = folders.blocks.get(folder) ?? [];
+    const locals = localValues(blocks2);
+    const inputs = /* @__PURE__ */ new Map();
+    if (caller !== null) {
+      const resolver2 = caller.binding === null ? caller.scope.resolver : caller.scope.resolver.with(caller.binding);
+      for (const attribute2 of caller.block.attributes) if (!CALL_SETTINGS.has(attribute2.name)) inputs.set(attribute2.name, { raw: attribute2.raw, scope: resolver2 });
+    }
+    const resolver = new ValueResolver(declaredVariables(blocks2), caller === null ? assigned : /* @__PURE__ */ new Map(), locals, inputs, null, prefix);
+    const children = /* @__PURE__ */ new Map();
+    const providers = /* @__PURE__ */ new Map();
+    const passed = caller?.block.attributes.find((attribute2) => attribute2.name === "providers");
+    const map2 = passed === void 0 ? null : caller?.scope.resolver.collection(passed.raw);
+    if (caller !== null) for (const [name2, value] of caller.scope.providers) providers.set(name2, value);
+    if (map2?.kind === "map") for (const [name2, value] of map2.entries) providers.set(name2, caller?.scope.providers.get(value.raw.trim()) ?? value.raw.trim());
+    const scope = { prefix, folder, blocks: blocks2, resolver, locals, outputs: outputsOf(blocks2), caller, children, providers };
+    for (const block of blocks2) {
+      const target = folders.targets.get(block);
+      const name2 = block.labels[0];
+      if (block.type !== "module" || target === void 0 || name2 === void 0 || depth >= MAX_MODULE_DEPTH || seen.includes(target)) continue;
+      const copies = instancesOf(block, resolver);
+      if (copies.kind === "none") continue;
+      const instances = copies.kind === "known" ? copies.instances : [{ suffix: "", key: null, binding: null }];
+      children.set(
+        name2,
+        instances.map((instance) => ({
+          suffix: instance.suffix,
+          key: instance.key,
+          scope: make(target, `${prefix}module.${name2}${instance.suffix}.`, { scope, block, binding: instance.binding }, depth + 1, [...seen, folder])
+        }))
+      );
+    }
+    return scope;
+  };
+  return make(root, "", null, 0, []);
+}
+function allScopes(root) {
+  const out = [];
+  const queue = [root];
+  for (let index2 = 0; index2 < queue.length; index2 += 1) {
+    const scope = queue[index2];
+    out.push(scope);
+    for (const list of scope.children.values()) for (const child of list) queue.push(child.scope);
+  }
+  return out;
+}
+var MAX_MODULE_DEPTH, CALL_SETTINGS, folderOf, isItem;
+var init_modules2 = __esm({
+  "../../packages/diagrams/src/importers/terraform/modules.ts"() {
+    "use strict";
+    init_instances();
+    init_values2();
+    MAX_MODULE_DEPTH = 6;
+    CALL_SETTINGS = /* @__PURE__ */ new Set(["source", "version", "providers", "count", "for_each", "depends_on"]);
+    folderOf = (path) => {
+      const parts = path.split(/[\\/]/);
+      parts.pop();
+      return parts.join("/");
+    };
+    isItem = (block) => block.type === "resource" || block.type === "data" || block.type === "module";
+  }
+});
+
+// ../../packages/diagrams/src/importers/terraform/graph.ts
+function indexOf2(step, resolver) {
+  if (step?.kind !== "index" || step.text === "*") return null;
+  if (/^[0-9]+$/.test(step.text)) return Number(step.text);
+  const value = resolver.value(step.text);
+  if (value === null) return null;
+  return /^"/.test(step.text.trim()) || !/^[0-9]+$/.test(value) ? value : Number(value);
+}
+function identify(block) {
+  const [first, second] = block.labels;
+  if (block.type === "resource" && first !== void 0 && second !== void 0) return { local: `${first}.${second}`, kind: "resource", type: first, name: second };
+  if (block.type === "data" && first !== void 0 && second !== void 0) return { local: `data.${first}.${second}`, kind: "data", type: first, name: second };
+  if (block.type === "module" && first !== void 0) return { local: `module.${first}`, kind: "module", type: "module", name: first };
+  return null;
+}
+function providerName(block, type, scope) {
+  const written3 = block.attributes.find((attribute2) => attribute2.name === "provider")?.raw.trim() ?? type.split("_")[0] ?? "";
+  return scope.providers.get(written3) ?? written3;
+}
+function readResources(root) {
+  const bySite = new Map(allScopes(root).map((scope) => [scope.prefix, scope]));
+  const readers = /* @__PURE__ */ new Map();
+  const readerOf = (scope, binding) => {
+    const key = `${scope.prefix}\0${binding?.key ?? ""}\0${binding?.index ?? ""}`;
+    const known4 = readers.get(key);
+    if (known4 !== void 0) return known4;
+    const made = new ScopeReader(scope, binding, readerOf, (site) => bySite.get(site) ?? null);
+    readers.set(key, made);
+    return made;
+  };
+  const resources = /* @__PURE__ */ new Map();
+  const modules = [];
+  const empty = [];
+  const copiesOf = /* @__PURE__ */ new Map();
+  for (const scope of allScopes(root)) {
+    for (const block of scope.blocks) {
+      const id = identify(block);
+      if (id === null) continue;
+      const base = `${scope.prefix}${id.local}`;
+      if (id.kind === "module" && scope.children.has(id.name)) {
+        const source = block.attributes.find((attribute2) => attribute2.name === "source")?.literal ?? "";
+        for (const child of scope.children.get(id.name) ?? []) modules.push({ prefix: child.scope.prefix, key: `${base}${child.suffix}`, name: id.name, instance: child.key, source, block });
+        continue;
+      }
+      if (resources.has(base) || copiesOf.has(base)) continue;
+      const copies = instancesOf(block, scope.resolver);
+      if (copies.kind === "none") {
+        empty.push({ key: base, block });
+        continue;
+      }
+      const single = copies.kind === "known" && copies.instances.length === 1 && copies.instances[0]?.binding.index === 0;
+      const list = single ? [{ suffix: "", key: null, binding: (copies.kind === "known" ? copies.instances[0]?.binding : null) ?? null }] : copies.kind === "known" ? copies.instances.map((instance) => ({ suffix: instance.suffix, key: instance.key, binding: instance.binding })) : [{ suffix: "", key: null, binding: null }];
+      if (copies.kind === "known" && !single) copiesOf.set(base, list.map((copy) => `${base}${copy.suffix}`));
+      for (const copy of list) {
+        const reader = readerOf(scope, copy.binding);
+        const resolver = copy.binding === null ? scope.resolver : scope.resolver.with(copy.binding);
+        const key = `${base}${copy.suffix}`;
+        const attributes2 = allAttributes(block);
+        const byAttribute = /* @__PURE__ */ new Map();
+        const vars = /* @__PURE__ */ new Map();
+        for (const attribute2 of attributes2) {
+          const found = reader.read(attribute2.raw).filter((ref) => ref !== key && ref !== base);
+          const items2 = found.filter(isItem2);
+          const named = found.filter((ref) => !isItem2(ref)).map((ref) => ref.slice("var.".length));
+          if (items2.length > 0) byAttribute.set(attribute2.name, unique([...byAttribute.get(attribute2.name) ?? [], ...items2]));
+          if (named.length > 0) vars.set(attribute2.name, unique([...vars.get(attribute2.name) ?? [], ...named]));
+        }
+        const from = (keep) => unique(attributes2.filter(keep).flatMap((attribute2) => byAttribute.get(attribute2.name) ?? []));
+        const role = id.kind === "module" ? { role: "node", type: "service", icon: "lucide:package", product: "Module" } : roleOf2(id.type);
+        const values = /* @__PURE__ */ new Map();
+        const readable2 = /* @__PURE__ */ new Map();
+        for (const attribute2 of block.attributes) {
+          const value = attribute2.literal ?? resolver.value(attribute2.raw);
+          if (value !== null) values.set(attribute2.name, value);
+          else if (NAMED.includes(attribute2.name)) {
+            const partly = resolver.readable(attribute2.raw);
+            if (partly !== null) readable2.set(attribute2.name, partly);
+          }
+        }
+        const tags = block.attributes.find((attribute2) => attribute2.name === "tags");
+        const tagName3 = tags === void 0 ? null : resolver.fieldValue(tags.raw, "Name");
+        if (tagName3 !== null) values.set("tags.Name", tagName3);
+        const name2 = copy.key === null ? id.name : PLAIN_NAMES.has(id.name.toLowerCase()) ? copy.key : `${id.name} ${copy.key}`;
+        resources.set(key, {
+          key,
+          kind: id.kind,
+          type: id.type,
+          name: copy.key === null ? name2 : name2.replace(/[^A-Za-z0-9_-]+/g, "_"),
+          block,
+          role,
+          refs: from((attribute2) => !PLACEMENT_ATTRIBUTES.has(attribute2.name)),
+          placement: from((attribute2) => PLACEMENT_ATTRIBUTES.has(attribute2.name)),
+          byAttribute,
+          vars,
+          values,
+          readable: readable2,
+          local: id.local,
+          scope: scope.prefix,
+          instance: copy.key !== null,
+          provider: providerName(block, id.type, scope),
+          ...copies.kind === "unknown" ? { copies: copies.count } : {}
+        });
+      }
+    }
+  }
+  const alias = /* @__PURE__ */ new Map();
+  for (const [key, resource] of resources) {
+    if (resource.kind !== "data") continue;
+    const same = `${resource.scope ?? ""}${resource.type}.${(resource.local ?? "").split(".").pop() ?? ""}`;
+    if (resources.has(same)) alias.set(key, same);
+  }
+  for (const key of alias.keys()) resources.delete(key);
+  const expand2 = (ref) => {
+    const named = alias.get(ref) ?? ref;
+    if (resources.has(named)) return [named];
+    const copies = copiesOf.get(named);
+    if (copies !== void 0) return copies;
+    const bracket = named.indexOf("[");
+    if (bracket === -1) return [];
+    const base = named.slice(0, bracket);
+    return resources.has(base) ? [base] : copiesOf.get(base) ?? [];
+  };
+  const known3 = (refs, self2) => unique(refs.flatMap(expand2)).filter((ref) => ref !== self2);
+  for (const [key, resource] of resources) {
+    const byAttribute = new Map([...resource.byAttribute].map(([name2, refs]) => [name2, known3(refs, key)]).filter(([, refs]) => refs.length > 0));
+    resources.set(key, { ...resource, refs: known3(resource.refs, key), placement: known3(resource.placement, key), byAttribute });
+  }
+  return { resources, modules, empty };
+}
+var MAX_DEPTH6, TYPE, unique, ScopeReader, isItem2, PLAIN_NAMES, NAMED;
+var init_graph4 = __esm({
+  "../../packages/diagrams/src/importers/terraform/graph.ts"() {
+    "use strict";
+    init_address();
+    init_generic();
+    init_instances();
+    init_modules2();
+    init_parse21();
+    init_resources();
+    MAX_DEPTH6 = 6;
+    TYPE = /^[a-z][a-z0-9]*_[a-z0-9_]+$/;
+    unique = (values) => [...new Set(values)];
+    ScopeReader = class {
+      constructor(scope, binding, readers, scopes) {
+        this.scope = scope;
+        this.binding = binding;
+        this.readers = readers;
+        this.scopes = scopes;
+      }
+      scope;
+      binding;
+      readers;
+      scopes;
+      memo = /* @__PURE__ */ new Map();
+      get resolver() {
+        return this.binding === null ? this.scope.resolver : this.scope.resolver.with(this.binding);
+      }
+      /** Every address a text names, with `var.` names for the variables that name no item: `aws_vpc.main`, `module.network.azurerm_subnet.this["app"]`, `var.region`. */
+      read(text3, depth = 0) {
+        if (depth > MAX_DEPTH6) return [];
+        const out = [];
+        for (const steps of references(text3)) out.push(...this.interpret(steps, depth));
+        return out;
+      }
+      interpret(steps, depth) {
+        const [first, second, third, fourth] = steps;
+        const prefix = this.scope.prefix;
+        const name2 = (step) => step?.kind === "name" ? step.text : null;
+        const head = name2(first);
+        if (head === null) return [];
+        if (head === "data" && name2(second) !== null && TYPE.test(name2(second) ?? "") && name2(third) !== null) {
+          return [`${prefix}data.${name2(second)}.${name2(third)}${indexSuffix(indexOf2(fourth, this.resolver))}`];
+        }
+        if (TYPE.test(head) && name2(second) !== null && name2(second) !== "*") return [`${prefix}${head}.${name2(second)}${indexSuffix(indexOf2(third, this.resolver))}`];
+        if (head === "local" && name2(second) !== null) return [...this.local(name2(second), depth)];
+        if (head === "var" && name2(second) !== null) return this.variable(steps, depth);
+        if (head === "module" && name2(second) !== null) return this.module(steps.slice(1), depth);
+        if (head === "each" && name2(second) === "value") return this.eachValue(steps.slice(2), depth);
+        return [];
+      }
+      /** `each.value` and its fields: the items the value names, read where the map or set of the instances was written. */
+      eachValue(steps, depth) {
+        const value = this.resolver.eachValue();
+        if (value === null) return [];
+        const fields = steps.map((step) => step.kind === "name" ? step.text : step.text.replace(/^"|"$/g, ""));
+        const found = fields.length === 0 ? value : value.scope.field(value, fields);
+        if (found === null) return [];
+        const scope = this.scopes(found.scope.site);
+        return scope === null ? [] : this.readers(scope, null).read(found.raw, depth + 1);
+      }
+      local(name2, depth) {
+        const known3 = this.memo.get(`local.${name2}`);
+        if (known3 !== void 0) return known3;
+        this.memo.set(`local.${name2}`, []);
+        const raw = this.scope.locals.get(name2);
+        const found = raw === void 0 ? [] : unique(this.read(raw, depth + 1));
+        this.memo.set(`local.${name2}`, found);
+        return found;
+      }
+      /** A variable: the items its call passes, read where the call is written; else its name, after the module it is in. */
+      variable(steps, depth) {
+        const name2 = steps[1]?.text ?? "";
+        const caller = this.scope.caller;
+        const passed = caller?.block.attributes.find((attribute2) => attribute2.name === name2);
+        if (caller !== null && passed !== void 0) {
+          const found = this.readers(caller.scope, caller.binding).read(passed.raw, depth + 1);
+          if (found.length > 0) return found;
+        }
+        const fields = steps.slice(2, 5).filter((step) => step.kind === "name").map((step) => step.text);
+        return [`var.${this.scope.prefix}${[name2, ...fields].join(".")}`];
+      }
+      /** `module.name.output`: the items the output names in the module's files, or the call's own address for a module not drawn from files. */
+      module(steps, depth) {
+        const name2 = steps[0]?.text ?? "";
+        const children = this.scope.children.get(name2);
+        if (children === void 0) return [`${this.scope.prefix}module.${name2}${indexSuffix(indexOf2(steps[1], this.resolver))}`];
+        let rest = steps.slice(1);
+        let chosen = children;
+        if (rest[0]?.kind === "index") {
+          const index2 = indexOf2(rest[0], this.resolver);
+          const suffix = indexSuffix(index2);
+          chosen = index2 === null ? children : children.filter((child) => child.suffix === suffix);
+          rest = rest.slice(1);
+        }
+        const output2 = rest[0]?.kind === "name" ? rest[0].text : null;
+        if (output2 === null) return [];
+        const key = rest[1] === void 0 ? null : rest[1].kind === "name" ? rest[1].text : indexOf2(rest[1], this.resolver);
+        const out = [];
+        for (const child of chosen) {
+          const raw = child.scope.outputs.get(output2);
+          if (raw === void 0) continue;
+          const reader = this.readers(child.scope, null);
+          const map2 = key === null ? null : child.scope.resolver.collection(raw);
+          const entry2 = map2?.kind === "map" ? map2.entries.find(([entryKey]) => entryKey === String(key)) : void 0;
+          if (entry2 !== void 0) out.push(...reader.read(entry2[1].raw, depth + 1));
+          else for (const ref of reader.read(raw, depth + 1)) out.push(key === null || ref.endsWith("]") || ref.startsWith("var.") ? ref : `${ref}${indexSuffix(key)}`);
+        }
+        return out;
+      }
+    };
+    isItem2 = (ref) => !ref.startsWith("var.");
+    PLAIN_NAMES = /* @__PURE__ */ new Set(["this", "main", "default", "these", "each", "all", "items"]);
+    NAMED = ["name", "bucket", "identifier", "function_name", "cluster_name", "domain_name"];
+  }
+});
+
+// ../../packages/diagrams/src/importers/terraform/json-syntax.ts
+function expression(value, depth) {
+  if (depth > MAX_DEPTH7) return "null";
+  if (typeof value === "string") return JSON.stringify(value);
+  if (typeof value === "number" || typeof value === "boolean") return String(value);
+  if (value === null) return "null";
+  if (Array.isArray(value)) return `[${value.map((item) => expression(item, depth + 1)).join(", ")}]`;
+  return `{ ${Object.entries(value).map(([key, item]) => `${keyOf(key)} = ${expression(item, depth + 1)}`).join(", ")} }`;
+}
+function body5(object2, depth, lines) {
+  for (const [key, value] of Object.entries(object2)) {
+    const isObject4 = (item) => typeof item === "object" && item !== null && !Array.isArray(item);
+    if (key === "locals" || key === "tags" || key === "labels" || key === "app_settings" || key === "default" || depth > MAX_DEPTH7) lines.push(`${keyOf(key)} = ${expression(value, depth)}`);
+    else if (isObject4(value)) {
+      lines.push(`${keyOf(key)} {`);
+      body5(value, depth + 1, lines);
+      lines.push("}");
+    } else if (Array.isArray(value) && value.length > 0 && value.every(isObject4)) {
+      for (const item of value) {
+        lines.push(`${keyOf(key)} {`);
+        body5(item, depth + 1, lines);
+        lines.push("}");
+      }
+    } else lines.push(`${keyOf(key)} = ${expression(value, depth)}`);
+  }
+}
+function blocks(kind, value, labels2, depth, lines) {
+  const needed = LABELS[kind] ?? 0;
+  const entries2 = Array.isArray(value) ? value : [value];
+  for (const entry2 of entries2) {
+    if (typeof entry2 !== "object" || entry2 === null || Array.isArray(entry2)) continue;
+    if (labels2.length === needed) {
+      lines.push(`${kind}${labels2.map((label) => ` ${JSON.stringify(label)}`).join("")} {`);
+      body5(entry2, depth + 1, lines);
+      lines.push("}");
+      continue;
+    }
+    for (const [label, inner] of Object.entries(entry2)) blocks(kind, inner, [...labels2, label], depth + 1, lines);
+  }
+}
+function jsonToHcl(text3) {
+  let parsed;
+  try {
+    parsed = JSON.parse(text3);
+  } catch {
+    return null;
+  }
+  if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) return null;
+  const lines = [];
+  for (const [kind, value] of Object.entries(parsed)) {
+    if (kind === "locals") {
+      for (const entry2 of Array.isArray(value) ? value : [value]) {
+        if (typeof entry2 !== "object" || entry2 === null || Array.isArray(entry2)) continue;
+        lines.push("locals {");
+        for (const [name2, item] of Object.entries(entry2)) lines.push(`${keyOf(name2)} = ${expression(item, 1)}`);
+        lines.push("}");
+      }
+    } else if (kind in LABELS) blocks(kind, value, [], 0, lines);
+  }
+  return `${lines.join("\n")}
+`;
+}
+function readJsonFiles(text3, context, index2) {
+  const spans = context.files.map((file2, position) => ({ path: file2.path, start: file2.start, end: context.files[position + 1]?.start ?? text3.length }));
+  let blanked = text3;
+  const out = [];
+  for (const span of spans.filter((candidate2) => /\.tf\.json$/i.test(candidate2.path))) {
+    blanked = `${blanked.slice(0, span.start)}${blanked.slice(span.start, span.end).replace(/[^\n]/g, " ")}${blanked.slice(span.end)}`;
+    const written3 = jsonToHcl(text3.slice(span.start, span.end));
+    const parsed = written3 === null ? null : parseHcl(written3);
+    if (parsed === null || parsed.problem !== null) {
+      context.report.add(DIAGNOSTIC_CODES.importSkipped, index2.span(span.start), `${span.path} is not a JSON object of Terraform configuration, so it was passed over.`, "Write the file as Terraform JSON syntax: one object with resource, data, module, variable, or locals keys.");
+      continue;
+    }
+    for (const block of parsed.blocks) out.push({ ...block, start: span.start });
+  }
+  return { text: blanked, blocks: out };
+}
+var MAX_DEPTH7, LABELS, keyOf;
+var init_json_syntax = __esm({
+  "../../packages/diagrams/src/importers/terraform/json-syntax.ts"() {
+    "use strict";
+    init_core();
+    init_parse21();
+    MAX_DEPTH7 = 24;
+    LABELS = { resource: 2, data: 2, module: 1, variable: 1, output: 1, provider: 1 };
+    keyOf = (key) => /^[A-Za-z_][A-Za-z0-9_-]*$/.test(key) ? key : JSON.stringify(key);
+  }
+});
+
+// ../../packages/diagrams/src/importers/terraform/tfvars.ts
+function variableSpansOf(text3, files) {
+  const spans = files.map((file2, position) => ({ path: file2.path, start: file2.start, end: files[position + 1]?.start ?? text3.length }));
+  return spans.filter((span) => isVariableFile(span.path));
+}
+function blankVariableFiles(text3, files) {
+  let blanked = text3;
+  for (const span of variableSpansOf(text3, files)) blanked = `${blanked.slice(0, span.start)}${blanked.slice(span.start, span.end).replace(/[^\n]/g, " ")}${blanked.slice(span.end)}`;
+  return blanked;
+}
+function jsonValues(text3) {
+  try {
+    const parsed = JSON.parse(text3);
+    if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) return null;
+    const out = /* @__PURE__ */ new Map();
+    for (const [name2, value] of Object.entries(parsed)) {
+      if (typeof value === "string") out.set(name2, JSON.stringify(value));
+      else if (typeof value === "number" || typeof value === "boolean") out.set(name2, String(value));
+    }
+    return out;
+  } catch {
+    return null;
+  }
+}
+function readVariableFiles(text3, files, context, index2, folder = null) {
+  const all = variableSpansOf(text3, files);
+  const variableSpans = all.filter((span) => inFolder(span.path, folder));
+  if (all.length === 0) return { assigned: /* @__PURE__ */ new Map(), applied: [] };
+  const loaded = variableSpans.filter((span) => isLoaded(span.path)).sort((a, b) => Number(!/^terraform\./i.test(baseName(a.path))) - Number(!/^terraform\./i.test(baseName(b.path))) || a.path.localeCompare(b.path));
+  const others = variableSpans.filter((span) => !isLoaded(span.path));
+  const chosenNames = context.options.varFiles ?? [];
+  let chosen;
+  if (chosenNames.length > 0) {
+    chosen = chosenNames.flatMap((name2) => all.filter((span) => !isLoaded(span.path) && picks(name2, span.path)).slice(0, 1));
+    const missing = chosenNames.filter((name2) => !all.some((span) => picks(name2, span.path)));
+    if (missing.length > 0) {
+      context.report.add(DIAGNOSTIC_CODES.importSkipped, START, `options.varFiles names ${countOf2(missing.length, "file")} that ${missing.length === 1 ? "is" : "are"} not in files: ${missing.slice(0, LISTED5).join(", ")}.`, `Send the variables files in files with the .tf files. Those sent are: ${all.slice(0, LISTED5).map((span) => span.path).join(", ") || "none"}.`);
+    }
+  } else if (others.length === 1) {
+    chosen = others;
+    context.report.add(DIAGNOSTIC_CODES.importChanged, index2.span(others[0]?.start ?? 0), `The values of ${others[0]?.path ?? ""} are drawn: it is the only variables file sent that Terraform does not load on its own.`, "Set options.varFiles to draw with another file.");
+  } else {
+    chosen = [];
+    if (others.length > 1) {
+      const names7 = others.map((span) => span.path);
+      context.report.add(
+        DIAGNOSTIC_CODES.importSkipped,
+        START,
+        `${countOf2(others.length, "variables file")} ${others.length === 1 ? "is" : "are"} not applied, because Terraform loads none of them on its own and they set the same variables: ${names7.slice(0, LISTED5).join(", ")}${names7.length > LISTED5 ? ", and more" : ""}.`,
+        `Set options.varFiles to the environment to draw, such as ["${names7[0] ?? ""}"]; until then, variables show their defaults or their names.`
+      );
+    }
+  }
+  const assigned = /* @__PURE__ */ new Map();
+  const applied = [];
+  for (const span of [...loaded, ...chosen]) {
+    const body6 = text3.slice(span.start, span.end);
+    let values;
+    if (/\.json$/i.test(span.path)) values = jsonValues(body6);
+    else {
+      const parsed = parseHcl(body6);
+      if (parsed.problem !== null) {
+        context.report.add(DIAGNOSTIC_CODES.importSkipped, index2.span(span.start + parsed.problem.offset), `${span.path} cannot be read, so its values are not drawn: ${parsed.problem.message}`, parsed.problem.hint);
+        continue;
+      }
+      values = new Map(parsed.attributes.map((attribute2) => [attribute2.name, attribute2.raw]));
+    }
+    if (values === null) {
+      context.report.add(DIAGNOSTIC_CODES.importSkipped, index2.span(span.start), `${span.path} is not a JSON object of variables, so its values are not drawn.`, "Write the file as one JSON object of names and values.");
+      continue;
+    }
+    for (const [name2, raw] of values) assigned.set(name2, raw);
+    applied.push(span.path);
+  }
+  return { assigned, applied };
+}
+var LISTED5, isVariableFile, baseName, isLoaded, inFolder, picks;
+var init_tfvars = __esm({
+  "../../packages/diagrams/src/importers/terraform/tfvars.ts"() {
+    "use strict";
+    init_core();
+    init_shared2();
+    init_parse21();
+    LISTED5 = 5;
+    isVariableFile = (path) => /\.tfvars(?:\.json)?$/i.test(path);
+    baseName = (path) => path.split(/[\\/]/).pop() ?? path;
+    isLoaded = (path) => /^terraform\.tfvars(?:\.json)?$/i.test(baseName(path)) || /\.auto\.tfvars(?:\.json)?$/i.test(path);
+    inFolder = (path, folder) => {
+      if (folder === null) return true;
+      const own2 = path.split(/[\\/]/).slice(0, -1).join("/");
+      return own2 === folder || folder !== "" && own2.startsWith(`${folder}/`);
+    };
+    picks = (chosen, path) => path === chosen || path.endsWith(`/${chosen.replace(/^\.?\//, "")}`) || baseName(path) === chosen;
+  }
+});
+
+// ../../packages/diagrams/src/importers/terraform/index.ts
+function providersOf(blocks2) {
+  const out = /* @__PURE__ */ new Map();
+  for (const block of blocks2) {
+    if (block.type !== "provider" || block.labels[0] === void 0) continue;
+    const provider = providerOf2(`${block.labels[0]}_x`);
+    if (provider === null || out.get(provider) !== void 0) continue;
+    const attribute2 = ACCOUNT_ATTRIBUTES[provider];
+    out.set(provider, attribute2 === void 0 ? null : block.attributes.find((entry2) => entry2.name === attribute2)?.literal ?? null);
+  }
+  return out;
+}
+function regionsOf(blocks2, scope) {
+  const out = /* @__PURE__ */ new Map();
+  const byProvider = /* @__PURE__ */ new Map();
+  for (const block of blocks2) {
+    const name2 = block.labels[0];
+    if (block.type !== "provider" || name2 === void 0) continue;
+    const cloud = providerOf2(`${name2}_x`);
+    const attribute2 = cloud === null ? void 0 : REGION_ATTRIBUTES[cloud];
+    const raw = attribute2 === void 0 ? void 0 : block.attributes.find((entry2) => entry2.name === attribute2)?.raw;
+    const region = raw === void 0 ? null : scope.resolver.value(raw);
+    if (region === null || region === "") continue;
+    const alias = block.attributes.find((entry2) => entry2.name === "alias")?.literal ?? null;
+    out.set(alias === null ? name2 : `${name2}.${alias}`, region);
+    byProvider.set(name2, /* @__PURE__ */ new Set([...byProvider.get(name2) ?? [], region]));
+  }
+  for (const [key] of out) if ((byProvider.get(key.split(".")[0] ?? "")?.size ?? 0) < 2) out.delete(key);
+  return out;
+}
+function scopeOfVariable(scopes, name2) {
+  let best = null;
+  for (const scope of scopes) if (scope.prefix !== "" && name2.startsWith(scope.prefix) && (best === null || scope.prefix.length > best.prefix.length)) best = scope;
+  if (best !== null) return { scope: best, name: name2.slice(best.prefix.length) };
+  const root = scopes[0];
+  return root === void 0 ? null : { scope: root, name: name2 };
+}
+function drawRoot(text3, folders, root, blocks2, context, index2) {
+  const variableFiles = readVariableFiles(text3, context.files, context, index2, folders.roots.length > 1 || root !== "" ? root : null);
+  const scope = buildScope(folders, root, variableFiles.assigned);
+  const scopes = allScopes(scope);
+  const { resources, modules, empty } = readResources(scope);
+  for (const item of empty.slice(0, 1)) {
+    context.report.add(DIAGNOSTIC_CODES.importSkipped, index2.span(item.block.start, item.block.type.length), `${countWord(empty.length)} make${empty.length === 1 ? "s" : ""} no copy with the values given (count or for_each is empty), so ${empty.length === 1 ? "it is" : "they are"} not drawn: ${empty.slice(0, 3).map((entry2) => entry2.key).join(", ")}.`, "Set the variable that turns it on, in a variables file or options.varFiles, to draw it.");
+  }
+  if (![...resources.values()].some((resource) => resource.kind !== "data")) {
+    context.report.add(DIAGNOSTIC_CODES.importNoShape, index2.span(0), "The text has no resource or module blocks.", "Send the .tf files that declare resources, such as main.tf; variables and outputs alone draw nothing.");
+    return null;
+  }
+  const variableValue = (name2) => {
+    const found = scopeOfVariable(scopes, name2);
+    const value = found === null ? null : found.scope.resolver.variable(found.name);
+    return value === null || value === "" ? null : lastPart(value);
+  };
+  const regions = regionsOf(folders.blocks.get(root) ?? [], scope);
+  const copies = [...resources.values()].some((resource) => resource.block.attributes.some((attribute2) => attribute2.name === "for_each" || attribute2.name === "count"));
+  return drawStack({
+    resources,
+    modules,
+    compatible: modules.length === 0 && !copies && empty.length === 0,
+    regionOf: (resource) => regions.get(resource.provider ?? "") ?? null,
+    providers: providersOf(blocks2),
+    variableName: (name2) => variableValue(name2) ?? variableLabel(name2),
+    variableValue,
+    context,
+    span: (key) => {
+      const resource = resources.get(key);
+      return resource === void 0 ? { line: 1, column: 1, length: 1 } : index2.span(resource.block.start, resource.block.type.length);
+    },
+    tool: "Terraform"
+  });
+}
+function chosenRoot(roots, chosen) {
+  const wanted2 = chosen.replace(/^\.\//, "").replace(/\/+$/, "");
+  return roots.find((root) => root === wanted2) ?? roots.find((root) => root.endsWith(`/${wanted2}`)) ?? null;
+}
+function readTerraform(text3, context) {
+  const index2 = new LineIndex(text3);
+  const blanked = blankVariableFiles(text3, context.files);
+  const json2 = readJsonFiles(blanked, context, index2);
+  const read = parseHcl(json2.text);
+  if (read.problem !== null) {
+    context.report.add(DIAGNOSTIC_CODES.importUnreadable, index2.span(read.problem.offset), read.problem.message, read.problem.hint);
+    return null;
+  }
+  const blocks2 = [...read.blocks, ...json2.blocks];
+  const folders = foldersOf(blocks2, context.files);
+  const roots = folders.roots.length === 0 ? [folderOf(context.files[0]?.path ?? "")] : folders.roots;
+  let chosen = roots;
+  if (context.options.root !== void 0 && context.options.root !== "") {
+    const root = chosenRoot(roots, context.options.root);
+    if (root === null) {
+      context.report.add(DIAGNOSTIC_CODES.importSkipped, START, `options.root names ${cleanText(context.options.root)}, which is not a root module of the files sent; every root is drawn.`, `The root modules sent are: ${roots.map((entry2) => entry2 || "(the top folder)").join(", ")}.`);
+    } else chosen = [root];
+  }
+  if (chosen.length === 1) return drawRoot(text3, folders, chosen[0], blocks2, context, index2);
+  context.report.add(DIAGNOSTIC_CODES.importChanged, START, `The files hold ${chosen.length} root modules (${chosen.join(", ")}), so each is drawn as a diagram of its own.`, `Set options.root to draw one of them, such as "${chosen[chosen.length - 1] ?? ""}".`);
+  const drafts2 = [];
+  for (const root of chosen) {
+    const draft = drawRoot(text3, folders, root, blocks2, { ...context, title: `${context.title ?? "Infrastructure"}: ${root}` }, index2);
+    if (draft !== null) drafts2.push({ root, draft });
+  }
+  return joinRoots(drafts2);
+}
+var ACCOUNT_ATTRIBUTES, REGION_ATTRIBUTES, countWord, terraformImporter;
+var init_terraform = __esm({
+  "../../packages/diagrams/src/importers/terraform/index.ts"() {
+    "use strict";
+    init_core();
+    init_shared2();
+    init_draw();
+    init_graph4();
+    init_labels();
+    init_modules2();
+    init_parse21();
+    init_resources();
+    init_json_syntax();
+    init_tfvars();
+    init_values2();
+    init_draw();
+    ACCOUNT_ATTRIBUTES = { gcp: "project" };
+    REGION_ATTRIBUTES = { aws: "region", gcp: "region" };
+    countWord = (count3) => count3 === 1 ? "One block" : `${count3} blocks`;
+    terraformImporter = { format: "terraform", kinds: ["flow"], joins: "\n", extensions: [".tf", ".tf.json", ".tfvars", ".tfvars.json"], read: readTerraform };
+  }
+});
+
+// ../../packages/diagrams/src/importers/iac/value.ts
+function textOf5(value) {
+  if (typeof value === "string") return value;
+  if (typeof value === "number" || typeof value === "boolean") return String(value);
+  return null;
+}
+function readableOf(value) {
+  if (value instanceof Partial) return value.name;
+  if (isUnknown(value)) return `{${value.name}}`;
+  return textOf5(value);
+}
+function nameText(value) {
+  if (isUnknown(value)) return { known: null, readable: readableOf(value) };
+  const text3 = textOf5(value);
+  return { known: text3, readable: text3 };
+}
+function joined(parts) {
+  if (!parts.some(isUnknown)) return parts.map((part) => textOf5(part) ?? "").join("");
+  return new Partial(parts.map((part) => readableOf(part) ?? "").join(""));
+}
+var Unknown, Partial, isUnknown, isObject2;
+var init_value = __esm({
+  "../../packages/diagrams/src/importers/iac/value.ts"() {
+    "use strict";
+    Unknown = class {
+      constructor(name2) {
+        this.name = name2;
+      }
+      name;
+    };
+    Partial = class extends Unknown {
+    };
+    isUnknown = (value) => value instanceof Unknown;
+    isObject2 = (value) => typeof value === "object" && value !== null && !Array.isArray(value) && !isUnknown(value);
+  }
+});
+
+// ../../packages/diagrams/src/importers/bicep/evaluate.ts
+function shortOf(expr) {
+  switch (expr.kind) {
+    case "name":
+      return expr.name;
+    case "member":
+      return expr.name === "name" || expr.name === "id" ? shortOf(expr.object) : expr.name;
+    case "call":
+      return expr.name === "" ? "value" : expr.name;
+    case "index":
+      return shortOf(expr.object);
+    default:
+      return "value";
+  }
+}
+function formatted2(pattern3, args) {
+  let unknown2 = false;
+  const text3 = pattern3.replace(/\{(\d+)(?::[^}]*)?\}/g, (_whole, index2) => {
+    const arg = args[Number(index2)] ?? "";
+    if (isUnknown(arg)) unknown2 = true;
+    return readableOf(arg) ?? "";
+  });
+  return unknown2 ? new Partial(text3) : text3;
+}
+function bodyObject(value) {
+  if (value.kind === "object") return value;
+  if (value.kind === "if" || value.kind === "for") return bodyObject(value.body);
+  return null;
+}
+var MAX_DEPTH8, MAX_ITEMS, Env, Evaluator;
+var init_evaluate = __esm({
+  "../../packages/diagrams/src/importers/bicep/evaluate.ts"() {
+    "use strict";
+    init_value();
+    init_value();
+    MAX_DEPTH8 = 24;
+    MAX_ITEMS = 256;
+    Env = class _Env {
+      constructor(unit3, inputs, loop, prefix, children) {
+        this.unit = unit3;
+        this.inputs = inputs;
+        this.loop = loop;
+        this.prefix = prefix;
+        this.children = children;
+      }
+      unit;
+      inputs;
+      loop;
+      prefix;
+      children;
+      /** The same place with one more loop variable. */
+      bind(name2, bound) {
+        return new _Env(this.unit, this.inputs, new Map([...this.loop, [name2, bound]]), this.prefix, this.children);
+      }
+    };
+    Evaluator = class {
+      memo = /* @__PURE__ */ new Map();
+      evaluate(expr, env, depth = 0) {
+        if (depth > MAX_DEPTH8) return new Unknown(shortOf(expr));
+        switch (expr.kind) {
+          case "literal":
+            return expr.value;
+          case "string":
+            return joined(expr.parts.map((part) => typeof part === "string" ? part : this.evaluate(part, env, depth + 1)));
+          case "name":
+            return this.name(expr.name, env, depth);
+          case "member": {
+            const resource = this.resourceOf(expr.object, env);
+            if (resource !== null && expr.name === "name") {
+              const body6 = bodyObject(resource.value);
+              const named = body6?.entries.find((entry2) => entry2.key === "name")?.value;
+              return named === void 0 ? new Unknown(shortOf(expr.object)) : this.evaluate(named, env, depth + 1);
+            }
+            if (resource !== null) return new Unknown(shortOf(expr));
+            const outputs = this.moduleOutput(expr, env, depth);
+            if (outputs !== void 0) return outputs;
+            const object2 = this.evaluate(expr.object, env, depth + 1);
+            if (isObject2(object2)) return object2[expr.name] ?? new Unknown(expr.name);
+            return new Unknown(shortOf(expr));
+          }
+          case "index": {
+            const object2 = this.evaluate(expr.object, env, depth + 1);
+            const index2 = this.evaluate(expr.index, env, depth + 1);
+            if (Array.isArray(object2) && typeof index2 === "number") return object2[index2] ?? new Unknown(shortOf(expr.object));
+            if (isObject2(object2) && typeof index2 === "string") return object2[index2] ?? new Unknown(index2);
+            return new Unknown(shortOf(expr.object));
+          }
+          case "call":
+            return this.call(expr, env, depth);
+          case "object": {
+            const out = {};
+            for (const entry2 of expr.entries) {
+              const key = entry2.keyExpr === null ? entry2.key : textOf5(this.evaluate(entry2.keyExpr, env, depth + 1));
+              if (key !== null) out[key] = this.evaluate(entry2.value, env, depth + 1);
+            }
+            return out;
+          }
+          case "array":
+            return expr.items.map((item) => this.evaluate(item, env, depth + 1));
+          case "for": {
+            const over = this.evaluate(expr.over, env, depth + 1);
+            if (!Array.isArray(over)) return new Unknown(shortOf(expr.over));
+            return over.slice(0, MAX_ITEMS).map((item, index2) => {
+              let inner = env.bind(expr.item, { value: item });
+              if (expr.index !== null) inner = inner.bind(expr.index, { value: index2 });
+              return this.evaluate(expr.body, inner, depth + 1);
+            });
+          }
+          case "if":
+            return this.evaluate(expr.body, env, depth + 1);
+          case "op":
+            return this.operator(expr, env, depth);
+        }
+      }
+      /** The truth of a condition: true or false when the text gives it, else null. */
+      truth(expr, env) {
+        const value = this.evaluate(expr, env);
+        return typeof value === "boolean" ? value : null;
+      }
+      /** The declaration of a resource an expression names directly, in this file, or null. */
+      resourceOf(expr, env) {
+        if (expr.kind === "index") return this.resourceOf(expr.object, env);
+        if (expr.kind !== "name" || env.loop.has(expr.name)) return null;
+        return env.unit.resources.get(expr.name) ?? null;
+      }
+      name(name2, env, depth) {
+        const bound = env.loop.get(name2);
+        if (bound !== void 0) return this.bound(bound, depth);
+        const param = env.unit.params.get(name2);
+        if (param !== void 0) {
+          if (param.decorators.some((decorator) => decorator.name === "secure")) return new Unknown(name2);
+          const input2 = env.inputs.get(name2);
+          if (input2 !== void 0) return this.bound(input2, depth);
+          return param.value === null ? new Unknown(name2) : this.memoised(`p\0${env.prefix}\0${name2}`, () => this.evaluate(param.value, env, depth + 1));
+        }
+        const variable = env.unit.vars.get(name2);
+        if (variable !== void 0) return env.loop.size > 0 ? this.evaluate(variable, env, depth + 1) : this.memoised(`v\0${env.prefix}\0${name2}`, () => this.evaluate(variable, env, depth + 1));
+        return new Unknown(name2);
+      }
+      bound(bound, depth) {
+        return "value" in bound ? bound.value : this.evaluate(bound.expr, bound.env, depth + 1);
+      }
+      memoised(key, make) {
+        const known3 = this.memo.get(key);
+        if (known3 !== void 0) return known3;
+        this.memo.set(key, new Unknown("value"));
+        const made = make();
+        this.memo.set(key, made);
+        return made;
+      }
+      /** `module.outputs.name` (or `module[0].outputs.name`): the output as its module's file gives it, or undefined when the expression is not one. */
+      moduleOutput(expr, env, depth) {
+        const outputs = expr.object;
+        if (outputs.kind !== "member" || outputs.name !== "outputs") return void 0;
+        const base = outputs.object.kind === "index" ? outputs.object.object : outputs.object;
+        if (base.kind !== "name" || !env.unit.modules.has(base.name)) return void 0;
+        const children = env.children(env, base.name);
+        const index2 = outputs.object.kind === "index" ? this.evaluate(outputs.object.index, env, depth + 1) : null;
+        const child = index2 === null ? children[0] : children[typeof index2 === "number" ? index2 : -1];
+        const output2 = child?.env.unit.outputs.get(expr.name);
+        return child === void 0 || output2 === void 0 ? new Unknown(expr.name) : this.evaluate(output2, child.env, depth + 1);
+      }
+      operator(expr, env, depth) {
+        const [first, second, third] = expr.operands.map((operand) => () => this.evaluate(operand, env, depth + 1));
+        const a = first?.() ?? null;
+        switch (expr.op) {
+          case "?:": {
+            if (typeof a !== "boolean") return new Unknown(shortOf(expr.operands[1]));
+            return a ? second?.() ?? null : third?.() ?? null;
+          }
+          case "!":
+            return typeof a === "boolean" ? !a : new Unknown("condition");
+          case "-":
+            if (expr.operands.length === 1) return typeof a === "number" ? -a : new Unknown("value");
+            break;
+          case "??":
+            return a === null || isUnknown(a) ? second?.() ?? null : a;
+          case "=>":
+            return new Unknown("lambda");
+          default:
+            break;
+        }
+        const b = second?.() ?? null;
+        if (isUnknown(a) || isUnknown(b)) return new Unknown("condition");
+        switch (expr.op) {
+          case "==":
+            return JSON.stringify(a) === JSON.stringify(b);
+          case "!=":
+            return JSON.stringify(a) !== JSON.stringify(b);
+          case "=~":
+            return String(a).toLowerCase() === String(b).toLowerCase();
+          case "!~":
+            return String(a).toLowerCase() !== String(b).toLowerCase();
+          case "&&":
+            return a === true && b === true;
+          case "||":
+            return a === true || b === true;
+          case "+":
+          case "-":
+          case "*":
+          case "/":
+          case "%":
+            if (typeof a !== "number" || typeof b !== "number") return new Unknown("value");
+            return expr.op === "+" ? a + b : expr.op === "-" ? a - b : expr.op === "*" ? a * b : b === 0 ? new Unknown("value") : expr.op === "/" ? Math.trunc(a / b) : a % b;
+          case "<":
+            return typeof a === "number" && typeof b === "number" ? a < b : new Unknown("condition");
+          case ">":
+            return typeof a === "number" && typeof b === "number" ? a > b : new Unknown("condition");
+          case "<=":
+            return typeof a === "number" && typeof b === "number" ? a <= b : new Unknown("condition");
+          case ">=":
+            return typeof a === "number" && typeof b === "number" ? a >= b : new Unknown("condition");
+          default:
+            return new Unknown("value");
+        }
+      }
+      call(expr, env, depth) {
+        const name2 = expr.name.toLowerCase();
+        if ((name2 === "parameters" || name2 === "variables") && expr.args[0]?.kind === "string") return this.name(textOf5(this.evaluate(expr.args[0], env, depth + 1)) ?? "", env, depth);
+        const args = () => expr.args.map((arg) => this.evaluate(arg, env, depth + 1));
+        const text3 = (value) => value === void 0 ? null : textOf5(value);
+        switch (name2) {
+          case "format": {
+            const [pattern3, ...rest] = args();
+            const known3 = text3(pattern3);
+            return known3 === null ? new Unknown("format") : formatted2(known3, rest);
+          }
+          case "concat": {
+            const values = args();
+            if (values.length > 0 && values.every((value) => Array.isArray(value))) return values.flatMap((value) => value);
+            return joined(values);
+          }
+          case "tolower":
+          case "toupper":
+          case "trim": {
+            const [value] = args();
+            if (value instanceof Partial) return new Partial(name2 === "tolower" ? value.name.toLowerCase() : name2 === "toupper" ? value.name.toUpperCase() : value.name.trim());
+            const known3 = text3(value);
+            if (known3 === null) return value ?? null;
+            return name2 === "tolower" ? known3.toLowerCase() : name2 === "toupper" ? known3.toUpperCase() : known3.trim();
+          }
+          case "replace": {
+            const [value, search, replacement] = args();
+            const [known3, find, put] = [value instanceof Partial ? value.name : text3(value), text3(search), text3(replacement)];
+            if (known3 === null || find === null || put === null || find === "") return value ?? null;
+            const out = known3.split(find).join(put);
+            return value instanceof Partial ? new Partial(out) : out;
+          }
+          case "take":
+          case "substring": {
+            const [value, a, b] = args();
+            const known3 = text3(value);
+            if (known3 === null || typeof a !== "number") return value ?? null;
+            if (name2 === "take") return known3.slice(0, a);
+            return typeof b === "number" ? known3.slice(a, a + b) : known3.slice(a);
+          }
+          case "string":
+            return args()[0] ?? null;
+          case "int": {
+            const value = Number(text3(args()[0]));
+            return Number.isFinite(value) ? Math.trunc(value) : new Unknown("value");
+          }
+          case "length": {
+            const [value] = args();
+            if (Array.isArray(value)) return value.length;
+            if (typeof value === "string") return value.length;
+            return isObject2(value) ? Object.keys(value).length : new Unknown("length");
+          }
+          case "empty": {
+            const [value] = args();
+            if (Array.isArray(value)) return value.length === 0;
+            if (typeof value === "string") return value === "";
+            if (value === null) return true;
+            return isObject2(value) ? Object.keys(value).length === 0 : new Unknown("condition");
+          }
+          case "contains": {
+            const [container, item] = args();
+            if (Array.isArray(container)) return container.some((entry2) => JSON.stringify(entry2) === JSON.stringify(item));
+            if (typeof container === "string" && typeof item === "string") return container.includes(item);
+            if (isObject2(container) && typeof item === "string") return item in container;
+            return new Unknown("condition");
+          }
+          case "union": {
+            const values = args();
+            if (values.every((value) => isObject2(value))) return Object.assign({}, ...values);
+            if (values.every((value) => Array.isArray(value))) {
+              const seen = /* @__PURE__ */ new Set();
+              return values.flatMap((value) => value).filter((entry2) => {
+                const key = JSON.stringify(entry2);
+                if (seen.has(key)) return false;
+                seen.add(key);
+                return true;
+              });
+            }
+            return new Unknown("union");
+          }
+          case "first":
+          case "last": {
+            const [value] = args();
+            if (Array.isArray(value)) return (name2 === "first" ? value[0] : value[value.length - 1]) ?? null;
+            const known3 = text3(value);
+            return known3 === null ? new Unknown(name2) : name2 === "first" ? known3.charAt(0) : known3.charAt(known3.length - 1);
+          }
+          case "split": {
+            const [value, separator] = args();
+            const [known3, by] = [text3(value), text3(separator)];
+            return known3 === null || by === null ? new Unknown("split") : known3.split(by);
+          }
+          case "join": {
+            const [list, separator] = args();
+            const by = text3(separator);
+            if (!Array.isArray(list) || by === null) return new Unknown("join");
+            return joined(list.flatMap((item, index2) => index2 === 0 ? [item] : [by, item]));
+          }
+          case "range": {
+            const [from, count3] = args();
+            if (typeof from !== "number" || typeof count3 !== "number" || count3 < 0 || count3 > MAX_ITEMS) return new Unknown("range");
+            return Array.from({ length: count3 }, (_unused, index2) => from + index2);
+          }
+          case "if": {
+            const [test, yes, no] = args();
+            return typeof test === "boolean" ? (test ? yes : no) ?? null : new Unknown("value");
+          }
+          case "coalesce":
+            return args().find((value) => value !== null && !isUnknown(value)) ?? new Unknown("value");
+          case "createarray":
+            return args();
+          case "bool":
+            return args()[0] === true || text3(args()[0]) === "true";
+          case "startswith":
+          case "endswith": {
+            const [value, part] = args().map((arg) => text3(arg));
+            if (value === null || value === void 0 || part === null || part === void 0) return new Unknown("condition");
+            return name2 === "startswith" ? value.toLowerCase().startsWith(part.toLowerCase()) : value.toLowerCase().endsWith(part.toLowerCase());
+          }
+          // ARM's operators, written as functions.
+          case "add":
+          case "sub":
+          case "mul":
+          case "div":
+          case "mod": {
+            const [a, b] = args();
+            if (typeof a !== "number" || typeof b !== "number") return new Unknown("value");
+            if (name2 === "add") return a + b;
+            if (name2 === "sub") return a - b;
+            if (name2 === "mul") return a * b;
+            return b === 0 ? new Unknown("value") : name2 === "div" ? Math.trunc(a / b) : a % b;
+          }
+          case "equals": {
+            const [a, b] = args();
+            return a instanceof Unknown || b instanceof Unknown ? new Unknown("condition") : JSON.stringify(a) === JSON.stringify(b);
+          }
+          case "not": {
+            const [value] = args();
+            return typeof value === "boolean" ? !value : new Unknown("condition");
+          }
+          case "and":
+          case "or": {
+            const values = args();
+            if (values.some((value) => typeof value !== "boolean")) return new Unknown("condition");
+            return name2 === "and" ? values.every((value) => value === true) : values.some((value) => value === true);
+          }
+          default:
+            return new Unknown(expr.name === "" ? "value" : expr.name);
+        }
+      }
+    };
+  }
+});
+
+// ../../packages/diagrams/src/importers/iac/azure-types.ts
+function singularSnake(word2) {
+  const snake2 = word2.replace(/([a-z0-9])([A-Z])/g, "$1_$2").replace(/([A-Z]+)([A-Z][a-z])/g, "$1_$2").toLowerCase();
+  if (snake2.endsWith("ies")) return `${snake2.slice(0, -3)}y`;
+  if (snake2.endsWith("sses") || snake2.endsWith("xes")) return snake2.slice(0, -2);
+  if (snake2.endsWith("s") && !snake2.endsWith("ss")) return snake2.slice(0, -1);
+  return snake2;
+}
+function armToTerraform(armType) {
+  const type = armType.split("@")[0]?.trim() ?? "";
+  const known3 = ARM_TYPES[type.toLowerCase()];
+  if (known3 !== void 0) return known3;
+  const [namespace, ...segments] = type.split("/");
+  const service = (namespace ?? "").replace(/^Microsoft\./i, "").toLowerCase();
+  const words2 = segments.map(singularSnake).filter((word2) => word2 !== "");
+  const tail = words2.join("_");
+  const name2 = tail.startsWith(`${service}_`) || tail === service ? tail : `${service}_${tail}`;
+  return `azurerm_${name2.replace(/_+/g, "_").replace(/^_|_$/g, "")}`;
+}
+function nativeToArm(token) {
+  const match = /^azure-native:([a-z0-9]+)(?:\/[a-z0-9]+)?:([A-Za-z0-9]+)$/.exec(token);
+  if (match === null) return null;
+  const module = match[1] ?? "";
+  const name2 = (match[2] ?? "").toLowerCase();
+  const named = NATIVE_NAMES[`${module}:${name2}`];
+  if (named !== void 0) return named;
+  const namespace = NATIVE_NAMESPACES[module] ?? `microsoft.${module}`;
+  const listed2 = Object.keys(ARM_TYPES).find((type) => type.startsWith(`${namespace}/`) && singularSnake(type.split("/").pop() ?? "").replace(/_/g, "") === name2);
+  return listed2 ?? `${namespace}/${name2}s`;
+}
+function nativeToTerraform(token) {
+  const arm = nativeToArm(token);
+  return arm === null ? null : armToTerraform(arm);
+}
+function refineByKind(type, kind) {
+  const words2 = (kind ?? "").toLowerCase();
+  if (type === "azurerm_linux_web_app" && words2.includes("functionapp")) return "azurerm_linux_function_app";
+  return type;
+}
+var ARM_TYPES, NATIVE_NAMESPACES, NATIVE_NAMES;
+var init_azure_types = __esm({
+  "../../packages/diagrams/src/importers/iac/azure-types.ts"() {
+    "use strict";
+    init_resources();
+    ARM_TYPES = {
+      "microsoft.resources/resourcegroups": "azurerm_resource_group",
+      "microsoft.network/virtualnetworks": "azurerm_virtual_network",
+      "microsoft.network/virtualnetworks/subnets": "azurerm_subnet",
+      "microsoft.network/networksecuritygroups": "azurerm_network_security_group",
+      "microsoft.network/publicipaddresses": "azurerm_public_ip",
+      "microsoft.network/networkinterfaces": "azurerm_network_interface",
+      "microsoft.network/privateendpoints": "azurerm_private_endpoint",
+      "microsoft.network/privatednszones": "azurerm_private_dns_zone",
+      "microsoft.network/privatednszones/virtualnetworklinks": "azurerm_private_dns_zone_virtual_network_link",
+      "microsoft.network/privateendpoints/privatednszonegroups": "azurerm_private_dns_zone_group",
+      "microsoft.network/dnszones": "azurerm_dns_zone",
+      "microsoft.network/applicationgateways": "azurerm_application_gateway",
+      "microsoft.network/loadbalancers": "azurerm_lb",
+      "microsoft.network/natgateways": "azurerm_nat_gateway",
+      "microsoft.network/routetables": "azurerm_route_table",
+      "microsoft.network/azurefirewalls": "azurerm_firewall",
+      "microsoft.network/bastionhosts": "azurerm_bastion_host",
+      "microsoft.network/frontdoors": "azurerm_frontdoor",
+      "microsoft.cdn/profiles": "azurerm_cdn_frontdoor_profile",
+      "microsoft.cdn/profiles/afdendpoints": "azurerm_cdn_frontdoor_endpoint",
+      "microsoft.web/serverfarms": "azurerm_service_plan",
+      "microsoft.web/sites": "azurerm_linux_web_app",
+      "microsoft.web/sites/slots": "azurerm_linux_web_app_slot",
+      "microsoft.web/sites/config": "azurerm_app_service_config",
+      "microsoft.web/staticsites": "azurerm_static_web_app",
+      "microsoft.app/managedenvironments": "azurerm_container_app_environment",
+      "microsoft.app/containerapps": "azurerm_container_app",
+      "microsoft.app/jobs": "azurerm_container_app_job",
+      "microsoft.containerregistry/registries": "azurerm_container_registry",
+      "microsoft.containerservice/managedclusters": "azurerm_kubernetes_cluster",
+      "microsoft.containerinstance/containergroups": "azurerm_container_group",
+      "microsoft.compute/virtualmachines": "azurerm_linux_virtual_machine",
+      "microsoft.compute/virtualmachinescalesets": "azurerm_linux_virtual_machine_scale_set",
+      "microsoft.compute/disks": "azurerm_managed_disk",
+      "microsoft.sql/servers": "azurerm_mssql_server",
+      "microsoft.sql/servers/databases": "azurerm_mssql_database",
+      "microsoft.dbforpostgresql/flexibleservers": "azurerm_postgresql_flexible_server",
+      "microsoft.dbforpostgresql/flexibleservers/databases": "azurerm_postgresql_flexible_server_database",
+      "microsoft.dbformysql/flexibleservers": "azurerm_mysql_flexible_server",
+      "microsoft.dbformysql/flexibleservers/databases": "azurerm_mysql_flexible_database",
+      "microsoft.documentdb/databaseaccounts": "azurerm_cosmosdb_account",
+      "microsoft.documentdb/databaseaccounts/sqldatabases": "azurerm_cosmosdb_sql_database",
+      "microsoft.documentdb/databaseaccounts/sqldatabases/containers": "azurerm_cosmosdb_sql_container",
+      "microsoft.cache/redis": "azurerm_redis_cache",
+      "microsoft.storage/storageaccounts": "azurerm_storage_account",
+      "microsoft.storage/storageaccounts/blobservices": "azurerm_storage_blob_service",
+      "microsoft.storage/storageaccounts/blobservices/containers": "azurerm_storage_container",
+      "microsoft.storage/storageaccounts/queueservices/queues": "azurerm_storage_queue",
+      "microsoft.storage/storageaccounts/tableservices/tables": "azurerm_storage_table",
+      "microsoft.storage/storageaccounts/fileservices/shares": "azurerm_storage_share",
+      "microsoft.keyvault/vaults": "azurerm_key_vault",
+      "microsoft.keyvault/vaults/secrets": "azurerm_key_vault_secret",
+      "microsoft.keyvault/vaults/keys": "azurerm_key_vault_key",
+      "microsoft.servicebus/namespaces": "azurerm_servicebus_namespace",
+      "microsoft.servicebus/namespaces/queues": "azurerm_servicebus_queue",
+      "microsoft.servicebus/namespaces/topics": "azurerm_servicebus_topic",
+      "microsoft.servicebus/namespaces/topics/subscriptions": "azurerm_servicebus_subscription",
+      "microsoft.eventhub/namespaces": "azurerm_eventhub_namespace",
+      "microsoft.eventhub/namespaces/eventhubs": "azurerm_eventhub",
+      "microsoft.eventgrid/topics": "azurerm_eventgrid_topic",
+      "microsoft.eventgrid/systemtopics": "azurerm_eventgrid_system_topic",
+      "microsoft.apimanagement/service": "azurerm_api_management",
+      "microsoft.apimanagement/service/apis": "azurerm_api_management_api",
+      "microsoft.insights/components": "azurerm_application_insights",
+      "microsoft.insights/diagnosticsettings": "azurerm_monitor_diagnostic_setting",
+      "microsoft.insights/actiongroups": "azurerm_monitor_action_group",
+      "microsoft.insights/metricalerts": "azurerm_monitor_metric_alert",
+      "microsoft.operationalinsights/workspaces": "azurerm_log_analytics_workspace",
+      "microsoft.cognitiveservices/accounts": "azurerm_cognitive_account",
+      "microsoft.cognitiveservices/accounts/deployments": "azurerm_cognitive_deployment",
+      "microsoft.search/searchservices": "azurerm_search_service",
+      "microsoft.managedidentity/userassignedidentities": "azurerm_user_assigned_identity",
+      "microsoft.authorization/roleassignments": "azurerm_role_assignment",
+      "microsoft.authorization/locks": "azurerm_management_lock",
+      "microsoft.authorization/policyassignments": "azurerm_resource_group_policy_assignment",
+      "microsoft.signalrservice/signalr": "azurerm_signalr_service",
+      "microsoft.datafactory/factories": "azurerm_data_factory",
+      "microsoft.recoveryservices/vaults": "azurerm_recovery_services_vault",
+      "microsoft.automation/automationaccounts": "azurerm_automation_account"
+    };
+    NATIVE_NAMESPACES = {
+      resources: "microsoft.resources",
+      network: "microsoft.network",
+      web: "microsoft.web",
+      app: "microsoft.app",
+      containerregistry: "microsoft.containerregistry",
+      containerservice: "microsoft.containerservice",
+      containerinstance: "microsoft.containerinstance",
+      compute: "microsoft.compute",
+      sql: "microsoft.sql",
+      dbforpostgresql: "microsoft.dbforpostgresql",
+      dbformysql: "microsoft.dbformysql",
+      documentdb: "microsoft.documentdb",
+      cache: "microsoft.cache",
+      storage: "microsoft.storage",
+      keyvault: "microsoft.keyvault",
+      servicebus: "microsoft.servicebus",
+      eventhub: "microsoft.eventhub",
+      eventgrid: "microsoft.eventgrid",
+      apimanagement: "microsoft.apimanagement",
+      insights: "microsoft.insights",
+      applicationinsights: "microsoft.insights",
+      operationalinsights: "microsoft.operationalinsights",
+      cognitiveservices: "microsoft.cognitiveservices",
+      search: "microsoft.search",
+      managedidentity: "microsoft.managedidentity",
+      authorization: "microsoft.authorization",
+      cdn: "microsoft.cdn",
+      signalrservice: "microsoft.signalrservice",
+      datafactory: "microsoft.datafactory",
+      recoveryservices: "microsoft.recoveryservices",
+      automation: "microsoft.automation"
+    };
+    NATIVE_NAMES = {
+      "web:webapp": "microsoft.web/sites",
+      "web:webappslot": "microsoft.web/sites/slots",
+      "web:appserviceplan": "microsoft.web/serverfarms",
+      "web:staticsite": "microsoft.web/staticsites",
+      "app:managedenvironment": "microsoft.app/managedenvironments",
+      "app:job": "microsoft.app/jobs",
+      "dbforpostgresql:server": "microsoft.dbforpostgresql/flexibleservers",
+      "dbformysql:server": "microsoft.dbformysql/flexibleservers",
+      "documentdb:databaseaccount": "microsoft.documentdb/databaseaccounts",
+      "documentdb:sqlresourcesqldatabase": "microsoft.documentdb/databaseaccounts/sqldatabases",
+      "documentdb:sqlresourcesqlcontainer": "microsoft.documentdb/databaseaccounts/sqldatabases/containers",
+      "storage:blobcontainer": "microsoft.storage/storageaccounts/blobservices/containers",
+      "storage:queue": "microsoft.storage/storageaccounts/queueservices/queues",
+      "storage:table": "microsoft.storage/storageaccounts/tableservices/tables",
+      "storage:fileshare": "microsoft.storage/storageaccounts/fileservices/shares",
+      "keyvault:vault": "microsoft.keyvault/vaults",
+      "servicebus:namespace": "microsoft.servicebus/namespaces",
+      "apimanagement:apimanagementservice": "microsoft.apimanagement/service",
+      "insights:component": "microsoft.insights/components",
+      "applicationinsights:component": "microsoft.insights/components",
+      "insights:diagnosticsetting": "microsoft.insights/diagnosticsettings",
+      "operationalinsights:workspace": "microsoft.operationalinsights/workspaces",
+      "cognitiveservices:account": "microsoft.cognitiveservices/accounts",
+      "search:service": "microsoft.search/searchservices",
+      "managedidentity:userassignedidentity": "microsoft.managedidentity/userassignedidentities",
+      "authorization:roleassignment": "microsoft.authorization/roleassignments",
+      "authorization:managementlockatresourcegroup": "microsoft.authorization/locks",
+      "cdn:profile": "microsoft.cdn/profiles",
+      "cache:redis": "microsoft.cache/redis",
+      "network:privatednszonegroup": "microsoft.network/privateendpoints/privatednszonegroups",
+      "network:privatezone": "microsoft.network/privatednszones",
+      "network:virtualnetworklink": "microsoft.network/privatednszones/virtualnetworklinks",
+      "network:zone": "microsoft.network/dnszones"
+    };
+  }
+});
+
+// ../../packages/diagrams/src/importers/iac/azure-roles.ts
+function roleName(text3) {
+  for (const match of text3.matchAll(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/gi)) {
+    const name2 = BUILT_IN_ROLES[match[0].toLowerCase()];
+    if (name2 !== void 0) return name2;
+  }
+  return null;
+}
+var BUILT_IN_ROLES;
+var init_azure_roles = __esm({
+  "../../packages/diagrams/src/importers/iac/azure-roles.ts"() {
+    "use strict";
+    BUILT_IN_ROLES = {
+      "8e3af657-a8ff-443c-a75c-2fe8c4bcb635": "Owner",
+      "b24988ac-6180-42a0-ab88-20f7382dd24c": "Contributor",
+      "acdd72a7-3385-48ef-bd42-f606fba81ae7": "Reader",
+      "ba92f5b4-2d11-453d-a403-e96b0029c9fe": "Storage Blob Data Contributor",
+      "2a2b9908-6ea1-4ae2-8e65-a410df84e7d1": "Storage Blob Data Reader",
+      "974c5e8b-45b9-4653-ba55-5f855dd0fb88": "Storage Queue Data Contributor",
+      "4633458b-17de-408a-b874-0445c86b69e6": "Key Vault Secrets User",
+      "00482a5a-887f-4fb3-b363-3b7fe8e74483": "Key Vault Administrator",
+      "7f951dda-4ed3-4680-a7ca-43fe172d538d": "AcrPull",
+      "8311e382-0749-4cb8-b61a-304f252e45ec": "AcrPush",
+      "69a216fc-b8fb-44d8-bc22-1f3c2cd27a39": "Azure Service Bus Data Sender",
+      "4f6d3b9b-027b-4f4c-9142-0e5a2a2247e0": "Azure Service Bus Data Receiver",
+      "3913510d-42f4-4e42-8a64-420c390055eb": "Monitoring Metrics Publisher"
+    };
+  }
+});
+
+// ../../packages/diagrams/src/importers/bicep/slots.ts
+function keyOf2(item, index2) {
+  if (typeof item === "string") return item;
+  if (typeof item === "object" && item !== null && !Array.isArray(item) && !(item instanceof Unknown)) {
+    const name2 = item["name"];
+    if (typeof name2 === "string") return name2;
+  }
+  return index2;
+}
+function chainOf(expr) {
+  const steps = [];
+  let current = expr;
+  for (let depth = 0; depth < 32; depth += 1) {
+    if (current.kind === "member") {
+      steps.unshift({ kind: "member", name: current.name, nested: current.nested });
+      current = current.object;
+    } else if (current.kind === "index") {
+      steps.unshift({ kind: "index", index: current.index });
+      current = current.object;
+    } else break;
+  }
+  return { base: current, steps };
+}
+function nameOf7(slot, evaluator) {
+  const named = bodyObject(slot.declaration.value)?.entries.find((entry2) => entry2.key === "name")?.value;
+  return named === void 0 ? null : textOf5(evaluator.evaluate(named, slot.env));
+}
+var suffixOf;
+var init_slots2 = __esm({
+  "../../packages/diagrams/src/importers/bicep/slots.ts"() {
+    "use strict";
+    init_evaluate();
+    suffixOf = (key) => key === null ? "" : typeof key === "number" ? `[${key}]` : `['${key}']`;
+  }
+});
+
+// ../../packages/diagrams/src/importers/bicep/items.ts
+function withoutReadCopies(items2) {
+  const nameOf10 = (item) => item.attributes.find((attribute2) => attribute2.name === "name")?.value ?? null;
+  const made = /* @__PURE__ */ new Map();
+  for (const item of items2) {
+    const name2 = nameOf10(item);
+    if (!item.existing && name2 !== null) made.set(`${item.type}\0${name2}`, item.name);
+  }
+  const alias = /* @__PURE__ */ new Map();
+  for (const item of items2) {
+    const name2 = nameOf10(item);
+    const real = name2 === null ? void 0 : made.get(`${item.type}\0${name2}`);
+    if (item.existing && real !== void 0) alias.set(item.name, real);
+  }
+  if (alias.size === 0) return [...items2];
+  return items2.filter((item) => !alias.has(item.name)).map((item) => ({ ...item, attributes: item.attributes.map((attribute2) => ({ ...attribute2, refs: [...new Set(attribute2.refs.map((ref) => alias.get(ref) ?? ref))] })) }));
+}
+function parentAttribute(type) {
+  const listed2 = PARENT_ATTRIBUTES[type];
+  if (listed2 !== void 0) return listed2;
+  const role = roleOf2(type);
+  if (role.role === "node" && role.parent !== void 0) return role.parent[0] ?? "parent_id";
+  return "parent_id";
+}
+var UNGROUPED, SCOPE_ATTRIBUTES, DETAILS, ItemWriter, PARENT_ATTRIBUTES;
+var init_items3 = __esm({
+  "../../packages/diagrams/src/importers/bicep/items.ts"() {
+    "use strict";
+    init_attributes();
+    init_azure_roles();
+    init_generic();
+    init_evaluate();
+    init_slots2();
+    UNGROUPED = /* @__PURE__ */ new Set(["azurerm_resource_group", "azurerm_subscription", "azurerm_role_assignment", "azurerm_management_lock", "azurerm_monitor_diagnostic_setting"]);
+    SCOPE_ATTRIBUTES = { azurerm_monitor_diagnostic_setting: "target_resource_id" };
+    DETAILS = [
+      [["sku", "name"], "sku"],
+      [["kind"], "kind"],
+      [["properties", "version"], "version"],
+      [["properties", "addressPrefix"], "address_prefixes"]
+    ];
+    ItemWriter = class {
+      constructor(evaluator, references2, slots) {
+        this.evaluator = evaluator;
+        this.references = references2;
+        this.slots = slots;
+      }
+      evaluator;
+      references;
+      slots;
+      /** The items of one slot: the resource, its inline subnets, and the associations they write. */
+      itemsOf(slot) {
+        if (slot.transparent) return [];
+        const body6 = bodyObject(slot.declaration.value);
+        const attributes2 = [];
+        const add2 = (name2, refs, value = null, readable2 = null, vars = []) => {
+          if (refs.length === 0 && value === null && readable2 === null && vars.length === 0) return;
+          attributes2.push({ name: name2, refs, value, readable: readable2, vars });
+        };
+        for (const entry2 of body6?.entries ?? []) {
+          if (entry2.key === "name") {
+            const name2 = nameText(this.evaluator.evaluate(entry2.value, slot.env));
+            const own2 = (text3) => text3 === null || slot.armType.split("/").length < 3 ? text3 : text3.split("/").pop() ?? text3;
+            add2("name", [], own2(name2.known), own2(name2.readable));
+          } else if (entry2.key === "parent") add2(parentAttribute(slot.type), this.references.refs(entry2.value, slot.env, 0).map((ref) => this.holderName(ref)));
+          else if (entry2.key === "scope") {
+            const refs = this.references.refs(entry2.value, slot.env, 0);
+            const path = refs.length > 0 ? null : textOf5(this.evaluator.evaluate(entry2.value, slot.env));
+            const parts = path === null ? [] : path.split("/");
+            const scoped = parts.length === 3 ? this.declared(parts.slice(0, 2).join("/"), parts[2] ?? "") : null;
+            add2(SCOPE_ATTRIBUTES[slot.type] ?? "scope", scoped === null ? refs : [scoped]);
+          } else if (entry2.key === "dependsOn") add2("depends_on", this.references.refs(entry2.value, slot.env, 0));
+          else if (entry2.key === "tags" || entry2.key === "location") {
+            const value = textOf5(this.evaluator.evaluate(entry2.value, slot.env));
+            if (entry2.key === "location" && slot.type === "azurerm_resource_group") add2("location", [], value);
+          } else this.walkAttributes(entry2.value, [entry2.key], slot.env, add2);
+        }
+        if (slot.holder !== null) add2(parentAttribute(slot.type), [slot.holder.name]);
+        else {
+          const parent = this.parentByName(slot);
+          if (parent !== null) add2(parentAttribute(slot.type), [parent]);
+        }
+        const role = roleOf2(slot.type);
+        for (const [path, attribute2] of DETAILS) {
+          const value = this.pathValue(body6, path, slot.env);
+          if (value !== null) add2(attribute2 === "sku" ? skuAttribute(role.role === "node" ? role.detail ?? [] : []) : attribute2, [], value);
+        }
+        if (slot.armType.toLowerCase() === "microsoft.network/virtualnetworks") {
+          const range = this.pathValue(body6, ["properties", "addressSpace", "addressPrefixes"], slot.env);
+          if (range !== null) add2("address_space", [], range);
+        }
+        if (slot.type === "azurerm_role_assignment") {
+          const definition = this.pathExpr(body6, ["properties", "roleDefinitionId"]);
+          const text3 = definition === void 0 ? null : this.allText(definition, slot.env);
+          const role2 = text3 === null ? null : roleName(text3);
+          if (role2 !== null) add2("role_definition_name", [], role2);
+        }
+        if (!UNGROUPED.has(slot.type) && slot.holder === null) this.place(add2, slot.placement);
+        const item = { name: slot.name, type: slot.type, label: slot.declaration.name + (slot.key === null ? "" : `_${slot.key}`), existing: slot.declaration.existing, start: slot.env.unit.offset + slot.declaration.start, scope: slot.env.prefix, attributes: attributes2, ...slot.copies === void 0 ? {} : { copies: slot.copies } };
+        return [item, ...slot.subnets.flatMap((subnet) => this.subnetItems(slot, subnet))];
+      }
+      /** The resource a child names as its parent by the start of its name (`vnet-shop` of `vnet-shop/app`), when the stack declares it. */
+      parentByName(slot) {
+        const name2 = nameOf7(slot, this.evaluator);
+        const segments = slot.armType.split("/");
+        if (name2 === null || !name2.includes("/") || segments.length < 3) return null;
+        const parentType = segments.slice(0, -1).join("/").toLowerCase();
+        const parentName = name2.slice(0, name2.lastIndexOf("/"));
+        for (const list of this.slots.values()) for (const candidate2 of list) if (candidate2.armType.toLowerCase() === parentType && nameOf7(candidate2, this.evaluator) === parentName) return candidate2.transparent ? candidate2.holder?.name ?? null : candidate2.name;
+        if (/\/(?:blob|queue|table|file)services$/.test(parentType) && segments.length >= 4) return this.declared(segments.slice(0, -2).join("/"), parentName.slice(0, parentName.lastIndexOf("/")));
+        return null;
+      }
+      /** The item of a type and a name the deployment declares, or null. */
+      declared(type, name2) {
+        for (const list of this.slots.values()) for (const candidate2 of list) if (candidate2.armType.toLowerCase() === type.toLowerCase() && nameOf7(candidate2, this.evaluator) === name2) return candidate2.name;
+        return null;
+      }
+      /** The item that stands for a name: a storage service's account, since the service itself is not drawn. */
+      holderName(name2) {
+        for (const list of this.slots.values()) for (const slot of list) if (slot.name === name2 && slot.transparent) return slot.holder?.name ?? name2;
+        return name2;
+      }
+      /** The resource group attribute of a resource, by where its deployment goes. */
+      place(add2, placement) {
+        if (placement === null) return;
+        if ("ref" in placement) add2("resource_group_name", [placement.ref]);
+        else add2("resource_group_name", [], null, null, [placement.variable]);
+      }
+      /** A subnet written inline in a network, and the security group, NAT gateway, or route table it names, as an association. */
+      subnetItems(network, subnet) {
+        const start2 = network.env.unit.offset + subnet.body.start;
+        const properties = subnet.body.entries.find((entry2) => entry2.key === "properties")?.value;
+        const range = properties?.kind === "object" ? properties.entries.find((entry2) => entry2.key === "addressPrefix")?.value : void 0;
+        const prefix = range === void 0 ? null : textOf5(this.evaluator.evaluate(range, subnet.env));
+        const out = [
+          {
+            name: subnet.name,
+            type: "azurerm_subnet",
+            label: subnet.label,
+            existing: false,
+            start: start2,
+            scope: network.env.prefix,
+            attributes: [
+              { name: "name", refs: [], value: subnet.display ?? subnet.label },
+              { name: "virtual_network_name", refs: [network.name], value: null },
+              ...prefix === null ? [] : [{ name: "address_prefixes", refs: [], value: prefix }]
+            ]
+          }
+        ];
+        out.push(...this.associations(subnet.name, subnet.label, properties, subnet.env, start2, network.env.prefix));
+        return out;
+      }
+      /** The security group, NAT gateway, and route table a subnet's properties name, each as the association Terraform writes for it. */
+      associations(subnet, label, properties, env, start2, scope) {
+        const out = [];
+        const joins = [
+          ["networkSecurityGroup", "azurerm_subnet_network_security_group_association", "network_security_group_id"],
+          ["natGateway", "azurerm_subnet_nat_gateway_association", "nat_gateway_id"],
+          ["routeTable", "azurerm_subnet_route_table_association", "route_table_id"]
+        ];
+        for (const [key, type, attribute2] of joins) {
+          const value = properties?.kind === "object" ? properties.entries.find((entry2) => entry2.key === key)?.value : void 0;
+          const refs = value === void 0 ? [] : this.references.refs(value, env, 0);
+          if (refs.length === 0) continue;
+          out.push({ name: `${subnet}/${key}`, type, label: `${label}_${snake(key)}`, existing: false, start: start2, scope, attributes: [{ name: "subnet_id", refs: [subnet], value: null }, { name: attribute2, refs, value: null }] });
+        }
+        return out;
+      }
+      /** Every attribute a value holds, by the keys that lead to each reference. */
+      walkAttributes(expr, path, env, add2) {
+        if (path.length > 24) return;
+        if (expr.kind === "object") {
+          for (const entry2 of expr.entries) {
+            if (entry2.keyExpr !== null) add2(attributeOf(path), this.references.refs(entry2.keyExpr, env, 0));
+            this.walkAttributes(entry2.value, [...path, entry2.key], env, add2);
+          }
+          return;
+        }
+        if (expr.kind === "array") {
+          for (const item of expr.items) this.walkAttributes(item, path, env, add2);
+          return;
+        }
+        if (expr.kind === "for") {
+          this.walkAttributes(expr.body, path, env.bind(expr.item, { expr: expr.over, env }), add2);
+          return;
+        }
+        if (path.length === 2 && path[0] === "properties" && path[1] === "subnets") return;
+        const refs = this.references.refs(expr, env, 0);
+        if (refs.length > 0) add2(attributeOf(path), refs);
+      }
+      /** The text value at a path of keys of a body, when known; the first item of a list. */
+      pathValue(body6, path, env) {
+        const expr = this.pathExpr(body6, path);
+        if (expr === void 0) return null;
+        const value = this.evaluator.evaluate(expr, env);
+        if (Array.isArray(value)) return textOf5(value[0] ?? null);
+        return textOf5(value);
+      }
+      pathExpr(body6, path) {
+        let current = body6 ?? void 0;
+        for (const key of path) current = current?.kind === "object" ? current.entries.find((entry2) => entry2.key === key)?.value : void 0;
+        return current;
+      }
+      /** Every string an expression is made of, known or not, joined: where a role definition's id is written. */
+      allText(expr, env) {
+        const value = this.evaluator.evaluate(expr, env);
+        const own2 = value instanceof Partial ? value.name : textOf5(value) ?? "";
+        const parts = expr.kind === "call" ? expr.args.map((arg) => this.allText(arg, env)) : expr.kind === "string" ? expr.parts.map((part) => typeof part === "string" ? part : this.allText(part, env)) : [];
+        return [own2, ...parts].join(" ");
+      }
+    };
+    PARENT_ATTRIBUTES = {
+      azurerm_subnet: "virtual_network_name",
+      azurerm_private_dns_zone_virtual_network_link: "private_dns_zone_name",
+      azurerm_cosmosdb_sql_database: "account_name",
+      azurerm_eventhub: "namespace_id",
+      azurerm_api_management_api: "api_management_name"
+    };
+  }
+});
+
+// ../../packages/diagrams/src/importers/bicep/references.ts
+var References;
+var init_references = __esm({
+  "../../packages/diagrams/src/importers/bicep/references.ts"() {
+    "use strict";
+    init_evaluate();
+    init_slots2();
+    References = class {
+      constructor(evaluator, slots, children) {
+        this.evaluator = evaluator;
+        this.slots = slots;
+        this.children = children;
+      }
+      evaluator;
+      slots;
+      children;
+      refMemo = /* @__PURE__ */ new Map();
+      /** The names of the items an expression references, read where it was written. */
+      refs(expr, env, depth) {
+        if (depth > 16) return [];
+        switch (expr.kind) {
+          case "literal":
+            return [];
+          case "string":
+            return expr.parts.flatMap((part) => typeof part === "string" ? [] : this.refs(part, env, depth + 1));
+          case "name":
+          case "member":
+          case "index":
+            return this.chainRefs(expr, env, depth);
+          case "call":
+            return this.callRefs(expr, env, depth);
+          case "object":
+            return expr.entries.flatMap((entry2) => [...entry2.keyExpr === null ? [] : this.refs(entry2.keyExpr, env, depth + 1), ...this.refs(entry2.value, env, depth + 1)]);
+          case "array":
+            return expr.items.flatMap((item) => this.refs(item, env, depth + 1));
+          case "for":
+            return [...this.refs(expr.over, env, depth + 1), ...this.refs(expr.body, env.bind(expr.item, { value: new Unknown(expr.item) }), depth + 1)];
+          case "if":
+            return this.refs(expr.body, env, depth + 1);
+          case "op": {
+            const test = expr.op === "?:" && expr.operands[0] !== void 0 ? this.evaluator.truth(expr.operands[0], env) : null;
+            if (test !== null) return this.refs(expr.operands[test ? 1 : 2], env, depth + 1);
+            return expr.operands.flatMap((operand) => this.refs(operand, env, depth + 1));
+          }
+        }
+      }
+      chainRefs(expr, env, depth) {
+        const { base, steps } = chainOf(expr);
+        if (base.kind !== "name") return this.refs(base, env, depth + 1);
+        const name2 = base.name;
+        const bound = env.loop.get(name2);
+        if (bound !== void 0) return "value" in bound ? [] : this.refs(bound.expr, bound.env, depth + 1);
+        if (env.unit.resources.has(name2)) return this.resourceRefs(`${env.prefix}${name2}`, steps, env);
+        if (env.unit.modules.has(name2)) return this.outputRefs(name2, steps, env, depth);
+        const param = env.unit.params.get(name2);
+        if (param !== void 0) {
+          const input2 = env.inputs.get(name2);
+          if (input2 !== void 0) return "value" in input2 ? [] : this.refs(input2.expr, input2.env, depth + 1);
+          return param.value === null ? [] : this.refs(param.value, env, depth + 1);
+        }
+        const variable = env.unit.vars.get(name2);
+        if (variable !== void 0) {
+          const memoKey = `${env.prefix}\0${name2}`;
+          if (env.loop.size === 0 && this.refMemo.has(memoKey)) return this.refMemo.get(memoKey) ?? [];
+          this.refMemo.set(memoKey, []);
+          const found = this.refs(variable, env, depth + 1);
+          if (env.loop.size === 0) this.refMemo.set(memoKey, found);
+          return found;
+        }
+        return [];
+      }
+      /** The copies of a resource a chain names: one copy by its index, a nested resource, an inline subnet, or every copy. */
+      resourceRefs(symbol2, steps, env) {
+        let slots = this.slots.get(symbol2) ?? [];
+        let rest = steps;
+        const first = rest[0];
+        if (first?.kind === "index") {
+          const index2 = this.evaluator.evaluate(first.index, env);
+          const chosen = typeof index2 === "number" ? slots.find((slot) => slot.key === index2) ?? slots[index2] : slots.find((slot) => slot.key === index2);
+          slots = chosen === void 0 ? slots : [chosen];
+          rest = rest.slice(1);
+        }
+        const nested2 = rest[0];
+        if (nested2?.kind === "member" && nested2.nested) {
+          const names7 = slots.flatMap((slot) => (this.slots.get(`${slot.name}::${nested2.name}`) ?? []).map((child) => child.name));
+          return names7.length > 0 ? names7 : slots.map((slot) => slot.name);
+        }
+        const [properties, subnets, position] = rest;
+        if (properties?.kind === "member" && properties.name === "properties" && subnets?.kind === "member" && subnets.name === "subnets" && position?.kind === "index") {
+          const at3 = this.evaluator.evaluate(position.index, env);
+          const found = slots.flatMap((slot) => {
+            const subnet = typeof at3 === "number" ? slot.subnets[at3] : slot.subnets.find((entry2) => entry2.label === at3 || entry2.display === at3);
+            return subnet === void 0 ? [] : [subnet.name];
+          });
+          if (found.length > 0) return found;
+        }
+        return slots.map((slot) => slot.name);
+      }
+      /** `module.outputs.name`: what the output names in the module's file; the entry a key picks of an output that is an object. */
+      outputRefs(symbol2, steps, env, depth) {
+        let rest = steps;
+        let places = this.children(env, symbol2);
+        if (rest[0]?.kind === "index") {
+          const index2 = this.evaluator.evaluate(rest[0].index, env);
+          const chosen = places.find((place2) => place2.key === index2) ?? (typeof index2 === "number" ? places[index2] : void 0);
+          places = chosen === void 0 ? places : [chosen];
+          rest = rest.slice(1);
+        }
+        if (rest[0]?.kind !== "member" || rest[0].name !== "outputs" || rest[1]?.kind !== "member") return [];
+        const output2 = rest[1].name;
+        const key = rest[2];
+        return places.flatMap((place2) => {
+          const value = place2.env.unit.outputs.get(output2);
+          if (value === void 0) return [];
+          if (key !== void 0 && value.kind === "object") {
+            const wanted2 = key.kind === "member" ? key.name : textOf5(this.evaluator.evaluate(key.index, env));
+            const entry2 = value.entries.find((candidate2) => candidate2.key === wanted2);
+            if (entry2 !== void 0) return this.refs(entry2.value, place2.env, depth + 1);
+          }
+          return this.refs(value, place2.env, depth + 1);
+        });
+      }
+      /** A call's references: the resource `resourceId(type, name)` names, else those of its arguments. */
+      callRefs(expr, env, depth) {
+        const name2 = expr.name.toLowerCase();
+        if (name2 === "resourceid" && expr.args.length >= 2) {
+          const values = expr.args.map((arg) => textOf5(this.evaluator.evaluate(arg, env)));
+          const typeAt = values.findIndex((value) => value !== null && value.includes("/"));
+          const type = typeAt === -1 ? null : values[typeAt].toLowerCase();
+          const names7 = values.slice(typeAt + 1);
+          const last = names7[names7.length - 1];
+          if (type !== null && last !== null && last !== void 0) {
+            for (const list of this.slots.values()) {
+              for (const slot of list) {
+                const own2 = nameOf7(slot, this.evaluator);
+                if (slot.armType.toLowerCase() === type && (own2 === last || own2 === names7.join("/"))) return [slot.name];
+                if (type === `${slot.armType.toLowerCase()}/subnets` && nameOf7(slot, this.evaluator) === names7[names7.length - 2]) {
+                  const subnet = slot.subnets.find((entry2) => entry2.display === last || entry2.label === last);
+                  if (subnet !== void 0) return [subnet.name];
+                }
+              }
+            }
+          }
+        }
+        const callee = expr.callee.kind === "member" ? this.refs(expr.callee.object, env, depth + 1) : [];
+        return [...callee, ...expr.args.flatMap((arg) => this.refs(arg, env, depth + 1))];
+      }
+    };
+  }
+});
+
+// ../../packages/diagrams/src/importers/bicep/model.ts
+var DEPLOYMENT_GROUP, DeploymentModel;
+var init_model = __esm({
+  "../../packages/diagrams/src/importers/bicep/model.ts"() {
+    "use strict";
+    init_azure_types();
+    init_attributes();
+    init_instances();
+    init_modules2();
+    init_evaluate();
+    init_items3();
+    init_references();
+    init_slots2();
+    DEPLOYMENT_GROUP = "resource_group";
+    DeploymentModel = class {
+      constructor(units) {
+        this.units = units;
+        this.references = new References(this.evaluator, this.slots, (env, symbol2) => this.children(env, symbol2));
+        this.writer = new ItemWriter(this.evaluator, this.references, this.slots);
+      }
+      units;
+      evaluator = new Evaluator();
+      slots = /* @__PURE__ */ new Map();
+      ordered = [];
+      items = [];
+      modules = [];
+      empty = [];
+      frames = /* @__PURE__ */ new Map();
+      childMemo = /* @__PURE__ */ new Map();
+      placements = /* @__PURE__ */ new Map();
+      references;
+      writer;
+      /** The model of one root file, with the parameter values a `.bicepparam` file gives it. */
+      build(root, assigned) {
+        const env = new Env(root, assigned, /* @__PURE__ */ new Map(), "", (place2, symbol2) => this.children(place2, symbol2));
+        const placement = root.targetScope === "resourceGroup" ? { variable: DEPLOYMENT_GROUP } : null;
+        if (placement !== null) this.frames.set(DEPLOYMENT_GROUP, { label: "Resource group", value: null });
+        this.walk(env, placement, 0);
+        for (const slot of this.ordered) this.items.push(...this.writer.itemsOf(slot));
+        return { items: withoutReadCopies(this.items), modules: this.modules, empty: this.empty, frames: this.frames };
+      }
+      /** Every resource and module of one place, in the order written, with their copies. */
+      walk(env, placement, depth) {
+        this.placements.set(env.prefix, placement);
+        for (const declaration of env.unit.declarations) if (declaration.kind === "resource") this.declare(declaration, env, placement, null);
+        for (const declaration of env.unit.declarations) if (declaration.kind === "module") this.module(declaration, env, placement, depth);
+      }
+      /** The copies a body makes: a loop's items, a condition's one or none, or one. */
+      copies(value, env, name2) {
+        if (value.kind === "for") {
+          const over = this.evaluator.evaluate(value.over, env);
+          if (!Array.isArray(over) || over.length > MAX_INSTANCES) return [{ key: null, env, copies: { kind: "many", count: Array.isArray(over) ? over.length : null } }];
+          const list = over;
+          if (list.length === 0) this.empty.push({ name: name2, start: value.start });
+          const out = [];
+          for (const [index2, item] of list.entries()) {
+            const element = value.over.kind === "array" ? value.over.items[index2] : void 0;
+            let inner = env.bind(value.item, element === void 0 ? { value: item } : { expr: element, env });
+            if (value.index !== null) inner = inner.bind(value.index, { value: index2 });
+            if (value.body.kind === "if" && this.evaluator.truth(value.body.test, inner) === false) continue;
+            out.push({ key: keyOf2(item, index2), env: inner, copies: { kind: "instance" } });
+          }
+          return out;
+        }
+        if (value.kind === "if") {
+          const test = this.evaluator.truth(value.test, env);
+          if (test === false) {
+            this.empty.push({ name: name2, start: value.start });
+            return [];
+          }
+          return [{ key: null, env, copies: test === null ? { kind: "optional" } : void 0 }];
+        }
+        return [{ key: null, env, copies: void 0 }];
+      }
+      declare(declaration, env, placement, parent) {
+        const armType = (parent !== null && !declaration.type.includes(".") ? `${parent.armType}/${declaration.type}` : declaration.type).split("@")[0] ?? "";
+        const symbol2 = parent === null ? `${env.prefix}${declaration.name}` : `${parent.name}::${declaration.name}`;
+        const list = [];
+        for (const copy of this.copies(declaration.value, env, symbol2)) {
+          const body6 = bodyObject(declaration.value);
+          const kind = body6 === null ? null : textOf5(this.evaluator.evaluate(body6.entries.find((entry2) => entry2.key === "kind")?.value ?? { kind: "literal", value: null, start: 0 }, copy.env));
+          const slot = {
+            name: `${symbol2}${suffixOf(copy.key)}`,
+            key: copy.key,
+            env: copy.env,
+            declaration,
+            armType,
+            type: refineByKind(armToTerraform(armType), kind),
+            parent,
+            holder: parent === null ? null : parent.transparent ? parent.holder : parent,
+            transparent: /\/(?:blob|queue|table|file)services$/i.test(armType),
+            placement,
+            copies: copy.copies,
+            subnets: []
+          };
+          const subnets = armType.toLowerCase() === "microsoft.network/virtualnetworks" && body6 !== null ? this.inlineSubnets(body6, copy.env, slot.name) : [];
+          const full = { ...slot, subnets };
+          list.push(full);
+          this.ordered.push(full);
+          for (const nested2 of body6?.nested ?? []) if (nested2.kind === "resource") this.declare(nested2, copy.env, placement, full);
+        }
+        this.slots.set(symbol2, list);
+      }
+      /** The subnets a virtual network writes in `properties.subnets`, each with the name it is drawn by. */
+      inlineSubnets(body6, env, network) {
+        const properties = body6.entries.find((entry2) => entry2.key === "properties")?.value;
+        const list = properties?.kind === "object" ? properties.entries.find((entry2) => entry2.key === "subnets")?.value : void 0;
+        if (list === void 0) return [];
+        const out = [];
+        const add2 = (item, place2, key) => {
+          if (item.kind !== "object") return;
+          const named = item.entries.find((entry2) => entry2.key === "name")?.value;
+          const display = named === void 0 ? null : nameText(this.evaluator.evaluate(named, place2)).readable;
+          const label = key === null ? display ?? String(out.length) : String(key);
+          out.push({ name: `${network}/subnets/${label}`, label, display, body: item, env: place2 });
+        };
+        if (list.kind === "array") for (const item of list.items) add2(item, env, null);
+        else if (list.kind === "for") {
+          const over = this.evaluator.evaluate(list.over, env);
+          if (Array.isArray(over)) for (const [index2, item] of over.slice(0, MAX_INSTANCES).entries()) {
+            let inner = env.bind(list.item, { value: item });
+            if (list.index !== null) inner = inner.bind(list.index, { value: index2 });
+            add2(list.body, inner, keyOf2(item, index2));
+          }
+        }
+        return out;
+      }
+      /** The place a module call's file is read in, for each copy, with where its resources go. */
+      children(env, symbol2) {
+        return this.childPlaces(env, symbol2, this.placements.get(env.prefix) ?? null);
+      }
+      childPlaces(env, symbol2, placement) {
+        const memoKey = `${env.prefix}\0${symbol2}`;
+        const known3 = this.childMemo.get(memoKey);
+        if (known3 !== void 0) return known3;
+        this.childMemo.set(memoKey, []);
+        const declaration = env.unit.modules.get(symbol2);
+        const target = declaration === void 0 ? void 0 : this.targetOf(declaration, env);
+        if (declaration === void 0 || target === void 0) return [];
+        const out = [];
+        for (const copy of this.copies(declaration.value, env, `${env.prefix}module.${symbol2}`)) {
+          const body6 = bodyObject(declaration.value);
+          const params = body6?.entries.find((entry2) => entry2.key === "params")?.value;
+          const inputs = /* @__PURE__ */ new Map();
+          if (params?.kind === "object") for (const entry2 of params.entries) inputs.set(entry2.key, { expr: entry2.value, env: copy.env });
+          const prefix = `${env.prefix}module.${symbol2}${suffixOf(copy.key)}.`;
+          const child = new Env(target, inputs, /* @__PURE__ */ new Map(), prefix, (place2, name2) => this.children(place2, name2));
+          out.push({ key: copy.key, env: child, placement: this.scopeOf(body6?.entries.find((entry2) => entry2.key === "scope")?.value, copy.env, target, placement) });
+        }
+        this.childMemo.set(memoKey, out);
+        return out;
+      }
+      /** The file a module call reads, when it was sent: its path relative to the calling file. */
+      targetOf(declaration, env) {
+        if (/^[a-z]+:/i.test(declaration.path)) return void 0;
+        const path = joinFolder(env.unit.folder, declaration.path);
+        return path === null ? void 0 : this.units.get(path);
+      }
+      /** Where a module's resources go: the resource group its `scope:` names, or the caller's. */
+      scopeOf(scope, env, target, inherited) {
+        if (target.targetScope !== "resourceGroup") return null;
+        if (scope === void 0) return inherited;
+        const refs = this.references.refs(scope, env, 0);
+        if (refs.length > 0) return { ref: refs[0] };
+        if (scope.kind === "call" && scope.name.toLowerCase() === "resourcegroup" && scope.args.length > 0) {
+          const name2 = nameText(this.evaluator.evaluate(scope.args[scope.args.length - 1], env));
+          const variable = `rg:${name2.readable ?? "resource group"}`;
+          this.frames.set(variable, { label: name2.readable ?? "Resource group", value: name2.known });
+          return { variable };
+        }
+        return inherited;
+      }
+      module(declaration, env, placement, depth) {
+        const target = this.targetOf(declaration, env);
+        if (target === void 0 || depth >= 6) {
+          for (const copy of this.copies(declaration.value, env, `${env.prefix}module.${declaration.name}`)) {
+            const body6 = bodyObject(declaration.value);
+            const params = body6?.entries.find((entry2) => entry2.key === "params")?.value;
+            const attributes2 = params?.kind === "object" ? params.entries.map((entry2) => ({ name: snake(entry2.key), refs: this.references.refs(entry2.value, copy.env, 0), value: null })) : [];
+            this.items.push({ name: `${env.prefix}module.${declaration.name}${suffixOf(copy.key)}`, type: "module", label: `${declaration.name}${copy.key === null ? "" : `_${copy.key}`}`, existing: false, start: env.unit.offset + declaration.start, scope: env.prefix, attributes: attributes2, ...copy.copies === void 0 ? {} : { copies: copy.copies }, source: declaration.path });
+          }
+          return;
+        }
+        for (const child of this.childPlaces(env, declaration.name, placement)) {
+          this.modules.push({ scope: child.env.prefix, name: child.env.prefix.slice(0, -1), label: declaration.name, instance: child.key === null ? null : String(child.key), source: declaration.path, start: env.unit.offset + declaration.start });
+          this.walk(child.env, child.placement, depth + 1);
+        }
+      }
+    };
+  }
+});
+
+// ../../packages/diagrams/src/importers/bicep/tokens.ts
+function interpolationEnd2(text3, start2) {
+  let depth = 0;
+  for (let index2 = start2; index2 < text3.length; index2 += 1) {
+    const char = text3.charAt(index2);
+    if (char === "'") {
+      const end = stringEnd2(text3, index2);
+      if (end === -1) return -1;
+      index2 = end - 1;
+    } else if (char === "{") depth += 1;
+    else if (char === "}") {
+      depth -= 1;
+      if (depth === 0) return index2 + 1;
+    } else if (char === "\n") return -1;
+  }
+  return -1;
+}
+function stringEnd2(text3, start2) {
+  for (let index2 = start2 + 1; index2 < text3.length; index2 += 1) {
+    const char = text3.charAt(index2);
+    if (char === "\\") index2 += 1;
+    else if (char === "'") return index2 + 1;
+    else if (char === "$" && text3.charAt(index2 + 1) === "{") {
+      const end = interpolationEnd2(text3, index2 + 1);
+      if (end === -1) return -1;
+      index2 = end - 1;
+    } else if (char === "\n") return -1;
+  }
+  return -1;
+}
+function piecesOf2(text3, start2, end) {
+  const pieces = [];
+  let current = "";
+  for (let index2 = start2 + 1; index2 < end - 1; index2 += 1) {
+    const char = text3.charAt(index2);
+    if (char === "\\") {
+      current += ESCAPES[text3.charAt(index2 + 1)] ?? text3.charAt(index2 + 1);
+      index2 += 1;
+    } else if (char === "$" && text3.charAt(index2 + 1) === "{") {
+      const close2 = interpolationEnd2(text3, index2 + 1);
+      if (current !== "") pieces.push({ kind: "text", text: current });
+      current = "";
+      pieces.push({ kind: "expression", start: index2 + 2, end: close2 - 1 });
+      index2 = close2 - 1;
+    } else current += char;
+  }
+  if (current !== "") pieces.push({ kind: "text", text: current });
+  return pieces;
+}
+function tokenize3(text3) {
+  const tokens = [];
+  let index2 = 0;
+  while (index2 < text3.length) {
+    const char = text3.charAt(index2);
+    const next = text3.charAt(index2 + 1);
+    if (char === "\n") {
+      tokens.push({ kind: "newline", text: "\n", start: index2, end: index2 + 1 });
+      index2 += 1;
+    } else if (char === " " || char === "	" || char === "\r") {
+      index2 += 1;
+    } else if (char === "/" && next === "/") {
+      const end = text3.indexOf("\n", index2);
+      index2 = end === -1 ? text3.length : end;
+    } else if (char === "/" && next === "*") {
+      const end = text3.indexOf("*/", index2 + 2);
+      if (end === -1) return { tokens, problem: { offset: index2, message: "A /* comment is never closed.", hint: "Close the comment with */." } };
+      index2 = end + 2;
+    } else if (text3.startsWith("'''", index2)) {
+      const end = text3.indexOf("'''", index2 + 3);
+      if (end === -1) return { tokens, problem: { offset: index2, message: "A ''' string is never closed.", hint: "Close the string with '''." } };
+      const body6 = text3.slice(index2 + 3, end).replace(/^\n/, "");
+      tokens.push({ kind: "string", text: body6, start: index2, end: end + 3, pieces: [{ kind: "text", text: body6 }] });
+      index2 = end + 3;
+    } else if (char === "'") {
+      const end = stringEnd2(text3, index2);
+      if (end === -1) return { tokens, problem: { offset: index2, message: "A string is never closed on its line.", hint: "Close the string with a single quote, or use ''' for text over several lines." } };
+      const pieces = piecesOf2(text3, index2, end);
+      tokens.push({ kind: "string", text: pieces.map((piece) => piece.kind === "text" ? piece.text : "").join(""), start: index2, end, pieces });
+      index2 = end;
+    } else if (/[0-9]/.test(char)) {
+      let end = index2;
+      while (end < text3.length && /[0-9.]/.test(text3.charAt(end))) end += 1;
+      tokens.push({ kind: "number", text: text3.slice(index2, end), start: index2, end });
+      index2 = end;
+    } else if (isWordStart2(char)) {
+      let end = index2;
+      while (end < text3.length && isWordChar2(text3.charAt(end))) end += 1;
+      tokens.push({ kind: "word", text: text3.slice(index2, end), start: index2, end });
+      index2 = end;
+    } else {
+      const width = TWO_CHAR_SIGNS2.has(`${char}${next}`) ? 2 : 1;
+      tokens.push({ kind: "sign", text: text3.slice(index2, index2 + width), start: index2, end: index2 + width });
+      index2 += width;
+    }
+  }
+  return { tokens, problem: null };
+}
+var TWO_CHAR_SIGNS2, ESCAPES, isWordStart2, isWordChar2;
+var init_tokens2 = __esm({
+  "../../packages/diagrams/src/importers/bicep/tokens.ts"() {
+    "use strict";
+    TWO_CHAR_SIGNS2 = /* @__PURE__ */ new Set(["==", "!=", "<=", ">=", "&&", "||", "??", "::", "=>", ".?", "=~", "!~"]);
+    ESCAPES = { n: "\n", r: "\r", t: "	", "\\": "\\", "'": "'", $: "$" };
+    isWordStart2 = (char) => /[A-Za-z_]/.test(char);
+    isWordChar2 = (char) => /[A-Za-z0-9_]/.test(char);
+  }
+});
+
+// ../../packages/diagrams/src/importers/bicep/parse.ts
+function parseBicep(text3) {
+  const empty = { declarations: [], skipped: [] };
+  const split = tokenize3(text3);
+  if (split.problem !== null) return { file: empty, problem: split.problem };
+  try {
+    return { file: new BicepReader(text3, split.tokens).file(), problem: null };
+  } catch (error62) {
+    if (error62 instanceof ReadError) return { file: empty, problem: { offset: error62.offset, message: error62.message, hint: error62.hint } };
+    if (error62 instanceof RangeError) return { file: empty, problem: { offset: 0, message: "The file is nested too deep to read.", hint: "Send a file with less nesting." } };
+    throw error62;
+  }
+}
+function parseExpression(text3) {
+  const split = tokenize3(text3);
+  if (split.problem !== null) return null;
+  try {
+    return new BicepReader(text3, split.tokens.filter((token) => token.kind !== "newline")).expression(0);
+  } catch (error62) {
+    if (error62 instanceof ReadError || error62 instanceof RangeError) return null;
+    throw error62;
+  }
+}
+var MAX_DEPTH9, SKIPPED, PRECEDENCE, ReadError, BicepReader;
+var init_parse22 = __esm({
+  "../../packages/diagrams/src/importers/bicep/parse.ts"() {
+    "use strict";
+    init_tokens2();
+    MAX_DEPTH9 = 64;
+    SKIPPED = /* @__PURE__ */ new Set(["import", "type", "func", "metadata", "extension", "provider", "assert"]);
+    PRECEDENCE = { "??": 1, "||": 2, "&&": 3, "==": 4, "!=": 4, "=~": 4, "!~": 4, "<": 5, ">": 5, "<=": 5, ">=": 5, "+": 6, "-": 6, "*": 7, "/": 7, "%": 7 };
+    ReadError = class extends Error {
+      constructor(offset, message2, hint2) {
+        super(message2);
+        this.offset = offset;
+        this.hint = hint2;
+      }
+      offset;
+      hint;
+    };
+    BicepReader = class _BicepReader {
+      constructor(text3, tokens) {
+        this.text = text3;
+        this.tokens = tokens;
+      }
+      text;
+      tokens;
+      index = 0;
+      peek(offset = 0) {
+        return this.tokens[this.index + offset];
+      }
+      isSign(text3, offset = 0) {
+        const token = this.peek(offset);
+        return token?.kind === "sign" && token.text === text3;
+      }
+      isWord(text3, offset = 0) {
+        const token = this.peek(offset);
+        return token?.kind === "word" && token.text === text3;
+      }
+      fail(message2, hint2, token = this.peek()) {
+        throw new ReadError(token?.start ?? this.text.length, message2, hint2);
+      }
+      expectSign(text3, hint2) {
+        const token = this.peek();
+        if (token?.kind !== "sign" || token.text !== text3) this.fail(`Expected "${text3}", found ${token === void 0 ? "the end of the file" : `"${token.text.replace(/\n/, "a line break")}"`}.`, hint2);
+        this.index += 1;
+        return token;
+      }
+      word(hint2) {
+        const token = this.peek();
+        if (token?.kind !== "word") this.fail(`Expected a name, found ${token === void 0 ? "the end of the file" : `"${token.text.replace(/\n/, "a line break")}"`}.`, hint2);
+        this.index += 1;
+        return token;
+      }
+      skipLines() {
+        while (this.peek()?.kind === "newline" || this.isSign(",")) this.index += 1;
+      }
+      /** The declarations of the file, in order. */
+      file() {
+        const declarations = [];
+        const skipped = [];
+        let decorators = [];
+        for (; ; ) {
+          this.skipLines();
+          const token = this.peek();
+          if (token === void 0) break;
+          if (token.kind === "sign" && token.text === "@") {
+            decorators.push(this.decorator());
+            continue;
+          }
+          if (token.kind === "word" && SKIPPED.has(token.text)) {
+            skipped.push({ keyword: token.text, start: token.start });
+            this.skipStatement();
+            decorators = [];
+            continue;
+          }
+          declarations.push(this.declaration(decorators));
+          decorators = [];
+        }
+        return { declarations, skipped };
+      }
+      decorator() {
+        this.index += 1;
+        let name2 = this.word("A decorator is written @name(...).").text;
+        while (this.isSign(".")) {
+          this.index += 1;
+          name2 = this.word("A decorator is written @name(...).").text;
+        }
+        const args = this.isSign("(") ? this.arguments(0) : [];
+        return { name: name2, args };
+      }
+      /** Passes over a declaration that is not drawn, to the end of its line outside brackets. */
+      skipStatement() {
+        let depth = 0;
+        while (this.index < this.tokens.length) {
+          const token = this.peek();
+          if (token.kind === "newline" && depth <= 0) return;
+          if (token.kind === "sign" && "([{".includes(token.text)) depth += 1;
+          if (token.kind === "sign" && ")]}".includes(token.text)) depth -= 1;
+          this.index += 1;
+        }
+      }
+      /** Passes over a type, up to the `=` that gives the value or the end of the line, outside brackets. */
+      skipType() {
+        let depth = 0;
+        while (this.index < this.tokens.length) {
+          const token = this.peek();
+          if (depth <= 0 && (token.kind === "newline" || token.kind === "sign" && token.text === "=")) return;
+          if (token.kind === "sign" && "([{".includes(token.text)) depth += 1;
+          if (token.kind === "sign" && ")]}".includes(token.text)) depth -= 1;
+          this.index += 1;
+        }
+      }
+      stringToken(hint2) {
+        const token = this.peek();
+        if (token?.kind !== "string") this.fail(`Expected a quoted string, found ${token === void 0 ? "the end of the file" : `"${token.text.replace(/\n/, "a line break")}"`}.`, hint2);
+        this.index += 1;
+        return token;
+      }
+      /** One declaration: `param`, `var`, `resource`, `module`, `output`, `targetScope`, or `using`. */
+      declaration(decorators) {
+        const head = this.peek();
+        if (head.kind !== "word") this.fail(`Expected a declaration, found "${head.text}".`, "Each line starts with param, var, resource, module, output, or targetScope.");
+        this.index += 1;
+        const start2 = head.start;
+        switch (head.text) {
+          case "targetScope": {
+            this.expectSign("=", "Write targetScope = 'subscription'.");
+            return { kind: "targetScope", value: this.expression(0), start: start2 };
+          }
+          case "using":
+            return { kind: "using", path: this.stringToken("Write using './main.bicep'.").text, start: start2 };
+          case "param": {
+            const name2 = this.word("A parameter is written param name type = default.").text;
+            this.skipType();
+            const value = this.isSign("=") ? (this.index++, this.expression(0)) : null;
+            return { kind: "param", name: name2, value, decorators, start: start2 };
+          }
+          case "var": {
+            const name2 = this.word("A variable is written var name = value.").text;
+            this.skipType();
+            this.expectSign("=", "A variable is written var name = value.");
+            return { kind: "var", name: name2, value: this.expression(0), start: start2 };
+          }
+          case "output": {
+            const name2 = this.word("An output is written output name type = value.").text;
+            this.skipType();
+            this.expectSign("=", "An output is written output name type = value.");
+            return { kind: "output", name: name2, value: this.expression(0), start: start2 };
+          }
+          case "resource":
+            return this.resource(decorators, start2);
+          case "module": {
+            const name2 = this.word("A module is written module name './file.bicep' = { ... }.").text;
+            const path = this.stringToken("A module is written module name './file.bicep' = { ... }.").text;
+            this.expectSign("=", "A module is written module name './file.bicep' = { ... }.");
+            return { kind: "module", name: name2, path, value: this.body(0), decorators, start: start2 };
+          }
+          default:
+            return this.fail(`"${head.text}" does not start a declaration.`, "Each line starts with param, var, resource, module, output, or targetScope.", head);
+        }
+      }
+      resource(decorators, start2) {
+        const name2 = this.word("A resource is written resource name 'Type@version' = { ... }.").text;
+        const type = this.stringToken("A resource is written resource name 'Type@version' = { ... }.").text;
+        const existing = this.isWord("existing");
+        if (existing) this.index += 1;
+        this.expectSign("=", "A resource is written resource name 'Type@version' = { ... }.");
+        return { kind: "resource", name: name2, type, existing, value: this.body(0), decorators, start: start2 };
+      }
+      /** The value of a resource or module: an object, a condition before one, or a loop. */
+      body(depth) {
+        const token = this.peek();
+        if (token?.kind === "word" && token.text === "if") return this.condition(depth);
+        if (this.isSign("{")) return this.object(depth + 1);
+        if (this.isSign("[")) return this.array(depth + 1);
+        return this.fail("Expected { ... }, if (...) { ... }, or [for ...].", "A resource or module is an object, a condition before one, or a loop.");
+      }
+      condition(depth) {
+        const start2 = this.peek().start;
+        this.index += 1;
+        this.expectSign("(", "A condition is written if (test) { ... }.");
+        this.skipNewlines();
+        const test = this.expression(depth + 1);
+        this.skipNewlines();
+        this.expectSign(")", "A condition is written if (test) { ... }.");
+        return { kind: "if", test, body: this.object(depth + 1), start: start2 };
+      }
+      skipNewlines() {
+        while (this.peek()?.kind === "newline") this.index += 1;
+      }
+      /** An expression: a conditional over binary operators over unary ones over postfix chains. */
+      expression(depth) {
+        if (depth > MAX_DEPTH9) this.fail("The expression is nested too deep.", `Keep nesting under ${MAX_DEPTH9} levels.`);
+        const test = this.binary(0, depth + 1);
+        if (this.isSign("=>")) {
+          this.index += 1;
+          this.skipNewlines();
+          return { kind: "op", op: "=>", operands: [test, this.expression(depth + 1)], start: test.start };
+        }
+        if (!this.isSign("?")) return test;
+        this.index += 1;
+        this.skipNewlines();
+        const yes = this.expression(depth + 1);
+        this.skipNewlines();
+        this.expectSign(":", "A conditional is written test ? yes : no.");
+        this.skipNewlines();
+        const no = this.expression(depth + 1);
+        return { kind: "op", op: "?:", operands: [test, yes, no], start: test.start };
+      }
+      binary(least, depth) {
+        let left = this.unary(depth + 1);
+        for (; ; ) {
+          const token = this.peek();
+          const rank = token?.kind === "sign" ? PRECEDENCE[token.text] : void 0;
+          if (token === void 0 || rank === void 0 || rank <= least) return left;
+          this.index += 1;
+          this.skipNewlines();
+          const right = this.binary(rank, depth + 1);
+          left = { kind: "op", op: token.text, operands: [left, right], start: left.start };
+        }
+      }
+      unary(depth) {
+        const token = this.peek();
+        if (token?.kind === "sign" && (token.text === "!" || token.text === "-")) {
+          this.index += 1;
+          return { kind: "op", op: token.text, operands: [this.unary(depth + 1)], start: token.start };
+        }
+        return this.postfix(this.primary(depth + 1), depth + 1);
+      }
+      postfix(base, depth) {
+        let current = base;
+        for (; ; ) {
+          const token = this.peek();
+          if (token?.kind !== "sign") return current;
+          if (token.text === "." || token.text === ".?" || token.text === "::") {
+            this.index += 1;
+            const name2 = this.word("A property is written object.name.");
+            current = { kind: "member", object: current, name: name2.text, nested: token.text === "::", start: current.start };
+          } else if (token.text === "[") {
+            this.index += 1;
+            this.skipNewlines();
+            if (this.isSign("?")) this.index += 1;
+            const index2 = this.expression(depth + 1);
+            this.skipNewlines();
+            this.expectSign("]", "An index is written list[0].");
+            current = { kind: "index", object: current, index: index2, start: current.start };
+          } else if (token.text === "(") {
+            const name2 = current.kind === "name" ? current.name : current.kind === "member" ? current.name : "";
+            current = { kind: "call", callee: current, name: name2, args: this.arguments(depth + 1), start: current.start };
+          } else if (token.text === "!" && !(this.peek(1)?.kind === "sign" && this.peek(1)?.text === "=")) {
+            this.index += 1;
+          } else return current;
+        }
+      }
+      arguments(depth) {
+        this.expectSign("(", "A call is written name(arguments).");
+        const args = [];
+        for (; ; ) {
+          this.skipLines();
+          if (this.isSign(")")) {
+            this.index += 1;
+            return args;
+          }
+          args.push(this.expression(depth + 1));
+          this.skipNewlines();
+          if (this.isSign(",")) this.index += 1;
+          else if (!this.isSign(")")) this.fail('Expected "," or ")" in a call.', "Separate the arguments of a call with commas.");
+        }
+      }
+      primary(depth) {
+        const token = this.peek();
+        if (token === void 0) return this.fail("The file ends in the middle of an expression.", "Finish the expression.");
+        if (token.kind === "string") {
+          this.index += 1;
+          const parts = (token.pieces ?? []).map((piece) => piece.kind === "text" ? piece.text : this.interpolation(piece.start, piece.end, depth + 1));
+          return { kind: "string", parts, start: token.start };
+        }
+        if (token.kind === "number") {
+          this.index += 1;
+          return { kind: "literal", value: Number(token.text), start: token.start };
+        }
+        if (token.kind === "word") {
+          this.index += 1;
+          if (token.text === "true" || token.text === "false") return { kind: "literal", value: token.text === "true", start: token.start };
+          if (token.text === "null") return { kind: "literal", value: null, start: token.start };
+          return { kind: "name", name: token.text, start: token.start };
+        }
+        if (token.kind === "sign" && token.text === "(") {
+          this.index += 1;
+          this.skipNewlines();
+          const inner = this.expression(depth + 1);
+          this.skipNewlines();
+          const names7 = [inner];
+          while (this.isSign(",")) {
+            this.index += 1;
+            this.skipNewlines();
+            names7.push(this.expression(depth + 1));
+            this.skipNewlines();
+          }
+          this.expectSign(")", "Close the bracket.");
+          return names7.length === 1 ? inner : { kind: "array", items: names7, start: token.start };
+        }
+        if (token.kind === "sign" && token.text === "{") return this.object(depth + 1);
+        if (token.kind === "sign" && token.text === "[") return this.array(depth + 1);
+        return this.fail(`Unexpected "${token.text.replace(/\n/, "line break")}" in an expression.`, "Check the expression for a missing value or bracket.", token);
+      }
+      /** The expression of a `${ }` inside a string, read from its own tokens. */
+      interpolation(start2, end, depth) {
+        const split = tokenize3(this.text.slice(start2, end));
+        if (split.problem !== null) throw new ReadError(start2 + split.problem.offset, split.problem.message, split.problem.hint);
+        const shifted3 = split.tokens.map((token) => ({ ...token, start: token.start + start2, end: token.end + start2, ...token.pieces === void 0 ? {} : { pieces: token.pieces.map((piece) => piece.kind === "text" ? piece : { ...piece, start: piece.start + start2, end: piece.end + start2 }) } }));
+        const reader = new _BicepReader(this.text, shifted3);
+        const value = reader.expression(depth + 1);
+        return value;
+      }
+      object(depth) {
+        if (depth > MAX_DEPTH9) this.fail("The objects are nested too deep.", `Keep nesting under ${MAX_DEPTH9} levels.`);
+        const open2 = this.expectSign("{", "An object is written { key: value }.");
+        const entries2 = [];
+        const nested2 = [];
+        let decorators = [];
+        for (; ; ) {
+          this.skipLines();
+          const token = this.peek();
+          if (token === void 0) this.fail("An object is never closed.", "Add the } that closes it.", open2);
+          if (token.kind === "sign" && token.text === "}") {
+            this.index += 1;
+            return { kind: "object", entries: entries2, nested: nested2, start: open2.start };
+          }
+          if (token.kind === "sign" && token.text === "@") {
+            decorators.push(this.decorator());
+            continue;
+          }
+          if (token.kind === "word" && token.text === "resource" && this.peek(1)?.kind === "word") {
+            this.index += 1;
+            nested2.push(this.resource(decorators, token.start));
+            decorators = [];
+            continue;
+          }
+          let key;
+          let keyExpr = null;
+          if (token.kind === "word") key = token.text;
+          else if (token.kind === "string") {
+            key = token.text;
+            if ((token.pieces ?? []).some((piece) => piece.kind === "expression")) keyExpr = this.primary(depth + 1);
+          } else this.fail(`Expected a key, found "${token.text.replace(/\n/, "a line break")}".`, "An object is written { key: value }, one entry to a line.");
+          if (keyExpr === null) this.index += 1;
+          this.expectSign(":", "An object is written { key: value }, one entry to a line.");
+          this.skipNewlines();
+          entries2.push({ key, keyExpr, value: this.expression(depth + 1), start: token.start });
+          decorators = [];
+        }
+      }
+      array(depth) {
+        if (depth > MAX_DEPTH9) this.fail("The lists are nested too deep.", `Keep nesting under ${MAX_DEPTH9} levels.`);
+        const open2 = this.expectSign("[", "A list is written [ a, b ].");
+        this.skipNewlines();
+        if (this.isWord("for")) return this.loop(open2, depth);
+        const items2 = [];
+        for (; ; ) {
+          this.skipLines();
+          if (this.isSign("]")) {
+            this.index += 1;
+            return { kind: "array", items: items2, start: open2.start };
+          }
+          if (this.peek() === void 0) this.fail("A list is never closed.", "Add the ] that closes it.", open2);
+          items2.push(this.expression(depth + 1));
+        }
+      }
+      loop(open2, depth) {
+        this.index += 1;
+        let item;
+        let index2 = null;
+        if (this.isSign("(")) {
+          this.index += 1;
+          item = this.word("A loop is written [for (item, index) in list: { ... }].").text;
+          this.expectSign(",", "A loop is written [for (item, index) in list: { ... }].");
+          index2 = this.word("A loop is written [for (item, index) in list: { ... }].").text;
+          this.expectSign(")", "A loop is written [for (item, index) in list: { ... }].");
+        } else item = this.word("A loop is written [for item in list: { ... }].").text;
+        if (!this.isWord("in")) this.fail('Expected "in" in a loop.', "A loop is written [for item in list: { ... }].");
+        this.index += 1;
+        const over = this.expression(depth + 1);
+        this.expectSign(":", "A loop is written [for item in list: { ... }].");
+        this.skipNewlines();
+        const body6 = this.isWord("if") ? this.condition(depth + 1) : this.expression(depth + 1);
+        this.skipNewlines();
+        this.expectSign("]", "Close the loop with ].");
+        return { kind: "for", item, index: index2, over, body: body6, start: open2.start };
+      }
+    };
+  }
+});
+
+// ../../packages/diagrams/src/importers/bicep/index.ts
+function filesOf(text3, context) {
+  return context.files.map((file2, position) => ({ path: file2.path, start: file2.start, text: text3.slice(file2.start, context.files[position + 1]?.start ?? text3.length) }));
+}
+function unitOf(file2) {
+  const params = /* @__PURE__ */ new Map();
+  const vars = /* @__PURE__ */ new Map();
+  const resources = /* @__PURE__ */ new Map();
+  const modules = /* @__PURE__ */ new Map();
+  const outputs = /* @__PURE__ */ new Map();
+  let targetScope = "resourceGroup";
+  for (const declaration of file2.declarations) {
+    if (declaration.kind === "param") params.set(declaration.name, declaration);
+    else if (declaration.kind === "var") vars.set(declaration.name, declaration.value);
+    else if (declaration.kind === "resource") resources.set(declaration.name, declaration);
+    else if (declaration.kind === "module") modules.set(declaration.name, declaration);
+    else if (declaration.kind === "output") outputs.set(declaration.name, declaration.value);
+    else if (declaration.kind === "targetScope" && declaration.value.kind === "string") targetScope = declaration.value.parts.filter((part) => typeof part === "string").join("");
+  }
+  return { path: file2.path, folder: folderOf(file2.path), offset: file2.start, params, vars, resources, modules, outputs, declarations: file2.declarations, targetScope };
+}
+function assignedBy(file2) {
+  const own2 = { ...unitOf(file2), params: /* @__PURE__ */ new Map() };
+  const vars = new Map(own2.vars);
+  for (const declaration of file2.declarations) if (declaration.kind === "param" && declaration.value !== null) vars.set(declaration.name, declaration.value);
+  const env = new Env({ ...own2, vars }, /* @__PURE__ */ new Map(), /* @__PURE__ */ new Map(), "", () => []);
+  const out = /* @__PURE__ */ new Map();
+  for (const declaration of file2.declarations) if (declaration.kind === "param" && declaration.value !== null) out.set(declaration.name, { expr: declaration.value, env });
+  return out;
+}
+function parametersFor(root, parameterFiles, context, index2) {
+  const mine = parameterFiles.filter((file2) => file2.declarations.some((declaration) => declaration.kind === "using" && joinFolder(folderOf(file2.path), declaration.path) === root.path));
+  if (mine.length === 0) return /* @__PURE__ */ new Map();
+  const chosen = context.options.varFiles ?? [];
+  const picked = chosen.length > 0 ? mine.filter((file2) => chosen.some((name2) => file2.path === name2 || file2.path.endsWith(`/${name2.replace(/^\.?\//, "")}`))) : mine.length === 1 ? mine : [];
+  if (chosen.length === 0 && mine.length === 1) context.report.add(DIAGNOSTIC_CODES.importChanged, index2.span(mine[0]?.start ?? 0), `The values of ${cleanText(mine[0]?.path ?? "")} are drawn: it is the only parameters file of ${cleanText(root.path)} sent.`, "Set options.varFiles to draw with another file.");
+  if (chosen.length === 0 && mine.length > 1) {
+    context.report.add(DIAGNOSTIC_CODES.importSkipped, START, `${countOf2(mine.length, "parameters file")} of ${cleanText(root.path)} are not applied, because each sets the same parameters: ${mine.slice(0, LISTED6).map((file2) => cleanText(file2.path)).join(", ")}.`, `Set options.varFiles to the one to draw, such as ["${mine[0]?.path ?? ""}"]; until then, parameters show their defaults or their names.`);
+  }
+  const out = /* @__PURE__ */ new Map();
+  for (const file2 of picked) for (const [name2, bound] of assignedBy(file2)) out.set(name2, bound);
+  return out;
+}
+function rootsOf(units) {
+  const used = /* @__PURE__ */ new Set();
+  for (const unit3 of units.values()) {
+    for (const module of unit3.modules.values()) {
+      const path = /^[a-z]+:/i.test(module.path) ? null : joinFolder(unit3.folder, module.path);
+      if (path !== null && path !== unit3.path) used.add(path);
+    }
+  }
+  return [...units.values()].filter((unit3) => !used.has(unit3.path)).sort((a, b) => a.path < b.path ? -1 : a.path > b.path ? 1 : 0);
+}
+function drawRoot2(units, root, parameterFiles, context, index2) {
+  return drawDeployment(units, root, parametersFor(root, parameterFiles, context, index2), context, index2, "Bicep");
+}
+function drawDeployment(units, root, assigned, context, index2, tool) {
+  const model = new DeploymentModel(units).build(root, assigned);
+  const first = model.empty[0];
+  if (first !== void 0) {
+    context.report.add(DIAGNOSTIC_CODES.importSkipped, index2.span(first.start), `${countOf2(model.empty.length, "declaration")} make${model.empty.length === 1 ? "s" : ""} no copy with the values given (a condition that is false, or an empty loop), so ${model.empty.length === 1 ? "it is" : "they are"} not drawn: ${model.empty.slice(0, 3).map((entry2) => entry2.name).join(", ")}.`, "Give the parameter that turns it on a value, in a .bicepparam file or its default, to draw it.");
+  }
+  if (model.items.length === 0) {
+    context.report.add(DIAGNOSTIC_CODES.importNoShape, START, "The files declare no resource or module.", "Send the .bicep files that declare resources, such as main.bicep and the modules it uses.");
+    return null;
+  }
+  const stack = itemsToStack(model.items, model.modules);
+  const byKey = new Map(model.items.map((item) => [item.name, item]));
+  return drawStack({
+    resources: stack.resources,
+    modules: stack.modules,
+    providers: /* @__PURE__ */ new Map([["azure", null]]),
+    cloud: "azure",
+    variableName: (name2) => model.frames.get(name2)?.label ?? (name2 === DEPLOYMENT_GROUP ? "Resource group" : name2),
+    // A frame named by something outside the files is drawn with its name and no `var.` line.
+    variableValue: (name2) => model.frames.get(name2)?.value ?? (model.frames.has(name2) ? name2 : null),
+    context,
+    span: (key) => {
+      const item = byKey.get(stack.stableName(key));
+      return item === void 0 ? { line: 1, column: 1, length: 1 } : index2.span(item.start);
+    },
+    tool,
+    stableName: stack.stableName
+  });
+}
+function readBicep(text3, context) {
+  const index2 = new LineIndex(text3);
+  const read = [];
+  const parameterFiles = [];
+  const files = filesOf(text3, context);
+  for (const file2 of files) {
+    const parsed = parseBicep(file2.text);
+    if (parsed.problem !== null) {
+      const code = files.length === 1 ? DIAGNOSTIC_CODES.importUnreadable : DIAGNOSTIC_CODES.importSkipped;
+      context.report.add(code, index2.span(file2.start + parsed.problem.offset), `${files.length === 1 ? "" : `${cleanText(file2.path)} is not drawn: `}${parsed.problem.message}`, parsed.problem.hint);
+      if (files.length === 1) return null;
+      continue;
+    }
+    const skipped = parsed.file.skipped[0];
+    if (skipped !== void 0) context.report.add(DIAGNOSTIC_CODES.importSkipped, index2.span(file2.start + skipped.start, skipped.keyword.length), `${countOf2(parsed.file.skipped.length, "declaration")} of ${parsed.file.skipped.map((entry3) => entry3.keyword).filter((keyword, at3, all) => all.indexOf(keyword) === at3).join(", ")} draw nothing and were passed over.`, "Types, functions, imports, and metadata are not resources; nothing is missing from the picture.");
+    const entry2 = { path: file2.path, start: file2.start, declarations: parsed.file.declarations };
+    if (/\.bicepparam$/i.test(file2.path) || parsed.file.declarations.some((declaration) => declaration.kind === "using")) parameterFiles.push(entry2);
+    else read.push(entry2);
+  }
+  const units = new Map(read.map((file2) => [file2.path, unitOf(file2)]));
+  const roots = rootsOf(units);
+  if (roots.length === 0) {
+    context.report.add(DIAGNOSTIC_CODES.importNoShape, START, "No .bicep file was sent, only parameters files.", "Send the .bicep files with the .bicepparam files.");
+    return null;
+  }
+  let chosen = roots;
+  const wanted2 = context.options.root;
+  if (wanted2 !== void 0 && wanted2 !== "") {
+    const clean = wanted2.replace(/^\.\//, "");
+    const match = roots.find((root) => root.path === clean || root.path.endsWith(`/${clean}`) || root.folder === clean || root.folder.endsWith(`/${clean}`));
+    if (match === void 0) context.report.add(DIAGNOSTIC_CODES.importSkipped, START, `options.root names ${cleanText(wanted2)}, which is not a deployment of the files sent; every deployment is drawn.`, `The deployments sent are: ${roots.map((root) => root.path || "(no name)").join(", ")}.`);
+    else chosen = [match];
+  }
+  if (chosen.length === 1) return drawRoot2(units, chosen[0], parameterFiles, context, index2);
+  context.report.add(DIAGNOSTIC_CODES.importChanged, START, `The files hold ${chosen.length} deployments that no other file uses as a module (${chosen.slice(0, LISTED6).map((root) => root.path).join(", ")}), so each is drawn as a diagram of its own.`, `Set options.root to draw one of them, such as "${chosen[0]?.path ?? ""}".`);
+  const drafts2 = [];
+  for (const root of chosen) {
+    const draft = drawRoot2(units, root, parameterFiles, { ...context, title: `${context.title ?? "Azure infrastructure"}: ${root.path}` }, index2);
+    if (draft !== null) drafts2.push({ root: root.path, draft });
+  }
+  return joinRoots(drafts2);
+}
+var LISTED6, bicepImporter;
+var init_bicep = __esm({
+  "../../packages/diagrams/src/importers/bicep/index.ts"() {
+    "use strict";
+    init_core();
+    init_items2();
+    init_shared2();
+    init_terraform();
+    init_modules2();
+    init_evaluate();
+    init_model();
+    init_parse22();
+    LISTED6 = 5;
+    bicepImporter = { format: "bicep", kinds: ["flow"], joins: "\n", extensions: [".bicep", ".bicepparam"], read: readBicep };
+  }
+});
+
+// ../../packages/diagrams/src/importers/arm/convert.ts
+function asBicep(expr) {
+  switch (expr.kind) {
+    case "call": {
+      const name2 = expr.name.toLowerCase();
+      const first = expr.args[0];
+      if ((name2 === "parameters" || name2 === "variables") && first?.kind === "string" && first.parts.every((part) => typeof part === "string")) return { kind: "name", name: first.parts.join(""), start: expr.start };
+      if (name2 === "copyindex") {
+        const index2 = { kind: "name", name: COPY_INDEX, start: expr.start };
+        const offset = expr.args.find((arg) => arg.kind === "literal");
+        return offset === void 0 ? index2 : { kind: "op", op: "+", operands: [index2, offset], start: expr.start };
+      }
+      return { ...expr, callee: asBicep(expr.callee), args: expr.args.map(asBicep) };
+    }
+    case "member":
+      return { ...expr, object: asBicep(expr.object) };
+    case "index":
+      return { ...expr, object: asBicep(expr.object), index: asBicep(expr.index) };
+    case "op":
+      return { ...expr, operands: expr.operands.map(asBicep) };
+    case "string":
+      return { ...expr, parts: expr.parts.map((part) => typeof part === "string" ? part : asBicep(part)) };
+    default:
+      return expr;
+  }
+}
+function bicepQuotes(text3) {
+  let out = "";
+  let quoted5 = false;
+  for (let index2 = 0; index2 < text3.length; index2 += 1) {
+    const char = text3.charAt(index2);
+    if (char === "'" && quoted5 && text3.charAt(index2 + 1) === "'") {
+      out += "\\'";
+      index2 += 1;
+    } else {
+      if (char === "'") quoted5 = !quoted5;
+      out += char;
+    }
+  }
+  return out;
+}
+function exprOf(value, start2, depth = 0) {
+  if (depth > MAX_DEPTH10) return { kind: "literal", value: null, start: start2 };
+  if (typeof value === "string") {
+    if (value.startsWith("[[")) return { kind: "string", parts: [value.slice(1)], start: start2 };
+    if (value.startsWith("[") && value.endsWith("]")) {
+      const parsed = parseExpression(bicepQuotes(value.slice(1, -1)));
+      return parsed === null ? { kind: "string", parts: [value], start: start2 } : asBicep(parsed);
+    }
+    return { kind: "string", parts: [value], start: start2 };
+  }
+  if (typeof value === "number" || typeof value === "boolean" || value === null) return { kind: "literal", value, start: start2 };
+  if (Array.isArray(value)) return { kind: "array", items: value.map((item) => exprOf(item, start2, depth + 1)), start: start2 };
+  if (isRecord2(value)) {
+    const entries2 = Object.entries(value).map(([key, entry2]) => ({ key, keyExpr: null, value: exprOf(entry2, start2, depth + 1), start: start2 }));
+    return { kind: "object", entries: entries2, nested: [], start: start2 };
+  }
+  return { kind: "literal", value: null, start: start2 };
+}
+function symbolOf(resource, used) {
+  const name2 = typeof resource["name"] === "string" ? resource["name"] : "";
+  const type = typeof resource["type"] === "string" ? resource["type"] : "resource";
+  const plain3 = name2.startsWith("[") ? void 0 : name2.split("/").pop();
+  const written3 = [...name2.replace(/(?:parameters|variables)\('[^']*'\)/g, "").matchAll(/'([^']*)'/g)].map((match) => (match[1] ?? "").replace(/\{\d+\}/g, " ").trim()).flatMap((text3) => text3.split(/[\s/]+/)).map((text3) => text3.replace(/^[-_.]+|[-_.]+$/g, "")).filter((text3) => /[A-Za-z]/.test(text3)).pop();
+  const kind = (type.split("/").pop() ?? "resource").replace(/s$/, "");
+  const base = (plain3 ?? written3 ?? kind).replace(/[^A-Za-z0-9_]+/g, "_");
+  let symbol2 = base;
+  for (let count3 = 2; used.has(symbol2); count3 += 1) symbol2 = `${base}_${count3}`;
+  used.add(symbol2);
+  return symbol2;
+}
+function dependsOnOf(value, start2, symbols) {
+  const items2 = Array.isArray(value) ? value : [];
+  return {
+    kind: "array",
+    items: items2.filter((item) => typeof item === "string").map((item) => {
+      if (item.startsWith("[")) return exprOf(item, start2);
+      if (symbols.has(item)) return { kind: "name", name: item, start: start2 };
+      const parts = item.split("/");
+      const type = parts.slice(0, 2).join("/");
+      const names7 = parts.slice(2);
+      const childTypes = names7.length > 1 ? names7.filter((_part, index2) => index2 % 2 === 1) : [];
+      const typed = [type, ...childTypes].join("/");
+      const named = names7.filter((_part, index2) => index2 % 2 === 0);
+      return { kind: "call", callee: { kind: "name", name: "resourceId", start: start2 }, name: "resourceId", args: [typed, ...named].map((part) => ({ kind: "string", parts: [part], start: start2 })), start: start2 };
+    }),
+    start: start2
+  };
+}
+function resourceOf(resource, symbol2, start2, symbols, parentType, depth) {
+  const type = typeof resource["type"] === "string" ? resource["type"] : "Microsoft.Resources/unknown";
+  const fullType = parentType !== null && !type.includes(".") ? `${parentType}/${type}` : type;
+  const entries2 = [];
+  for (const [key, value2] of Object.entries(resource)) {
+    if (["type", "apiVersion", "copy", "condition", "resources", "comments"].includes(key)) continue;
+    entries2.push({ key, keyExpr: null, value: key === "dependsOn" ? dependsOnOf(value2, start2, symbols) : exprOf(value2, start2), start: start2 });
+  }
+  const used = /* @__PURE__ */ new Set();
+  const nested2 = Array.isArray(resource["resources"]) && depth < 8 ? resource["resources"].filter(isRecord2).map((child) => resourceOf(child, symbolOf(child, used), start2, symbols, fullType, depth + 1)) : [];
+  let value = { kind: "object", entries: entries2, nested: nested2, start: start2 };
+  if (resource["condition"] !== void 0) value = { kind: "if", test: exprOf(resource["condition"], start2), body: value, start: start2 };
+  const copy = resource["copy"];
+  if (isRecord2(copy)) {
+    const count3 = exprOf(copy["count"], start2);
+    const over = { kind: "call", callee: { kind: "name", name: "range", start: start2 }, name: "range", args: [{ kind: "literal", value: 0, start: start2 }, count3], start: start2 };
+    value = { kind: "for", item: "__copy", index: COPY_INDEX, over, body: value, start: start2 };
+  }
+  return { kind: "resource", name: symbol2, type: fullType, existing: resource["existing"] === true, value, decorators: [], start: start2 };
+}
+function templateDeclarations(template, offsetOf) {
+  const declarations = [];
+  const schema = typeof template["$schema"] === "string" ? template["$schema"] : "";
+  if (/subscriptionDeploymentTemplate/i.test(schema)) declarations.push({ kind: "targetScope", value: { kind: "string", parts: ["subscription"], start: 0 }, start: 0 });
+  else if (/managementGroupDeploymentTemplate/i.test(schema)) declarations.push({ kind: "targetScope", value: { kind: "string", parts: ["managementGroup"], start: 0 }, start: 0 });
+  const parameters = isRecord2(template["parameters"]) ? template["parameters"] : {};
+  for (const [name2, parameter] of Object.entries(parameters)) {
+    if (!isRecord2(parameter)) continue;
+    const secure = typeof parameter["type"] === "string" && /^secure/i.test(parameter["type"]);
+    declarations.push({ kind: "param", name: name2, value: parameter["defaultValue"] === void 0 ? null : exprOf(parameter["defaultValue"], offsetOf(name2)), decorators: secure ? [{ name: "secure", args: [] }] : [], start: offsetOf(name2) });
+  }
+  const variables = isRecord2(template["variables"]) ? template["variables"] : {};
+  for (const [name2, value] of Object.entries(variables)) if (name2 !== "copy") declarations.push({ kind: "var", name: name2, value: exprOf(value, offsetOf(name2)), start: offsetOf(name2) });
+  const raw = template["resources"];
+  const listed2 = Array.isArray(raw) ? raw.filter(isRecord2).map((resource) => [null, resource]) : isRecord2(raw) ? Object.entries(raw).filter((entry2) => isRecord2(entry2[1])) : [];
+  const used = /* @__PURE__ */ new Set([...Object.keys(parameters), ...Object.keys(variables)]);
+  const symbols = listed2.map(([key, resource]) => key ?? symbolOf(resource, used));
+  const known3 = new Set(symbols);
+  for (const [position, [, resource]] of listed2.entries()) {
+    const symbol2 = symbols[position];
+    const name2 = typeof resource["name"] === "string" ? resource["name"] : symbol2;
+    declarations.push(resourceOf(resource, symbol2, offsetOf(name2.startsWith("[") ? symbol2 : name2), known3, null, 0));
+  }
+  const outputs = isRecord2(template["outputs"]) ? template["outputs"] : {};
+  for (const [name2, output2] of Object.entries(outputs)) if (isRecord2(output2)) declarations.push({ kind: "output", name: name2, value: exprOf(output2["value"], offsetOf(name2)), start: offsetOf(name2) });
+  return declarations;
+}
+var COPY_INDEX, MAX_DEPTH10, isRecord2;
+var init_convert2 = __esm({
+  "../../packages/diagrams/src/importers/arm/convert.ts"() {
+    "use strict";
+    init_parse22();
+    COPY_INDEX = "copyIndex";
+    MAX_DEPTH10 = 48;
+    isRecord2 = (value) => typeof value === "object" && value !== null && !Array.isArray(value);
+  }
+});
+
+// ../../packages/diagrams/src/importers/arm/index.ts
+function valueOf(value, depth = 0) {
+  if (depth > 32) return null;
+  if (typeof value === "string" || typeof value === "number" || typeof value === "boolean" || value === null) return value;
+  if (Array.isArray(value)) return value.map((item) => valueOf(item, depth + 1));
+  if (isRecord3(value)) return Object.fromEntries(Object.entries(value).map(([key, entry2]) => [key, valueOf(entry2, depth + 1)]));
+  return null;
+}
+function readArm(text3, context) {
+  const index2 = new LineIndex(text3);
+  const files = context.files.map((file2, position) => ({ path: file2.path, start: file2.start, text: text3.slice(file2.start, context.files[position + 1]?.start ?? text3.length) }));
+  const units = /* @__PURE__ */ new Map();
+  const parameterFiles = [];
+  for (const file2 of files) {
+    let json2;
+    try {
+      json2 = JSON.parse(file2.text);
+    } catch (error62) {
+      context.report.add(files.length === 1 ? DIAGNOSTIC_CODES.importUnreadable : DIAGNOSTIC_CODES.importSkipped, index2.span(file2.start), `${file2.path === "" ? "The text" : cleanText(file2.path)} is not JSON: ${error62 instanceof Error ? error62.message : "it cannot be read"}.`, "Send the ARM template as az bicep build or the portal writes it.");
+      if (files.length === 1) return null;
+      continue;
+    }
+    if (!isRecord3(json2)) continue;
+    if (isParameters(json2)) {
+      const values = /* @__PURE__ */ new Map();
+      for (const [name2, entry2] of Object.entries(isRecord3(json2["parameters"]) ? json2["parameters"] : {})) if (isRecord3(entry2) && "value" in entry2) values.set(name2, { value: valueOf(entry2["value"]) });
+      parameterFiles.push({ path: file2.path, start: file2.start, values });
+      continue;
+    }
+    if (json2["resources"] === void 0) {
+      context.report.add(DIAGNOSTIC_CODES.importSkipped, index2.span(file2.start), `${file2.path === "" ? "The JSON" : cleanText(file2.path)} has no resources, so it is not an ARM template and is not drawn.`, "Send a template with a resources section, or its parameters file with it.");
+      continue;
+    }
+    const offsetOf = (name2) => file2.start + Math.max(0, file2.text.indexOf(JSON.stringify(name2)));
+    const declarations = templateDeclarations(json2, offsetOf).map((declaration) => ({ ...declaration, start: declaration.start - file2.start }));
+    units.set(file2.path, unitOf({ path: file2.path, start: file2.start, declarations }));
+  }
+  const roots = rootsOf(units);
+  if (roots.length === 0) {
+    context.report.add(DIAGNOSTIC_CODES.importNoShape, START, "The text holds no ARM template with resources.", "Send the template (azuredeploy.json, main.json) with its parameters file.");
+    return null;
+  }
+  const chosenNames = context.options.varFiles ?? [];
+  const picked = chosenNames.length > 0 ? parameterFiles.filter((file2) => chosenNames.some((name2) => file2.path === name2 || file2.path.endsWith(`/${name2.replace(/^\.?\//, "")}`))) : parameterFiles.length === 1 ? parameterFiles : [];
+  if (chosenNames.length === 0 && parameterFiles.length === 1) context.report.add(DIAGNOSTIC_CODES.importChanged, index2.span(parameterFiles[0]?.start ?? 0), `The values of ${cleanText(parameterFiles[0]?.path ?? "")} are drawn: it is the only parameters file sent.`, "Set options.varFiles to draw with another file.");
+  if (chosenNames.length === 0 && parameterFiles.length > 1) context.report.add(DIAGNOSTIC_CODES.importSkipped, START, `${countOf2(parameterFiles.length, "parameters file")} are not applied, because each sets the same parameters: ${parameterFiles.slice(0, LISTED7).map((file2) => cleanText(file2.path)).join(", ")}.`, `Set options.varFiles to the one to draw, such as ["${parameterFiles[0]?.path ?? ""}"]; until then, parameters show their defaults or their names.`);
+  const assigned = /* @__PURE__ */ new Map();
+  for (const file2 of picked) for (const [name2, bound] of file2.values) assigned.set(name2, bound);
+  if (roots.length === 1) return drawDeployment(units, roots[0], assigned, context, index2, "ARM");
+  context.report.add(DIAGNOSTIC_CODES.importChanged, START, `The files hold ${roots.length} templates (${roots.slice(0, LISTED7).map((root) => root.path).join(", ")}), so each is drawn as a diagram of its own.`, `Send one template at a time to draw it alone.`);
+  const drafts2 = [];
+  for (const root of roots) {
+    const draft = drawDeployment(units, root, assigned, { ...context, title: `${context.title ?? "Azure infrastructure"}: ${root.path}` }, index2, "ARM");
+    if (draft !== null) drafts2.push({ root: root.path, draft });
+  }
+  return joinRoots(drafts2);
+}
+var LISTED7, isRecord3, isParameters, armImporter;
+var init_arm = __esm({
+  "../../packages/diagrams/src/importers/arm/index.ts"() {
+    "use strict";
+    init_core();
+    init_bicep();
+    init_shared2();
+    init_terraform();
+    init_convert2();
+    LISTED7 = 5;
+    isRecord3 = (value) => typeof value === "object" && value !== null && !Array.isArray(value);
+    isParameters = (json2) => /deploymentParameters\.json/i.test(String(json2["$schema"] ?? "")) || json2["resources"] === void 0 && isRecord3(json2["parameters"]) && Object.values(json2["parameters"]).every((entry2) => isRecord3(entry2) && ("value" in entry2 || "reference" in entry2));
+    armImporter = { format: "arm", kinds: ["flow"], joins: "\n", extensions: [".json"], read: readArm };
+  }
+});
+
 // ../../packages/diagrams/src/importers/shared/yaml/access.ts
 function get(node3, key) {
   if (node3?.kind !== "map") return void 0;
@@ -182072,8 +187507,8 @@ function splitDocuments(text3) {
         index2 += 1;
       }
       while (!indicator.keep && body6.length > 0 && body6[body6.length - 1] === "") body6.pop();
-      const joined = indicator.folded ? fold4(body6) : body6.join("\n");
-      block = indicator.strip || joined === "" ? joined : `${joined}
+      const joined2 = indicator.folded ? fold4(body6) : body6.join("\n");
+      block = indicator.strip || joined2 === "" ? joined2 : `${joined2}
 `;
     }
     current.lines.push({ indent, text: indicator === null ? textPart : textPart.replace(/[|>][-+0-9]*$/, "").trimEnd(), line: lineNumber, block });
@@ -182113,7 +187548,7 @@ function readQuoted(text3, start2) {
         value += Number.isFinite(code) && code <= 1114111 ? String.fromCodePoint(code) : "";
         index2 += 1 + width;
       } else {
-        value += ESCAPES[next] ?? next;
+        value += ESCAPES2[next] ?? next;
         index2 += 1;
       }
     } else {
@@ -182125,15 +187560,20 @@ function readQuoted(text3, start2) {
 function stripProperties(text3) {
   let rest = text3;
   let anchor2 = null;
+  let tag = null;
   let offset = 0;
   for (let round2 = 0; round2 < 2; round2 += 1) {
     const match = /^([!&])([^\s,[\]{}]*)\s*/.exec(rest);
     if (match === null) break;
     if (match[1] === "&") anchor2 = match[2] ?? null;
+    else tag = `!${match[2] ?? ""}`;
     offset += match[0].length;
     rest = rest.slice(match[0].length);
   }
-  return { text: rest, anchor: anchor2, offset };
+  return { text: rest, anchor: anchor2, tag, offset };
+}
+function tagged(node3, tag) {
+  return tag === null || tag.startsWith("!!") ? node3 : { ...node3, tag };
 }
 function readFlow2(text3, line3, column, resolveAlias) {
   const reader = new FlowReader(text3, line3, column, resolveAlias);
@@ -182155,12 +187595,12 @@ function flowClosed(text3) {
   }
   return depth <= 0 && quote3 === null;
 }
-var MAX_FLOW_DEPTH, ESCAPES, FlowReader, FlowError;
+var MAX_FLOW_DEPTH, ESCAPES2, FlowReader, FlowError;
 var init_scalars = __esm({
   "../../packages/diagrams/src/importers/shared/yaml/scalars.ts"() {
     "use strict";
     MAX_FLOW_DEPTH = 32;
-    ESCAPES = { n: "\n", t: "	", r: "\r", '"': '"', "\\": "\\", "/": "/", "0": "\0", " ": " ", e: "\x1B", N: "\x85", _: "\xA0" };
+    ESCAPES2 = { n: "\n", t: "	", r: "\r", '"': '"', "\\": "\\", "/": "/", "0": "\0", " ": " ", e: "\x1B", N: "\x85", _: "\xA0" };
     FlowReader = class {
       constructor(text3, line3, column, resolveAlias) {
         this.text = text3;
@@ -182203,7 +187643,8 @@ var init_scalars = __esm({
         }
         const word2 = this.text.slice(start2, this.index).trim();
         if (word2.startsWith("*")) return this.resolveAlias(word2.slice(1)) ?? scalar("", false, this.line, column);
-        return scalar(stripProperties(word2).text, false, this.line, column);
+        const props = stripProperties(word2);
+        return tagged(scalar(props.text, false, this.line, column), props.tag);
       }
       sequence(depth) {
         const column = this.at();
@@ -182290,13 +187731,13 @@ function parseYaml(text3) {
   }
   return { documents, error: null };
 }
-var MAX_DEPTH2, MAX_JOINED_LINES, YamlProblem, isItem, BlockReader;
-var init_parse21 = __esm({
+var MAX_DEPTH11, MAX_JOINED_LINES, YamlProblem, isItem3, BlockReader;
+var init_parse23 = __esm({
   "../../packages/diagrams/src/importers/shared/yaml/parse.ts"() {
     "use strict";
     init_lines();
     init_scalars();
-    MAX_DEPTH2 = 64;
+    MAX_DEPTH11 = 64;
     MAX_JOINED_LINES = 200;
     YamlProblem = class extends Error {
       constructor(line3, column, message2, hint2) {
@@ -182309,7 +187750,7 @@ var init_parse21 = __esm({
       column;
       hint;
     };
-    isItem = (text3) => text3 === "-" || text3.startsWith("- ");
+    isItem3 = (text3) => text3 === "-" || text3.startsWith("- ");
     BlockReader = class {
       constructor(lines) {
         this.lines = lines;
@@ -182332,8 +187773,8 @@ var init_parse21 = __esm({
       /** A block that starts at the current line, indented `indent` spaces: a sequence, a mapping, or a scalar. */
       block(indent, depth) {
         const line3 = this.lines[this.index];
-        if (depth > MAX_DEPTH2) throw this.problem(line3, "The YAML is nested too deep.", `Keep nesting under ${MAX_DEPTH2} levels.`);
-        if (isItem(line3.text)) return this.sequence(indent, depth);
+        if (depth > MAX_DEPTH11) throw this.problem(line3, "The YAML is nested too deep.", `Keep nesting under ${MAX_DEPTH11} levels.`);
+        if (isItem3(line3.text)) return this.sequence(indent, depth);
         if (splitKey(line3.text) !== null) return this.mapping(indent, depth);
         this.index += 1;
         return this.value(line3.text, line3, indent, depth, line3.indent + 1);
@@ -182346,7 +187787,7 @@ var init_parse21 = __esm({
           const line3 = this.lines[this.index];
           if (line3.indent < indent) break;
           if (line3.indent > indent) throw this.problem(line3, "This line is indented more than the keys around it.", "Indent it like the other keys of the same mapping.");
-          if (isItem(line3.text)) break;
+          if (isItem3(line3.text)) break;
           const split = splitKey(line3.text);
           if (split === null) throw this.problem(line3, "Expected a key followed by a colon.", "Write it as key: value, with a space after the colon.");
           this.index += 1;
@@ -182368,8 +187809,8 @@ var init_parse21 = __esm({
       entryValue(rest, line3, indent, depth, column) {
         const next = this.lines[this.index];
         const props = stripProperties(rest);
-        if (props.text === "" && line3.block === null && next !== void 0 && (next.indent > indent || next.indent === indent && isItem(next.text))) {
-          const node3 = this.block(next.indent, depth + 1);
+        if (props.text === "" && line3.block === null && next !== void 0 && (next.indent > indent || next.indent === indent && isItem3(next.text))) {
+          const node3 = tagged(this.block(next.indent, depth + 1), props.tag);
           if (props.anchor !== null) this.anchors.set(props.anchor, node3);
           return node3;
         }
@@ -182380,7 +187821,7 @@ var init_parse21 = __esm({
         const items2 = [];
         while (this.index < this.lines.length) {
           const line3 = this.lines[this.index];
-          if (line3.indent !== indent || !isItem(line3.text)) {
+          if (line3.indent !== indent || !isItem3(line3.text)) {
             if (line3.indent > indent) throw this.problem(line3, "This line is indented more than the items around it.", "Indent it like the other items, or under the item it belongs to.");
             break;
           }
@@ -182390,7 +187831,11 @@ var init_parse21 = __esm({
             this.index += 1;
             const next = this.lines[this.index];
             items2.push(next !== void 0 && next.indent > indent ? this.block(next.indent, depth + 1) : scalar("", false, line3.line, restColumn + 1));
-          } else if (line3.block === null && (isItem(rest) || splitKey(stripProperties(rest).text) !== null)) {
+          } else if (line3.block === null && /^![A-Za-z:]+$/.test(rest) && this.lines[this.index + 1] !== void 0 && this.lines[this.index + 1].indent > indent) {
+            const tag = rest;
+            this.index += 1;
+            items2.push(tagged(this.block(this.lines[this.index].indent, depth + 1), tag));
+          } else if (line3.block === null && (isItem3(rest) || splitKey(stripProperties(rest).text) !== null)) {
             const props = stripProperties(rest);
             line3.indent = restColumn + props.offset;
             line3.text = props.text;
@@ -182418,7 +187863,7 @@ var init_parse21 = __esm({
         } else if (body6.startsWith("[") || body6.startsWith("{")) {
           node3 = this.flow(this.joined(body6, flowClosed), line3, column + props.offset);
         } else if (body6.startsWith('"') || body6.startsWith("'")) {
-          const whole2 = this.joined(body6, (joined) => readQuoted(joined, 0) !== null);
+          const whole2 = this.joined(body6, (joined2) => readQuoted(joined2, 0) !== null);
           const read = readQuoted(whole2, 0);
           if (read === null) throw this.problem(line3, "A quoted string is never closed.", "Close it with the same quote it opened with.");
           node3 = scalar(read.value, true, line3.line, column + props.offset);
@@ -182427,12 +187872,13 @@ var init_parse21 = __esm({
           while (this.index < this.lines.length) {
             const more = this.lines[this.index];
             if (more.indent < indent || more.indent === indent && !ofKey) break;
-            if (splitKey(more.text) !== null || isItem(more.text)) break;
+            if (splitKey(more.text) !== null || isItem3(more.text)) break;
             plain3 = `${plain3} ${more.text}`;
             this.index += 1;
           }
           node3 = scalar(plain3.trim(), false, line3.line, column + props.offset);
         }
+        node3 = tagged(node3, props.tag);
         if (props.anchor !== null) this.anchors.set(props.anchor, node3);
         return node3;
       }
@@ -182462,7 +187908,505 @@ var init_yaml = __esm({
   "../../packages/diagrams/src/importers/shared/yaml/index.ts"() {
     "use strict";
     init_access();
-    init_parse21();
+    init_parse23();
+  }
+});
+
+// ../../packages/diagrams/src/importers/iac/type-names.ts
+function bestOf(candidates2) {
+  const unique2 = [...new Set(candidates2.filter((candidate2) => candidate2 !== ""))];
+  return unique2.find((candidate2) => RESOURCE_ROLES[candidate2] !== void 0) ?? unique2.find((candidate2) => iconOfName(candidate2) !== null) ?? unique2[0] ?? "resource";
+}
+function candidatesOf(prefix, service, name2) {
+  const words2 = snake(name2);
+  const joined2 = words2.startsWith(`${service}_`) || words2 === service ? words2 : `${service}_${words2}`;
+  return [`${prefix}_${joined2}`, `${prefix}_${words2}`];
+}
+function cloudFormationToTerraform(type) {
+  const listed2 = CLOUDFORMATION_TYPES[type.toLowerCase()];
+  if (listed2 !== void 0) return listed2;
+  const [vendor, service, name2] = type.split("::");
+  if (vendor?.toUpperCase() !== "AWS" || service === void 0 || name2 === void 0) return `custom_${snake(type)}`;
+  return bestOf(candidatesOf("aws", service.toLowerCase(), name2));
+}
+function pulumiToTerraform(token) {
+  if (token.startsWith("pulumi:")) return null;
+  const native = nativeToTerraform(token);
+  if (native !== null) return native;
+  if (token.startsWith("azure-native:")) return null;
+  const full = /^[a-z0-9-]+:[A-Za-z0-9_]+$/.test(token) ? token.replace(":", ":index:") : token;
+  const match = /^([a-z0-9-]+):([A-Za-z0-9_./-]*):([A-Za-z0-9_]+)$/.exec(full);
+  if (match === null) return null;
+  const [, pkg = "", path = "", name2 = ""] = match;
+  const module = path.split("/")[0] ?? "";
+  const listed2 = PULUMI_TYPES[`${pkg}:${module}:${name2}`];
+  if (listed2 !== void 0) return listed2;
+  const service = module.replace(/[^A-Za-z0-9]/g, "").toLowerCase();
+  const prefix = PULUMI_PACKAGES[pkg] ?? pkg.replace(/-/g, "_");
+  if (service === "" || service === "index") {
+    const words2 = snake(name2);
+    return words2.startsWith(`${prefix}_`) ? words2 : `${prefix}_${words2}`;
+  }
+  return bestOf(candidatesOf(prefix, service, name2));
+}
+var CLOUDFORMATION_TYPES, PULUMI_TYPES, PULUMI_PACKAGES;
+var init_type_names = __esm({
+  "../../packages/diagrams/src/importers/iac/type-names.ts"() {
+    "use strict";
+    init_generic();
+    init_resources();
+    init_attributes();
+    init_azure_types();
+    CLOUDFORMATION_TYPES = {
+      "aws::elasticloadbalancingv2::loadbalancer": "aws_lb",
+      "aws::elasticloadbalancingv2::targetgroup": "aws_lb_target_group",
+      "aws::elasticloadbalancingv2::listener": "aws_lb_listener",
+      "aws::elasticloadbalancing::loadbalancer": "aws_elb",
+      "aws::rds::dbcluster": "aws_rds_cluster",
+      "aws::rds::dbsubnetgroup": "aws_db_subnet_group",
+      "aws::rds::dbparametergroup": "aws_db_parameter_group",
+      "aws::apigateway::restapi": "aws_api_gateway_rest_api",
+      "aws::apigatewayv2::api": "aws_apigatewayv2_api",
+      "aws::events::rule": "aws_cloudwatch_event_rule",
+      "aws::logs::loggroup": "aws_cloudwatch_log_group",
+      "aws::elasticache::cachecluster": "aws_elasticache_cluster",
+      "aws::elasticache::replicationgroup": "aws_elasticache_replication_group",
+      "aws::stepfunctions::statemachine": "aws_sfn_state_machine",
+      "aws::ec2::subnetroutetableassociation": "aws_route_table_association",
+      "aws::sns::subscription": "aws_sns_topic_subscription",
+      "aws::opensearchservice::domain": "aws_opensearch_domain",
+      "aws::secretsmanager::secret": "aws_secretsmanager_secret",
+      "aws::wafv2::webacl": "aws_wafv2_web_acl",
+      "aws::route53::recordset": "aws_route53_record",
+      "aws::autoscaling::autoscalinggroup": "aws_autoscaling_group",
+      "aws::kinesis::stream": "aws_kinesis_stream",
+      "aws::iam::managedpolicy": "aws_iam_policy",
+      "aws::serverless::function": "aws_lambda_function",
+      "aws::serverless::api": "aws_api_gateway_rest_api",
+      "aws::serverless::httpapi": "aws_apigatewayv2_api",
+      "aws::serverless::simpletable": "aws_dynamodb_table",
+      "aws::serverless::statemachine": "aws_sfn_state_machine",
+      "aws::serverless::layerversion": "aws_lambda_layer_version",
+      "aws::cloudformation::stack": "module",
+      "aws::serverless::application": "module"
+    };
+    PULUMI_TYPES = {
+      "aws:rds:Instance": "aws_db_instance",
+      "aws:rds:Cluster": "aws_rds_cluster",
+      "aws:rds:SubnetGroup": "aws_db_subnet_group",
+      "aws:lb:LoadBalancer": "aws_lb",
+      "aws:lb:TargetGroup": "aws_lb_target_group",
+      "aws:lb:Listener": "aws_lb_listener",
+      "aws:alb:LoadBalancer": "aws_lb",
+      "aws:alb:TargetGroup": "aws_lb_target_group",
+      "aws:alb:Listener": "aws_lb_listener",
+      "aws:s3:BucketV2": "aws_s3_bucket",
+      "aws:apigateway:RestApi": "aws_api_gateway_rest_api",
+      "aws:cloudwatch:EventRule": "aws_cloudwatch_event_rule",
+      "aws:cloudwatch:EventTarget": "aws_cloudwatch_event_target",
+      "aws:sfn:StateMachine": "aws_sfn_state_machine",
+      "gcp:cloudrun:Service": "google_cloud_run_service",
+      "gcp:cloudrunv2:Service": "google_cloud_run_v2_service",
+      "gcp:cloudfunctions:Function": "google_cloudfunctions_function",
+      "gcp:cloudfunctionsv2:Function": "google_cloudfunctions2_function",
+      "gcp:redis:Instance": "google_redis_instance",
+      "gcp:pubsub:Topic": "google_pubsub_topic",
+      "gcp:serviceaccount:Account": "google_service_account",
+      "gcp:organizations:Project": "google_project"
+    };
+    PULUMI_PACKAGES = { aws: "aws", azure: "azurerm", gcp: "google", azuread: "azuread" };
+  }
+});
+
+// ../../packages/diagrams/src/importers/cloudformation/template.ts
+function intrinsicOf(node3) {
+  if (node3.tag !== void 0 && node3.tag !== "!") {
+    const name2 = node3.tag.slice(1);
+    const { tag: _written, ...argument } = node3;
+    return { name: name2 === "Ref" || name2 === "Condition" ? name2 : name2.replace(/^Fn::/, ""), argument };
+  }
+  if (node3.kind !== "map" || node3.entries.length !== 1) return null;
+  const only = node3.entries[0];
+  if (only === void 0) return null;
+  if (only.key === "Ref" || only.key === "Condition") return { name: only.key, argument: only.value };
+  return only.key.startsWith("Fn::") ? { name: only.key.slice(4), argument: only.value } : null;
+}
+function getAttOf(argument) {
+  if (argument.kind === "scalar") {
+    const dot2 = argument.value.indexOf(".");
+    return dot2 === -1 ? null : { resource: argument.value.slice(0, dot2), attribute: argument.value.slice(dot2 + 1) };
+  }
+  if (argument.kind === "seq") {
+    const [resource, attribute2] = argument.items.map(scalarOf);
+    return resource === null || resource === void 0 ? null : { resource, attribute: attribute2 ?? "" };
+  }
+  return null;
+}
+function nameKeyOf(type, properties) {
+  if (properties?.kind !== "map") return null;
+  const resource = type.split("::").pop() ?? "";
+  const candidates2 = [`${resource}Name`, "Name", `${resource}Identifier`, "DBInstanceIdentifier", "DBClusterIdentifier", "GroupName", "FunctionName", "TableName", "ClusterName", "DomainName", "StateMachineName", "RepositoryName", "LogGroupName", "RoleName"];
+  return candidates2.find((key) => properties.entries.some((entry2) => entry2.key === key)) ?? null;
+}
+function tagName2(template, properties) {
+  const tags = entryOf(properties, "Tags");
+  if (tags?.kind !== "seq") return null;
+  const tag = tags.items.find((item) => scalarOf(entryOf(item, "Key")) === "Name");
+  return tag === void 0 ? null : template.evaluate(entryOf(tag, "Value"));
+}
+function templateItems(template, offsetOf) {
+  const items2 = [];
+  const empty = [];
+  const towards = /* @__PURE__ */ new Map();
+  const toward = (source, from, label) => {
+    towards.set(source, [...towards.get(source) ?? [], { from, label }]);
+  };
+  for (const [logical, resource] of template.resources) {
+    const type = scalarOf(entryOf(resource, "Type")) ?? "";
+    const condition = scalarOf(entryOf(resource, "Condition"));
+    const holds = condition === null ? true : template.condition(condition);
+    if (holds === false) {
+      empty.push(logical);
+      continue;
+    }
+    const copies = holds === null ? { kind: "optional" } : void 0;
+    const properties = entryOf(resource, "Properties");
+    const terraform = cloudFormationToTerraform(type);
+    const attributes2 = [];
+    const key = nameKeyOf(type, properties);
+    const named = tagName2(template, properties) ?? (key === null ? null : template.evaluate(entryOf(properties, key)));
+    if (named !== null) {
+      const name2 = nameText(named);
+      attributes2.push({ name: "name", refs: [], value: name2.known, readable: name2.readable });
+    }
+    for (const entry2 of properties?.kind === "map" ? properties.entries : []) {
+      if (entry2.key === key || entry2.key === "Tags") continue;
+      const value = template.evaluate(entry2.value);
+      const text3 = value instanceof Partial ? null : textOf5(value);
+      if (text3 !== null) attributes2.push({ name: valueAttributeOf(entry2.key), refs: [], value: text3 });
+    }
+    const refs = [];
+    template.refsByPath(properties, [], refs);
+    const sam = type === "AWS::Serverless::Function";
+    for (const entry2 of refs) {
+      if (sam && entry2.path[0] === "Events") continue;
+      attributes2.push({ name: attributeOf(entry2.path), refs: entry2.refs.filter((ref) => ref !== logical), value: null });
+    }
+    const events = entryOf(properties, "Events");
+    if (sam && events?.kind === "map") {
+      for (const event of events.entries) {
+        const kind = scalarOf(entryOf(event.value, "Type"));
+        const settings = entryOf(event.value, "Properties");
+        if (kind === "Api" || kind === "HttpApi") {
+          const route = [scalarOf(entryOf(settings, "Method"))?.toUpperCase(), scalarOf(entryOf(settings, "Path"))].filter((part) => part !== null && part !== void 0).join(" ");
+          const apis = template.refs(entryOf(settings, kind === "HttpApi" ? "ApiId" : "RestApiId"));
+          for (const api of apis.length > 0 ? apis : [kind === "HttpApi" ? "ServerlessHttpApi" : "ServerlessRestApi"]) toward(api, logical, route === "" ? "calls" : route);
+        } else for (const source2 of template.refs(settings)) toward(source2, logical, "triggers");
+      }
+    }
+    const dependsOn = entryOf(resource, "DependsOn");
+    const waits = dependsOn === void 0 ? [] : itemsOf(dependsOn).map(scalarOf).filter((name2) => name2 !== null && template.resources.has(name2));
+    if (waits.length > 0) attributes2.push({ name: "depends_on", refs: waits, value: null });
+    const source = terraform === "module" ? textOf5(template.evaluate(entryOf(properties, "TemplateURL") ?? entryOf(properties, "Location"))) : null;
+    items2.push({ name: logical, type: terraform, label: logical, existing: false, start: offsetOf(logical), scope: "", attributes: attributes2, ...copies === void 0 ? {} : { copies }, ...source === null ? {} : { source } });
+  }
+  for (const [source, arrows] of towards) {
+    const declared2 = items2.find((item) => item.name === source);
+    const attributes2 = arrows.map((arrow) => ({ name: arrow.label, refs: [arrow.from], value: null }));
+    if (declared2 !== void 0) items2[items2.indexOf(declared2)] = { ...declared2, attributes: [...declared2.attributes, ...attributes2] };
+    else items2.push({ name: source, type: source === "ServerlessHttpApi" ? "aws_apigatewayv2_api" : "aws_api_gateway_rest_api", label: source, existing: false, start: offsetOf(arrows[0]?.from ?? source), scope: "", attributes: attributes2 });
+  }
+  return { items: items2, empty };
+}
+var MAX_DEPTH12, PSEUDO, entryOf, scalarOf, itemsOf, subNames, Template;
+var init_template = __esm({
+  "../../packages/diagrams/src/importers/cloudformation/template.ts"() {
+    "use strict";
+    init_attributes();
+    init_type_names();
+    init_value();
+    MAX_DEPTH12 = 16;
+    PSEUDO = {
+      "AWS::Region": "region",
+      "AWS::AccountId": "account",
+      "AWS::StackName": "stack",
+      "AWS::StackId": "stack",
+      "AWS::Partition": "partition",
+      "AWS::URLSuffix": "urlSuffix",
+      "AWS::NoValue": "none",
+      "AWS::NotificationARNs": "notifications"
+    };
+    entryOf = (node3, key) => node3?.kind === "map" ? node3.entries.find((entry2) => entry2.key === key)?.value : void 0;
+    scalarOf = (node3) => node3?.kind === "scalar" && !node3.isNull ? node3.value : null;
+    itemsOf = (node3) => node3.kind === "seq" ? node3.items : [node3];
+    subNames = (template) => [...template.matchAll(/\$\{([A-Za-z0-9_:.]+)\}/g)].map((match) => match[1] ?? "");
+    Template = class {
+      parameters;
+      conditions;
+      mappings;
+      resources;
+      conditionMemo = /* @__PURE__ */ new Map();
+      constructor(root) {
+        const section = (key) => entryOf(root, key)?.kind === "map" ? entryOf(root, key).entries : [];
+        this.parameters = new Map(section("Parameters").map((entry2) => [entry2.key, entry2.value]));
+        this.conditions = new Map(section("Conditions").map((entry2) => [entry2.key, entry2.value]));
+        this.mappings = entryOf(root, "Mappings");
+        this.resources = new Map(section("Resources").filter((entry2) => entry2.value.kind === "map").map((entry2) => [entry2.key, entry2.value]));
+      }
+      /** The value of a node as far as the template's defaults give it. */
+      evaluate(node3, depth = 0) {
+        if (node3 === void 0 || depth > MAX_DEPTH12) return new Unknown("value");
+        const intrinsic = intrinsicOf(node3);
+        if (intrinsic !== null) return this.call(intrinsic, depth);
+        if (node3.kind === "scalar") return node3.isNull ? null : node3.value;
+        if (node3.kind === "seq") return node3.items.map((item) => this.evaluate(item, depth + 1));
+        const out = {};
+        for (const entry2 of node3.entries) out[entry2.key] = this.evaluate(entry2.value, depth + 1);
+        return out;
+      }
+      /** What a name stands for in `Ref` or `${ }`: a parameter's default, a pseudo parameter, or a resource's own name. */
+      named(name2, depth) {
+        const pseudo = PSEUDO[name2];
+        if (pseudo !== void 0) return new Unknown(pseudo);
+        const parameter = this.parameters.get(name2);
+        if (parameter !== void 0) {
+          if (scalarOf(entryOf(parameter, "NoEcho")) === "true") return new Unknown(name2);
+          const fallback = entryOf(parameter, "Default");
+          return fallback === void 0 ? new Unknown(name2) : this.evaluate(fallback, depth + 1);
+        }
+        const resource = this.resources.get(name2);
+        if (resource !== void 0) {
+          const key = nameKeyOf(scalarOf(entryOf(resource, "Type")) ?? "", entryOf(resource, "Properties"));
+          const value = key === null ? void 0 : entryOf(entryOf(resource, "Properties"), key);
+          return value === void 0 ? new Unknown(name2) : this.evaluate(value, depth + 1);
+        }
+        return new Unknown(name2);
+      }
+      call(intrinsic, depth) {
+        const argument = intrinsic.argument;
+        const args = () => itemsOf(argument).map((item) => this.evaluate(item, depth + 1));
+        switch (intrinsic.name) {
+          case "Ref":
+            return this.named(scalarOf(argument) ?? "", depth);
+          case "GetAtt":
+            return new Unknown(getAttOf(argument)?.resource ?? "value");
+          case "Sub": {
+            const [template, variables] = argument.kind === "seq" ? [scalarOf(argument.items[0]), argument.items[1]] : [scalarOf(argument), void 0];
+            if (template === null) return new Unknown("sub");
+            const parts = [];
+            let index2 = 0;
+            for (const match of template.matchAll(/\$\{([^}]*)\}/g)) {
+              parts.push(template.slice(index2, match.index));
+              const name2 = match[1] ?? "";
+              if (name2.startsWith("!")) parts.push(`\${${name2.slice(1)}}`);
+              else if (entryOf(variables, name2) !== void 0) parts.push(this.evaluate(entryOf(variables, name2), depth + 1));
+              else parts.push(name2.includes(".") && !name2.startsWith("AWS::") ? new Unknown(name2.split(".")[0] ?? name2) : this.named(name2, depth));
+              index2 = (match.index ?? 0) + match[0].length;
+            }
+            parts.push(template.slice(index2));
+            return joined(parts);
+          }
+          case "Join": {
+            const [separator, list] = args();
+            const by = textOf5(separator ?? null);
+            if (by === null || !Array.isArray(list)) return new Unknown("join");
+            return joined(list.flatMap((item, at3) => at3 === 0 ? [item] : [by, item]));
+          }
+          case "Select": {
+            const [at3, list] = args();
+            const position = Number(textOf5(at3 ?? null));
+            return Array.isArray(list) && Number.isInteger(position) ? list[position] ?? new Unknown("select") : new Unknown("select");
+          }
+          case "Split": {
+            const [separator, value] = args();
+            const [by, whole2] = [textOf5(separator ?? null), textOf5(value ?? null)];
+            return by === null || whole2 === null ? new Unknown("split") : whole2.split(by);
+          }
+          case "If": {
+            const [condition, yes, no] = itemsOf(argument);
+            const holds = this.condition(scalarOf(condition) ?? "", depth);
+            return holds === null ? new Unknown("condition") : this.evaluate(holds ? yes : no, depth + 1);
+          }
+          case "FindInMap": {
+            const [map2, first, second] = args().map((value) => textOf5(value));
+            const found = entryOf(entryOf(entryOf(this.mappings, map2 ?? ""), first ?? ""), second ?? "");
+            return found === void 0 ? new Unknown("map") : this.evaluate(found, depth + 1);
+          }
+          case "Equals": {
+            const [a, b] = args();
+            return a instanceof Unknown || b instanceof Unknown ? new Unknown("condition") : JSON.stringify(a) === JSON.stringify(b);
+          }
+          case "Not": {
+            const [value] = args();
+            return typeof value === "boolean" ? !value : new Unknown("condition");
+          }
+          case "And":
+          case "Or": {
+            const values = args();
+            if (values.some((value) => typeof value !== "boolean")) return new Unknown("condition");
+            return intrinsic.name === "And" ? values.every((value) => value === true) : values.some((value) => value === true);
+          }
+          case "Condition":
+            return this.condition(scalarOf(argument) ?? "", depth) ?? new Unknown("condition");
+          default:
+            return new Unknown(intrinsic.name === "ImportValue" ? "import" : intrinsic.name.toLowerCase());
+        }
+      }
+      /** Whether a named condition holds with the parameters' defaults, or null when it depends on what is not known. */
+      condition(name2, depth = 0) {
+        if (this.conditionMemo.has(name2)) return this.conditionMemo.get(name2) ?? null;
+        this.conditionMemo.set(name2, null);
+        const value = this.evaluate(this.conditions.get(name2), depth + 1);
+        const holds = typeof value === "boolean" ? value : null;
+        this.conditionMemo.set(name2, holds);
+        return holds;
+      }
+      /** The resources a node names: `Ref`, `GetAtt`, and `${ }` of `Sub`, and only the branch an `If` takes when its condition is known. */
+      refs(node3, depth = 0) {
+        if (node3 === void 0 || depth > MAX_DEPTH12) return [];
+        const intrinsic = intrinsicOf(node3);
+        if (intrinsic !== null) {
+          const argument = intrinsic.argument;
+          if (intrinsic.name === "Ref") {
+            const name2 = scalarOf(argument) ?? "";
+            return this.resources.has(name2) ? [name2] : [];
+          }
+          if (intrinsic.name === "GetAtt") {
+            const target = getAttOf(argument)?.resource ?? "";
+            return this.resources.has(target) ? [target] : [];
+          }
+          if (intrinsic.name === "Sub") {
+            const template = argument.kind === "seq" ? scalarOf(argument.items[0]) : scalarOf(argument);
+            const own2 = subNames(template ?? "").map((name2) => name2.split(".")[0] ?? "").filter((name2) => this.resources.has(name2));
+            return [...own2, ...argument.kind === "seq" ? this.refs(argument.items[1], depth + 1) : []];
+          }
+          if (intrinsic.name === "If") {
+            const [condition, yes, no] = itemsOf(argument);
+            const holds = this.condition(scalarOf(condition) ?? "", depth);
+            return holds === null ? [...this.refs(yes, depth + 1), ...this.refs(no, depth + 1)] : this.refs(holds ? yes : no, depth + 1);
+          }
+          return itemsOf(argument).flatMap((item) => this.refs(item, depth + 1));
+        }
+        if (node3.kind === "seq") return node3.items.flatMap((item) => this.refs(item, depth + 1));
+        if (node3.kind === "map") return node3.entries.flatMap((entry2) => this.refs(entry2.value, depth + 1));
+        return [];
+      }
+      /** Every reference a node holds, by the keys that lead to it. */
+      refsByPath(node3, path, out, depth = 0) {
+        if (node3 === void 0 || depth > MAX_DEPTH12) return;
+        if (intrinsicOf(node3) === null && node3.kind === "map") {
+          for (const entry2 of node3.entries) this.refsByPath(entry2.value, [...path, entry2.key], out, depth + 1);
+          return;
+        }
+        if (intrinsicOf(node3) === null && node3.kind === "seq") {
+          for (const item of node3.items) this.refsByPath(item, path, out, depth + 1);
+          return;
+        }
+        const refs = this.refs(node3, depth + 1);
+        if (refs.length > 0) out.push({ path, refs });
+      }
+    };
+  }
+});
+
+// ../../packages/diagrams/src/importers/cloudformation/index.ts
+function nodeOf(value, depth = 0) {
+  const at3 = { line: 1, column: 1 };
+  if (depth > 64 || value === null || value === void 0) return { kind: "scalar", value: "", quoted: false, isNull: true, ...at3 };
+  if (Array.isArray(value)) return { kind: "seq", items: value.map((item) => nodeOf(item, depth + 1)), ...at3 };
+  if (typeof value === "object") return { kind: "map", entries: Object.entries(value).map(([key, entry2]) => ({ key, value: nodeOf(entry2, depth + 1), ...at3 })), ...at3 };
+  return { kind: "scalar", value: String(value), quoted: typeof value === "string", isNull: false, ...at3 };
+}
+function readFile(text3) {
+  if (/^\s*\{/.test(text3)) {
+    try {
+      return { root: nodeOf(JSON.parse(text3)), problem: null };
+    } catch (error62) {
+      return { root: null, problem: { line: 1, column: 1, message: `The template is not JSON: ${error62 instanceof Error ? error62.message : "it cannot be read"}.`, hint: "Send the template as CloudFormation writes it, in JSON or YAML." } };
+    }
+  }
+  const parsed = parseYaml(text3);
+  if (parsed.error !== null) return { root: null, problem: parsed.error };
+  return { root: parsed.documents[0]?.root ?? null, problem: null };
+}
+function readCloudFormation(text3, context) {
+  const index2 = new LineIndex(text3);
+  const files = context.files.map((file2, position) => ({ path: file2.path, start: file2.start, text: text3.slice(file2.start, context.files[position + 1]?.start ?? text3.length) }));
+  const drafts2 = [];
+  const templates = [];
+  for (const file2 of files) {
+    const read = readFile(file2.text);
+    if (read.problem !== null || read.root === null) {
+      const problem = read.problem ?? { line: 1, column: 1, message: "The file is empty.", hint: "Send a template with Resources." };
+      const lineStart = file2.text.split("\n").slice(0, problem.line - 1).join("\n").length + (problem.line > 1 ? 1 : 0);
+      context.report.add(files.length === 1 ? DIAGNOSTIC_CODES.importUnreadable : DIAGNOSTIC_CODES.importSkipped, index2.span(file2.start + lineStart + problem.column - 1), `${files.length === 1 ? "" : `${cleanText(file2.path)} is not drawn: `}${problem.message}`, problem.hint);
+      if (files.length === 1) return null;
+      continue;
+    }
+    if (get(read.root, "Resources") === void 0) {
+      if (files.length > 1) context.report.add(DIAGNOSTIC_CODES.importSkipped, index2.span(file2.start), `${cleanText(file2.path)} has no Resources, so it is not a template and is not drawn.`, "Leave files that are not templates out of files.");
+      continue;
+    }
+    templates.push({ path: file2.path, start: file2.start, text: file2.text, template: new Template(read.root) });
+  }
+  if (templates.length === 0) {
+    context.report.add(DIAGNOSTIC_CODES.importNoShape, START, "The text has no Resources section.", "Send a CloudFormation or SAM template, with its Resources.");
+    return null;
+  }
+  let chosen = templates;
+  const wanted2 = context.options.root;
+  if (wanted2 !== void 0 && wanted2 !== "") {
+    const match = templates.find((entry2) => entry2.path === wanted2 || entry2.path.endsWith(`/${wanted2.replace(/^\.\//, "")}`));
+    if (match === void 0) context.report.add(DIAGNOSTIC_CODES.importSkipped, START, `options.root names ${cleanText(wanted2)}, which is not a template of the files sent; each is drawn.`, `The templates sent are: ${templates.map((entry2) => entry2.path || "(no name)").join(", ")}.`);
+    else chosen = [match];
+  }
+  if (chosen.length > 1) context.report.add(DIAGNOSTIC_CODES.importChanged, START, `The files hold ${chosen.length} templates (${chosen.slice(0, LISTED8).map((entry2) => entry2.path).join(", ")}), so each is drawn as a diagram of its own.`, `Set options.root to draw one of them, such as "${chosen[0]?.path ?? ""}".`);
+  for (const entry2 of chosen) {
+    const offsetOf = (logical) => {
+      const at3 = entry2.text.search(new RegExp(`^\\s*"?${logical.replace(/[^A-Za-z0-9]/g, "")}"?\\s*:`, "m"));
+      return entry2.start + Math.max(0, at3);
+    };
+    const { items: items2, empty } = templateItems(entry2.template, offsetOf);
+    if (empty.length > 0) context.report.add(DIAGNOSTIC_CODES.importSkipped, index2.span(offsetOf(empty[0] ?? "")), `${countOf2(empty.length, "resource")} ${empty.length === 1 ? "has a Condition" : "have Conditions"} that the parameters' defaults make false, so ${empty.length === 1 ? "it is" : "they are"} not drawn: ${empty.slice(0, 3).join(", ")}.`, "Give the parameter its value as a default to draw it.");
+    if (items2.length === 0) continue;
+    const stack = itemsToStack(items2, []);
+    const byName = new Map(items2.map((item) => [item.name, item]));
+    const titled = chosen.length > 1 ? { ...context, title: `${context.title ?? "AWS infrastructure"}: ${entry2.path}` } : context;
+    const draft = drawStack({
+      resources: stack.resources,
+      modules: stack.modules,
+      providers: /* @__PURE__ */ new Map([["aws", null]]),
+      cloud: "aws",
+      variableName: (name2) => name2,
+      variableValue: () => null,
+      context: titled,
+      span: (key) => {
+        const item = byName.get(stack.stableName(key));
+        return item === void 0 ? { line: 1, column: 1, length: 1 } : index2.span(item.start);
+      },
+      tool: "CloudFormation",
+      stableName: stack.stableName
+    });
+    drafts2.push({ root: entry2.path, draft });
+  }
+  if (drafts2.length === 0) {
+    context.report.add(DIAGNOSTIC_CODES.importNoShape, START, "The templates declare no resource that is drawn.", "Send a template whose Resources make something.");
+    return null;
+  }
+  return drafts2.length === 1 ? drafts2[0]?.draft ?? null : joinRoots(drafts2);
+}
+var LISTED8, cloudformationImporter;
+var init_cloudformation = __esm({
+  "../../packages/diagrams/src/importers/cloudformation/index.ts"() {
+    "use strict";
+    init_core();
+    init_items2();
+    init_shared2();
+    init_yaml();
+    init_terraform();
+    init_template();
+    LISTED8 = 5;
+    cloudformationImporter = { format: "cloudformation", kinds: ["flow"], joins: "\n", extensions: [".yaml", ".yml", ".json", ".template"], read: readCloudFormation };
   }
 });
 
@@ -182621,7 +188565,7 @@ function subOf(service) {
   const parts = [runs, ports, replicas].filter((part) => part !== null);
   return parts.length === 0 ? null : parts.join(", ");
 }
-function nodeOf(service, group2) {
+function nodeOf2(service, group2) {
   const look = (service.image === null ? null : imageLook(service.image)) ?? imageLook(service.name);
   const type = look?.type ?? "service";
   return { key: `service:${service.name}`, type, label: service.name, sub: subOf(service), icon: look?.icon ?? iconForName(service.name, type), group: group2, idHint: service.name };
@@ -182682,7 +188626,7 @@ function readCompose(source, context) {
   const mounted = new Set(services.flatMap((service) => service.volumes));
   const volumes = declared(root, "volumes").filter((volume) => mounted.has(volume));
   const nodes = [
-    ...services.map((service) => nodeOf(service, home.get(service.name) ?? null)),
+    ...services.map((service) => nodeOf2(service, home.get(service.name) ?? null)),
     ...volumes.map((volume) => ({ key: `volume:${volume}`, type: "storage", label: volume, sub: "Named volume", idHint: `${volume}_volume` }))
   ];
   const name2 = text(get(root, "name"));
@@ -182770,7 +188714,7 @@ function plainNumber(value) {
   return /e/i.test(text3) ? rounded.toFixed(4).replace(/\.?0+$/, "") : text3;
 }
 var CURRENCIES;
-var init_model = __esm({
+var init_model2 = __esm({
   "../../packages/diagrams/src/importers/table/model.ts"() {
     "use strict";
     CURRENCIES = ["$", "\u20AC", "\xA3", "\xA5"];
@@ -182842,7 +188786,7 @@ var SOURCE_WORDS, TARGET_WORDS, VALUE_WORDS, SHARE_WORDS, CHECK_MARKS, CROSSES, 
 var init_choose = __esm({
   "../../packages/diagrams/src/importers/table/choose.ts"() {
     "use strict";
-    init_model();
+    init_model2();
     SOURCE_WORDS = ["source", "from", "origin"];
     TARGET_WORDS = ["target", "to", "destination", "dest"];
     VALUE_WORDS = ["value", "amount", "count", "weight", "volume", "total", "flow"];
@@ -183042,7 +188986,7 @@ var init_pie2 = __esm({
     "use strict";
     init_core();
     init_shared2();
-    init_model();
+    init_model2();
     init_paging();
     FOLD_AT = 6;
     MAX_SLICES = 30;
@@ -183137,7 +189081,7 @@ var init_sankey2 = __esm({
     init_core();
     init_shared2();
     init_choose();
-    init_model();
+    init_model2();
     init_paging();
     MAX_NODES = 60;
     MAX_FLOWS = 150;
@@ -183197,11 +189141,11 @@ function count2(entries2) {
   }
   return { items: items2, groups };
 }
-function piecesOf2(entries2, frames, size) {
+function piecesOf3(entries2, frames, size) {
   const out = [];
   for (const entry2 of entries2) {
     const items2 = entry2.kind === "item" ? 1 : count2(entry2.children).items;
-    if (entry2.kind === "group" && items2 > size) out.push(...piecesOf2(entry2.children, [...frames, entry2.name], size));
+    if (entry2.kind === "group" && items2 > size) out.push(...piecesOf3(entry2.children, [...frames, entry2.name], size));
     else if (items2 > 0) out.push({ frames, entries: [entry2], items: items2 });
   }
   return out;
@@ -183245,10 +189189,10 @@ function writeTreemap(tiles, title, unit3, measure, report3, skipped = 0) {
     return null;
   }
   let size = WORKFLOW_LIMITS.maxImportPoints;
-  let packed = packPieces(piecesOf2(tiles, [], size), size);
+  let packed = packPieces(piecesOf3(tiles, [], size), size);
   while (packed.length > WORKFLOW_LIMITS.maxImportParts && size < MAX_TILES) {
     size = Math.min(MAX_TILES, Math.ceil(size * 1.5));
-    packed = packPieces(piecesOf2(tiles, [], size), size);
+    packed = packPieces(piecesOf3(tiles, [], size), size);
   }
   const kept2 = packed;
   const written3 = kept2.map((page, index2) => {
@@ -183287,7 +189231,7 @@ var init_treemap2 = __esm({
     init_core();
     init_shared2();
     init_choose();
-    init_model();
+    init_model2();
     init_paging();
     MAX_GROUP_DEPTH = 4;
     MAX_TILES = 300;
@@ -183372,7 +189316,7 @@ var init_xychart2 = __esm({
     init_constants();
     init_core();
     init_shared2();
-    init_model();
+    init_model2();
     init_paging();
     MONTHS2 = /^(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?(?:\s+\d{2,4})?$/i;
     SIDEWAYS_LABEL = 14;
@@ -183435,14 +189379,14 @@ var init_table = __esm({
     init_shared2();
     init_choose();
     init_matrix2();
-    init_model();
+    init_model2();
     init_pie2();
     init_sankey2();
     init_treemap2();
     init_xychart2();
     init_treemap2();
     init_choose();
-    init_model();
+    init_model2();
     GENERIC_MEASURES = ["value", "amount", "count", "weight", "volume", "total", "flow"];
   }
 });
@@ -183537,7 +189481,7 @@ function readCsv(text3, report3) {
   return { header, rows, spans, headerSpan: index2.span(head.offset, header.join(separator).length) };
 }
 var SEPARATORS;
-var init_parse22 = __esm({
+var init_parse24 = __esm({
   "../../packages/diagrams/src/importers/csv/parse.ts"() {
     "use strict";
     init_core();
@@ -183552,7 +189496,7 @@ var init_csv = __esm({
   "../../packages/diagrams/src/importers/csv/index.ts"() {
     "use strict";
     init_table();
-    init_parse22();
+    init_parse24();
     csvImporter = {
       format: "csv",
       kinds: ["xychart", "pie", "sankey", "treemap", "matrix"],
@@ -183706,8 +189650,8 @@ function readColumn(text3) {
   const type = (builder[1] ?? "").split(".").pop() ?? "";
   const chain2 = readChain(value, close2 + 1);
   const has = (method) => chain2.some((entry2) => entry2.name === method);
-  const references = chain2.find((entry2) => entry2.name === "references");
-  const target = references === void 0 ? null : TARGET.exec(references.args);
+  const references2 = chain2.find((entry2) => entry2.name === "references");
+  const target = references2 === void 0 ? null : TARGET.exec(references2.args);
   return {
     key,
     name: name2 ?? key,
@@ -184204,10 +190148,10 @@ function writeTimeline(newestFirst, title, report3) {
   const commits = [...newestFirst].reverse();
   const days = commits.map((commit) => dayNumber(commit.date));
   const byMonth = Math.max(...days) - Math.min(...days) > MAX_DAY_SPAN;
-  const keyOf4 = (day) => byMonth ? `${MONTH_NAMES2[day.month - 1] ?? ""} ${day.year}` : `${day.year}-${two(day.month)}-${two(day.day)}`;
+  const keyOf5 = (day) => byMonth ? `${MONTH_NAMES2[day.month - 1] ?? ""} ${day.year}` : `${day.year}-${two(day.month)}-${two(day.day)}`;
   const grouped = [];
   for (const commit of commits) {
-    const label = keyOf4(commit.date);
+    const label = keyOf5(commit.date);
     const last = grouped[grouped.length - 1];
     if (last !== void 0 && last.label === label) last.commits.push(commit);
     else grouped.push({ label, commits: [commit] });
@@ -184349,18 +190293,18 @@ var init_git_log = __esm({
 });
 
 // ../../packages/diagrams/src/importers/github-actions/workflow.ts
-function humanize(id) {
+function humanize2(id) {
   const words2 = id.replace(/[_-]+/g, " ").trim();
   return words2 === "" ? id : `${words2.charAt(0).toUpperCase()}${words2.slice(1)}`;
 }
 function actionLabel(uses) {
   const path = uses.split("@")[0] ?? uses;
-  if (path.startsWith("./")) return humanize(path.split("/").pop() ?? path);
+  if (path.startsWith("./")) return humanize2(path.split("/").pop() ?? path);
   if (path.startsWith("docker://")) return `Run ${path.slice("docker://".length)}`;
   const [owner = "", repository = ""] = path.split("/");
   const name2 = repository.replace(/^action-|-action$/g, "");
   const words2 = owner === "actions" || owner === "" ? name2 : `${owner} ${name2}`;
-  return humanize(words2 === "" ? path : words2);
+  return humanize2(words2 === "" ? path : words2);
 }
 function commandLabel(run3) {
   const first = run3.split("\n").map((line3) => line3.trim()).find((line3) => line3 !== "" && !line3.startsWith("#")) ?? "Run a script";
@@ -184405,7 +190349,7 @@ function jobDetail(job) {
 function readJobs(root) {
   return entries(get(root, "jobs")).map((entry2) => ({
     id: entry2.key,
-    label: cleanText(readable(text(get(entry2.value, "name")) ?? humanize(entry2.key)), entry2.key),
+    label: cleanText(readable(text(get(entry2.value, "name")) ?? humanize2(entry2.key)), entry2.key),
     needs: names5(get(entry2.value, "needs")),
     detail: jobDetail(entry2.value),
     steps: items(get(entry2.value, "steps")).filter((step) => step.kind === "map").map(readStep2),
@@ -184424,7 +190368,7 @@ function eventWords(on, event) {
   if (event === "schedule") return { short: "schedule", long: cron === void 0 ? "a schedule" : `the schedule ${cron}` };
   if (event === "workflow_dispatch") return { short: "manual run", long: "a manual run" };
   if (event === "workflow_call") return { short: "call", long: "a call from another workflow" };
-  const word2 = humanize(event).toLowerCase();
+  const word2 = humanize2(event).toLowerCase();
   return { short: word2, long: `a ${word2} event` };
 }
 function triggerOf(root) {
@@ -184582,7 +190526,7 @@ var init_github_actions = __esm({
 });
 
 // ../../packages/diagrams/src/importers/json/locate.ts
-function stringEnd(text3, start2) {
+function stringEnd3(text3, start2) {
   for (let index2 = start2 + 1; index2 < text3.length; index2 += 1) {
     const char = text3.charAt(index2);
     if (char === "\\") index2 += 1;
@@ -184639,7 +190583,7 @@ function locateJsonProblem(text3) {
         continue;
       }
       if (char !== '"') return { offset: index2, message: "Expected a key in double quotes." };
-      const end2 = stringEnd(text3, index2);
+      const end2 = stringEnd3(text3, index2);
       if (end2 === -1) return { offset: index2, message: "A string is never closed." };
       index2 = end2;
       expect = "colon";
@@ -184658,7 +190602,7 @@ function locateJsonProblem(text3) {
       index2 += 1;
       continue;
     }
-    const end = char === '"' ? stringEnd(text3, index2) : literalEnd(text3, index2);
+    const end = char === '"' ? stringEnd3(text3, index2) : literalEnd(text3, index2);
     if (end === -1) return { offset: index2, message: char === '"' ? "A string is never closed." : "Expected a value: a string in double quotes, a number, true, false, null, an object, or an array." };
     index2 = end;
     expect = stack.length === 0 ? "end" : "after-value";
@@ -184682,7 +190626,7 @@ function cellOf(value) {
 }
 function arrayTable(rows, span) {
   if (rows.length === 0) return null;
-  if (rows.every(isObject2)) {
+  if (rows.every(isObject3)) {
     const keys = [];
     for (const row of rows) for (const key of Object.keys(row)) if (!keys.includes(key) && keys.length < MAX_KEYS) keys.push(key);
     return { header: keys.map((key) => cleanText(key, "Column")), rows: rows.map((row) => keys.map((key) => cellOf(row[key]))), spans: rows.map(() => span), headerSpan: span };
@@ -184706,7 +190650,7 @@ function objectTiles(value, span) {
     if (typeof child === "number") {
       leaves += 1;
       if (child > 0) addTile(tiles, childPath, child, span);
-    } else if (isObject2(child) && childPath.length < MAX_TREE_DEPTH) {
+    } else if (isObject3(child) && childPath.length < MAX_TREE_DEPTH) {
       stack.push(...toStack(child, childPath));
     } else {
       return null;
@@ -184719,20 +190663,20 @@ function shapeOf4(value, span) {
     const table2 = arrayTable(value, span);
     return table2 === null ? null : { kind: "table", table: table2 };
   }
-  if (!isObject2(value)) return null;
+  if (!isObject3(value)) return null;
   const entries2 = Object.entries(value);
   if (entries2.length > 0 && entries2.every(([, child]) => typeof child === "number")) {
     return { kind: "table", table: { header: ["Name", "Value"], rows: entries2.map(([key, child]) => [cleanText(key, "Item"), cellOf(child)]), spans: entries2.map(() => span), headerSpan: span } };
   }
   const arrays = entries2.filter(([, child]) => Array.isArray(child));
-  if (arrays.length === 1 && entries2.every(([, child]) => Array.isArray(child) || !isObject2(child))) {
+  if (arrays.length === 1 && entries2.every(([, child]) => Array.isArray(child) || !isObject3(child))) {
     const table2 = arrayTable(arrays[0]?.[1] ?? [], span);
     return table2 === null ? null : { kind: "table", table: table2 };
   }
   const tiles = objectTiles(value, span);
   return tiles === null ? null : { kind: "tiles", tiles };
 }
-var MAX_KEYS, MAX_TREE_DEPTH, isObject2;
+var MAX_KEYS, MAX_TREE_DEPTH, isObject3;
 var init_shape2 = __esm({
   "../../packages/diagrams/src/importers/json/shape.ts"() {
     "use strict";
@@ -184740,7 +190684,7 @@ var init_shape2 = __esm({
     init_table();
     MAX_KEYS = 64;
     MAX_TREE_DEPTH = 6;
-    isObject2 = (value) => typeof value === "object" && value !== null && !Array.isArray(value);
+    isObject3 = (value) => typeof value === "object" && value !== null && !Array.isArray(value);
   }
 });
 
@@ -184797,7 +190741,7 @@ var init_json = __esm({
 // ../../packages/diagrams/src/importers/kubernetes/manifests.ts
 function valuesOf(kind, root, podSpec) {
   const raw = kind === "ConfigMap" ? entries(get(root, "data")).map((entry2) => text(entry2.value)) : items(get(podSpec, "containers")).flatMap((container) => items(get(container, "env")).map((variable) => text(get(variable, "value"))));
-  return raw.filter((value) => value !== null && value.length <= MAX_VALUE_LENGTH);
+  return raw.filter((value) => value !== null && value.length <= MAX_VALUE_LENGTH2);
 }
 function stringMap(node3) {
   const out = /* @__PURE__ */ new Map();
@@ -184882,7 +190826,7 @@ function manifestRoots(roots) {
   }
   return out;
 }
-var WORKLOAD_TEMPLATES, DRAWN_KINDS, QUIET_KINDS, MAX_VALUE_LENGTH, at2;
+var WORKLOAD_TEMPLATES, DRAWN_KINDS, QUIET_KINDS, MAX_VALUE_LENGTH2, at2;
 var init_manifests = __esm({
   "../../packages/diagrams/src/importers/kubernetes/manifests.ts"() {
     "use strict";
@@ -184916,7 +190860,7 @@ var init_manifests = __esm({
       "IngressClass",
       "StorageClass"
     ]);
-    MAX_VALUE_LENGTH = 500;
+    MAX_VALUE_LENGTH2 = 500;
     at2 = (node3, path) => path.reduce((current, key) => get(current, key), node3);
   }
 });
@@ -184927,13 +190871,13 @@ function namespaceType(name2) {
   const matches3 = GROUP_TYPES.filter((type) => GROUP_TYPE_SPECS[type].phrases.includes(phrase2));
   return matches3.length === 1 ? matches3[0] : null;
 }
-function nodeOf2(manifest, grouped, serviceDetail) {
+function nodeOf3(manifest, grouped, serviceDetail) {
   const look = LOOKS[manifest.kind] ?? { type: "service", icon: null, rank: 2 };
   const image = manifest.image === null ? null : imageLook(manifest.image);
   const replicas = manifest.replicas !== null && manifest.replicas !== "1" ? `, ${manifest.replicas} replicas` : "";
   const detail = (serviceDetail ?? manifest.detail) === null ? "" : `, ${serviceDetail ?? manifest.detail}`;
   return {
-    key: keyOf(manifest.kind, manifest.namespace, manifest.name),
+    key: keyOf3(manifest.kind, manifest.namespace, manifest.name),
     type: image?.type ?? look.type,
     label: manifest.name,
     sub: `${manifest.kind}${replicas}${detail}`,
@@ -184958,7 +190902,7 @@ function foldedServices(drawn) {
     if (service.kind !== "Service") continue;
     const workloads = selected(service, drawn);
     const only = workloads[0];
-    if (workloads.length === 1 && only !== void 0) folded.set(keyOf("Service", service.namespace, service.name), keyOf(only.kind, only.namespace, only.name));
+    if (workloads.length === 1 && only !== void 0) folded.set(keyOf3("Service", service.namespace, service.name), keyOf3(only.kind, only.namespace, only.name));
   }
   return folded;
 }
@@ -184969,14 +190913,14 @@ function edgesOf2(drawn, folded, context) {
     context.report.add(DIAGNOSTIC_CODES.importUnresolved, spanAt3(manifest.line, manifest.column), `${manifest.kind} ${manifest.name} names the ${what}, which is not in the text.`, "Include its manifest, or leave it out if it is created elsewhere; the arrow was not drawn.");
   };
   for (const manifest of drawn) {
-    const from = keyOf(manifest.kind, manifest.namespace, manifest.name);
+    const from = keyOf3(manifest.kind, manifest.namespace, manifest.name);
     for (const route of manifest.routes) {
-      const service = keyOf("Service", manifest.namespace, route.service);
+      const service = keyOf3("Service", manifest.namespace, route.service);
       if (has("Service", manifest.namespace, route.service)) edges.push({ from, to: folded.get(service) ?? service, label: route.label });
       else unresolved(manifest, `Service ${route.service}`);
     }
     if (manifest.kind === "Service" && !folded.has(from)) {
-      for (const workload of selected(manifest, drawn)) edges.push({ from, to: keyOf(workload.kind, workload.namespace, workload.name) });
+      for (const workload of selected(manifest, drawn)) edges.push({ from, to: keyOf3(workload.kind, workload.namespace, workload.name) });
     }
     if (manifest.image !== null) {
       const read = drawn.filter((other) => other.kind === "ConfigMap" && other.namespace === manifest.namespace && manifest.uses.some((use) => use.kind === "ConfigMap" && use.name === other.name));
@@ -184984,13 +190928,13 @@ function edgesOf2(drawn, folded, context) {
       for (const service of drawn) {
         const host = service.namespace === manifest.namespace ? service.name : `${service.name}.${service.namespace}`;
         if (service.kind !== "Service" || !values.some((value) => namesHost2(value, host))) continue;
-        const key = keyOf("Service", service.namespace, service.name);
+        const key = keyOf3("Service", service.namespace, service.name);
         const to = folded.get(key) ?? key;
         if (to !== from) edges.push({ from, to });
       }
     }
     for (const use of manifest.uses) {
-      if (has(use.kind, manifest.namespace, use.name)) edges.push({ from, to: keyOf(use.kind, manifest.namespace, use.name), arrow: use.kind === "PersistentVolumeClaim" ? "->" : "-->", label: use.kind === "PersistentVolumeClaim" ? "mounts" : "reads" });
+      if (has(use.kind, manifest.namespace, use.name)) edges.push({ from, to: keyOf3(use.kind, manifest.namespace, use.name), arrow: use.kind === "PersistentVolumeClaim" ? "->" : "-->", label: use.kind === "PersistentVolumeClaim" ? "mounts" : "reads" });
       else unresolved(manifest, `${use.kind} ${use.name}`);
     }
   }
@@ -185034,11 +190978,11 @@ function readKubernetes(textIn, context) {
   const folded = foldedServices(ordered);
   const servicePorts = /* @__PURE__ */ new Map();
   for (const manifest of ordered) {
-    const workload = folded.get(keyOf(manifest.kind, manifest.namespace, manifest.name));
+    const workload = folded.get(keyOf3(manifest.kind, manifest.namespace, manifest.name));
     const ports = manifest.detail?.replace(/^ClusterIP(, )?/, "") ?? "";
     if (workload !== void 0 && ports !== "" && !servicePorts.has(workload)) servicePorts.set(workload, ports);
   }
-  const boxes2 = ordered.filter((manifest) => !folded.has(keyOf(manifest.kind, manifest.namespace, manifest.name)));
+  const boxes2 = ordered.filter((manifest) => !folded.has(keyOf3(manifest.kind, manifest.namespace, manifest.name)));
   const workloads = boxes2.filter((manifest) => manifest.image !== null).length;
   const others = boxes2.length - workloads;
   return writeFlow(
@@ -185046,12 +190990,12 @@ function readKubernetes(textIn, context) {
       title: context.title ?? (grouped || only === "default" ? "Kubernetes workloads" : `Kubernetes namespace ${only}`),
       desc: `${countOf2(workloads, "workload")}${others > 0 ? ` and ${countOf2(others, "object")} around ${workloads === 1 ? "it" : "them"}` : ""}${grouped ? ` in ${countOf2(namespaces.length, "namespace")}` : ""}, imported from Kubernetes manifests. ${boxes2.some((manifest) => manifest.kind === "Ingress") ? "Traffic flows from each Ingress to the pods behind its Services" : "Solid arrows are calls to a Service"}, and dashed arrows are configuration the pods read.`,
       direction: "down",
-      nodes: boxes2.map((manifest) => nodeOf2(manifest, grouped, servicePorts.get(keyOf(manifest.kind, manifest.namespace, manifest.name)) ?? null)),
+      nodes: boxes2.map((manifest) => nodeOf3(manifest, grouped, servicePorts.get(keyOf3(manifest.kind, manifest.namespace, manifest.name)) ?? null)),
       groups,
       edges: edgesOf2(ordered, folded, context),
       noun: "objects",
       capSpan: (key) => {
-        const manifest = ordered.find((candidate2) => keyOf(candidate2.kind, candidate2.namespace, candidate2.name) === key);
+        const manifest = ordered.find((candidate2) => keyOf3(candidate2.kind, candidate2.namespace, candidate2.name) === key);
         return spanAt3(manifest?.line ?? 1, manifest?.column ?? 1);
       },
       advice: "Check the arrows from each Service: they follow its selector, so a selector that matches no pod template draws none. Label the Ingress arrows with their paths if they carry none."
@@ -185059,7 +191003,7 @@ function readKubernetes(textIn, context) {
     context.report
   );
 }
-var LOOKS, keyOf, selects, selected, kubernetesImporter;
+var LOOKS, keyOf3, selects, selected, kubernetesImporter;
 var init_kubernetes = __esm({
   "../../packages/diagrams/src/importers/kubernetes/index.ts"() {
     "use strict";
@@ -185082,7 +191026,7 @@ var init_kubernetes = __esm({
       ConfigMap: { type: "storage", icon: "lucide:settings-2", rank: 5 },
       Secret: { type: "secret", icon: "lucide:key-round", rank: 5 }
     };
-    keyOf = (kind, namespace, name2) => `${namespace}/${kind}/${name2}`;
+    keyOf3 = (kind, namespace, name2) => `${namespace}/${kind}/${name2}`;
     selects = (selector, labels2) => selector.size > 0 && [...selector].every(([key, value]) => labels2.get(key) === value);
     selected = (service, drawn) => drawn.filter((workload) => workload.namespace === service.namespace && workload.kind !== "Service" && workload.image !== null && selects(service.labels, workload.labels));
     kubernetesImporter = { format: "kubernetes", kinds: ["flow"], joins: "\n---\n", extensions: [".yaml", ".yml"], read: readKubernetes };
@@ -185096,7 +191040,7 @@ function objectOf(value) {
 function listOf3(value) {
   return Array.isArray(value) ? value : [];
 }
-function textOf5(value) {
+function textOf6(value) {
   if (typeof value === "string") return value;
   if (typeof value === "number" || typeof value === "boolean") return String(value);
   return null;
@@ -185244,12 +191188,12 @@ function chunkTags(chunk) {
   return names7.length <= 2 ? names7.join(" and ") : `${names7.slice(0, -1).join(", ")}, and ${names7[names7.length - 1] ?? ""}`;
 }
 function wanted(operation, tags, paths) {
-  const tagged = tags === void 0 || tags.length === 0 || operation.tags.some((tag) => tags.some((want) => want.toLowerCase() === tag.toLowerCase()));
+  const tagged2 = tags === void 0 || tags.length === 0 || operation.tags.some((tag) => tags.some((want) => want.toLowerCase() === tag.toLowerCase()));
   const under = paths === void 0 || paths.length === 0 || paths.some((prefix) => {
     const clean = prefix.trim().replace(/\/+$/, "");
     return clean === "" || operation.path === clean || operation.path.startsWith(`${clean}/`);
   });
-  return tagged && under;
+  return tagged2 && under;
 }
 var NO_TAG;
 var init_sections = __esm({
@@ -185449,17 +191393,17 @@ function requirementsOf(value) {
   return value.map((entry2) => {
     const map2 = /* @__PURE__ */ new Map();
     for (const [scheme, scopes] of Object.entries(objectOf(entry2) ?? {})) {
-      map2.set(scheme, listOf3(scopes).map(textOf5).filter((scope) => scope !== null && scope !== ""));
+      map2.set(scheme, listOf3(scopes).map(textOf6).filter((scope) => scope !== null && scope !== ""));
     }
     return map2;
   });
 }
 function refName(value) {
-  const ref = textOf5(objectOf(value)?.["$ref"]);
+  const ref = textOf6(objectOf(value)?.["$ref"]);
   return ref === null ? null : ref.split("/").pop() ?? null;
 }
 function resolve3(document2, value) {
-  const ref = textOf5(objectOf(value)?.["$ref"]);
+  const ref = textOf6(objectOf(value)?.["$ref"]);
   if (ref === null || !ref.startsWith("#/")) return value;
   let current = document2;
   for (const part of ref.slice(2).split("/").slice(0, 8)) current = objectOf(current)?.[part.replace(/~1/g, "/").replace(/~0/g, "~")];
@@ -185479,7 +191423,7 @@ function firstSentence(text3) {
 function responsesOf(document2, value) {
   return Object.entries(objectOf(value) ?? {}).map(([status, response]) => ({
     status,
-    description: firstSentence(textOf5(objectOf(resolve3(document2, response))?.["description"]) ?? "")
+    description: firstSentence(textOf6(objectOf(resolve3(document2, response))?.["description"]) ?? "")
   }));
 }
 function withBody(document2, operation) {
@@ -185494,13 +191438,13 @@ function operationsOf(document2) {
     for (const method of METHODS) {
       const operation = objectOf(pathItem[method]);
       if (operation === void 0) continue;
-      const roles = Array.isArray(operation["x-roles"]) ? listOf3(operation["x-roles"]).map(textOf5).filter((role) => role !== null && role !== "") : void 0;
+      const roles = Array.isArray(operation["x-roles"]) ? listOf3(operation["x-roles"]).map(textOf6).filter((role) => role !== null && role !== "") : void 0;
       operations.push({
         method: method.toUpperCase(),
         path,
-        operationId: textOf5(operation["operationId"]),
-        tags: listOf3(operation["tags"]).map(textOf5).filter((tag) => tag !== null && tag.trim() !== ""),
-        summary: textOf5(operation["summary"]) ?? (textOf5(operation["description"]) === null ? null : firstSentence(textOf5(operation["description"]) ?? "")),
+        operationId: textOf6(operation["operationId"]),
+        tags: listOf3(operation["tags"]).map(textOf6).filter((tag) => tag !== null && tag.trim() !== ""),
+        summary: textOf6(operation["summary"]) ?? (textOf6(operation["description"]) === null ? null : firstSentence(textOf6(operation["description"]) ?? "")),
         security: requirementsOf(operation["security"]) ?? rootSecurity,
         roles,
         body: null,
@@ -185513,22 +191457,22 @@ function operationsOf(document2) {
 }
 function schemesOf(document2) {
   const schemes = objectOf(objectOf(objectOf(document2)?.["components"])?.["securitySchemes"]) ?? {};
-  return new Map(Object.entries(schemes).map(([name2, value]) => [name2, { name: name2, type: textOf5(objectOf(value)?.["type"]) ?? "unknown" }]));
+  return new Map(Object.entries(schemes).map(([name2, value]) => [name2, { name: name2, type: textOf6(objectOf(value)?.["type"]) ?? "unknown" }]));
 }
 function tagsOf(document2) {
   const tags = /* @__PURE__ */ new Map();
   for (const entry2 of listOf3(objectOf(document2)?.["tags"])) {
-    const name2 = textOf5(objectOf(entry2)?.["name"]);
-    const description = textOf5(objectOf(entry2)?.["description"]);
+    const name2 = textOf6(objectOf(entry2)?.["name"]);
+    const description = textOf6(objectOf(entry2)?.["description"]);
     if (name2 !== null && !tags.has(name2)) tags.set(name2, description === null ? null : firstSentence(description));
   }
   return tags;
 }
 function apiTitle(document2) {
-  return textOf5(objectOf(objectOf(document2)?.["info"])?.["title"]);
+  return textOf6(objectOf(objectOf(document2)?.["info"])?.["title"]);
 }
 function isOpenApi3(document2) {
-  return (textOf5(objectOf(document2)?.["openapi"]) ?? "").startsWith("3");
+  return (textOf6(objectOf(document2)?.["openapi"]) ?? "").startsWith("3");
 }
 var METHODS;
 var init_operations = __esm({
@@ -185801,10 +191745,10 @@ function readModel(model, models, context, relations) {
     if (models.has(base)) {
       const args = attributeArguments(attributes2, "@relation");
       const fields = args === null ? [] : listArgument(args, "fields");
-      const references = args === null ? [] : listArgument(args, "references");
+      const references2 = args === null ? [] : listArgument(args, "references");
       fields.forEach((field, at3) => {
         foreignKeys.add(field);
-        relations.push({ fromTable: model.name, fromColumn: field, toTable: base, toColumn: references[at3] ?? "id", label: name2, span: spanAt3(line3.line, line3.indent + 1, line3.text.length) });
+        relations.push({ fromTable: model.name, fromColumn: field, toTable: base, toColumn: references2[at3] ?? "id", label: name2, span: spanAt3(line3.line, line3.indent + 1, line3.text.length) });
       });
       continue;
     }
@@ -185853,6 +191797,581 @@ var init_prisma = __esm({
     init_blocks();
     FIELD = /^([A-Za-z_][A-Za-z0-9_]*)\s+(\S+)(.*)$/;
     prismaImporter = { format: "prisma", kinds: ["schema"], joins: "\n", extensions: [".prisma"], read: readPrisma };
+  }
+});
+
+// ../../packages/diagrams/src/importers/pulumi/item.ts
+function valueAt(properties, path) {
+  let current = properties;
+  for (const key of path) {
+    if (!isObject2(current)) return null;
+    current = current[key] ?? null;
+  }
+  if (Array.isArray(current)) return textOf5(current[0] ?? null);
+  return textOf5(current);
+}
+function nameProperty(token, properties) {
+  if (!isObject2(properties)) return null;
+  return nameKeyOf2(token, Object.keys(properties).filter((key) => properties[key] !== void 0 && properties[key] !== null));
+}
+function nameKeyOf2(token, keys) {
+  const resource = token.split(":").pop() ?? "";
+  const words2 = resource.replace(/([a-z0-9])([A-Z])/g, "$1 $2").split(" ");
+  const own2 = `${resource.charAt(0).toLowerCase()}${resource.slice(1)}Name`;
+  const last = `${(words2[words2.length - 1] ?? "").toLowerCase()}Name`;
+  const candidates2 = [own2, last, "name", "resourceName", "bucket", "identifier", "functionName", "clusterName", "domainName"].filter((key) => key !== "resourceGroupName" || resource === "ResourceGroup");
+  return candidates2.find((key) => keys.includes(key)) ?? null;
+}
+function itemOf(resource) {
+  const tokenType = pulumiToTerraform(resource.token);
+  if (tokenType === null) return null;
+  const type = refineByKind(tokenType, valueAt(resource.properties, ["kind"]));
+  const attributes2 = [];
+  const nameKey3 = nameProperty(resource.token, resource.properties);
+  if (nameKey3 !== null && isObject2(resource.properties)) {
+    const name2 = nameText(resource.properties[nameKey3] ?? null);
+    attributes2.push({ name: "name", refs: [], value: name2.known, readable: name2.readable });
+  }
+  const placed = (key) => key !== "location" || type === "azurerm_resource_group";
+  const role = roleOf2(type);
+  for (const [path, attribute2] of DETAILS2) {
+    if (!placed(attribute2)) continue;
+    const value = valueAt(resource.properties, path);
+    if (value !== null) attributes2.push({ name: attribute2 === "sku" ? skuAttribute(role.role === "node" ? role.detail ?? [] : []) : attribute2, refs: [], value });
+  }
+  if (isObject2(resource.properties)) {
+    for (const [key, value] of Object.entries(resource.properties)) {
+      const text3 = textOf5(value);
+      if (key !== nameKey3 && placed(key) && text3 !== null && !DETAILS2.some(([path]) => path.length === 1 && path[0] === key)) attributes2.push({ name: snake(key), refs: [], value: text3 });
+    }
+  }
+  for (const entry2 of resource.refs) attributes2.push({ name: attributeOf(entry2.path), refs: entry2.refs, value: null });
+  if (resource.dependsOn.length > 0) attributes2.push({ name: "depends_on", refs: resource.dependsOn, value: null });
+  if (resource.parent !== null) attributes2.push({ name: "parent_id", refs: [resource.parent], value: null });
+  if (type === "azurerm_role_assignment") {
+    const role2 = roleName(valueAt(resource.properties, ["roleDefinitionId"]) ?? JSON.stringify(resource.properties));
+    if (role2 !== null) attributes2.push({ name: "role_definition_name", refs: [], value: role2 });
+  }
+  const group2 = attributes2.find((attribute2) => attribute2.name === "resource_group_name");
+  if (group2 !== void 0 && group2.refs.length === 0 && group2.value !== null && !attributes2.some((attribute2) => attribute2.name === "resource_group_name" && attribute2.refs.length > 0)) {
+    attributes2.push({ name: "resource_group_name", refs: [], value: null, vars: [`rg:${group2.value}`] });
+  }
+  return { name: resource.name, type, label: resource.logical, existing: resource.existing, start: resource.start, scope: resource.scope, attributes: attributes2, ...resource.copies === void 0 ? {} : { copies: resource.copies } };
+}
+var DETAILS2;
+var init_item = __esm({
+  "../../packages/diagrams/src/importers/pulumi/item.ts"() {
+    "use strict";
+    init_attributes();
+    init_azure_roles();
+    init_azure_types();
+    init_type_names();
+    init_value();
+    init_generic();
+    DETAILS2 = [
+      [["sku", "name"], "sku"],
+      [["kind"], "kind"],
+      [["version"], "version"],
+      [["addressPrefix"], "address_prefixes"],
+      [["addressSpace", "addressPrefixes"], "address_space"],
+      [["location"], "location"]
+    ];
+  }
+});
+
+// ../../packages/diagrams/src/importers/pulumi/program.ts
+function referenceOf(expression2) {
+  const text3 = expression2.trim();
+  const head = /^[A-Za-z_][A-Za-z0-9_:-]*/.exec(text3);
+  if (head === null) return null;
+  const steps = [];
+  let rest = text3.slice(head[0].length);
+  for (let count3 = 0; rest !== "" && count3 < 24; count3 += 1) {
+    const step = /^\.([A-Za-z_][A-Za-z0-9_-]*)|^\[\s*([0-9]+)\s*\]|^\[\s*"([^"]*)"\s*\]/.exec(rest);
+    if (step === null) return null;
+    if (step[1] !== void 0) steps.push({ kind: "name", name: step[1] });
+    else if (step[2] !== void 0) steps.push({ kind: "index", index: Number(step[2]) });
+    else steps.push({ kind: "index", index: step[3] ?? "" });
+    rest = rest.slice(step[0].length);
+  }
+  return { head: head[0], steps };
+}
+function piecesOf4(value) {
+  const out = [];
+  let index2 = 0;
+  while (index2 < value.length) {
+    const open2 = value.indexOf("${", index2);
+    if (open2 === -1) {
+      out.push({ text: value.slice(index2) });
+      break;
+    }
+    if (open2 > 0 && value.charAt(open2 - 1) === "$") {
+      out.push({ text: `${value.slice(index2, open2 - 1)}\${` });
+      index2 = open2 + 2;
+      continue;
+    }
+    const close2 = value.indexOf("}", open2);
+    if (close2 === -1) {
+      out.push({ text: value.slice(index2) });
+      break;
+    }
+    if (open2 > index2) out.push({ text: value.slice(index2, open2) });
+    out.push({ expression: value.slice(open2 + 2, close2) });
+    index2 = close2 + 1;
+  }
+  return out;
+}
+var MAX_DEPTH13, Program;
+var init_program = __esm({
+  "../../packages/diagrams/src/importers/pulumi/program.ts"() {
+    "use strict";
+    init_value();
+    init_yaml();
+    init_item();
+    MAX_DEPTH13 = 16;
+    Program = class {
+      constructor(root, config2, stack, project) {
+        this.config = config2;
+        this.stack = stack;
+        this.project = project;
+        this.resources = entries(get(root, "resources")).filter((entry2) => entry2.value.kind === "map").map((entry2) => ({ name: entry2.key, node: entry2.value, line: entry2.line, column: entry2.column }));
+        this.variables = new Map(entries(get(root, "variables")).map((entry2) => [entry2.key, entry2.value]));
+        const defaults = /* @__PURE__ */ new Map();
+        for (const entry2 of entries(get(root, "config"))) {
+          const key = entry2.key.replace(/^[^:]+:/, "");
+          defaults.set(key, entry2.value.kind === "map" ? get(entry2.value, "default") ?? { kind: "scalar", value: "", quoted: false, isNull: true, line: entry2.line, column: entry2.column } : entry2.value);
+        }
+        this.defaults = defaults;
+      }
+      config;
+      stack;
+      project;
+      resources;
+      variables;
+      defaults;
+      memo = /* @__PURE__ */ new Map();
+      refMemo = /* @__PURE__ */ new Map();
+      names() {
+        return new Set(this.resources.map((resource) => resource.name));
+      }
+      /** The value of a node as far as the program and the stack give it. */
+      evaluate(node3, depth = 0) {
+        if (node3 === void 0 || depth > MAX_DEPTH13) return new Unknown("value");
+        if (node3.kind === "scalar") {
+          if (node3.isNull) return null;
+          if (!node3.value.includes("${")) return node3.value;
+          const pieces = piecesOf4(node3.value);
+          if (pieces.length === 1 && "expression" in pieces[0]) return this.reference(pieces[0].expression, depth);
+          return joined(pieces.map((piece) => "text" in piece ? piece.text : this.reference(piece.expression, depth)));
+        }
+        if (node3.kind === "seq") return node3.items.map((item) => this.evaluate(item, depth + 1));
+        const only = node3.entries.length === 1 ? node3.entries[0] : void 0;
+        if (only !== void 0 && only.key.startsWith("fn::")) return this.call(only.key.slice(4), only.value, depth);
+        const out = {};
+        for (const entry2 of node3.entries) out[entry2.key] = this.evaluate(entry2.value, depth + 1);
+        return out;
+      }
+      /** `fn::join`, `fn::select`, and `fn::split` are read; anything else (`fn::invoke`, `fn::secret`, assets) is unknown by name. */
+      call(name2, argument, depth) {
+        const args = argument.kind === "seq" ? argument.items.map((item) => this.evaluate(item, depth + 1)) : [];
+        if (name2 === "join") {
+          const [separator, list] = args;
+          const by = textOf5(separator ?? null);
+          if (by === null || !Array.isArray(list)) return new Unknown("join");
+          return joined(list.flatMap((item, index2) => index2 === 0 ? [item] : [by, item]));
+        }
+        if (name2 === "select") {
+          const [index2, list] = args;
+          return typeof index2 === "number" || /^[0-9]+$/.test(textOf5(index2 ?? null) ?? "") ? Array.isArray(list) ? list[Number(textOf5(index2 ?? null))] ?? new Unknown("select") : new Unknown("select") : new Unknown("select");
+        }
+        if (name2 === "split") {
+          const [separator, value] = args;
+          const [by, whole2] = [textOf5(separator ?? null), textOf5(value ?? null)];
+          return by === null || whole2 === null ? new Unknown("split") : whole2.split(by);
+        }
+        if (name2 === "invoke") {
+          const returned = text(get(argument, "return"));
+          return new Unknown(returned ?? (text(get(argument, "function"))?.split(":").pop() ?? "invoke"));
+        }
+        return new Unknown(name2);
+      }
+      /** What a `${ }` stands for: `pulumi.stack`, a variable, a configuration value, or a resource's own name. */
+      reference(expression2, depth) {
+        const reference = referenceOf(expression2);
+        if (reference === null) return new Unknown("value");
+        const { head, steps } = reference;
+        const first = steps[0];
+        if (head === "pulumi" && first?.kind === "name") {
+          if (first.name === "stack") return this.stack ?? new Unknown("stack");
+          if (first.name === "project") return this.project ?? new Unknown("project");
+          return new Unknown(first.name);
+        }
+        if (this.names().has(head)) {
+          if (steps.length === 1 && first?.kind === "name" && first.name === "name") {
+            const resource = this.resources.find((entry2) => entry2.name === head);
+            const properties = get(resource?.node, "properties");
+            const key = nameKeyOf2(text(get(resource?.node, "type")) ?? "", entries(properties).map((entry2) => entry2.key));
+            const named = key === null ? void 0 : get(properties, key);
+            return named === void 0 ? new Unknown(head) : this.evaluate(named, depth + 1);
+          }
+          return new Unknown(head);
+        }
+        const variable = this.variables.get(head);
+        let value;
+        if (variable !== void 0) {
+          const known3 = this.memo.get(head);
+          if (known3 === void 0) {
+            this.memo.set(head, new Unknown(head));
+            this.memo.set(head, this.evaluate(variable, depth + 1));
+          }
+          value = this.memo.get(head) ?? new Unknown(head);
+        } else {
+          const key = head.replace(/^[^:]+:/, "");
+          const configured = this.config.get(key);
+          value = configured ?? (this.defaults.has(key) ? this.evaluate(this.defaults.get(key), depth + 1) : new Unknown(key));
+        }
+        for (const step of steps) {
+          if (value instanceof Unknown) return value instanceof Partial ? new Unknown(head) : value;
+          if (step.kind === "name" && typeof value === "object" && value !== null && !Array.isArray(value)) value = value[step.name] ?? new Unknown(step.name);
+          else if (step.kind === "index" && Array.isArray(value) && typeof step.index === "number") value = value[step.index] ?? new Unknown(head);
+          else if (step.kind === "index" && typeof value === "object" && value !== null && !Array.isArray(value)) value = value[String(step.index)] ?? new Unknown(String(step.index));
+          else return new Unknown(head);
+        }
+        return value;
+      }
+      /** The resources a node names, through the variables it uses. */
+      refs(node3, depth = 0) {
+        if (node3 === void 0 || depth > MAX_DEPTH13) return [];
+        if (node3.kind === "scalar") {
+          if (!node3.value.includes("${")) return [];
+          return piecesOf4(node3.value).flatMap((piece) => {
+            if ("text" in piece) return [];
+            const reference = referenceOf(piece.expression);
+            if (reference === null) return [];
+            if (this.names().has(reference.head)) return [reference.head];
+            const variable = this.variables.get(reference.head);
+            if (variable === void 0) return [];
+            const known3 = this.refMemo.get(reference.head);
+            if (known3 !== void 0) return known3;
+            this.refMemo.set(reference.head, []);
+            const found = this.refs(variable, depth + 1);
+            this.refMemo.set(reference.head, found);
+            return found;
+          });
+        }
+        if (node3.kind === "seq") return node3.items.flatMap((item) => this.refs(item, depth + 1));
+        return node3.entries.flatMap((entry2) => this.refs(entry2.value, depth + 1));
+      }
+      /** Every reference a node holds, by the keys that lead to it. */
+      refsByPath(node3, path, out, depth) {
+        if (node3 === void 0 || depth > MAX_DEPTH13) return;
+        if (node3.kind === "map" && !(node3.entries.length === 1 && node3.entries[0]?.key.startsWith("fn::"))) {
+          for (const entry2 of node3.entries) this.refsByPath(entry2.value, [...path, entry2.key], out, depth + 1);
+          return;
+        }
+        if (node3.kind === "seq") {
+          for (const item of node3.items) this.refsByPath(item, path, out, depth + 1);
+          return;
+        }
+        const refs = this.refs(node3, depth + 1);
+        if (refs.length > 0) out.push({ path, refs });
+      }
+      /** Each resource of the program, read as a Pulumi resource, with the offset of its declaration from `offsetOf`. */
+      read(offsetOf) {
+        return this.resources.map((resource) => {
+          const properties = get(resource.node, "properties");
+          const options3 = get(resource.node, "options");
+          const refs = [];
+          this.refsByPath(properties, [], refs, 0);
+          const named = new Set(refs.flatMap((entry2) => entry2.refs));
+          const dependsOn = this.refs(get(options3, "dependsOn")).filter((ref) => !named.has(ref) && ref !== resource.name);
+          const parent = this.refs(get(options3, "parent"))[0] ?? null;
+          return {
+            name: resource.name,
+            logical: resource.name,
+            token: text(get(resource.node, "type")) ?? "",
+            properties: this.evaluate(properties),
+            refs: refs.map((entry2) => ({ path: entry2.path, refs: entry2.refs.filter((ref) => ref !== resource.name) })).filter((entry2) => entry2.refs.length > 0),
+            dependsOn,
+            parent: parent === resource.name ? null : parent,
+            existing: get(resource.node, "get") !== void 0,
+            start: offsetOf(resource.line, resource.column),
+            scope: ""
+          };
+        });
+      }
+    };
+  }
+});
+
+// ../../packages/diagrams/src/importers/pulumi/state.ts
+function valueOf2(value, depth = 0) {
+  if (depth > 32) return null;
+  if (typeof value === "string" || typeof value === "number" || typeof value === "boolean" || value === null) return value;
+  if (Array.isArray(value)) return value.map((item) => valueOf2(item, depth + 1));
+  if (isRecord4(value)) {
+    if (value["4dabf18193072939515e22adb298388d"] === "1b47061264138c4ac30d75fd1eb44270") return null;
+    const out = {};
+    for (const [key, entry2] of Object.entries(value)) out[key] = valueOf2(entry2, depth + 1);
+    return out;
+  }
+  return null;
+}
+function resourceOf2(raw) {
+  if (!isRecord4(raw) || typeof raw["urn"] !== "string" || typeof raw["type"] !== "string") return null;
+  const dependencies = {};
+  if (isRecord4(raw["propertyDependencies"])) for (const [key, value] of Object.entries(raw["propertyDependencies"])) dependencies[key] = strings(value);
+  return {
+    urn: raw["urn"],
+    type: raw["type"],
+    custom: raw["custom"] !== false,
+    parent: typeof raw["parent"] === "string" ? raw["parent"] : null,
+    inputs: valueOf2(raw["inputs"] ?? null),
+    outputs: valueOf2(raw["outputs"] ?? null),
+    dependencies: strings(raw["dependencies"]),
+    propertyDependencies: dependencies,
+    id: typeof raw["id"] === "string" && raw["id"] !== "" ? raw["id"] : null
+  };
+}
+function pathTo(value, wanted2, path, depth = 0) {
+  if (depth > 12) return null;
+  if (typeof value === "string") return wanted2.some((entry2) => entry2 !== "" && (value === entry2 || value.startsWith(`${entry2}/`) || value.includes(entry2))) ? path : null;
+  if (Array.isArray(value)) {
+    for (const item of value) {
+      const found = pathTo(item, wanted2, path, depth + 1);
+      if (found !== null) return found;
+    }
+    return null;
+  }
+  if (typeof value === "object" && value !== null && !("name" in value && Object.keys(value).length === 0)) {
+    for (const [key, entry2] of Object.entries(value)) {
+      const found = pathTo(entry2, wanted2, [...path, key], depth + 1);
+      if (found !== null) return found;
+    }
+  }
+  return null;
+}
+function readState(json2) {
+  if (!isRecord4(json2)) return null;
+  const deployment = isRecord4(json2["deployment"]) ? json2["deployment"] : isRecord4(json2["checkpoint"]) && isRecord4(json2["checkpoint"]["latest"]) ? json2["checkpoint"]["latest"] : null;
+  if (deployment !== null && Array.isArray(deployment["resources"])) {
+    return { resources: deployment["resources"].map(resourceOf2).filter((resource) => resource !== null), deleted: 0, kind: "export" };
+  }
+  if (Array.isArray(json2["steps"])) {
+    const resources = [];
+    let deleted = 0;
+    for (const step of json2["steps"]) {
+      if (!isRecord4(step)) continue;
+      const op = typeof step["op"] === "string" ? step["op"] : "";
+      if (op === "delete" || op === "discard" || op === "delete-replaced" || op === "read-discard" || op === "remove-pending-replace") {
+        deleted += 1;
+        continue;
+      }
+      const state = resourceOf2(step["newState"] ?? step["oldState"]);
+      if (state !== null && !resources.some((resource) => resource.urn === state.urn)) resources.push(state);
+    }
+    return { resources, deleted, kind: "preview" };
+  }
+  return null;
+}
+function stateResources(state, offsetOf) {
+  const all = state.resources.filter((resource) => !isPlumbing(resource));
+  const byUrn = new Map(all.map((resource) => [resource.urn, resource]));
+  const counts = /* @__PURE__ */ new Map();
+  for (const resource of all) counts.set(logicalName(resource.urn), (counts.get(logicalName(resource.urn)) ?? 0) + 1);
+  const nameOf10 = (urn) => (counts.get(logicalName(urn)) ?? 0) > 1 ? urn : logicalName(urn);
+  const safe2 = (name2) => name2.replace(/[^A-Za-z0-9_-]+/g, "_");
+  const scopeOf2 = (resource) => {
+    const chain2 = [];
+    let parent = resource.parent === null ? void 0 : byUrn.get(resource.parent);
+    for (let depth = 0; parent !== void 0 && depth < 16; depth += 1) {
+      if (!parent.custom) chain2.unshift(`module.${safe2(logicalName(parent.urn))}.`);
+      parent = parent.parent === null ? void 0 : byUrn.get(parent.parent);
+    }
+    return chain2.join("");
+  };
+  const modules = all.filter((resource) => !resource.custom).map((resource) => {
+    const scope = `${scopeOf2(resource)}module.${safe2(logicalName(resource.urn))}.`;
+    return { scope, name: scope.slice(0, -1), label: logicalName(resource.urn), instance: null, source: resource.type, start: offsetOf(resource.urn), noun: "Component" };
+  });
+  const resources = all.filter((resource) => resource.custom).map((resource) => {
+    const named = /* @__PURE__ */ new Set();
+    const inputs = typeof resource.inputs === "object" && resource.inputs !== null && !Array.isArray(resource.inputs) ? resource.inputs : {};
+    const refs = Object.entries(resource.propertyDependencies).flatMap(
+      ([property, urns]) => urns.filter((urn) => byUrn.get(urn)?.custom === true && urn !== resource.urn).map((urn) => {
+        named.add(urn);
+        const target = byUrn.get(urn);
+        const outputs = target?.outputs;
+        const name2 = typeof outputs === "object" && outputs !== null && !Array.isArray(outputs) ? outputs["name"] : null;
+        const path = pathTo(inputs[property] ?? null, [target?.id ?? "", typeof name2 === "string" && property.endsWith("Name") ? name2 : ""], [property]);
+        return { path: path ?? [property], refs: [nameOf10(urn)] };
+      })
+    );
+    const parent = resource.parent === null ? void 0 : byUrn.get(resource.parent);
+    for (const urns of Object.values(resource.propertyDependencies)) for (const urn of urns) named.add(urn);
+    const dependsOn = resource.dependencies.filter((urn) => !named.has(urn) && byUrn.get(urn)?.custom === true && urn !== resource.urn && urn !== resource.parent).map(nameOf10);
+    const properties = mergeValues2(resource.outputs, resource.inputs);
+    return {
+      name: nameOf10(resource.urn),
+      logical: logicalName(resource.urn),
+      token: resource.type,
+      properties,
+      refs: refs.filter((entry2) => entry2.refs.length > 0),
+      dependsOn,
+      parent: parent?.custom === true ? nameOf10(parent.urn) : null,
+      existing: false,
+      start: offsetOf(resource.urn),
+      scope: scopeOf2(resource)
+    };
+  });
+  return { resources, modules };
+}
+function mergeValues2(outputs, inputs) {
+  if (!isRecord4(outputs)) return inputs;
+  if (!isRecord4(inputs)) return outputs;
+  return { ...outputs, ...inputs };
+}
+var isRecord4, strings, logicalName, isPlumbing;
+var init_state10 = __esm({
+  "../../packages/diagrams/src/importers/pulumi/state.ts"() {
+    "use strict";
+    isRecord4 = (value) => typeof value === "object" && value !== null && !Array.isArray(value);
+    strings = (value) => Array.isArray(value) ? value.filter((item) => typeof item === "string") : [];
+    logicalName = (urn) => urn.slice(urn.lastIndexOf("::") + 2);
+    isPlumbing = (resource) => resource.type === "pulumi:pulumi:Stack" || resource.type.startsWith("pulumi:providers:");
+  }
+});
+
+// ../../packages/diagrams/src/importers/pulumi/index.ts
+function offsets(text3, start2) {
+  const starts = [0];
+  for (let index2 = text3.indexOf("\n"); index2 !== -1; index2 = text3.indexOf("\n", index2 + 1)) starts.push(index2 + 1);
+  return (line3, column) => start2 + (starts[line3 - 1] ?? 0) + Math.max(0, column - 1);
+}
+function configOf(root) {
+  const out = /* @__PURE__ */ new Map();
+  const config2 = get(root ?? void 0, "config");
+  if (config2?.kind !== "map") return out;
+  for (const entry2 of config2.entries) {
+    const value = text(entry2.value);
+    if (value !== null) out.set(entry2.key.replace(/^[^:]+:/, ""), value);
+  }
+  return out;
+}
+function readPulumi(joinedText, context) {
+  const index2 = new LineIndex(joinedText);
+  const files = context.files.map((file2, position) => ({ path: file2.path, start: file2.start, text: joinedText.slice(file2.start, context.files[position + 1]?.start ?? joinedText.length) }));
+  const programs = [];
+  const stacks = [];
+  const sources = [];
+  for (const file2 of files) {
+    if (/\.json$/i.test(file2.path) || file2.path === "" && /^\s*[{[]/.test(file2.text)) {
+      let json2;
+      try {
+        json2 = JSON.parse(file2.text);
+      } catch (error62) {
+        context.report.add(files.length === 1 ? DIAGNOSTIC_CODES.importUnreadable : DIAGNOSTIC_CODES.importSkipped, index2.span(file2.start), `${file2.path === "" ? "The text" : cleanText(file2.path)} is not JSON: ${error62 instanceof Error ? error62.message : "it cannot be read"}.`, "Send the output of pulumi stack export or pulumi preview --json as it is written.");
+        if (files.length === 1) return null;
+        continue;
+      }
+      const state = readState(json2);
+      if (state === null) {
+        context.report.add(DIAGNOSTIC_CODES.importSkipped, index2.span(file2.start), `${file2.path === "" ? "The JSON" : cleanText(file2.path)} is neither a stack export (deployment.resources) nor a preview (steps), so it is not drawn.`, "Send the output of pulumi stack export, or of pulumi preview --json.");
+        continue;
+      }
+      if (state.deleted > 0) context.report.add(DIAGNOSTIC_CODES.importSkipped, index2.span(file2.start), `${countOf2(state.deleted, "step")} of the preview delete${state.deleted === 1 ? "s" : ""} a resource, which is not drawn.`, "The picture shows the stack as it will be after the update.");
+      const read = stateResources(state, (urn) => {
+        const at3 = file2.text.indexOf(JSON.stringify(urn));
+        return file2.start + Math.max(0, at3);
+      });
+      sources.push({ path: file2.path, kind: "state", items: read.resources.map(itemOf).filter((item) => item !== null), modules: read.modules });
+      continue;
+    }
+    const parsed = parseYaml(file2.text);
+    if (parsed.error !== null) {
+      context.report.add(files.length === 1 ? DIAGNOSTIC_CODES.importUnreadable : DIAGNOSTIC_CODES.importSkipped, index2.span(offsets(file2.text, file2.start)(parsed.error.line, parsed.error.column)), `${file2.path === "" ? "" : `${cleanText(file2.path)}: `}${parsed.error.message}`, parsed.error.hint);
+      if (files.length === 1) return null;
+      continue;
+    }
+    const root = parsed.documents[0]?.root ?? null;
+    if (root !== null && (get(root, "resources") !== void 0 || get(root, "runtime") !== void 0)) programs.push({ path: file2.path, root, start: file2.start, text: file2.text });
+    else if (stackOf(file2.path) !== null || get(root ?? void 0, "config") !== void 0) stacks.push({ path: file2.path, root, start: file2.start });
+  }
+  for (const program of programs) {
+    const chosenNames = context.options.varFiles ?? [];
+    const picked = chosenNames.length > 0 ? stacks.filter((stack) => chosenNames.some((name2) => stack.path === name2 || stack.path.endsWith(`/${name2.replace(/^\.?\//, "")}`))) : stacks.length === 1 ? stacks : [];
+    if (chosenNames.length === 0 && stacks.length === 1) context.report.add(DIAGNOSTIC_CODES.importChanged, index2.span(stacks[0]?.start ?? 0), `The values of ${cleanText(stacks[0]?.path ?? "")} are drawn: it is the only stack configuration sent.`, "Set options.varFiles to draw with another stack.");
+    if (chosenNames.length === 0 && stacks.length > 1) context.report.add(DIAGNOSTIC_CODES.importSkipped, START, `${countOf2(stacks.length, "stack configuration")} are not applied, because each sets the same values: ${stacks.slice(0, LISTED9).map((stack) => cleanText(stack.path)).join(", ")}.`, `Set options.varFiles to the stack to draw, such as ["${stacks[0]?.path ?? ""}"]; until then, values show their defaults or their names.`);
+    const config2 = /* @__PURE__ */ new Map();
+    for (const stack of picked) for (const [key, value] of configOf(stack.root)) config2.set(key, value);
+    const stackName = picked.length === 1 ? stackOf(picked[0]?.path ?? "") : null;
+    const model = new Program(program.root, config2, stackName, text(get(program.root, "name")));
+    const items2 = model.read(offsets(program.text, program.start)).map(itemOf).filter((item) => item !== null);
+    sources.push({ path: program.path, kind: "program", items: items2, modules: [] });
+  }
+  if (sources.length === 0) {
+    context.report.add(DIAGNOSTIC_CODES.importNoShape, START, "The text holds no Pulumi program (a Pulumi.yaml with resources) and no stack export or preview.", "Send Pulumi.yaml with its Pulumi.<stack>.yaml, or the output of pulumi stack export or pulumi preview --json.");
+    return null;
+  }
+  let chosen = sources;
+  const wanted2 = context.options.root;
+  if (wanted2 !== void 0 && wanted2 !== "") {
+    const match = sources.find((source) => source.path === wanted2 || source.path.endsWith(`/${wanted2.replace(/^\.\//, "")}`));
+    if (match === void 0) context.report.add(DIAGNOSTIC_CODES.importSkipped, START, `options.root names ${cleanText(wanted2)}, which is not a program or a state of the files sent; each is drawn.`, `The files that can be drawn are: ${sources.map((source) => source.path || "(no name)").join(", ")}.`);
+    else chosen = [match];
+  }
+  if (chosen.length === 1) return drawSource(chosen[0], context, index2);
+  context.report.add(DIAGNOSTIC_CODES.importChanged, START, `The files hold ${chosen.length} programs and states (${chosen.slice(0, LISTED9).map((source) => source.path).join(", ")}), so each is drawn as a diagram of its own.`, `Set options.root to draw one of them, such as "${chosen[0]?.path ?? ""}".`);
+  const drafts2 = [];
+  for (const source of chosen) {
+    const draft = drawSource(source, { ...context, title: `${context.title ?? "Cloud infrastructure"}: ${source.path}` }, index2);
+    if (draft !== null) drafts2.push({ root: source.path, draft });
+  }
+  return joinRoots(drafts2);
+}
+function drawSource(source, context, index2) {
+  if (source.items.length === 0) {
+    context.report.add(DIAGNOSTIC_CODES.importNoShape, START, `${source.path === "" ? "The text" : cleanText(source.path)} declares no resource.`, "Send a program with resources, or a stack export of a stack that has been deployed.");
+    return null;
+  }
+  const stack = itemsToStack(source.items, source.modules);
+  const byName = new Map(source.items.map((item) => [item.name, item]));
+  const providers = /* @__PURE__ */ new Map();
+  for (const item of source.items) {
+    const provider = providerOf2(item.type);
+    if (provider !== null) providers.set(provider, null);
+  }
+  return drawStack({
+    resources: stack.resources,
+    modules: stack.modules,
+    providers,
+    variableName: (name2) => name2.replace(/^rg:/, ""),
+    variableValue: (name2) => name2.startsWith("rg:") ? name2.slice(3) : null,
+    context,
+    span: (key) => {
+      const item = byName.get(stack.stableName(key));
+      return item === void 0 ? { line: 1, column: 1, length: 1 } : index2.span(item.start);
+    },
+    tool: "Pulumi",
+    stableName: stack.stableName
+  });
+}
+var LISTED9, stackOf, pulumiImporter;
+var init_pulumi = __esm({
+  "../../packages/diagrams/src/importers/pulumi/index.ts"() {
+    "use strict";
+    init_core();
+    init_items2();
+    init_shared2();
+    init_yaml();
+    init_terraform();
+    init_resources();
+    init_item();
+    init_program();
+    init_state10();
+    LISTED9 = 5;
+    stackOf = (path) => /(?:^|[\\/])Pulumi\.([^.\\/]+)\.ya?ml$/i.exec(path)?.[1] ?? null;
+    pulumiImporter = { format: "pulumi", kinds: ["flow"], joins: "\n", extensions: [".yaml", ".yml", ".json"], read: readPulumi };
   }
 });
 
@@ -185910,7 +192429,7 @@ function lexSql(text3) {
       }
       tokens.push({ kind: char === "'" ? "string" : "ident", text: read.value, offset: index2, length: read.end - index2 });
       index2 = read.end;
-    } else if (isWordStart2(char)) {
+    } else if (isWordStart3(char)) {
       let end = index2 + 1;
       while (end < text3.length && isWordPart2(text3.charAt(end))) end += 1;
       tokens.push({ kind: "word", text: text3.slice(index2, end), offset: index2, length: end - index2 });
@@ -185937,11 +192456,11 @@ function isSign(token, sign) {
 function isName(token) {
   return token?.kind === "word" || token?.kind === "ident";
 }
-var isWordStart2, isWordPart2, IDENT_CLOSE;
-var init_tokens = __esm({
+var isWordStart3, isWordPart2, IDENT_CLOSE;
+var init_tokens3 = __esm({
   "../../packages/diagrams/src/importers/sql/tokens.ts"() {
     "use strict";
-    isWordStart2 = (char) => /[A-Za-z_]/.test(char) || char.charCodeAt(0) > 127;
+    isWordStart3 = (char) => /[A-Za-z_]/.test(char) || char.charCodeAt(0) > 127;
     isWordPart2 = (char) => /[A-Za-z0-9_$]/.test(char) || char.charCodeAt(0) > 127;
     IDENT_CLOSE = { '"': '"', "`": "`", "[": "]" };
   }
@@ -186007,10 +192526,10 @@ function addColumn2(table2, column) {
 function newTable(name2, at3, space = null) {
   return { key: name2.toLowerCase(), label: name2, space, columns: [], byName: /* @__PURE__ */ new Map(), offset: at3.offset, length: at3.length };
 }
-var init_model2 = __esm({
+var init_model3 = __esm({
   "../../packages/diagrams/src/importers/sql/model.ts"() {
     "use strict";
-    init_tokens();
+    init_tokens3();
   }
 });
 
@@ -186085,8 +192604,8 @@ function applyAlter(part, table2, schema) {
 var init_migrations = __esm({
   "../../packages/diagrams/src/importers/sql/migrations.ts"() {
     "use strict";
-    init_model2();
-    init_tokens();
+    init_model3();
+    init_tokens3();
   }
 });
 
@@ -186244,8 +192763,8 @@ var init_statements5 = __esm({
     "use strict";
     init_core();
     init_migrations();
-    init_model2();
-    init_tokens();
+    init_model3();
+    init_tokens3();
     COLUMN_STOPS = /* @__PURE__ */ new Set([
       "CONSTRAINT",
       "PRIMARY",
@@ -186334,2189 +192853,10 @@ var init_sql = __esm({
     init_core();
     init_shared2();
     init_migrations();
-    init_model2();
+    init_model3();
     init_statements5();
-    init_tokens();
+    init_tokens3();
     sqlImporter = { format: "sql", kinds: ["schema"], joins: "\n", extensions: [".sql"], read: readSql };
-  }
-});
-
-// ../../packages/diagrams/src/importers/terraform/tokens.ts
-function stringEnd2(text3, start2) {
-  const modes = ["string"];
-  for (let index2 = start2 + 1; index2 < text3.length; index2 += 1) {
-    const char = text3.charAt(index2);
-    const mode = modes[modes.length - 1];
-    if (mode === "string") {
-      if (char === "\\") index2 += 1;
-      else if (char === '"') {
-        modes.pop();
-        if (modes.length === 0) return index2 + 1;
-      } else if ((char === "$" || char === "%") && text3.charAt(index2 + 1) === "{") {
-        modes.push("template");
-        index2 += 1;
-      } else if (char === "\n") return -1;
-    } else if (char === '"') modes.push("string");
-    else if (char === "{") modes.push("brace");
-    else if (char === "}") modes.pop();
-  }
-  return -1;
-}
-function heredocEnd(text3, start2) {
-  const match = /^<<-?([A-Za-z_][A-Za-z0-9_]*)[ \t]*\n/.exec(text3.slice(start2, start2 + 200));
-  if (match === null) return null;
-  const marker = match[1] ?? "";
-  const bodyStart = start2 + match[0].length;
-  for (let lineStart = bodyStart; lineStart <= text3.length; ) {
-    const lineEnd = text3.indexOf("\n", lineStart);
-    const line3 = text3.slice(lineStart, lineEnd === -1 ? text3.length : lineEnd);
-    if (line3.trim() === marker) return { end: lineEnd === -1 ? text3.length : lineEnd, body: text3.slice(bodyStart, lineStart) };
-    if (lineEnd === -1) break;
-    lineStart = lineEnd + 1;
-  }
-  return { end: -1, body: "" };
-}
-function tokenize2(text3) {
-  const tokens = [];
-  let index2 = 0;
-  while (index2 < text3.length) {
-    const char = text3.charAt(index2);
-    const next = text3.charAt(index2 + 1);
-    if (char === "\n") {
-      tokens.push({ kind: "newline", text: "\n", start: index2, end: index2 + 1 });
-      index2 += 1;
-    } else if (char === " " || char === "	" || char === "\r") {
-      index2 += 1;
-    } else if (char === "#" || char === "/" && next === "/") {
-      const end = text3.indexOf("\n", index2);
-      index2 = end === -1 ? text3.length : end;
-    } else if (char === "/" && next === "*") {
-      const end = text3.indexOf("*/", index2 + 2);
-      if (end === -1) return { tokens, problem: { offset: index2, message: "A /* comment is never closed.", hint: "Close the comment with */." } };
-      index2 = end + 2;
-    } else if (char === '"') {
-      const end = stringEnd2(text3, index2);
-      if (end === -1) return { tokens, problem: { offset: index2, message: "A string is never closed on its line.", hint: "Close the string with a double quote, or use a heredoc (<<EOF) for text over several lines." } };
-      tokens.push({ kind: "string", text: text3.slice(index2 + 1, end - 1), start: index2, end });
-      index2 = end;
-    } else if (char === "<" && next === "<" && /[-A-Za-z_]/.test(text3.charAt(index2 + 2))) {
-      const heredoc = heredocEnd(text3, index2);
-      if (heredoc === null || heredoc.end === -1) return { tokens, problem: { offset: index2, message: "A heredoc is never closed.", hint: "End the heredoc with its marker alone on a line." } };
-      tokens.push({ kind: "string", text: heredoc.body, start: index2, end: heredoc.end });
-      index2 = heredoc.end;
-    } else if (isWordChar(char)) {
-      let end = index2;
-      while (end < text3.length && isWordChar(text3.charAt(end))) end += 1;
-      tokens.push({ kind: "word", text: text3.slice(index2, end), start: index2, end });
-      index2 = end;
-    } else {
-      const pair2 = `${char}${next}`;
-      const width = TWO_CHAR_SIGNS.has(pair2) ? 2 : 1;
-      tokens.push({ kind: "sign", text: text3.slice(index2, index2 + width), start: index2, end: index2 + width });
-      index2 += width;
-    }
-  }
-  return { tokens, problem: null };
-}
-var isWordChar, TWO_CHAR_SIGNS;
-var init_tokens2 = __esm({
-  "../../packages/diagrams/src/importers/terraform/tokens.ts"() {
-    "use strict";
-    isWordChar = (char) => /[A-Za-z0-9_.\-*]/.test(char);
-    TWO_CHAR_SIGNS = /* @__PURE__ */ new Set(["==", "!=", "<=", ">=", "=>", "&&", "||", "::"]);
-  }
-});
-
-// ../../packages/diagrams/src/importers/terraform/parse.ts
-function unescapeHcl(raw) {
-  return raw.replace(/\\(.)/g, (_match, char) => char === "n" ? "\n" : char === "t" ? "	" : char);
-}
-function parseHcl(text3) {
-  const split = tokenize2(text3);
-  if (split.problem !== null) return { blocks: [], attributes: [], problem: split.problem };
-  const read = new HclReader(text3, split.tokens).body(0);
-  if ("message" in read) return { blocks: [], attributes: [], problem: read };
-  return { blocks: read.blocks, attributes: read.attributes, problem: null };
-}
-function allAttributes(block) {
-  const out = [];
-  const queue = [block];
-  for (let index2 = 0; index2 < queue.length; index2 += 1) {
-    const current = queue[index2];
-    out.push(...current.attributes);
-    queue.push(...current.blocks);
-  }
-  return out;
-}
-var MAX_DEPTH3, HclReader;
-var init_parse23 = __esm({
-  "../../packages/diagrams/src/importers/terraform/parse.ts"() {
-    "use strict";
-    init_tokens2();
-    MAX_DEPTH3 = 32;
-    HclReader = class {
-      constructor(text3, tokens) {
-        this.text = text3;
-        this.tokens = tokens;
-      }
-      text;
-      tokens;
-      index = 0;
-      peek(offset = 0) {
-        return this.tokens[this.index + offset];
-      }
-      /** The blocks and attributes of a body, up to its closing `}` (or the end of the text at the top). */
-      body(depth) {
-        const attributes2 = [];
-        const blocks2 = [];
-        while (this.index < this.tokens.length) {
-          const token = this.peek();
-          if (token.kind === "newline" || token.kind === "sign" && token.text === ",") {
-            this.index += 1;
-            continue;
-          }
-          if (token.kind === "sign" && token.text === "}") {
-            if (depth === 0) return { offset: token.start, message: "A } closes no block.", hint: "Remove it, or add the block it should close." };
-            this.index += 1;
-            return { attributes: attributes2, blocks: blocks2, closed: true };
-          }
-          if (token.kind !== "word" && token.kind !== "string") return { offset: token.start, message: `Expected an attribute or a block, found "${token.text}".`, hint: 'Write name = value, or type "label" { ... }.' };
-          const after = this.peek(1);
-          if (after?.kind === "sign" && (after.text === "=" || after.text === ":")) {
-            this.index += 2;
-            attributes2.push(this.attribute(token.text));
-            continue;
-          }
-          const block = this.block(depth);
-          if ("message" in block) return block;
-          blocks2.push(block);
-        }
-        if (depth > 0) return { offset: this.text.length - 1, message: "A block is never closed.", hint: "Add the } that closes it." };
-        return { attributes: attributes2, blocks: blocks2, closed: false };
-      }
-      /** The value of an attribute: every token to the end of the line, or further while a bracket is open. */
-      attribute(name2) {
-        const first = this.peek();
-        let depth = 0;
-        let last;
-        while (this.index < this.tokens.length) {
-          const token = this.peek();
-          if (token.kind === "newline" && depth <= 0) break;
-          if (token.kind === "sign" && (token.text === "}" || token.text === ",") && depth <= 0) break;
-          if (token.kind === "sign" && "([{".includes(token.text)) depth += 1;
-          if (token.kind === "sign" && ")]}".includes(token.text)) depth -= 1;
-          last = token;
-          this.index += 1;
-        }
-        const raw = first === void 0 || last === void 0 ? "" : this.text.slice(first.start, last.end);
-        const literal3 = first !== void 0 && first === last && first.kind === "string" && !first.text.includes("${") ? unescapeHcl(first.text) : null;
-        return { name: name2, raw, literal: literal3 };
-      }
-      /** A block: its type, its labels, and its body in braces. */
-      block(depth) {
-        const head = this.peek();
-        if (depth >= MAX_DEPTH3) return { offset: head.start, message: "The blocks are nested too deep.", hint: `Keep nesting under ${MAX_DEPTH3} levels.` };
-        const labels2 = [];
-        this.index += 1;
-        for (; ; ) {
-          const token = this.peek();
-          if (token === void 0 || token.kind === "newline") return { offset: head.start, message: `"${head.text}" is neither an attribute nor a block.`, hint: 'Write name = value, or type "label" { ... } with the { on the same line.' };
-          if (token.kind === "sign" && token.text === "{") break;
-          if (token.kind !== "word" && token.kind !== "string") return { offset: token.start, message: `Unexpected "${token.text}" in the header of a block.`, hint: 'A block is written type "label" { ... }.' };
-          labels2.push(token.text);
-          this.index += 1;
-        }
-        const open2 = this.peek();
-        this.index += 1;
-        const body6 = this.body(depth + 1);
-        if ("message" in body6) return body6;
-        const close2 = this.tokens[this.index - 1];
-        return { type: head.text, labels: labels2, start: head.start, body: this.text.slice(open2.end, close2?.start ?? this.text.length), attributes: body6.attributes, blocks: body6.blocks };
-      }
-    };
-  }
-});
-
-// ../../packages/diagrams/src/importers/terraform/labels.ts
-function literal2(resource, name2) {
-  return resource.values.get(name2) ?? null;
-}
-function rawValue(resource, name2) {
-  return resource.block.attributes.find((attribute2) => attribute2.name === name2)?.raw ?? null;
-}
-function tagName(resource) {
-  const tags = rawValue(resource, "tags");
-  if (tags === null) return null;
-  const match = /\bName\s*=\s*"((?:[^"\\$\n]|\\.)*)"/.exec(tags);
-  return match?.[1] === void 0 ? null : unescapeHcl(match[1]);
-}
-function humanize2(name2) {
-  const words2 = name2.split(/[_-]+/).filter((word2) => word2 !== "").map((word2) => ACRONYMS.has(word2.toLowerCase()) ? word2.toUpperCase() : word2);
-  if (words2.length === 0) return name2;
-  const first = words2[0];
-  return [`${first.charAt(0).toUpperCase()}${first.slice(1)}`, ...words2.slice(1)].join(" ");
-}
-function ownName(resource, shared = NO_NAMES) {
-  const named = tagName(resource) ?? NAME_ATTRIBUTES.map((attribute2) => literal2(resource, attribute2)).find((value) => value !== null && value !== "") ?? null;
-  if (named !== null) return cleanText(named);
-  return GENERIC_NAMES.has(resource.name.toLowerCase()) || shared.has(resource.name) ? null : humanize2(resource.name);
-}
-function inSentence(product) {
-  const words2 = product.split(" ");
-  const proper = words2.slice(1).some((word2) => /^[A-Z]/.test(word2)) || /[A-Z]/.test(words2[0]?.slice(1) ?? "") || PROPER_WORDS.has(words2[0] ?? "");
-  return proper ? product : `${product.charAt(0).toLowerCase()}${product.slice(1)}`;
-}
-function nameOrProduct(resource, product, shared = NO_NAMES) {
-  const name2 = ownName(resource, shared);
-  if (name2 !== null) return { label: name2, named: true };
-  if (product === "" || GENERIC_NAMES.has(resource.name.toLowerCase())) return { label: product === "" ? humanize2(resource.name) : product, named: false };
-  return { label: `${humanize2(resource.name)} ${inSentence(product)}`, named: false };
-}
-function nodeText(resource, product, detail, shared = NO_NAMES) {
-  const name2 = nameOrProduct(resource, product, shared);
-  const details = detail.map((attribute2) => literal2(resource, attribute2)).filter((value) => value !== null && value !== "");
-  const sub = [[...name2.named ? [product] : [], ...details].join(" "), ...resource.kind === "data" ? ["existing"] : []].filter((part) => part !== "").join(", ");
-  return { label: name2.label, sub: sub === "" ? null : cleanText(sub) };
-}
-function multiplicity(resource) {
-  if (rawValue(resource, "for_each") !== null) return "for each";
-  const count3 = rawValue(resource, "count");
-  if (count3 === null) return null;
-  if (/^[0-9]+$/.test(count3)) return count3 === "1" ? null : `${count3} copies`;
-  return /\?\s*1\s*:\s*0\s*$/.test(count3) ? "optional" : "by count";
-}
-function withParts(sub, ...parts) {
-  const all = [...new Set([sub, ...parts].flatMap((part) => part === null ? [] : part.split(", ")).filter((part) => part !== ""))];
-  return all.length === 0 ? null : cleanText(all.join(", "));
-}
-function variableLabel(name2) {
-  const last = name2.split(".").pop() ?? name2;
-  return humanize2(last.replace(/_(?:ids?|names?)$/, ""));
-}
-function moduleText(resource) {
-  const source = literal2(resource, "source") ?? "";
-  const short3 = source.replace(/^[a-z]+::/, "").replace(/^(?:git@|https?:\/\/)/, "").replace(/[?#].*$/, "").replace(/\.git$/, "").replace(/^\.\//, "");
-  const tail = short3.length > 32 ? short3.split("/").filter((part) => part !== "").slice(-2).join("/") : short3;
-  return { label: humanize2(resource.name), sub: tail === "" ? "Module" : `Module ${cleanText(tail)}` };
-}
-function groupTypeOf(resource, declared2) {
-  if (declared2 !== "subnet") return declared2;
-  if (rawValue(resource, "map_public_ip_on_launch") === "true") return "public-subnet";
-  const words2 = `${resource.name} ${ownName(resource) ?? ""}`.toLowerCase();
-  if (/\bpublic\b|[_-]public|public[_-]/.test(words2)) return "public-subnet";
-  if (/\bprivate\b|[_-]private|private[_-]/.test(words2)) return "private-subnet";
-  return "subnet";
-}
-function groupText(resource, type, shared = NO_NAMES) {
-  const range = literal2(resource, "cidr_block") ?? literal2(resource, "ip_cidr_range") ?? firstString(rawValue(resource, "address_space")) ?? firstString(rawValue(resource, "address_prefixes"));
-  const zone = literal2(resource, "availability_zone") ?? literal2(resource, "region") ?? literal2(resource, "location");
-  const sub = [[range, zone].filter((value) => value !== null && value !== "").join(" "), ...resource.kind === "data" ? ["existing"] : []].filter((part) => part !== "").join(", ");
-  const product = resource.role.role === "group" ? resource.role.product ?? GROUP_TYPE_SPECS[type].title : GROUP_TYPE_SPECS[type].title;
-  return { label: nameOrProduct(resource, product, shared).label, sub: sub === "" ? null : cleanText(sub) };
-}
-function firstString(raw) {
-  if (raw === null) return null;
-  const match = /"([^"$\n]*)"/.exec(raw);
-  return match?.[1] ?? null;
-}
-function partNoun(type, holderType) {
-  const rest = type.startsWith(`${holderType}_`) ? type.slice(holderType.length + 1) : type.split("_").slice(2).join("_");
-  return PART_NOUNS[rest] ?? humanize2(rest === "" ? type : rest);
-}
-var GENERIC_NAMES, NAME_ATTRIBUTES, ACRONYMS, NO_NAMES, PROPER_WORDS, PART_NOUNS;
-var init_labels = __esm({
-  "../../packages/diagrams/src/importers/terraform/labels.ts"() {
-    "use strict";
-    init_constants();
-    init_shared2();
-    init_parse23();
-    GENERIC_NAMES = /* @__PURE__ */ new Set(["main", "this", "default", "example", "primary", "the", "it", "resource", "self"]);
-    NAME_ATTRIBUTES = ["name", "bucket", "identifier", "function_name", "cluster_identifier", "cluster_name", "domain_name"];
-    ACRONYMS = /* @__PURE__ */ new Set(["api", "db", "sql", "vpc", "cdn", "dns", "alb", "nlb", "lb", "vm", "ecs", "eks", "aks", "gke", "nat", "waf", "kms", "iam", "s3", "sns", "sqs", "ui", "id", "kv", "acr", "apim", "aca", "nsg", "pe", "url"]);
-    NO_NAMES = /* @__PURE__ */ new Set();
-    PROPER_WORDS = /* @__PURE__ */ new Set(["Entra", "Azure", "Lambda", "Cloud", "Spanner", "Firestore", "Memorystore", "Aurora", "Kinesis", "Cognito", "Fargate", "Route", "Secrets"]);
-    PART_NOUNS = {
-      active_directory_administrator: "Entra admin",
-      api_version_set: "Version set",
-      configuration: "Setting",
-      firewall_rule: "Firewall rule"
-    };
-  }
-});
-
-// ../../packages/diagrams/src/importers/terraform/resources.ts
-function providerOf2(type) {
-  if (type.startsWith("aws_")) return "aws";
-  if (type.startsWith("azurerm_") || type.startsWith("azuread_")) return "azure";
-  if (type.startsWith("google_")) return "gcp";
-  return null;
-}
-var node2, group, link, attach2, IN_STORAGE, RESOURCE_ROLES, PLACEMENT_ATTRIBUTES, PLACEMENT_GROUP_TYPES;
-var init_resources = __esm({
-  "../../packages/diagrams/src/importers/terraform/resources.ts"() {
-    "use strict";
-    node2 = (type, icon, product, detail = [], parent) => ({ role: "node", type, icon, product, detail, ...parent === void 0 ? {} : { parent } });
-    group = (type, icon, product) => ({ role: "group", group: type, ...icon === void 0 ? {} : { icon }, ...product === void 0 ? {} : { product } });
-    link = (from, to, label, labelFrom, icon) => ({
-      role: "link",
-      from,
-      to,
-      ...label === void 0 ? {} : { label },
-      ...labelFrom === void 0 ? {} : { labelFrom },
-      ...icon === void 0 ? {} : { icon }
-    });
-    attach2 = (subject, host) => ({ role: "attach", subject, host });
-    IN_STORAGE = ["storage_account_id", "storage_account_name"];
-    RESOURCE_ROLES = {
-      // AWS
-      aws_vpc: group("network"),
-      aws_subnet: group("subnet"),
-      aws_instance: node2("service", "aws:ec2", "EC2", ["instance_type"]),
-      aws_autoscaling_group: node2("service", "aws:auto-scaling-group", "Auto Scaling group"),
-      aws_lb: node2("gateway", "aws:elastic-load-balancing", "Load balancer"),
-      aws_alb: node2("gateway", "aws:elastic-load-balancing", "Load balancer"),
-      aws_lb_target_group: node2("gateway", "aws:elastic-load-balancing", "Target group", ["port"]),
-      aws_alb_target_group: node2("gateway", "aws:elastic-load-balancing", "Target group", ["port"]),
-      aws_ecs_service: node2("service", "aws:fargate", "ECS service", ["launch_type"]),
-      aws_ecs_task_definition: node2("service", "aws:ecs-task", "Task definition"),
-      aws_eks_cluster: node2("service", "aws:eks", "EKS cluster", ["version"]),
-      aws_lambda_function: node2("function", "aws:lambda", "Lambda", ["runtime"]),
-      aws_db_instance: node2("database", "aws:rds", "RDS", ["engine", "instance_class"]),
-      aws_rds_cluster: node2("database", "aws:aurora", "Aurora", ["engine"]),
-      aws_dynamodb_table: node2("database", "aws:dynamodb", "DynamoDB"),
-      aws_elasticache_cluster: node2("cache", "aws:elasticache", "ElastiCache", ["engine"]),
-      aws_elasticache_replication_group: node2("cache", "aws:elasticache", "ElastiCache"),
-      aws_opensearch_domain: node2("database", "aws:opensearch", "OpenSearch"),
-      aws_s3_bucket: node2("storage", "aws:s3", "S3 bucket"),
-      aws_efs_file_system: node2("storage", "aws:efs", "EFS"),
-      aws_ecr_repository: node2("storage", "aws:ecr", "ECR repository"),
-      aws_sqs_queue: node2("queue", "aws:sqs", "SQS queue"),
-      aws_sns_topic: node2("queue", "aws:sns", "SNS topic"),
-      aws_kinesis_stream: node2("queue", "aws:kinesis", "Kinesis stream"),
-      aws_cloudwatch_event_rule: node2("queue", "aws:eventbridge", "EventBridge rule"),
-      aws_sfn_state_machine: node2("function", "aws:step-functions", "Step Functions"),
-      aws_cloudfront_distribution: node2("gateway", "aws:cloudfront", "CloudFront"),
-      aws_api_gateway_rest_api: node2("gateway", "aws:api-gateway", "API Gateway"),
-      aws_apigatewayv2_api: node2("gateway", "aws:api-gateway", "API Gateway", ["protocol_type"]),
-      aws_route53_record: node2("gateway", "aws:route-53", "Route 53 record", ["type"]),
-      aws_cognito_user_pool: node2("identity", "aws:cognito", "Cognito user pool"),
-      aws_secretsmanager_secret: node2("secret", "aws:secrets-manager", "Secrets Manager"),
-      aws_kms_key: node2("secret", "aws:kms", "KMS key"),
-      aws_nat_gateway: node2("gateway", "aws:nat-gateway", "NAT gateway"),
-      aws_internet_gateway: node2("gateway", "aws:internet-gateway", "Internet gateway"),
-      aws_route_table: node2("gateway", "aws:route-53-route-table", "Route table"),
-      aws_security_group: node2("secret", "aws:vpc-network-access-control-list", "Security group"),
-      aws_wafv2_web_acl: node2("gateway", "aws:waf", "WAF"),
-      aws_iam_role: node2("identity", "aws:identity-access-management-role", "IAM role"),
-      aws_cloudwatch_log_group: node2("service", "aws:cloudwatch-logs", "Log group"),
-      aws_lb_listener: link(["aws_lb", "aws_alb"], ["target_group_arn"], void 0, ["protocol", "port"]),
-      aws_alb_listener: link(["aws_lb", "aws_alb"], ["target_group_arn"], void 0, ["protocol", "port"]),
-      aws_lb_target_group_attachment: link(["target_group_arn"], ["target_id"], "targets"),
-      aws_lambda_event_source_mapping: link(["event_source_arn"], ["function_name"], "triggers"),
-      aws_sns_topic_subscription: link(["topic_arn"], ["endpoint"], "delivers", ["protocol"]),
-      aws_cloudwatch_event_target: link(["rule"], ["arn"], "triggers"),
-      aws_api_gateway_integration: link(["rest_api_id"], ["uri"], "calls"),
-      aws_apigatewayv2_integration: link(["api_id"], ["integration_uri"], "calls"),
-      aws_iam_role_policy_attachment: link(["role"], ["policy_arn"], "policy"),
-      aws_route_table_association: attach2(["route_table_id"], ["subnet_id"]),
-      // Azure
-      azurerm_subscription: group("account", "azure:subscriptions", "Subscription"),
-      azurerm_resource_group: group("resource-group"),
-      azurerm_virtual_network: group("network"),
-      azurerm_subnet: group("subnet"),
-      azurerm_service_plan: group("service-plan"),
-      azurerm_app_service_plan: group("service-plan"),
-      azurerm_container_app_environment: group("cluster", "azure:container-apps-environments", "Container Apps environment"),
-      azurerm_kubernetes_cluster: node2("service", "azure:aks", "AKS cluster"),
-      azurerm_linux_virtual_machine: node2("service", "azure:virtual-machines", "Virtual machine", ["size"]),
-      azurerm_windows_virtual_machine: node2("service", "azure:virtual-machines", "Virtual machine", ["size"]),
-      azurerm_linux_web_app: node2("service", "azure:app-service", "App Service"),
-      azurerm_windows_web_app: node2("service", "azure:app-service", "App Service"),
-      azurerm_linux_function_app: node2("function", "azure:functions", "Function app"),
-      azurerm_windows_function_app: node2("function", "azure:functions", "Function app"),
-      azurerm_container_app: node2("service", "azure:container-apps", "Container app"),
-      azurerm_container_app_job: node2("service", "azure:container-apps", "Container Apps job"),
-      azurerm_mssql_server: node2("database", "azure:sql-server", "SQL server"),
-      azurerm_mssql_database: node2("database", "azure:sql-database", "SQL database", ["sku_name"], ["server_id"]),
-      azurerm_postgresql_flexible_server: node2("database", "azure:database-for-postgresql", "PostgreSQL flexible server", ["sku_name"]),
-      azurerm_mysql_flexible_server: node2("database", "azure:database-for-mysql", "MySQL flexible server", ["sku_name"]),
-      azurerm_cosmosdb_account: node2("database", "azure:cosmos-db", "Cosmos DB"),
-      azurerm_redis_cache: node2("cache", "azure:cache-redis", "Azure Cache for Redis", ["sku_name"]),
-      azurerm_storage_account: node2("storage", "azure:storage-accounts", "Storage account", ["account_tier"]),
-      azurerm_storage_container: node2("storage", "azure:storage-container", "Blob container", [], IN_STORAGE),
-      azurerm_storage_queue: node2("queue", "azure:storage-queue", "Storage queue", [], IN_STORAGE),
-      azurerm_storage_table: node2("database", "azure:table", "Storage table", [], IN_STORAGE),
-      azurerm_storage_share: node2("storage", "azure:fileshares", "File share", [], IN_STORAGE),
-      azurerm_container_registry: node2("storage", "azure:container-registries", "Container registry", ["sku"]),
-      azurerm_key_vault: node2("secret", "azure:key-vault", "Key Vault", ["sku_name"]),
-      azurerm_key_vault_secret: node2("secret", "azure:keys", "Secret", [], ["key_vault_id"]),
-      azurerm_key_vault_key: node2("secret", "azure:keys", "Key", [], ["key_vault_id"]),
-      azurerm_key_vault_certificate: node2("secret", "azure:app-service-certificates", "Certificate", [], ["key_vault_id"]),
-      azurerm_servicebus_namespace: node2("queue", "azure:service-bus", "Service Bus namespace", ["sku"]),
-      azurerm_servicebus_queue: node2("queue", "azure:service-bus", "Service Bus queue", [], ["namespace_id", "namespace_name"]),
-      azurerm_servicebus_topic: node2("queue", "azure:service-bus", "Service Bus topic", [], ["namespace_id", "namespace_name"]),
-      azurerm_eventhub_namespace: node2("queue", "azure:event-hubs", "Event Hubs namespace"),
-      azurerm_eventgrid_topic: node2("queue", "azure:event-grid", "Event Grid topic"),
-      azurerm_application_gateway: node2("gateway", "azure:application-gateway", "Application gateway"),
-      azurerm_lb: node2("gateway", "azure:load-balancers", "Load balancer"),
-      azurerm_cdn_frontdoor_profile: node2("gateway", "azure:front-door", "Front Door"),
-      azurerm_api_management: node2("gateway", "azure:api-management", "API Management", ["sku_name"]),
-      azurerm_application_insights: node2("service", "azure:application-insights", "Application Insights", ["application_type"]),
-      azurerm_log_analytics_workspace: node2("service", "azure:log-analytics-workspaces", "Log Analytics workspace", ["sku"]),
-      azurerm_cognitive_account: { role: "node", type: "service", icon: "azure:cognitive-services", product: "Azure AI services", detail: ["kind"], kinds: { OpenAI: "azure:openai" } },
-      azurerm_user_assigned_identity: node2("identity", "azure:managed-identities", "Managed identity"),
-      azurerm_network_security_group: node2("secret", "azure:network-security-groups", "Network security group"),
-      azurerm_public_ip: node2("gateway", "azure:public-ip-addresses", "Public IP", ["allocation_method"]),
-      azurerm_private_dns_zone: node2("gateway", "azure:dns-zones", "Private DNS zone"),
-      azurerm_network_interface: node2("gateway", "azure:network-interfaces", "Network interface"),
-      azurerm_private_endpoint: { role: "endpoint" },
-      azurerm_role_assignment: { role: "grant", principal: ["principal_id"], scope: ["scope"], label: ["role_definition_name"], icon: "azure:entra-identity-roles-and-administrators" },
-      azurerm_monitor_diagnostic_setting: link(["target_resource_id"], ["log_analytics_workspace_id", "storage_account_id", "eventhub_authorization_rule_id"], "diagnostics", void 0, "azure:diagnostics-settings"),
-      azurerm_private_dns_zone_virtual_network_link: link(["private_dns_zone_name"], ["virtual_network_id"], "DNS link", void 0, "azure:dns-zones"),
-      azurerm_subnet_network_security_group_association: attach2(["network_security_group_id"], ["subnet_id"]),
-      azurerm_subnet_nat_gateway_association: attach2(["nat_gateway_id"], ["subnet_id"]),
-      azurerm_subnet_route_table_association: attach2(["route_table_id"], ["subnet_id"]),
-      azurerm_api_management_product_api: link(["product_id", "product_name"], ["api_name", "api_id"], "includes"),
-      // Google Cloud
-      google_project: group("account", void 0, "Project"),
-      google_compute_network: group("network"),
-      google_compute_subnetwork: group("subnet"),
-      google_compute_instance: node2("service", "gcp:compute-engine", "Compute Engine", ["machine_type"]),
-      google_container_cluster: node2("service", "gcp:gke", "GKE cluster"),
-      google_cloud_run_service: node2("service", "gcp:cloud-run", "Cloud Run"),
-      google_cloud_run_v2_service: node2("service", "gcp:cloud-run", "Cloud Run"),
-      google_cloudfunctions_function: node2("function", "gcp:cloud-functions", "Cloud Functions", ["runtime"]),
-      google_cloudfunctions2_function: node2("function", "gcp:cloud-functions", "Cloud Functions"),
-      google_sql_database_instance: node2("database", "gcp:cloud-sql", "Cloud SQL", ["database_version"]),
-      google_spanner_instance: node2("database", "gcp:spanner", "Spanner"),
-      google_firestore_database: node2("database", "gcp:firestore", "Firestore"),
-      google_bigquery_dataset: node2("database", "gcp:bigquery", "BigQuery dataset"),
-      google_redis_instance: node2("cache", "gcp:memorystore", "Memorystore", ["tier"]),
-      google_storage_bucket: node2("storage", "gcp:cloud-storage", "Cloud Storage bucket", ["storage_class"]),
-      google_artifact_registry_repository: node2("storage", "gcp:artifact-registry", "Artifact Registry", ["format"]),
-      google_pubsub_topic: node2("queue", "gcp:pubsub", "Pub/Sub topic"),
-      google_secret_manager_secret: node2("secret", "gcp:secret-manager", "Secret Manager"),
-      google_compute_global_forwarding_rule: node2("gateway", "gcp:cloud-load-balancing", "Forwarding rule"),
-      google_compute_target_https_proxy: node2("gateway", "gcp:cloud-load-balancing", "HTTPS proxy"),
-      google_compute_target_http_proxy: node2("gateway", "gcp:cloud-load-balancing", "HTTP proxy"),
-      google_compute_url_map: node2("gateway", "gcp:cloud-load-balancing", "URL map"),
-      google_compute_backend_service: node2("gateway", "gcp:cloud-load-balancing", "Backend service"),
-      google_compute_region_network_endpoint_group: node2("gateway", "gcp:cloud-load-balancing", "Network endpoint group"),
-      google_service_account: node2("identity", "gcp:iam", "Service account"),
-      google_pubsub_subscription: link(["topic"], ["push_config"], "subscription")
-    };
-    PLACEMENT_ATTRIBUTES = /* @__PURE__ */ new Set([
-      "vpc_id",
-      "subnet_id",
-      "subnet_ids",
-      "subnets",
-      "vpc_zone_identifier",
-      "db_subnet_group_name",
-      "subnet_group_name",
-      "virtual_network_name",
-      "resource_group_name",
-      "service_plan_id",
-      "app_service_plan_id",
-      "network",
-      "subnetwork",
-      "private_network",
-      "authorized_network",
-      "virtual_network_subnet_id",
-      "network_interface_ids",
-      "vnet_subnet_id",
-      "container_app_environment_id",
-      "infrastructure_subnet_id",
-      "delegated_subnet_id"
-    ]);
-    PLACEMENT_GROUP_TYPES = {
-      resource_group_name: "resource-group",
-      virtual_network_name: "network",
-      virtual_network_id: "network",
-      vpc_id: "network",
-      network: "network",
-      subnet_id: "subnet",
-      subnet_ids: "subnet",
-      virtual_network_subnet_id: "subnet",
-      infrastructure_subnet_id: "subnet",
-      delegated_subnet_id: "subnet",
-      vnet_subnet_id: "subnet",
-      subnetwork: "subnet"
-    };
-  }
-});
-
-// ../../packages/diagrams/src/importers/terraform/plan.ts
-function sharedWords(a, b) {
-  const left = a.split("_");
-  const right = b.split("_");
-  let count3 = 0;
-  while (count3 < left.length && count3 < right.length && left[count3] === right[count3]) count3 += 1;
-  return count3;
-}
-function listAt(map2, key) {
-  const known3 = map2.get(key);
-  if (known3 !== void 0) return known3;
-  const made = [];
-  map2.set(key, made);
-  return made;
-}
-var NOT_SCOPES, MAX_PLACEMENT_HOPS, MAX_DEPTH4, GROUP_RANK, SELF_BOXED, VARIABLE_WORDS, sameKind, familyOf, containerFrame, anchorOf, StackPlan;
-var init_plan9 = __esm({
-  "../../packages/diagrams/src/importers/terraform/plan.ts"() {
-    "use strict";
-    init_resources();
-    NOT_SCOPES = /* @__PURE__ */ new Set(["count", "for_each", "depends_on", "provider", "lifecycle"]);
-    MAX_PLACEMENT_HOPS = 3;
-    MAX_DEPTH4 = 12;
-    GROUP_RANK = { account: 0, "resource-group": 1, network: 2, subnet: 4, "public-subnet": 4, "private-subnet": 4, "service-plan": 5, cluster: 6 };
-    SELF_BOXED = /* @__PURE__ */ new Set(["service-plan", "cluster"]);
-    VARIABLE_WORDS = { "resource-group": /resource_group|(?:^|_)rg(?:_|$)/, network: /vnet|vpc|network/, subnet: /subnet/ };
-    sameKind = (a, b) => a === b || a.endsWith("subnet") && b.endsWith("subnet");
-    familyOf = (type) => type.split("_")[1] ?? "";
-    containerFrame = (key) => `frame:${key}`;
-    anchorOf = (key) => `anchor:${key}`;
-    StackPlan = class {
-      constructor(resources, groupTypeOf2, providers, variableName, variableValue) {
-        this.resources = resources;
-        this.groupTypeOf = groupTypeOf2;
-        this.providers = providers;
-        this.variableName = variableName;
-        this.variableValue = variableValue;
-        this.decide();
-        this.findHolders();
-        this.findAttachments();
-        this.place();
-      }
-      resources;
-      groupTypeOf;
-      providers;
-      variableName;
-      variableValue;
-      shapes = /* @__PURE__ */ new Map();
-      /** For a box, the resource that holds it, which is drawn as a container. */
-      holder = /* @__PURE__ */ new Map();
-      /** For a subject of an `attach` resource, the frame it is drawn in. */
-      attached = /* @__PURE__ */ new Map();
-      /** The frame named by variables of each value, by frame type and value, so two variables with one value are one frame. */
-      outerByValue = /* @__PURE__ */ new Map();
-      /** For a role drawn as a box whose scope is a frame (a resource group), that frame. */
-      scoped = /* @__PURE__ */ new Map();
-      /** For a subject of an `attach` resource, the resources that attach it. */
-      attachedBy = /* @__PURE__ */ new Map();
-      /** Frames that stand for no resource: variables and accounts, by key. */
-      outer = /* @__PURE__ */ new Map();
-      /** The frame each box and each frame sits in, by key; absent at the top. Container frames are keyed by `containerFrame`. */
-      parents = /* @__PURE__ */ new Map();
-      /** Frame resources that carry a box of their own inside their frame. */
-      anchored = /* @__PURE__ */ new Set();
-      /** The items drawn, and how: every resource and module, and a data source only when something drawn names it. */
-      decide() {
-        const included = /* @__PURE__ */ new Set();
-        for (const resource of this.resources.values()) if (resource.kind !== "data") included.add(resource.key);
-        for (let pass = 0; pass <= this.resources.size; pass += 1) {
-          const before = included.size;
-          for (const key of [...included]) {
-            const resource = this.resources.get(key);
-            for (const ref of [...resource.refs, ...resource.placement]) if (ref.startsWith("data.")) included.add(ref);
-          }
-          if (included.size === before) break;
-        }
-        for (const resource of this.resources.values()) {
-          const role = resource.role;
-          let shape;
-          if (!included.has(resource.key)) shape = "none";
-          else if (resource.kind === "data" && (role.role === "node" ? role.generic === true : role.role !== "group")) shape = "none";
-          else if (role.role === "group") shape = "frame";
-          else if (role.role === "node" || role.role === "endpoint") shape = "node";
-          else if (role.role === "attach") shape = "nested";
-          else shape = "edge";
-          this.shapes.set(resource.key, shape);
-          if (role.role === "group" && SELF_BOXED.has(role.group)) this.anchored.add(resource.key);
-        }
-      }
-      /** True when the item is drawn as a box (or a container, whose box is inside its frame). */
-      isBox(key) {
-        const shape = this.shapes.get(key);
-        return shape === "node" || shape === "container";
-      }
-      /** The resource that holds a box: named by the role's parent attributes, or of its own family for a type read from its name. */
-      holderOf(resource) {
-        const role = resource.role;
-        if (role.role !== "node" || resource.kind === "module") return null;
-        if (role.parent !== void 0) {
-          for (const attribute2 of role.parent) for (const ref of resource.byAttribute.get(attribute2) ?? []) if (this.isBox(ref)) return ref;
-          return null;
-        }
-        if (role.generic !== true) return null;
-        const family = familyOf(resource.type);
-        const candidates2 = [.../* @__PURE__ */ new Set([...resource.refs, ...resource.placement])].filter((ref) => {
-          const other = this.resources.get(ref);
-          return other !== void 0 && this.isBox(ref) && other.type !== resource.type && familyOf(other.type) === family && providerOf2(other.type) !== null;
-        });
-        const score = (ref) => {
-          const type = this.resources.get(ref)?.type ?? "";
-          return resource.type.startsWith(`${type}_`) ? 100 + type.length : sharedWords(resource.type, type);
-        };
-        return candidates2.sort((a, b) => score(b) - score(a))[0] ?? null;
-      }
-      /** Each box's holder, without loops; a resource that holds another becomes a container. */
-      findHolders() {
-        for (const resource of this.resources.values()) {
-          if (!this.isBox(resource.key)) continue;
-          const holder = this.holderOf(resource);
-          if (holder === null) continue;
-          let current = holder;
-          let loops = false;
-          for (let depth = 0; current !== void 0 && depth < MAX_DEPTH4; depth += 1) {
-            if (current === resource.key) loops = true;
-            current = this.holder.get(current);
-          }
-          if (!loops) this.holder.set(resource.key, holder);
-        }
-        this.holdUngranted();
-        for (const holder of this.holder.values()) this.shapes.set(holder, "container");
-      }
-      /**
-       * A role given to principals the stack does not declare (`principal_id = each.value`) has no arrow to start from, so it is a box
-       * of its own, drawn inside its scope: in the vault or the storage account it grants on, or in the frame of a resource group.
-       */
-      holdUngranted() {
-        for (const resource of this.resources.values()) {
-          const role = resource.role;
-          if (role.role !== "grant" || this.shapes.get(resource.key) !== "edge") continue;
-          const principals = role.principal.flatMap((attribute2) => resource.byAttribute.get(attribute2) ?? []);
-          if (principals.some((ref) => this.isBox(ref) || this.shapes.get(ref) === "frame")) continue;
-          const scopeAttributes = role.scope.length > 0 ? role.scope : [...resource.byAttribute.keys()].filter((attribute2) => !role.principal.includes(attribute2) && !NOT_SCOPES.has(attribute2));
-          const scope = scopeAttributes.flatMap((attribute2) => resource.byAttribute.get(attribute2) ?? []).find((ref) => this.isBox(ref) || this.shapes.get(ref) === "frame");
-          if (scope === void 0) continue;
-          this.shapes.set(resource.key, "node");
-          if (this.isBox(scope)) this.holder.set(resource.key, scope);
-          else this.scoped.set(resource.key, scope);
-        }
-      }
-      /** The boxes an `attach` resource draws inside a frame, such as a network security group in its subnet. */
-      findAttachments() {
-        const claims = /* @__PURE__ */ new Map();
-        for (const resource of this.resources.values()) {
-          const role = resource.role;
-          if (role.role !== "attach" || this.shapes.get(resource.key) !== "nested") continue;
-          const subjects = role.subject.flatMap((attribute2) => resource.byAttribute.get(attribute2) ?? []).filter((ref) => this.isBox(ref) && !this.holder.has(ref));
-          const hosts = role.host.flatMap((attribute2) => resource.byAttribute.get(attribute2) ?? []).filter((ref) => this.shapes.get(ref) === "frame");
-          if (subjects.length !== 1 || hosts.length !== 1) {
-            this.shapes.set(resource.key, "edge");
-            continue;
-          }
-          listAt(claims, subjects[0]).push(`${hosts[0]}\0${resource.key}`);
-        }
-        for (const [subject, list] of claims) {
-          const hosts = new Set(list.map((entry2) => entry2.split("\0")[0]));
-          if (hosts.size === 1) {
-            this.attached.set(subject, [...hosts][0]);
-            this.attachedBy.set(subject, list.map((entry2) => entry2.split("\0")[1]));
-          } else for (const entry2 of list) this.shapes.set(entry2.split("\0")[1], "edge");
-        }
-      }
-      /** The variable a placement attribute names for a frame of a type, when it names no resource. */
-      variableFrame(resource, attribute2) {
-        const type = PLACEMENT_GROUP_TYPES[attribute2];
-        const names7 = resource.vars.get(attribute2) ?? [];
-        if (type === void 0 || names7.length === 0 || (resource.byAttribute.get(attribute2) ?? []).length > 0) return null;
-        const words2 = VARIABLE_WORDS[type];
-        const name2 = names7.length === 1 ? names7[0] : names7.find((candidate2) => words2?.test(candidate2) === true);
-        if (name2 === void 0) return null;
-        const value = this.variableValue(name2);
-        const same = value === null ? void 0 : [...this.resources.values()].find((other) => this.shapes.get(other.key) === "frame" && other.key !== resource.key && this.frameType(other.key) !== null && sameKind(this.frameType(other.key), type) && other.values.get("name") === value);
-        if (same !== void 0) return same.key;
-        const own2 = this.outer.get(`var.${name2}`) === void 0 || this.outer.get(`var.${name2}`)?.type === type ? `var.${name2}` : `var.${name2}:${type}`;
-        const key = value === null ? own2 : this.outerByValue.get(`${type}\0${value}`) ?? own2;
-        if (value !== null) this.outerByValue.set(`${type}\0${value}`, key);
-        const provider = providerOf2(resource.type) ?? (this.providers.size === 1 ? [...this.providers.keys()][0] ?? null : null);
-        if (!this.outer.has(key)) this.outer.set(key, { key, type, variable: name2, provider });
-        return key;
-      }
-      /** The type of a frame key: a frame resource's group type, or an outer frame's. */
-      frameType(key) {
-        const outer = this.outer.get(key);
-        if (outer !== void 0) return outer.type;
-        const resource = this.resources.get(key);
-        return resource === void 0 || this.shapes.get(key) !== "frame" ? null : this.groupTypeOf(resource);
-      }
-      /**
-       * The frames a resource's placement names, each with its rank: frame resources directly, frames of resources it is placed by
-       * (a database through its subnet group), and frames named by variables.
-       */
-      placementFrames(resource) {
-        const found = [];
-        const seen = /* @__PURE__ */ new Set([resource.key]);
-        const visit2 = (current, hops) => {
-          for (const ref of current.placement) {
-            if (seen.has(ref)) continue;
-            seen.add(ref);
-            const type = this.frameType(ref);
-            const target = this.resources.get(ref);
-            if (type !== null) found.push({ key: ref, rank: GROUP_RANK[type] ?? 0 });
-            else if (target !== void 0 && hops < MAX_PLACEMENT_HOPS) visit2(target, hops + 1);
-          }
-          for (const attribute2 of current.vars.keys()) {
-            if (!PLACEMENT_ATTRIBUTES.has(attribute2)) continue;
-            const key = this.variableFrame(current, attribute2);
-            const type = key === null ? null : this.frameType(key);
-            if (key !== null && type !== null && !seen.has(key)) {
-              seen.add(key);
-              found.push({ key, rank: GROUP_RANK[type] ?? 0 });
-            }
-          }
-        };
-        visit2(resource, 0);
-        return found;
-      }
-      /** The most specific frame of a resource's placement, ranked below `under` when given (a frame never sits in a smaller one). */
-      bestFrame(resource, under = Number.POSITIVE_INFINITY) {
-        let best = null;
-        for (const candidate2 of this.placementFrames(resource)) {
-          if (candidate2.rank >= under) continue;
-          if (best === null || candidate2.rank > best.rank) best = candidate2;
-        }
-        return best?.key ?? null;
-      }
-      /** Where every box and frame sits. */
-      place() {
-        for (const resource of this.resources.values()) {
-          const shape = this.shapes.get(resource.key);
-          if (shape === "frame") {
-            const own2 = this.groupTypeOf(resource);
-            const parent = this.bestFrame(resource, own2 === null ? void 0 : GROUP_RANK[own2] ?? 0);
-            if (parent !== null) this.parents.set(resource.key, parent);
-          } else if (shape === "node" || shape === "container") {
-            const holder = this.holder.get(resource.key);
-            const attached = this.attached.get(resource.key);
-            const parent = holder !== void 0 ? containerFrame(holder) : attached ?? this.scoped.get(resource.key) ?? this.bestFrame(resource);
-            if (shape === "container") {
-              if (parent !== null) this.parents.set(containerFrame(resource.key), parent);
-              this.parents.set(resource.key, containerFrame(resource.key));
-            } else if (parent !== null) this.parents.set(resource.key, parent);
-          }
-        }
-        this.nestVariableFrames();
-        this.placeBesideUsers();
-        this.moveIntoSubnets();
-        this.wrapAccounts();
-      }
-      /**
-       * A box that names no frame and is of no cloud (a `random_password`, a `tls_private_key`) sits beside the first box that uses
-       * it, in that box's frame, rather than alone outside the account.
-       */
-      placeBesideUsers() {
-        for (const resource of this.resources.values()) {
-          if (!this.isBox(resource.key) || this.parents.has(resource.key) || this.parents.has(containerFrame(resource.key)) || providerOf2(resource.type) !== null) continue;
-          const user = [...this.resources.values()].find((other) => this.isBox(other.key) && other.refs.includes(resource.key) && this.parents.has(other.key));
-          const parent = user === void 0 ? void 0 : this.parents.get(user.key);
-          if (parent !== void 0) this.parents.set(this.shapes.get(resource.key) === "container" ? containerFrame(resource.key) : resource.key, parent);
-        }
-      }
-      /**
-       * A network named by a variable sits in the resource group named beside it: a subnet's `resource_group_name` is its network's,
-       * so a subnet that names both by variables places the network in the group.
-       */
-      nestVariableFrames() {
-        for (const resource of this.resources.values()) {
-          if (this.shapes.get(resource.key) !== "frame" && !this.isBox(resource.key)) continue;
-          const network = this.variableFrame(resource, "virtual_network_name");
-          const group2 = this.variableFrame(resource, "resource_group_name");
-          if (network !== null && group2 !== null && !this.parents.has(network)) this.parents.set(network, group2);
-        }
-      }
-      /**
-       * A plan or an environment that names no subnet sits in the subnet every one of its apps is joined to (an app's
-       * `virtual_network_subnet_id`), so the apps, the plan, and the subnet nest as they run.
-       */
-      moveIntoSubnets() {
-        for (const resource of this.resources.values()) {
-          if (this.shapes.get(resource.key) !== "frame" || !SELF_BOXED.has(this.groupTypeOf(resource))) continue;
-          const members2 = [...this.resources.values()].filter((other) => this.parents.get(other.key) === resource.key);
-          if (members2.length === 0) continue;
-          const subnets = new Set(members2.map((member) => this.bestFrame(member, GROUP_RANK["service-plan"])));
-          const subnet = subnets.size === 1 ? [...subnets][0] : null;
-          const own2 = this.parents.get(resource.key);
-          const subnetRank = subnet === null || subnet === void 0 ? -1 : GROUP_RANK[this.frameType(subnet)] ?? 0;
-          const ownRank = own2 === void 0 ? -1 : GROUP_RANK[this.frameType(own2)] ?? 0;
-          if (subnet !== null && subnet !== void 0 && subnetRank > ownRank) this.parents.set(resource.key, subnet);
-        }
-      }
-      /** The account of each provider the stack configures: a frame around everything of that provider at the top. */
-      wrapAccounts() {
-        const tops = /* @__PURE__ */ new Set();
-        for (const [key, shape] of this.shapes) {
-          if (shape === "frame") tops.add(key);
-          else if (shape === "container") tops.add(containerFrame(key));
-          else if (shape === "node") tops.add(key);
-        }
-        for (const key of this.outer.keys()) tops.add(key);
-        for (const key of tops) {
-          if (this.parents.has(key)) continue;
-          const resource = this.resources.get(key.startsWith("frame:") ? key.slice("frame:".length) : key);
-          const only = this.providers.size === 1 ? [...this.providers.keys()][0] ?? null : null;
-          const provider = resource !== void 0 ? providerOf2(resource.type) ?? (resource.kind === "module" ? only : null) : this.outer.get(key)?.provider ?? null;
-          if (provider === null || !this.providers.has(provider) || this.frameType(key) === "account") continue;
-          const account = this.accountFrame(provider);
-          if (account !== key) this.parents.set(key, account);
-        }
-      }
-      /** The frame of a provider's account: a data source of the subscription when the stack reads one, else one for the provider block. */
-      accountFrame(provider) {
-        for (const resource of this.resources.values()) {
-          if (this.shapes.get(resource.key) === "frame" && this.groupTypeOf(resource) === "account" && providerOf2(resource.type) === provider) return resource.key;
-        }
-        const key = `provider.${provider}`;
-        if (!this.outer.has(key)) this.outer.set(key, { key, type: "account", variable: null, provider });
-        return key;
-      }
-      /** The chain of frames around a key, innermost first, bounded so a loop ends. */
-      ancestors(key) {
-        const out = [];
-        let current = this.parents.get(key);
-        for (let depth = 0; current !== void 0 && depth < MAX_DEPTH4 && !out.includes(current); depth += 1) {
-          out.push(current);
-          current = this.parents.get(current);
-        }
-        return out;
-      }
-      /** The literal of a provider block's attribute, such as a Google Cloud project, for the account frame's name. */
-      providerName(provider) {
-        return this.providers.get(provider) ?? null;
-      }
-    };
-  }
-});
-
-// ../../packages/diagrams/src/importers/terraform/edges.ts
-function innerKey(from, attribute2, target) {
-  const raw = from.block.attributes.find((item) => item.name === attribute2)?.raw;
-  if (raw === void 0 || !raw.includes("=")) return null;
-  const reference = target.key.replace(/^data\./, "");
-  for (const line3 of raw.split("\n")) {
-    const match = /^\s*([a-z_][a-z0-9_]*)\s*=\s*(.*)$/.exec(line3);
-    if (match?.[2]?.includes(reference) === true) return match[1] ?? null;
-  }
-  return null;
-}
-function keyLabel(key) {
-  return ATTRIBUTE_LABELS[key] ?? key.replace(/_(?:ids?|names?)$/, "").replace(/_/g, " ");
-}
-function referenceLabel(attribute2, from, target, holderType) {
-  const known3 = ATTRIBUTE_LABELS[attribute2];
-  if (known3 !== void 0) return known3;
-  const inner = innerKey(from, attribute2, target);
-  if (inner !== null) return keyLabel(inner);
-  if (PLACEMENT_ATTRIBUTES.has(attribute2)) return attribute2.replace(/_(?:ids?|names?)$/, "").replace(/_/g, " ");
-  if (from.role.role === "node" && from.role.type === "secret") return "holds";
-  if (/insights/.test(target.type)) return "telemetry";
-  if (/log_analytics|cloudwatch_log/.test(target.type)) return "logs";
-  if (/registry|ecr_repository/.test(target.type)) return "images";
-  if (target.role.role === "node" && target.role.generic === true && holderType !== null) return inSentence(partNoun(target.type, holderType));
-  const byType = target.role.role === "node" ? TYPE_LABELS[target.role.type] ?? null : null;
-  if (byType === "calls" && !VAGUE_ATTRIBUTES.has(attribute2)) return keyLabel(attribute2);
-  return byType;
-}
-function endsOf3(resource, entries2) {
-  return entries2.flatMap((entry2) => providerOf2(entry2) !== null ? resource.refs.filter((ref) => ref.includes(`${entry2}.`) && ref.split(".").at(-2) === entry2) : resource.byAttribute.get(entry2) ?? []);
-}
-function linkLabel(resource) {
-  const role = resource.role;
-  if (role.role !== "link") return null;
-  if (role.labelFrom !== void 0) {
-    const words2 = role.labelFrom.map((name2) => literal2(resource, name2) ?? resource.block.attributes.find((attribute2) => attribute2.name === name2 && /^[0-9]+$/.test(attribute2.raw))?.raw ?? null).filter((word2) => word2 !== null && word2 !== "");
-    if (words2.length > 0) return words2.join(" ");
-  }
-  return role.label ?? null;
-}
-function stackArrows(plan) {
-  const resources = plan.resources;
-  const arrows = [];
-  const unjoined = /* @__PURE__ */ new Set();
-  const endOf = (key) => {
-    if (plan.isBox(key)) return key;
-    if (plan.shapes.get(key) === "frame" || plan.outer.has(key)) {
-      plan.anchored.add(key);
-      return anchorOf(key);
-    }
-    return null;
-  };
-  const push = (from, to, label, via, grant = false) => {
-    if (from === null || to === null || from === to) return;
-    arrows.push({ from, to, label, grant, via });
-  };
-  const variableEnds = (resource, attributes2) => attributes2.map((attribute2) => providerOf2(attribute2) === null ? plan.variableFrame(resource, attribute2) : null).filter((key) => key !== null);
-  for (const resource of resources.values()) {
-    const shape = plan.shapes.get(resource.key);
-    const role = resource.role;
-    if (shape === "edge" && role.role === "grant") {
-      const principals = role.principal.flatMap((attribute2) => resource.byAttribute.get(attribute2) ?? []).filter((ref) => endOf(ref) !== null);
-      const scopeAttributes = role.scope.length > 0 ? role.scope : [...resource.byAttribute.keys()].filter((attribute2) => !role.principal.includes(attribute2) && !NOT_SCOPES.has(attribute2));
-      const scopes = [...scopeAttributes.flatMap((attribute2) => resource.byAttribute.get(attribute2) ?? []).filter((ref) => endOf(ref) !== null), ...variableEnds(resource, scopeAttributes)];
-      const label = role.label.map((name2) => literal2(resource, name2)).find((value) => value !== null) ?? null;
-      if (principals.some((principal) => scopes.some((scope) => endOf(principal) !== endOf(scope)))) {
-        for (const principal of principals) for (const scope of scopes) push(endOf(principal), endOf(scope), label, resource.key, true);
-      } else {
-        unjoined.add(resource.key);
-        for (const principal of principals) push(endOf(principal), resource.key, "principal", resource.key);
-        for (const scope of scopes) if (!principals.some((principal) => endOf(principal) === endOf(scope))) push(resource.key, endOf(scope), "grants", resource.key);
-      }
-      continue;
-    }
-    if (shape === "edge" && role.role === "link") {
-      const drawn = (refs) => refs.filter((ref) => endOf(ref) !== null);
-      let sources = [...drawn(endsOf3(resource, role.from)), ...variableEnds(resource, role.from)];
-      let targets = [...drawn(endsOf3(resource, role.to)), ...variableEnds(resource, role.to)].filter((ref) => !sources.includes(ref));
-      if (role.from.length === 0 && role.to.length === 0) {
-        const all = drawn(resource.refs);
-        sources = all.slice(0, 1);
-        targets = all.slice(1);
-      }
-      const label = linkLabel(resource);
-      if (sources.some((from2) => targets.some((to) => endOf(from2) !== endOf(to)))) {
-        for (const from2 of sources) for (const to of targets) push(endOf(from2), endOf(to), label, resource.key);
-      } else {
-        unjoined.add(resource.key);
-        for (const from2 of sources) push(endOf(from2), resource.key, label, resource.key);
-        for (const to of targets) push(resource.key, endOf(to), label, resource.key);
-      }
-      continue;
-    }
-    if (shape === "edge" && role.role === "attach") {
-      const subjects = role.subject.flatMap((attribute2) => resource.byAttribute.get(attribute2) ?? []);
-      const hosts = role.host.flatMap((attribute2) => resource.byAttribute.get(attribute2) ?? []);
-      const ends = [...subjects, ...hosts].filter((ref) => endOf(ref) !== null);
-      if (subjects.length > 0 && hosts.length > 0 && ends.length === subjects.length + hosts.length) {
-        for (const subject of subjects) for (const host of hosts) push(endOf(subject), endOf(host), "attached", resource.key);
-      } else {
-        unjoined.add(resource.key);
-        for (const end of ends) push(resource.key, endOf(end), "attached", resource.key);
-      }
-      continue;
-    }
-    if (!plan.isBox(resource.key) && !plan.anchored.has(resource.key)) continue;
-    const from = plan.isBox(resource.key) ? resource.key : anchorOf(resource.key);
-    const frames = plan.isBox(resource.key) ? plan.ancestors(from) : [resource.key, ...plan.ancestors(resource.key)];
-    const around2 = new Set(frames.map((key) => key.startsWith("frame:") ? key.slice("frame:".length) : key));
-    if (role.role === "endpoint") {
-      for (const target of resource.byAttribute.get("private_connection_resource_id") ?? []) push(from, endOf(target), "private link", resource.key);
-    }
-    for (const [attribute2, refs] of resource.byAttribute) {
-      if (QUIET.has(attribute2) || attribute2 === "private_connection_resource_id") continue;
-      for (const ref of refs) {
-        if (plan.shapes.get(ref) === "frame" && !around2.has(ref) && PLACEMENT_GROUP_TYPES[attribute2] === "subnet") push(from, endOf(ref), attribute2 === "virtual_network_subnet_id" ? "VNet integration" : "subnet", resource.key);
-        if (around2.has(ref) || plan.holder.get(resource.key) === ref || plan.shapes.get(ref) === "frame") continue;
-        if (resource.placement.includes(ref) && !plan.isBox(ref)) continue;
-        const target = resources.get(ref);
-        if (!plan.isBox(ref)) continue;
-        if (plan.holder.get(ref) === resource.key) continue;
-        const label = referenceLabel(attribute2, resource, target, resources.get(plan.holder.get(ref) ?? "")?.type ?? null);
-        if (INBOUND.has(target.type)) push(ref, from, null, resource.key);
-        else push(from, ref, label, resource.key);
-      }
-    }
-  }
-  const touched = new Set(arrows.flatMap((arrow) => [arrow.from, arrow.to]));
-  for (const [child, holder] of plan.holder) {
-    if (touched.has(child) || !plan.isBox(child)) continue;
-    const type = resources.get(child)?.type ?? "";
-    const role = resources.get(child)?.role;
-    push(child, holder, role?.role === "grant" ? "grants on" : /polic/.test(type) ? "applies to" : "part of", child);
-  }
-  return { arrows, unjoined };
-}
-function joinArrows(arrows) {
-  const byPair = /* @__PURE__ */ new Map();
-  for (const arrow of arrows) listAt(byPair, `${arrow.from}\0${arrow.to}`).push(arrow);
-  return [...byPair.values()].map((group2) => {
-    const first = group2[0];
-    const grants = group2.filter((arrow) => arrow.grant);
-    const others = [...new Set(group2.filter((arrow) => !arrow.grant).map((arrow) => arrow.label).filter((label2) => label2 !== null && label2 !== ""))];
-    const grantWords = grants.length === 0 ? [] : grants.length === 1 ? [grants[0]?.label ?? "role"] : [`${grants.length} roles`];
-    const words2 = [...grantWords, ...others];
-    const label = words2.length === 0 ? null : words2.length <= MAX_LABELS2 ? words2.join(", ") : `${group2.length} links`;
-    return { from: first.from, to: first.to, label };
-  });
-}
-var INBOUND, QUIET, ATTRIBUTE_LABELS, TYPE_LABELS, VAGUE_ATTRIBUTES, MAX_LABELS2;
-var init_edges2 = __esm({
-  "../../packages/diagrams/src/importers/terraform/edges.ts"() {
-    "use strict";
-    init_labels();
-    init_plan9();
-    init_resources();
-    INBOUND = /* @__PURE__ */ new Set(["aws_lb_target_group", "aws_alb_target_group"]);
-    QUIET = /* @__PURE__ */ new Set(["depends_on", "name", "count", "for_each", "provider", "lifecycle"]);
-    ATTRIBUTE_LABELS = {
-      identity_ids: "identity",
-      user_assigned_identity_id: "identity",
-      key_vault_reference_identity_id: "identity",
-      identity_id: "identity",
-      storage_account_name: "storage",
-      storage_account_id: "storage",
-      storage_account_access_key: "storage",
-      log_analytics_workspace_id: "logs",
-      workspace_id: "logs",
-      application_insights_id: "telemetry",
-      application_insights_connection_string: "telemetry",
-      application_insights_key: "telemetry",
-      key_vault_id: "secrets",
-      key_vault_secret_id: "secret",
-      container_registry_id: "images",
-      private_connection_resource_id: "private link",
-      private_dns_zone_ids: "DNS",
-      public_ip_address_id: "public IP",
-      security_groups: "firewall",
-      vpc_security_group_ids: "firewall",
-      network_security_group_id: "firewall",
-      gateway_id: "route",
-      nat_gateway_id: "route",
-      api_management_logger_id: "logs to",
-      backend_id: "backend",
-      product_id: "product",
-      private_dns_zone_id: "DNS",
-      administrator_password: "password",
-      administrator_login_password: "password",
-      role: "role",
-      computer_name: "naming",
-      tags: "tags",
-      policy_arn: "policy"
-    };
-    TYPE_LABELS = {
-      secret: "secret",
-      database: "data",
-      storage: "storage",
-      cache: "cache",
-      queue: "messages",
-      identity: "identity",
-      gateway: "calls",
-      function: "calls",
-      service: "calls"
-    };
-    VAGUE_ATTRIBUTES = /* @__PURE__ */ new Set(["value", "values", "config", "configuration", "settings", "properties", "body", "content", "input", "inputs", "parameters", "source", "data"]);
-    MAX_LABELS2 = 2;
-  }
-});
-
-// ../../packages/diagrams/src/importers/terraform/azure-families.ts
-function azureFamilyIcon(type) {
-  if (!type.startsWith("azurerm_")) return null;
-  const name2 = type.slice("azurerm_".length);
-  let best;
-  for (const family of AZURE_FAMILIES) if (name2.startsWith(family[0]) && family[0].length > (best?.[0].length ?? -1)) best = family;
-  return best?.[1] ?? null;
-}
-var AZURE_FAMILIES;
-var init_azure_families = __esm({
-  "../../packages/diagrams/src/importers/terraform/azure-families.ts"() {
-    "use strict";
-    AZURE_FAMILIES = [
-      ["aadb2c_", "azure:ad-b2c"],
-      ["active_directory_domain_service", "azure:entra-domain-services"],
-      ["advanced_threat_protection", "azure:defender-for-cloud"],
-      ["attestation_", "azure:azureattestation"],
-      ["automanage_", "azure:automanaged-vm"],
-      ["automation_", "azure:automation-accounts"],
-      ["backup_", "azure:recovery-services-vaults"],
-      ["batch_", "azure:batch-accounts"],
-      ["bot_", "azure:bot-services"],
-      ["cognitive_", "azure:cognitive-services"],
-      ["container_connected_registry", "azure:container-registries"],
-      ["container_group", "azure:container-instances"],
-      ["cosmosdb_postgresql_", "azure:database-postgresql-server-group"],
-      ["cosmosdb_", "azure:cosmos-db"],
-      ["custom_provider", "azure:resource-groups"],
-      ["data_protection_", "azure:backup-vault"],
-      ["database_migration_", "azure:database-migration-services"],
-      ["dev_center", "azure:dev-box"],
-      ["dev_test_", "azure:devtest-labs"],
-      ["elastic_cloud_", "simple:elasticsearch"],
-      ["eventgrid_domain", "azure:event-grid-domains"],
-      ["eventgrid_", "azure:event-grid"],
-      ["eventhub_cluster", "azure:event-hub-clusters"],
-      ["eventhub", "azure:event-hubs"],
-      ["express_route_", "azure:expressroute-circuits"],
-      ["fabric_", "azure:power-bi-embedded"],
-      ["federated_identity_credential", "azure:managed-identities"],
-      ["frontdoor", "azure:front-door"],
-      ["gallery_application", "azure:image-definitions"],
-      ["graph_services_", "azure:resource-graph-explorer"],
-      ["hdinsight_", "azure:hd-insight-clusters"],
-      ["healthbot", "azure:bot-services"],
-      ["healthcare_", "azure:fhir-service"],
-      ["iotcentral_", "azure:iot-central-applications"],
-      ["iothub", "azure:iot-hub"],
-      ["kubernetes_automatic", "azure:aks-automatic"],
-      ["kubernetes_fleet", "azure:kubernetes-fleet-manager"],
-      ["kubernetes_", "azure:kubernetes-services"],
-      ["kusto_", "azure:data-explorer-clusters"],
-      ["maintenance_", "azure:maintenance-configuration"],
-      ["managed_application", "azure:managed-applications-center"],
-      ["management_lock", "azure:resource-groups"],
-      ["mongo_cluster", "azure:cosmos-db"],
-      ["mssql_elasticpool", "azure:sql-elastic-pools"],
-      ["mssql_job", "azure:elastic-job-agents"],
-      ["mssql_managed", "azure:sql-managed-instance"],
-      ["mssql_", "azure:sql-database"],
-      ["mysql_", "azure:database-for-mysql"],
-      ["netapp_", "azure:netapp-files"],
-      ["network_function_", "azure:network-function-manager"],
-      ["network_profile", "azure:virtual-network"],
-      ["nginx_", "simple:nginx"],
-      ["oracle_", "azure:oracle-database"],
-      ["pim_", "azure:entra-identity-roles-and-administrators"],
-      ["playwright_", "azure:load-testing"],
-      ["point_to_site_vpn_gateway", "azure:virtual-network-gateways"],
-      ["policy_", "azure:policy"],
-      ["portal_", "azure:management-portal"],
-      ["powerbi_", "azure:power-bi-embedded"],
-      ["purview_", "azure:identity-governance"],
-      ["redhat_openshift", "azure:red-hat-openshift"],
-      ["redis_", "azure:cache-redis"],
-      ["resource_deployment_script", "azure:templates"],
-      ["resource_policy", "azure:policy"],
-      ["resource_provider_", "azure:subscriptions"],
-      ["role_definition", "azure:entra-identity-custom-roles"],
-      ["role_management", "azure:entra-identity-roles-and-administrators"],
-      ["route_map", "azure:virtual-router"],
-      ["route_server", "azure:virtual-router"],
-      ["route", "azure:route-tables"],
-      ["service_fabric", "azure:service-fabric-clusters"],
-      ["site_recovery_", "azure:recovery-services-vaults"],
-      ["snapshot", "azure:disks-snapshots"],
-      ["spring_cloud_", "azure:spring-apps"],
-      ["ssh_public_key", "azure:ssh-keys"],
-      ["stack_hci_", "azure:stack-hci-premium"],
-      ["storage_blob", "azure:blob-storage"],
-      ["storage_sync", "azure:storage-sync-services"],
-      ["storage_", "azure:storage-accounts"],
-      ["stream_analytics_", "azure:stream-analytics-jobs"],
-      ["traffic_manager_", "azure:traffic-manager-profiles"],
-      ["trusted_signing_", "azure:key-vaults"],
-      ["virtual_hub", "azure:virtual-wan-hub"],
-      ["vmware_", "azure:vmware-solution"],
-      ["vpn_", "azure:virtual-network-gateways"],
-      ["web_app", "azure:app-service"],
-      ["workloads_sap_", "azure:virtual-instance-for-sap"]
-    ];
-  }
-});
-
-// ../../packages/diagrams/src/importers/terraform/generic.ts
-function forms(word2) {
-  return [word2, `${word2}s`, word2.endsWith("y") ? `${word2.slice(0, -1)}ies` : `${word2}es`];
-}
-function iconOfName(type, fromServiceWord = false) {
-  const provider = providerOf2(type);
-  if (provider === null) return null;
-  const words2 = type.split("_").slice(1);
-  for (let length = words2.length; length >= 1; length -= 1) {
-    for (let start2 = 0; start2 + length <= words2.length; start2 += 1) {
-      if (fromServiceWord && start2 > 0) break;
-      const run3 = words2.slice(start2, start2 + length);
-      if (length === 1 && VAGUE_WORDS.has(run3[0] ?? "")) continue;
-      const last = run3.pop() ?? "";
-      for (const tail of forms(last)) {
-        const ref = `${provider}:${[...run3, tail].join("-")}`;
-        if (isKnownIcon(ref)) return ref;
-      }
-    }
-  }
-  return null;
-}
-function nodeTypeOf(icon) {
-  const spec = icon === null ? void 0 : cloudSpecOf(icon);
-  if (spec === void 0) return "service";
-  const byKind = NODE_TYPE_OF_KIND[spec.kind];
-  if (byKind !== void 0) return byKind;
-  const folder = spec.vendor?.categories[0] ?? "";
-  return NODE_TYPE_OF_FOLDER.find(([pattern3]) => pattern3.test(folder))?.[1] ?? "service";
-}
-function productOf(type) {
-  return humanize2(type.split("_").slice(1).join("_"));
-}
-function familyIcon(type) {
-  const words2 = type.split("_");
-  for (let length = words2.length - 1; length >= 2; length -= 1) {
-    const role = RESOURCE_ROLES[words2.slice(0, length).join("_")];
-    if (role?.role === "node" && role.icon !== null) return role.icon;
-    if (role?.role === "group" && role.icon !== void 0) return role.icon;
-  }
-  return null;
-}
-function genericRole(type) {
-  if (GRANTS.test(type)) return { role: "grant", principal: ["member", "members"], scope: [], label: ["role"] };
-  const join7 = JOINS.exec(type);
-  if (join7 !== null) return { role: "link", from: [], to: [], label: join7[1] ?? "link" };
-  const icon = iconOfName(type, true) ?? azureFamilyIcon(type) ?? iconOfName(type) ?? familyIcon(type);
-  return { role: "node", type: nodeTypeOf(icon), icon, product: productOf(type), generic: true };
-}
-function roleOf2(type) {
-  if (providerOf2(type) === null) return { role: "node", type: "service", icon: OTHER_ICONS.get(type) ?? null, product: productOf(type), generic: true };
-  return RESOURCE_ROLES[type] ?? genericRole(type);
-}
-var GRANTS, JOINS, VAGUE_WORDS, NODE_TYPE_OF_KIND, NODE_TYPE_OF_FOLDER, OTHER_ICONS;
-var init_generic = __esm({
-  "../../packages/diagrams/src/importers/terraform/generic.ts"() {
-    "use strict";
-    init_constants();
-    init_icons();
-    init_azure_families();
-    init_labels();
-    init_resources();
-    GRANTS = /_iam_(?:member|binding)$/;
-    JOINS = /_(association|attachment|link)$/;
-    VAGUE_WORDS = /* @__PURE__ */ new Set([
-      "account",
-      "api",
-      "app",
-      "apps",
-      "cloud",
-      "cluster",
-      "compute",
-      "config",
-      "configuration",
-      "container",
-      "database",
-      "endpoint",
-      "function",
-      "gateway",
-      "group",
-      "identity",
-      "instance",
-      "job",
-      "key",
-      "linux",
-      "network",
-      "policy",
-      "resource",
-      "rule",
-      "server",
-      "service",
-      "set",
-      "sql",
-      "storage",
-      "user",
-      "users",
-      "web",
-      "windows",
-      "workspace",
-      "zone"
-    ]);
-    NODE_TYPE_OF_KIND = {
-      function: "function",
-      "container-registry": "storage",
-      "object-storage": "storage",
-      "block-storage": "storage",
-      "file-storage": "storage",
-      "relational-database": "database",
-      "nosql-database": "database",
-      "data-warehouse": "database",
-      cache: "cache",
-      queue: "queue",
-      stream: "queue",
-      pubsub: "queue",
-      "api-gateway": "gateway",
-      "load-balancer": "gateway",
-      cdn: "gateway",
-      dns: "gateway",
-      network: "gateway",
-      firewall: "gateway",
-      identity: "identity",
-      "key-management": "secret",
-      secrets: "secret"
-    };
-    NODE_TYPE_OF_FOLDER = [
-      [/database/i, "database"],
-      [/storage/i, "storage"],
-      [/network/i, "gateway"],
-      [/identity/i, "identity"],
-      [/security/i, "secret"],
-      [/integration/i, "queue"]
-    ];
-    OTHER_ICONS = /* @__PURE__ */ new Map([
-      ["random_password", "lucide:key-round"],
-      ["random_string", "lucide:key-round"],
-      ["tls_private_key", "lucide:key-round"],
-      ["time_sleep", "lucide:timer"],
-      ["time_rotating", "lucide:timer"],
-      ["null_resource", "lucide:terminal"],
-      ["terraform_data", "lucide:terminal"]
-    ]);
-  }
-});
-
-// ../../packages/diagrams/src/importers/terraform/graph.ts
-function identify(block) {
-  const [first, second] = block.labels;
-  if (block.type === "resource" && first !== void 0 && second !== void 0) return { key: `${first}.${second}`, kind: "resource", type: first, name: second };
-  if (block.type === "data" && first !== void 0 && second !== void 0) return { key: `data.${first}.${second}`, kind: "data", type: first, name: second };
-  if (block.type === "module" && first !== void 0) return { key: `module.${first}`, kind: "module", type: "module", name: first };
-  return null;
-}
-function readResources(blocks2, resolver) {
-  const locals = /* @__PURE__ */ new Map();
-  for (const block of blocks2) if (block.type === "locals") for (const attribute2 of block.attributes) locals.set(attribute2.name, attribute2.raw);
-  const reader = new AddressReader(locals);
-  const resources = /* @__PURE__ */ new Map();
-  for (const block of blocks2) {
-    const id = identify(block);
-    if (id === null || resources.has(id.key)) continue;
-    const attributes2 = allAttributes(block);
-    const byAttribute = /* @__PURE__ */ new Map();
-    const vars = /* @__PURE__ */ new Map();
-    for (const attribute2 of attributes2) {
-      const found = reader.read(attribute2.raw).filter((ref) => ref !== id.key);
-      const items2 = found.filter(isItem2);
-      const named = found.filter((ref) => !isItem2(ref)).map((ref) => ref.slice("var.".length));
-      if (items2.length > 0) byAttribute.set(attribute2.name, unique([...byAttribute.get(attribute2.name) ?? [], ...items2]));
-      if (named.length > 0) vars.set(attribute2.name, unique([...vars.get(attribute2.name) ?? [], ...named]));
-    }
-    const from = (keep) => unique(attributes2.filter(keep).flatMap((attribute2) => byAttribute.get(attribute2.name) ?? []));
-    const role = id.kind === "module" ? { role: "node", type: "service", icon: "lucide:package", product: "Module" } : roleOf2(id.type);
-    const values = /* @__PURE__ */ new Map();
-    for (const attribute2 of block.attributes) {
-      const value = attribute2.literal ?? resolver.value(attribute2.raw);
-      if (value !== null) values.set(attribute2.name, value);
-    }
-    resources.set(id.key, { ...id, block, role, refs: from((attribute2) => !PLACEMENT_ATTRIBUTES.has(attribute2.name)), placement: from((attribute2) => PLACEMENT_ATTRIBUTES.has(attribute2.name)), byAttribute, vars, values });
-  }
-  const alias = /* @__PURE__ */ new Map();
-  for (const [key, resource] of resources) if (resource.kind === "data" && resources.has(`${resource.type}.${resource.name}`)) alias.set(key, `${resource.type}.${resource.name}`);
-  for (const key of alias.keys()) resources.delete(key);
-  const known3 = (refs, self2) => unique(refs.map((ref) => alias.get(ref) ?? ref)).filter((ref) => ref !== self2 && resources.has(ref));
-  for (const [key, resource] of resources) {
-    const byAttribute = new Map([...resource.byAttribute].map(([name2, refs]) => [name2, known3(refs, key)]).filter(([, refs]) => refs.length > 0));
-    resources.set(key, { ...resource, refs: known3(resource.refs, key), placement: known3(resource.placement, key), byAttribute });
-  }
-  return resources;
-}
-var MAX_LOCAL_DEPTH, ADDRESS, unique, AddressReader, isItem2;
-var init_graph4 = __esm({
-  "../../packages/diagrams/src/importers/terraform/graph.ts"() {
-    "use strict";
-    init_generic();
-    init_parse23();
-    init_resources();
-    MAX_LOCAL_DEPTH = 4;
-    ADDRESS = /\b(data\.)?([a-z][a-z0-9]*_[a-z0-9_]+)\.([A-Za-z_][A-Za-z0-9_-]*)|\bmodule\.([A-Za-z0-9_-]+)|\blocal\.([A-Za-z0-9_-]+)|\bvar\.([A-Za-z0-9_-]+(?:\.[A-Za-z_][A-Za-z0-9_-]*){0,3})/g;
-    unique = (values) => [...new Set(values)];
-    AddressReader = class {
-      constructor(locals) {
-        this.locals = locals;
-      }
-      locals;
-      memo = /* @__PURE__ */ new Map();
-      /** Every item address a text names: `aws_vpc.main`, `data.azurerm_key_vault.shared`, `module.network`, and `var.region`. */
-      read(text3, depth = 0) {
-        const out = [];
-        const pattern3 = new RegExp(ADDRESS.source, "g");
-        for (let match = pattern3.exec(text3); match !== null; match = pattern3.exec(text3)) {
-          if (match[2] !== void 0 && match[3] !== void 0) out.push(`${match[1] === void 0 ? "" : "data."}${match[2]}.${match[3]}`);
-          else if (match[4] !== void 0) out.push(`module.${match[4]}`);
-          else if (match[5] !== void 0 && depth < MAX_LOCAL_DEPTH) out.push(...this.local(match[5], depth + 1));
-          else if (match[6] !== void 0) out.push(`var.${match[6]}`);
-        }
-        return out;
-      }
-      local(name2, depth) {
-        const known3 = this.memo.get(name2);
-        if (known3 !== void 0) return known3;
-        this.memo.set(name2, []);
-        const raw = this.locals.get(name2);
-        const found = raw === void 0 ? [] : unique(this.read(raw, depth));
-        this.memo.set(name2, found);
-        return found;
-      }
-    };
-    isItem2 = (ref) => !ref.startsWith("var.");
-  }
-});
-
-// ../../packages/diagrams/src/importers/terraform/bundle.ts
-function bundleArrows(nodes, groups, edges, ownBox) {
-  const frameOf3 = new Map(nodes.map((node3) => [node3.key, node3.group ?? null]));
-  const parents = new Map(groups.map((group2) => [group2.key, group2.parent ?? null]));
-  const inside = (key, frame) => {
-    let current = frameOf3.get(key) ?? null;
-    for (let depth = 0; current !== null && depth < MAX_DEPTH5; depth += 1) {
-      if (current === frame) return true;
-      current = parents.get(current) ?? null;
-    }
-    return false;
-  };
-  const bundles = /* @__PURE__ */ new Map();
-  for (const edge of edges) {
-    const frame = frameOf3.get(edge.from) ?? null;
-    if (frame === null || edge.label === null || edge.label === void 0 || inside(edge.to, frame)) continue;
-    const key = `${frame}\0${edge.label}\0${edge.to}`;
-    bundles.set(key, [...bundles.get(key) ?? [], edge]);
-  }
-  const added = [];
-  const known3 = new Map(nodes.map((node3) => [node3.key, node3]));
-  const joined = /* @__PURE__ */ new Set();
-  const replacements = /* @__PURE__ */ new Map();
-  for (const [key, list] of bundles) {
-    const frame = key.split("\0")[0];
-    const members2 = list.filter((edge) => known3.get(edge.from)?.group === frame);
-    if (members2.length < BUNDLE_AT) continue;
-    const own2 = [...known3.values(), ...added].find((node3) => node3.group === frame && (frame === `frame:${node3.key}` || node3.key === `anchor:${frame}`)) ?? ownBox(frame);
-    if (own2 === null) continue;
-    if (!known3.has(own2.key) && !added.some((node3) => node3.key === own2.key)) added.push(own2);
-    const first = members2[0];
-    const sources = members2.filter((edge) => edge.from !== own2.key);
-    if (sources.length < BUNDLE_AT) continue;
-    for (const edge of sources) joined.add(edge);
-    replacements.set(first, { from: own2.key, to: first.to, label: `${first.label ?? ""} (${sources.length})` });
-  }
-  const out = [];
-  const written3 = /* @__PURE__ */ new Set();
-  for (const edge of edges) {
-    const replaced = replacements.get(edge);
-    const next = replaced ?? (joined.has(edge) ? null : edge);
-    if (next === null) continue;
-    const pair2 = `${next.from}\0${next.to}`;
-    if (written3.has(pair2)) {
-      const index2 = out.findIndex((candidate2) => `${candidate2.from}\0${candidate2.to}` === pair2);
-      const before = out[index2];
-      out[index2] = { ...before, label: [before.label, next.label].filter((label) => label !== null && label !== void 0 && label !== "").join(", ") };
-      continue;
-    }
-    written3.add(pair2);
-    out.push(next);
-  }
-  return { nodes: [...nodes, ...added], edges: out };
-}
-var BUNDLE_AT, MAX_DEPTH5;
-var init_bundle = __esm({
-  "../../packages/diagrams/src/importers/terraform/bundle.ts"() {
-    "use strict";
-    BUNDLE_AT = 3;
-    MAX_DEPTH5 = 32;
-  }
-});
-
-// ../../packages/diagrams/src/importers/terraform/module-icons.ts
-function moduleWords(name2, source) {
-  const segments = source.replace(/[?#].*$/, "").replace(/\.git$/, "").split(/[/:]/).filter((part) => part !== "" && !NOISE.has(part.toLowerCase()));
-  const segment = segments.pop() ?? "";
-  return `${name2} ${segment}`.toLowerCase().split(/[^a-z0-9]+/).filter((word2) => word2 !== "" && !NOISE.has(word2));
-}
-function providerPrefix(name2, source, stackProvider) {
-  const text3 = `${source} ${name2}`.toLowerCase().replace(/[^a-z0-9]+/g, " ");
-  for (const [pattern3, prefix] of PROVIDER_WORDS) if (pattern3.test(text3)) return prefix;
-  if (stackProvider === "azure") return "azurerm";
-  if (stackProvider === "aws") return "aws";
-  if (stackProvider === "gcp") return "google";
-  return null;
-}
-function moduleIcon(name2, source, stackProvider) {
-  const prefix = providerPrefix(name2, source, stackProvider);
-  if (prefix === null) return null;
-  const words2 = moduleWords(name2, source);
-  const candidates2 = [...words2.map((word2) => SHORT_NAMES.get(word2)).filter((type) => type !== void 0), words2.join("_"), ...words2];
-  for (const words3 of candidates2) {
-    const role = roleOf2(`${prefix}_${words3}`);
-    const icon = role.role === "node" ? role.icon : role.role === "group" ? role.icon ?? groupIcon(role.group, providerOf2(`${prefix}_`)) : null;
-    if (icon !== null && !icon.startsWith("lucide:")) return icon;
-  }
-  return null;
-}
-var PROVIDER_WORDS, SHORT_NAMES, NOISE;
-var init_module_icons = __esm({
-  "../../packages/diagrams/src/importers/terraform/module-icons.ts"() {
-    "use strict";
-    init_icons();
-    init_generic();
-    init_resources();
-    PROVIDER_WORDS = [
-      [/\b(?:azurerm|azure)\b/, "azurerm"],
-      [/\b(?:aws|amazon)\b/, "aws"],
-      [/\b(?:google|gcp)\b/, "google"]
-    ];
-    SHORT_NAMES = /* @__PURE__ */ new Map([
-      ["vnet", "virtual_network"],
-      ["vpc", "vpc"],
-      ["nsg", "network_security_group"],
-      ["asg", "application_security_group"],
-      ["nic", "network_interface"],
-      ["pip", "public_ip"],
-      ["lb", "lb"],
-      ["alb", "lb"],
-      ["appgw", "application_gateway"],
-      ["agw", "application_gateway"],
-      ["aks", "kubernetes_cluster"],
-      ["eks", "eks_cluster"],
-      ["gke", "container_cluster"],
-      ["acr", "container_registry"],
-      ["ecr", "ecr_repository"],
-      ["kv", "key_vault"],
-      ["keyvault", "key_vault"],
-      ["sa", "storage_account"],
-      ["rg", "resource_group"],
-      ["law", "log_analytics_workspace"],
-      ["vm", "linux_virtual_machine"],
-      ["vmss", "linux_virtual_machine_scale_set"],
-      ["ec2", "instance"],
-      ["rds", "db_instance"],
-      ["s3", "s3_bucket"],
-      ["sql", "mssql_server"],
-      ["psql", "postgresql_flexible_server"],
-      ["postgres", "postgresql_flexible_server"],
-      ["postgresql", "postgresql_flexible_server"],
-      ["mysql", "mysql_flexible_server"],
-      ["cosmos", "cosmosdb_account"],
-      ["redis", "redis_cache"],
-      ["apim", "api_management"],
-      ["func", "linux_function_app"],
-      ["function", "linux_function_app"],
-      ["webapp", "linux_web_app"],
-      ["bastion", "bastion_host"],
-      ["firewall", "firewall"],
-      ["dns", "dns_zone"],
-      ["nat", "nat_gateway"],
-      ["ssh", "ssh_public_key"]
-    ]);
-    NOISE = /* @__PURE__ */ new Set(["module", "modules", "terraform", "tf", "iac", "azurerm", "azure", "aws", "amazon", "google", "gcp", "main", "ref", "git", "github", "com", "registry", "hashicorp"]);
-  }
-});
-
-// ../../packages/diagrams/src/importers/terraform/picture.ts
-function fileOf(resource, files) {
-  let path = files[0]?.path ?? "";
-  for (const file2 of files) if (file2.start <= resource.block.start) path = file2.path;
-  return path;
-}
-function productOf2(resource, plan) {
-  const role = resource.role;
-  if (role.role !== "node") return "";
-  const holder = plan.resources.get(plan.holder.get(resource.key) ?? "");
-  return holder !== void 0 && role.generic === true ? partNoun(resource.type, holder.type) : role.product;
-}
-function boxOf2(resource, plan, shared) {
-  const role = resource.role;
-  if (resource.kind === "module") {
-    const text4 = moduleText(resource);
-    const stackProvider = [...plan.resources.values()].map((item) => providerOf2(item.type)).find((provider) => provider !== null) ?? null;
-    const icon = moduleIcon(resource.name, resource.values.get("source") ?? "", stackProvider) ?? "lucide:package";
-    return { key: resource.key, type: "service", label: text4.label, sub: withParts(text4.sub, multiplicity(resource)), icon, idHint: resource.name };
-  }
-  if (role.role === "node") {
-    const holder = plan.resources.get(plan.holder.get(resource.key) ?? "");
-    const holderBox = holder === void 0 ? null : boxOf2(holder, plan, shared);
-    const product2 = productOf2(resource, plan);
-    const text4 = nodeText(resource, product2, role.detail ?? [], shared);
-    const kind = literal2(resource, "kind");
-    const icon = (kind === null ? void 0 : role.kinds?.[kind]) ?? role.icon ?? holderBox?.icon ?? null;
-    return { key: resource.key, type: role.type, label: text4.label, sub: withParts(text4.sub, multiplicity(resource)), icon, idHint: resource.name };
-  }
-  if (role.role === "endpoint") {
-    const text4 = nodeText(resource, "Private endpoint", [], shared);
-    return { key: resource.key, type: "gateway", label: text4.label, sub: withParts(text4.sub, multiplicity(resource)), icon: "azure:private-endpoints", idHint: resource.name };
-  }
-  if (role.role === "grant") {
-    const granted = role.label.map((name2) => literal2(resource, name2)).find((value) => value !== null) ?? null;
-    return { key: resource.key, type: "identity", label: granted ?? "Role assignment", sub: withParts(granted === null ? null : "Role assignment", multiplicity(resource)), icon: role.icon ?? null, idHint: resource.name };
-  }
-  const words2 = role.role === "link" ? role.label ?? "link" : "association";
-  const product = `${words2.charAt(0).toUpperCase()}${words2.slice(1)}`;
-  const text3 = nodeText(resource, product, [], shared);
-  return { key: resource.key, type: "service", label: text3.label, sub: withParts(text3.sub, multiplicity(resource)), icon: role.role === "link" ? role.icon ?? null : null, idHint: resource.name };
-}
-function picture(plan, context, groupType) {
-  const resources = plan.resources;
-  const byFile = context.options.groupBy === "file";
-  const { arrows, unjoined } = stackArrows(plan);
-  for (const key of unjoined) {
-    plan.shapes.set(key, "node");
-    const own2 = plan.bestFrame(resources.get(key));
-    const other = arrows.find((arrow) => arrow.via === key && (arrow.from === key || arrow.to === key));
-    const near3 = own2 ?? (other === void 0 ? void 0 : plan.parents.get(other.from === key ? other.to : other.from));
-    if (near3 !== void 0 && near3 !== null) plan.parents.set(key, near3);
-  }
-  plan.wrapAccounts();
-  const names7 = /* @__PURE__ */ new Map();
-  for (const resource of resources.values()) if (plan.isBox(resource.key) || plan.shapes.get(resource.key) === "frame") names7.set(resource.name, (names7.get(resource.name) ?? 0) + 1);
-  const shared = new Set([...names7].filter(([, count3]) => count3 > 1).map(([name2]) => name2));
-  const files = /* @__PURE__ */ new Map();
-  const fileFrame = (resource) => {
-    const path = fileOf(resource, context.files);
-    const key = `file:${path}`;
-    files.set(key, path);
-    return key;
-  };
-  const groups = [];
-  const nodes = [];
-  const drawn = /* @__PURE__ */ new Set();
-  const parentOf3 = (key, resource) => {
-    if (!byFile) return plan.parents.get(key) ?? null;
-    const holder = plan.holder.get(resource.key);
-    const holderResource = holder === void 0 ? void 0 : resources.get(holder);
-    if (holderResource !== void 0 && fileOf(holderResource, context.files) === fileOf(resource, context.files)) return containerFrame(holder);
-    return fileFrame(resource);
-  };
-  for (const resource of resources.values()) {
-    const shape = plan.shapes.get(resource.key);
-    const role = resource.role;
-    if (shape === "frame" && role.role === "group") {
-      const type = groupType(resource);
-      const text3 = groupText(resource, type, shared);
-      const provider = providerOf2(resource.type);
-      if (byFile) {
-        const product = role.product ?? GROUP_TYPE_SPECS[type].title;
-        nodes.push({ key: anchorOf(resource.key), type: "service", label: text3.label, sub: withParts(text3.label === product ? null : product, text3.sub), icon: role.icon ?? groupIcon(type, provider), group: fileFrame(resource), idHint: resource.name });
-        plan.anchored.add(resource.key);
-      } else {
-        groups.push({ key: resource.key, label: text3.label, type, icon: role.icon ?? null, sub: withParts(text3.sub, multiplicity(resource)), parent: plan.parents.get(resource.key) ?? null, idHint: resource.name });
-      }
-      drawn.add(resource.key);
-    } else if (shape === "node" || shape === "container") {
-      const box = boxOf2(resource, plan, shared);
-      if (shape === "container") {
-        const frame = containerFrame(resource.key);
-        const parent = byFile ? parentOf3(frame, resource) : plan.parents.get(frame) ?? null;
-        groups.push({ key: frame, label: box.label, type: null, icon: box.icon ?? null, sub: null, parent, idHint: `${resource.name}_group` });
-        const product = role.role === "node" ? productOf2(resource, plan) : box.label;
-        nodes.push({ ...box, label: box.label === product ? box.label : product, sub: box.label === product ? box.sub ?? null : withParts(literalDetails(resource), multiplicity(resource)), group: frame });
-      } else {
-        nodes.push({ ...box, group: parentOf3(resource.key, resource) });
-      }
-      drawn.add(resource.key);
-    } else if (shape === "nested") {
-      drawn.add(resource.key);
-    }
-  }
-  if (!byFile) {
-    for (const outer of plan.outer.values()) {
-      const provider = outer.provider;
-      const label = outer.variable !== null ? plan.variableName(outer.variable) : plan.providerName(outer.provider ?? "") ?? ACCOUNT_NAMES[provider ?? "aws"] ?? "Account";
-      groups.push({ key: outer.key, label, type: outer.type, icon: null, sub: outer.variable === null || plan.variableValue(outer.variable) !== null ? null : `var.${outer.variable}`, parent: plan.parents.get(outer.key) ?? null, idHint: outer.variable ?? `${outer.provider ?? "cloud"}_account` });
-    }
-    const holding = /* @__PURE__ */ new Set();
-    for (const node3 of nodes) for (const key of [node3.group ?? "", ...plan.ancestors(node3.group ?? "")]) holding.add(key);
-    for (const group2 of groups) if (!holding.has(group2.key) && resources.has(group2.key)) plan.anchored.add(group2.key);
-  }
-  for (const key of plan.anchored) {
-    if (nodes.some((node3) => node3.key === anchorOf(key))) continue;
-    const box = anchorBox(plan, key, groupType, byFile);
-    if (box !== null) nodes.push(box);
-  }
-  for (const [key, path] of files) groups.push({ key, label: path === "" ? "main.tf" : path, type: null, icon: "lucide:file-code", sub: null, parent: null, idHint: path.replace(/\.tf$/, "") });
-  if (byFile) {
-    for (const [child, holder] of plan.holder) if (parentOf3(child, resources.get(child)) !== containerFrame(holder)) arrows.push({ from: child, to: holder, label: "in", grant: false, via: child });
-    for (const [subject, host] of plan.attached) for (const via of plan.attachedBy.get(subject) ?? []) arrows.push({ from: subject, to: anchorOf(host), label: "attached", grant: false, via });
-  }
-  return { groups, nodes, arrows, drawn };
-}
-function withoutIdleBoxes(nodes, groups, edges) {
-  const touched = new Set(edges.flatMap((edge) => [edge.from, edge.to]));
-  const frameOfSelf = (node3) => {
-    if (node3.group === null || node3.group === void 0) return null;
-    return node3.group === containerFrame(node3.key) || node3.key === anchorOf(node3.group) ? node3.group : null;
-  };
-  const parents = new Map(groups.map((group2) => [group2.key, group2.parent ?? null]));
-  const holds = /* @__PURE__ */ new Map();
-  for (const node3 of nodes) {
-    let key = node3.group ?? null;
-    for (let depth = 0; key !== null && depth < groups.length; depth += 1) {
-      holds.set(key, (holds.get(key) ?? 0) + 1);
-      key = parents.get(key) ?? null;
-    }
-  }
-  const idle = /* @__PURE__ */ new Map();
-  for (const node3 of nodes) {
-    const frame = frameOfSelf(node3);
-    if (frame !== null && !touched.has(node3.key) && (holds.get(frame) ?? 0) > 1) idle.set(frame, node3);
-  }
-  const kept2 = nodes.filter((node3) => idle.get(node3.group ?? "") !== node3);
-  const framed = groups.map((group2) => {
-    const box = idle.get(group2.key);
-    if (box === void 0) return group2;
-    const said = group2.label.includes(box.label) || group2.type !== null && group2.type !== void 0 ? null : box.label;
-    return { ...group2, sub: withParts(group2.sub ?? null, said, box.sub ?? null) };
-  });
-  return { nodes: kept2, groups: framed };
-}
-function anchorBox(plan, key, groupType, byFile) {
-  const outer = plan.outer.get(key);
-  if (outer !== void 0) {
-    const icon = groupIcon(outer.type, outer.provider);
-    if (byFile) return { key: anchorOf(key), type: "service", label: outer.variable === null ? GROUP_TYPE_SPECS[outer.type].title : plan.variableName(outer.variable), sub: outer.variable === null || plan.variableValue(outer.variable) !== null ? null : `var.${outer.variable}`, icon, group: null, idHint: `${outer.variable ?? "account"}_box` };
-    return { key: anchorOf(key), type: "service", label: GROUP_TYPE_SPECS[outer.type].title, sub: null, icon, group: key, idHint: `${outer.variable ?? "account"}_box` };
-  }
-  const resource = plan.resources.get(key);
-  if (resource === void 0 || resource.role.role !== "group") return null;
-  const type = groupType(resource);
-  const details = withParts(literalDetails(resource), multiplicity(resource));
-  return { key: anchorOf(key), type: "service", label: resource.role.product ?? GROUP_TYPE_SPECS[type].title, sub: details, icon: resource.role.icon ?? groupIcon(type, providerOf2(resource.type)), group: key, idHint: `${resource.name}_${type.replace(/-/g, "_")}` };
-}
-function literalDetails(resource) {
-  const role = resource.role;
-  const names7 = role.role === "node" ? role.detail ?? [] : ["sku_name", "os_type", "sku"];
-  const values = names7.map((name2) => literal2(resource, name2)).filter((value) => value !== null && value !== "");
-  return values.length === 0 ? null : values.join(" ");
-}
-var ACCOUNT_NAMES;
-var init_picture = __esm({
-  "../../packages/diagrams/src/importers/terraform/picture.ts"() {
-    "use strict";
-    init_constants();
-    init_icons();
-    init_edges2();
-    init_labels();
-    init_module_icons();
-    init_plan9();
-    init_resources();
-    ACCOUNT_NAMES = { aws: "AWS account", azure: "Azure subscription", gcp: "Google Cloud project" };
-  }
-});
-
-// ../../packages/diagrams/src/importers/terraform/json-syntax.ts
-function expression(value, depth) {
-  if (depth > MAX_DEPTH6) return "null";
-  if (typeof value === "string") return JSON.stringify(value);
-  if (typeof value === "number" || typeof value === "boolean") return String(value);
-  if (value === null) return "null";
-  if (Array.isArray(value)) return `[${value.map((item) => expression(item, depth + 1)).join(", ")}]`;
-  return `{ ${Object.entries(value).map(([key, item]) => `${keyOf2(key)} = ${expression(item, depth + 1)}`).join(", ")} }`;
-}
-function body5(object2, depth, lines) {
-  for (const [key, value] of Object.entries(object2)) {
-    const isObject3 = (item) => typeof item === "object" && item !== null && !Array.isArray(item);
-    if (key === "locals" || key === "tags" || key === "labels" || key === "app_settings" || key === "default" || depth > MAX_DEPTH6) lines.push(`${keyOf2(key)} = ${expression(value, depth)}`);
-    else if (isObject3(value)) {
-      lines.push(`${keyOf2(key)} {`);
-      body5(value, depth + 1, lines);
-      lines.push("}");
-    } else if (Array.isArray(value) && value.length > 0 && value.every(isObject3)) {
-      for (const item of value) {
-        lines.push(`${keyOf2(key)} {`);
-        body5(item, depth + 1, lines);
-        lines.push("}");
-      }
-    } else lines.push(`${keyOf2(key)} = ${expression(value, depth)}`);
-  }
-}
-function blocks(kind, value, labels2, depth, lines) {
-  const needed = LABELS[kind] ?? 0;
-  const entries2 = Array.isArray(value) ? value : [value];
-  for (const entry2 of entries2) {
-    if (typeof entry2 !== "object" || entry2 === null || Array.isArray(entry2)) continue;
-    if (labels2.length === needed) {
-      lines.push(`${kind}${labels2.map((label) => ` ${JSON.stringify(label)}`).join("")} {`);
-      body5(entry2, depth + 1, lines);
-      lines.push("}");
-      continue;
-    }
-    for (const [label, inner] of Object.entries(entry2)) blocks(kind, inner, [...labels2, label], depth + 1, lines);
-  }
-}
-function jsonToHcl(text3) {
-  let parsed;
-  try {
-    parsed = JSON.parse(text3);
-  } catch {
-    return null;
-  }
-  if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) return null;
-  const lines = [];
-  for (const [kind, value] of Object.entries(parsed)) {
-    if (kind === "locals") {
-      for (const entry2 of Array.isArray(value) ? value : [value]) {
-        if (typeof entry2 !== "object" || entry2 === null || Array.isArray(entry2)) continue;
-        lines.push("locals {");
-        for (const [name2, item] of Object.entries(entry2)) lines.push(`${keyOf2(name2)} = ${expression(item, 1)}`);
-        lines.push("}");
-      }
-    } else if (kind in LABELS) blocks(kind, value, [], 0, lines);
-  }
-  return `${lines.join("\n")}
-`;
-}
-function readJsonFiles(text3, context, index2) {
-  const spans = context.files.map((file2, position) => ({ path: file2.path, start: file2.start, end: context.files[position + 1]?.start ?? text3.length }));
-  let blanked = text3;
-  const out = [];
-  for (const span of spans.filter((candidate2) => /\.tf\.json$/i.test(candidate2.path))) {
-    blanked = `${blanked.slice(0, span.start)}${blanked.slice(span.start, span.end).replace(/[^\n]/g, " ")}${blanked.slice(span.end)}`;
-    const written3 = jsonToHcl(text3.slice(span.start, span.end));
-    const parsed = written3 === null ? null : parseHcl(written3);
-    if (parsed === null || parsed.problem !== null) {
-      context.report.add(DIAGNOSTIC_CODES.importSkipped, index2.span(span.start), `${span.path} is not a JSON object of Terraform configuration, so it was passed over.`, "Write the file as Terraform JSON syntax: one object with resource, data, module, variable, or locals keys.");
-      continue;
-    }
-    for (const block of parsed.blocks) out.push({ ...block, start: span.start });
-  }
-  return { text: blanked, blocks: out };
-}
-var MAX_DEPTH6, LABELS, keyOf2;
-var init_json_syntax = __esm({
-  "../../packages/diagrams/src/importers/terraform/json-syntax.ts"() {
-    "use strict";
-    init_core();
-    init_parse23();
-    MAX_DEPTH6 = 24;
-    LABELS = { resource: 2, data: 2, module: 1, variable: 1, output: 1, provider: 1 };
-    keyOf2 = (key) => /^[A-Za-z_][A-Za-z0-9_-]*$/.test(key) ? key : JSON.stringify(key);
-  }
-});
-
-// ../../packages/diagrams/src/importers/terraform/tfvars.ts
-function jsonValues(text3) {
-  try {
-    const parsed = JSON.parse(text3);
-    if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) return null;
-    const out = /* @__PURE__ */ new Map();
-    for (const [name2, value] of Object.entries(parsed)) {
-      if (typeof value === "string") out.set(name2, JSON.stringify(value));
-      else if (typeof value === "number" || typeof value === "boolean") out.set(name2, String(value));
-    }
-    return out;
-  } catch {
-    return null;
-  }
-}
-function readVariableFiles(text3, files, context, index2) {
-  const spans = files.map((file2, position) => ({ path: file2.path, start: file2.start, end: files[position + 1]?.start ?? text3.length }));
-  const variableSpans = spans.filter((span) => isVariableFile(span.path));
-  if (variableSpans.length === 0) return { assigned: /* @__PURE__ */ new Map(), applied: [], text: text3 };
-  const loaded = variableSpans.filter((span) => isLoaded(span.path)).sort((a, b) => Number(!/^terraform\./i.test(baseName(a.path))) - Number(!/^terraform\./i.test(baseName(b.path))) || a.path.localeCompare(b.path));
-  const others = variableSpans.filter((span) => !isLoaded(span.path));
-  const chosenNames = context.options.varFiles ?? [];
-  let chosen;
-  if (chosenNames.length > 0) {
-    chosen = chosenNames.flatMap((name2) => others.filter((span) => picks(name2, span.path)).slice(0, 1));
-    const missing = chosenNames.filter((name2) => !variableSpans.some((span) => picks(name2, span.path)));
-    if (missing.length > 0) {
-      context.report.add(DIAGNOSTIC_CODES.importSkipped, START, `options.varFiles names ${countOf2(missing.length, "file")} that ${missing.length === 1 ? "is" : "are"} not in files: ${missing.slice(0, LISTED5).join(", ")}.`, `Send the variables files in files with the .tf files. Those sent are: ${variableSpans.slice(0, LISTED5).map((span) => span.path).join(", ") || "none"}.`);
-    }
-  } else if (others.length === 1) {
-    chosen = others;
-    context.report.add(DIAGNOSTIC_CODES.importChanged, index2.span(others[0]?.start ?? 0), `The values of ${others[0]?.path ?? ""} are drawn: it is the only variables file sent that Terraform does not load on its own.`, "Set options.varFiles to draw with another file.");
-  } else {
-    chosen = [];
-    if (others.length > 1) {
-      const names7 = others.map((span) => span.path);
-      context.report.add(
-        DIAGNOSTIC_CODES.importSkipped,
-        START,
-        `${countOf2(others.length, "variables file")} ${others.length === 1 ? "is" : "are"} not applied, because Terraform loads none of them on its own and they set the same variables: ${names7.slice(0, LISTED5).join(", ")}${names7.length > LISTED5 ? ", and more" : ""}.`,
-        `Set options.varFiles to the environment to draw, such as ["${names7[0] ?? ""}"]; until then, variables show their defaults or their names.`
-      );
-    }
-  }
-  const assigned = /* @__PURE__ */ new Map();
-  const applied = [];
-  for (const span of [...loaded, ...chosen]) {
-    const body6 = text3.slice(span.start, span.end);
-    let values;
-    if (/\.json$/i.test(span.path)) values = jsonValues(body6);
-    else {
-      const parsed = parseHcl(body6);
-      if (parsed.problem !== null) {
-        context.report.add(DIAGNOSTIC_CODES.importSkipped, index2.span(span.start + parsed.problem.offset), `${span.path} cannot be read, so its values are not drawn: ${parsed.problem.message}`, parsed.problem.hint);
-        continue;
-      }
-      values = new Map(parsed.attributes.map((attribute2) => [attribute2.name, attribute2.raw]));
-    }
-    if (values === null) {
-      context.report.add(DIAGNOSTIC_CODES.importSkipped, index2.span(span.start), `${span.path} is not a JSON object of variables, so its values are not drawn.`, "Write the file as one JSON object of names and values.");
-      continue;
-    }
-    for (const [name2, raw] of values) assigned.set(name2, raw);
-    applied.push(span.path);
-  }
-  let blanked = text3;
-  for (const span of variableSpans) blanked = `${blanked.slice(0, span.start)}${blanked.slice(span.start, span.end).replace(/[^\n]/g, " ")}${blanked.slice(span.end)}`;
-  return { assigned, applied, text: blanked };
-}
-var LISTED5, isVariableFile, baseName, isLoaded, picks;
-var init_tfvars = __esm({
-  "../../packages/diagrams/src/importers/terraform/tfvars.ts"() {
-    "use strict";
-    init_core();
-    init_shared2();
-    init_parse23();
-    LISTED5 = 5;
-    isVariableFile = (path) => /\.tfvars(?:\.json)?$/i.test(path);
-    baseName = (path) => path.split(/[\\/]/).pop() ?? path;
-    isLoaded = (path) => /^terraform\.tfvars(?:\.json)?$/i.test(baseName(path)) || /\.auto\.tfvars(?:\.json)?$/i.test(path);
-    picks = (chosen, path) => path === chosen || path.endsWith(`/${chosen.replace(/^\.?\//, "")}`) || baseName(path) === chosen;
-  }
-});
-
-// ../../packages/diagrams/src/importers/terraform/values.ts
-function argumentsOf(text3) {
-  const out = [];
-  let depth = 0;
-  let quoted5 = false;
-  let start2 = 0;
-  for (let index2 = 0; index2 < text3.length; index2 += 1) {
-    const char = text3.charAt(index2);
-    if (quoted5) {
-      if (char === "\\") index2 += 1;
-      else if (char === '"') quoted5 = false;
-    } else if (char === '"') quoted5 = true;
-    else if ("([{".includes(char)) depth += 1;
-    else if (")]}".includes(char)) depth -= 1;
-    else if (char === "," && depth === 0) {
-      out.push(text3.slice(start2, index2).trim());
-      start2 = index2 + 1;
-    }
-  }
-  if (depth !== 0 || quoted5) return null;
-  out.push(text3.slice(start2).trim());
-  return out.filter((part) => part !== "");
-}
-function interpolationEnd(text3, start2) {
-  let depth = 0;
-  let quoted5 = false;
-  for (let index2 = start2; index2 < text3.length; index2 += 1) {
-    const char = text3.charAt(index2);
-    if (quoted5) {
-      if (char === "\\") index2 += 1;
-      else if (char === '"') quoted5 = false;
-    } else if (char === '"') quoted5 = true;
-    else if (char === "{") depth += 1;
-    else if (char === "}") {
-      depth -= 1;
-      if (depth === 0) return index2 + 1;
-    }
-  }
-  return -1;
-}
-function declaredVariables(blocks2) {
-  const out = /* @__PURE__ */ new Map();
-  for (const block of blocks2) {
-    if (block.type !== "variable" || block.labels[0] === void 0) continue;
-    const attribute2 = (name2) => block.attributes.find((entry2) => entry2.name === name2);
-    out.set(block.labels[0], { fallback: attribute2("default")?.raw ?? null, sensitive: attribute2("sensitive")?.raw === "true" });
-  }
-  return out;
-}
-function localValues(blocks2) {
-  const out = /* @__PURE__ */ new Map();
-  for (const block of blocks2) if (block.type === "locals") for (const attribute2 of block.attributes) out.set(attribute2.name, attribute2.raw);
-  return out;
-}
-function lastPart(value) {
-  if (!value.includes("/")) return value;
-  return value.split("/").filter((part) => part !== "").pop() ?? value;
-}
-var MAX_DEPTH7, MAX_VALUE_LENGTH2, ValueResolver;
-var init_values2 = __esm({
-  "../../packages/diagrams/src/importers/terraform/values.ts"() {
-    "use strict";
-    init_parse23();
-    MAX_DEPTH7 = 8;
-    MAX_VALUE_LENGTH2 = 600;
-    ValueResolver = class {
-      constructor(variables, assigned, locals) {
-        this.variables = variables;
-        this.assigned = assigned;
-        this.locals = locals;
-      }
-      variables;
-      assigned;
-      locals;
-      memo = /* @__PURE__ */ new Map();
-      /** The value of a variable as a string, or null when it is unknown, not a string, or sensitive. */
-      variable(name2, depth = 0) {
-        const dot2 = name2.indexOf(".");
-        if (dot2 !== -1) {
-          const whole2 = this.variables.get(name2.slice(0, dot2));
-          if (whole2?.sensitive === true) return null;
-          const raw2 = this.assigned.get(name2.slice(0, dot2)) ?? whole2?.fallback ?? null;
-          const field = name2.slice(dot2 + 1);
-          if (raw2 === null || !/^[A-Za-z_][A-Za-z0-9_-]*$/.test(field)) return null;
-          const match = new RegExp(`(?:^|[\\s{,])"?${field}"?\\s*[=:]\\s*("(?:[^"\\\\\\n]|\\\\.)*")`).exec(raw2);
-          return match?.[1] === void 0 ? null : this.value(match[1], depth + 1);
-        }
-        const known3 = this.variables.get(name2);
-        if (known3?.sensitive === true) return null;
-        const raw = this.assigned.get(name2) ?? known3?.fallback ?? null;
-        if (raw?.trim() === "null") return "";
-        return raw === null ? null : this.value(raw, depth + 1);
-      }
-      /** True when the stack declares or assigns the variable. */
-      has(name2) {
-        return this.variables.has(name2) || this.assigned.has(name2);
-      }
-      /** The value of an expression as written, or null when it cannot be known from the text. */
-      value(raw, depth = 0) {
-        if (depth > MAX_DEPTH7) return null;
-        const text3 = raw.trim();
-        const memoKey = `${depth}\0${text3}`;
-        if (this.memo.has(memoKey)) return this.memo.get(memoKey) ?? null;
-        this.memo.set(memoKey, null);
-        const found = this.evaluate(text3, depth);
-        const kept2 = found === null || found.length > MAX_VALUE_LENGTH2 ? null : found;
-        this.memo.set(memoKey, kept2);
-        return kept2;
-      }
-      evaluate(text3, depth) {
-        if (/^-?[0-9]+(?:\.[0-9]+)?$/.test(text3) || text3 === "true" || text3 === "false") return text3;
-        const variable = /^var\.([A-Za-z0-9_-]+)$/.exec(text3);
-        if (variable !== null) return this.variable(variable[1] ?? "", depth);
-        const local2 = /^local\.([A-Za-z0-9_-]+)$/.exec(text3);
-        if (local2 !== null) {
-          const raw = this.locals.get(local2[1] ?? "");
-          return raw === void 0 ? null : this.value(raw, depth + 1);
-        }
-        if (text3.startsWith('"') && text3.endsWith('"') && text3.length >= 2) return this.template(text3.slice(1, -1), depth);
-        const call = /^(coalesce|lower|upper)\(([\s\S]*)\)$/.exec(text3);
-        if (call !== null) {
-          const parts = argumentsOf(call[2] ?? "");
-          if (parts === null) return null;
-          if (call[1] === "coalesce") {
-            for (const part of parts) {
-              if (part === "null") continue;
-              const value2 = this.value(part, depth + 1);
-              if (value2 === null) return null;
-              if (value2 !== "") return value2;
-            }
-            return null;
-          }
-          const value = parts.length === 1 ? this.value(parts[0], depth + 1) : null;
-          return value === null ? null : call[1] === "lower" ? value.toLowerCase() : value.toUpperCase();
-        }
-        return null;
-      }
-      /** A string with its `${ }` parts filled in, or null when one of them is unknown or the string holds a `%{ }` directive. */
-      template(body6, depth) {
-        if (body6.includes("%{")) return null;
-        let out = "";
-        let index2 = 0;
-        while (index2 < body6.length) {
-          const open2 = body6.indexOf("${", index2);
-          if (open2 === -1) {
-            out += body6.slice(index2);
-            break;
-          }
-          if (open2 > 0 && body6.charAt(open2 - 1) === "$") {
-            out += body6.slice(index2, open2 + 2);
-            index2 = open2 + 2;
-            continue;
-          }
-          out += body6.slice(index2, open2);
-          const end = interpolationEnd(body6, open2 + 1);
-          if (end === -1) return null;
-          const value = this.value(body6.slice(open2 + 2, end - 1), depth + 1);
-          if (value === null) return null;
-          out += value;
-          index2 = end;
-        }
-        return unescapeHcl(out);
-      }
-    };
-  }
-});
-
-// ../../packages/diagrams/src/importers/terraform/index.ts
-function providersOf(blocks2) {
-  const out = /* @__PURE__ */ new Map();
-  for (const block of blocks2) {
-    if (block.type !== "provider" || block.labels[0] === void 0) continue;
-    const provider = providerOf2(`${block.labels[0]}_x`);
-    if (provider === null || out.get(provider) !== void 0) continue;
-    const attribute2 = ACCOUNT_ATTRIBUTES[provider];
-    out.set(provider, attribute2 === void 0 ? null : block.attributes.find((entry2) => entry2.name === attribute2)?.literal ?? null);
-  }
-  return out;
-}
-function readTerraform(text3, given2) {
-  let context = given2;
-  const index2 = new LineIndex(text3);
-  const variableFiles = readVariableFiles(text3, context.files, context, index2);
-  const json2 = readJsonFiles(variableFiles.text, context, index2);
-  const read = parseHcl(json2.text);
-  if (read.problem !== null) {
-    context.report.add(DIAGNOSTIC_CODES.importUnreadable, index2.span(read.problem.offset), read.problem.message, read.problem.hint);
-    return null;
-  }
-  const parsed = { blocks: [...read.blocks, ...json2.blocks] };
-  const resolver = new ValueResolver(declaredVariables(parsed.blocks), variableFiles.assigned, localValues(parsed.blocks));
-  const resources = readResources(parsed.blocks, resolver);
-  if (![...resources.values()].some((resource) => resource.kind !== "data")) {
-    context.report.add(DIAGNOSTIC_CODES.importNoShape, index2.span(0), "The text has no resource or module blocks.", "Send the .tf files that declare resources, such as main.tf; variables and outputs alone draw nothing.");
-    return null;
-  }
-  const groupType = (resource) => resource.role.role === "group" ? groupTypeOf(resource, resource.role.group) : null;
-  const variableValue = (name2) => {
-    const value = resolver.variable(name2);
-    return value === null || value === "" ? null : lastPart(value);
-  };
-  const plan = new StackPlan(resources, groupType, providersOf(parsed.blocks), (name2) => variableValue(name2) ?? variableLabel(name2), variableValue);
-  const frameless = ![...plan.shapes.values()].some((shape) => shape === "frame" || shape === "container") && ![...plan.outer.values()].some((outer) => outer.type !== "account");
-  const boxCount = [...plan.shapes.values()].filter((shape) => shape === "node").length;
-  const fileCount = new Set(context.files.map((file2) => file2.path)).size;
-  const byFile = context.options.groupBy === void 0 && frameless && boxCount > SPLIT_ABOVE && fileCount > 1 && fileCount * 3 <= boxCount;
-  if (byFile) context = { ...context, options: { ...context.options, groupBy: "file" } };
-  const drafted = picture(plan, context, groupType);
-  const { arrows, drawn } = drafted;
-  const boxes2 = new Set(drafted.nodes.map((node3) => node3.key));
-  const written3 = arrows.filter((arrow) => boxes2.has(arrow.from) && boxes2.has(arrow.to));
-  for (const arrow of written3) drawn.add(arrow.via);
-  const bundled = bundleArrows(drafted.nodes, drafted.groups, joinArrows(written3), (frame) => plan.resources.has(frame) || plan.outer.has(frame) ? anchorBox(plan, frame, groupType, context.options.groupBy === "file") : null);
-  const edges = bundled.edges;
-  const { nodes, groups } = withoutIdleBoxes(bundled.nodes, drafted.groups, edges);
-  let total = 0;
-  let counted2 = 0;
-  for (const resource of resources.values()) {
-    if (resource.kind === "data") continue;
-    total += 1;
-    if (drawn.has(resource.key)) counted2 += 1;
-  }
-  const providers = new Set([...resources.values()].filter((resource) => plan.shapes.get(resource.key) !== "none").map((resource) => providerOf2(resource.type)).filter((provider2) => provider2 !== null));
-  const provider = providers.size === 1 ? [...providers][0] : null;
-  const owner = provider === null ? null : SHORT_NAMES2[provider] ?? CLOUD_PROVIDER_SPECS[provider].title;
-  const where = owner === null ? "on more than one cloud" : `on ${owner}`;
-  const nesting2 = context.options.groupBy === "file" ? "framed by the file that declares them" : "nested in the groups, networks, and subnets that hold them";
-  const title = context.title ?? (owner === null ? "Cloud infrastructure" : `${owner} infrastructure`);
-  const draft = {
-    title,
-    desc: `${countOf2(total, "resource")} ${where}, ${nesting2}, imported from Terraform. An arrow means one resource refers to another, and its label says how: a role, a private link, logs, or a secret.`,
-    direction: directionOf4(nodes.map((node3) => node3.key), edges),
-    provider,
-    nodes,
-    groups,
-    edges,
-    noun: "resources",
-    cap: LAYOUT_LIMITS.maxFlowNodes,
-    capSpan: (key) => {
-      const resource = resources.get(key);
-      return resource === void 0 ? { line: 1, column: 1, length: 1 } : index2.span(resource.block.start, resource.block.type.length);
-    },
-    advice: "Check that every arrow is a real call or flow of data: Terraform references also say which resource configures which.",
-    coverage: { noun: "resources", total, drawn: counted2, summarised: 0 }
-  };
-  const parts = splitFlow(draft, writeFlow);
-  if (parts.length === 0) return writeFlow(draft, context.report);
-  const whole2 = writeFlow({ ...draft, cap: Number.POSITIVE_INFINITY }, new ImportReporter());
-  return { ...whole2, source: parts[0]?.source ?? whole2.source, parts };
-}
-var SHORT_NAMES2, ACCOUNT_ATTRIBUTES, terraformImporter;
-var init_terraform = __esm({
-  "../../packages/diagrams/src/importers/terraform/index.ts"() {
-    "use strict";
-    init_constants();
-    init_core();
-    init_shared2();
-    init_edges2();
-    init_graph4();
-    init_labels();
-    init_parse23();
-    init_bundle();
-    init_picture();
-    init_plan9();
-    init_resources();
-    init_json_syntax();
-    init_tfvars();
-    init_values2();
-    SHORT_NAMES2 = { aws: "AWS", azure: "Azure", gcp: "Google Cloud" };
-    ACCOUNT_ATTRIBUTES = { gcp: "project" };
-    terraformImporter = { format: "terraform", kinds: ["flow"], joins: "\n", extensions: [".tf", ".tf.json", ".tfvars", ".tfvars.json"], read: readTerraform };
   }
 });
 
@@ -188528,7 +192868,7 @@ function childOf(parent, name2, line3) {
   parent.push(entry2);
   return entry2;
 }
-function nameOf7(raw) {
+function nameOf8(raw) {
   const text3 = cleanText(raw, "");
   const isDir = text3.endsWith("/") && text3.length > 1;
   return { name: isDir ? text3.slice(0, -1) : text3, isDir };
@@ -188555,7 +192895,7 @@ function readCommand(lines) {
       depth += 1;
       at3 += 4;
     }
-    const { name: name2, isDir } = nameOf7(line3.slice(at3));
+    const { name: name2, isDir } = nameOf8(line3.slice(at3));
     if (name2 === "") continue;
     if (!branched && root === null && top.length === 0) {
       root = name2;
@@ -188605,7 +192945,7 @@ function readOutline(lines) {
   for (const [index2, raw] of lines.entries()) {
     if (raw.trim() === "") continue;
     const { width, text: text3 } = indentOf6(raw);
-    const { name: name2, isDir } = nameOf7(text3);
+    const { name: name2, isDir } = nameOf8(text3);
     if (name2 === "") continue;
     while (stack.length > 0 && (stack[stack.length - 1]?.width ?? 0) >= width) stack.pop();
     const parent = stack[stack.length - 1]?.entry;
@@ -188667,12 +193007,12 @@ function depthOf6(entry2) {
   }
   return deepest;
 }
-function piecesOf3(entries2, folders, size) {
+function piecesOf5(entries2, folders, size) {
   const out = [];
   const room = MAX_LEVEL - (folders.length === 0 ? 0 : 1);
   for (const entry2 of entries2) {
     const rows = countAll([entry2]);
-    if (entry2.children.length > 0 && (rows > size || depthOf6(entry2) > room)) out.push(...piecesOf3(entry2.children, [...folders, entry2], size));
+    if (entry2.children.length > 0 && (rows > size || depthOf6(entry2) > room)) out.push(...piecesOf5(entry2.children, [...folders, entry2], size));
     else out.push({ folders, entries: [entry2], rows });
   }
   return out;
@@ -188732,10 +193072,10 @@ function writeTree(tree, title, report3) {
     return { kind: "tree", source: lines.toString(), stats: { items: rows, links: 0, groups: folders, dropped: 0 }, advice, coverage: { noun, total, drawn: rows, summarised: 0 } };
   }
   let size = WORKFLOW_LIMITS.maxImportEntries;
-  let packed = packPieces2(piecesOf3(tree.entries, [], size), size);
+  let packed = packPieces2(piecesOf5(tree.entries, [], size), size);
   while (packed.length > WORKFLOW_LIMITS.maxImportParts && size < MAX_ROWS2) {
     size = Math.min(MAX_ROWS2, Math.ceil(size * 1.5));
-    packed = packPieces2(piecesOf3(tree.entries, [], size), size);
+    packed = packPieces2(piecesOf5(tree.entries, [], size), size);
   }
   const kept2 = packed;
   const heads = /* @__PURE__ */ new Set();
@@ -188820,6 +193160,9 @@ var IMPORTERS;
 var init_registry4 = __esm({
   "../../packages/diagrams/src/importers/registry.ts"() {
     "use strict";
+    init_arm();
+    init_bicep();
+    init_cloudformation();
     init_compose();
     init_csv();
     init_drizzle();
@@ -188829,6 +193172,7 @@ var init_registry4 = __esm({
     init_kubernetes();
     init_openapi();
     init_prisma();
+    init_pulumi();
     init_sql();
     init_terraform();
     init_tree5();
@@ -188838,6 +193182,10 @@ var init_registry4 = __esm({
       drizzle: drizzleImporter,
       openapi: openapiImporter,
       terraform: terraformImporter,
+      bicep: bicepImporter,
+      arm: armImporter,
+      pulumi: pulumiImporter,
+      cloudformation: cloudformationImporter,
       compose: composeImporter,
       kubernetes: kubernetesImporter,
       "github-actions": githubActionsImporter,
@@ -188961,9 +193309,9 @@ function importSource(format, input2, title = null, options3 = {}, limits = HOST
     return failed(report3);
   }
   const importer = IMPORTERS[format];
-  const joined = joinFiles(importer, files, report3);
-  if (joined === null) return failed(report3);
-  const measured = significantLength(joined.text);
+  const joined2 = joinFiles(importer, files, report3);
+  if (joined2 === null) return failed(report3);
+  const measured = significantLength(joined2.text);
   if (measured > limits.maxLength) {
     report3.add(
       DIAGNOSTIC_CODES.importTooLarge,
@@ -188973,13 +193321,13 @@ function importSource(format, input2, title = null, options3 = {}, limits = HOST
     );
     return failed(report3);
   }
-  if (joined.text.trim() === "") {
+  if (joined2.text.trim() === "") {
     report3.add(DIAGNOSTIC_CODES.importEmpty, START, "The text is empty.", `Send the content of the ${format} file as text.`);
     return failed(report3);
   }
   const reading = new ImportReporter();
-  const draft = importer.read(joined.text, { title: titleOf3(title), options: options3, report: reading, files: joined.segments.map((segment) => ({ path: segment.path, start: segment.start })) });
-  const all = () => [...report3.diagnostics(), ...reading.diagnostics().map((diagnostic) => located(diagnostic, joined.segments))];
+  const draft = importer.read(joined2.text, { title: titleOf3(title), options: options3, report: reading, files: joined2.segments.map((segment) => ({ path: segment.path, start: segment.start })) });
+  const all = () => [...report3.diagnostics(), ...reading.diagnostics().map((diagnostic) => located(diagnostic, joined2.segments))];
   if (draft === null || reading.failed) {
     if (!reading.failed) reading.add(DIAGNOSTIC_CODES.importNoShape, START, `Nothing in the text could be drawn as ${format}.`, `Check that the text is a ${format} file and that format is set to match it.`);
     return { ...failed(report3), diagnostics: all() };
@@ -189348,7 +193696,7 @@ function spliced(line3, splices) {
   return [...splices].sort((a, b) => b.start - a.start).reduce((text3, splice) => `${text3.slice(0, splice.start)}${splice.text}${text3.slice(splice.end)}`, line3);
 }
 var TYPE_WORDS2;
-var init_references = __esm({
+var init_references2 = __esm({
   "../../packages/diagrams/src/edit/references.ts"() {
     "use strict";
     init_constants();
@@ -189487,7 +193835,7 @@ var init_structure = __esm({
     "use strict";
     init_find();
     init_outcome();
-    init_references();
+    init_references2();
     init_scan2();
     init_source_text();
     NODE_STATEMENTS = {
@@ -189685,7 +194033,7 @@ var init_rename_set = __esm({
     "use strict";
     init_find();
     init_outcome();
-    init_references();
+    init_references2();
     init_source_text();
   }
 });
@@ -190311,7 +194659,7 @@ var init_import_source3 = __esm({
     importSourceWorkflow = defineWorkflow({
       name: "import_source",
       title: "Import source",
-      description: "Workflow. Turns a file into a finished diagram in one call: SQL DDL, Prisma, or Drizzle into a schema; an OpenAPI document into an endpoint access matrix, a map of its endpoints by tag, or one operation as a sequence; Terraform, Docker Compose, Kubernetes, or a GitHub Actions workflow into a flow with icons and frames; CSV or JSON data into the chart its shape suits; tree output or paths into a tree; a git log into a git graph or timeline. Prefer it to writing the diagram by hand whenever the person has such a file: send its text, never a path, or for a Terraform stack, SQL migrations, or Kubernetes manifests send every file of the folder in files. Returns the source, diagnostics pointing into the file for anything left out, coverage (how much of the file the picture shows), parts (every diagram when a big file is split), the validation, an outline, viewUrl, and saveCommand. It runs no code and reads no file or URL. Replaces reading the file, writing the source by hand, validate_diagram and outline_diagram.",
+      description: "Workflow. Turns a file into a finished diagram in one call: SQL DDL, Prisma, or Drizzle into a schema; an OpenAPI document into an endpoint access matrix, a map of its endpoints by tag, or one operation as a sequence; Terraform, Bicep, ARM, Pulumi, CloudFormation, Compose, Kubernetes, or a GitHub Actions workflow into a flow with icons and frames; CSV or JSON data into the chart its shape suits; tree output or paths into a tree; a git log into a git graph or timeline. Prefer it to writing the diagram by hand whenever the person has such a file: send its text, never a path, or for a Terraform or Bicep stack, SQL migrations, or Kubernetes manifests send every file of the folder in files. Returns the source, diagnostics pointing into the file for anything left out, coverage of the file, parts (every diagram of a split file), the validation, an outline, viewUrl, and saveCommand. It runs no code and reads no file or URL. Replaces reading the file, writing the source by hand, validate_diagram and outline_diagram.",
       input: ImportSourceInputSchema,
       output: ImportSourceResponseSchema,
       steps: [{ call: "importSource" }, { call: "validate", optional: true }, { call: "outline", optional: true }],
@@ -190339,14 +194687,14 @@ function isProduct(ref) {
   return cloudSetOf2(ref) !== void 0 || setOf(ref) === "simple";
 }
 function isTheIcon(query, ref) {
-  if (normalizePhrase(nameOf8(ref)) === query) return true;
+  if (normalizePhrase(nameOf9(ref)) === query) return true;
   if (customIconPhrases(ref)?.has(query) === true) return true;
   const set2 = cloudSetOf2(ref);
-  if (set2 !== void 0 && nameOf8(ref) === "cloud" && CLOUD_PROVIDER_SPECS[set2].names.includes(query)) return true;
+  if (set2 !== void 0 && nameOf9(ref) === "cloud" && CLOUD_PROVIDER_SPECS[set2].names.includes(query)) return true;
   return (phrasesByText().get(query) ?? []).some((phrase2) => phrase2.ref === ref && !phrase2.isGeneric);
 }
 function nameHasWords(query, ref) {
-  const words2 = nameOf8(ref).split("-");
+  const words2 = nameOf9(ref).split("-");
   return query.split(" ").every((word2) => words2.includes(word2));
 }
 function isContested(query, top, others, needsSameMatch) {
@@ -190362,7 +194710,7 @@ function classifyIcon(name2, results) {
   if (nameHasWords(query, top) && !isContested(query, top, others, false)) return "strong";
   return "ambiguous";
 }
-var phraseIndex, setOf, nameOf8, cloudSetOf2;
+var phraseIndex, setOf, nameOf9, cloudSetOf2;
 var init_icon_confidence = __esm({
   "../../packages/diagrams/src/tools/workflows/icon-confidence.ts"() {
     "use strict";
@@ -190370,7 +194718,7 @@ var init_icon_confidence = __esm({
     init_icons();
     phraseIndex = null;
     setOf = (ref) => ref.slice(0, ref.indexOf(":"));
-    nameOf8 = (ref) => ref.slice(ref.indexOf(":") + 1);
+    nameOf9 = (ref) => ref.slice(ref.indexOf(":") + 1);
     cloudSetOf2 = (ref) => CLOUD_SETS.find((set2) => set2 === setOf(ref));
   }
 });
@@ -191610,7 +195958,7 @@ function partType(name2) {
 function linkedFlow(material, title) {
   const ids = idMaker("part");
   const nodes = /* @__PURE__ */ new Map();
-  const nodeOf3 = (label) => {
+  const nodeOf4 = (label) => {
     const key = label.toLowerCase();
     const known3 = nodes.get(key);
     if (known3 !== void 0 && /^[a-z]/.test(known3.label) && /^[A-Z]/.test(label)) known3.label = label;
@@ -191619,7 +195967,7 @@ function linkedFlow(material, title) {
     nodes.set(key, node3);
     return node3.id;
   };
-  const links = material.relations.slice(0, MOST * 2).map((relation2) => ({ from: nodeOf3(relation2.from), to: nodeOf3(relation2.to), verb: relation2.verb }));
+  const links = material.relations.slice(0, MOST * 2).map((relation2) => ({ from: nodeOf4(relation2.from), to: nodeOf4(relation2.to), verb: relation2.verb }));
   const edges = links.map((link2) => `${link2.from} -> ${link2.to} : ${quoted4(link2.verb)}`);
   return sourceOf(`flow ${quoted4(title)} direction=${directionFor(longestChain2(links))}`, [
     ...[...nodes.values()].map((node3) => `node ${node3.id} ${partType(node3.label)} ${quoted4(node3.label)}${iconOption(node3.label)}`),
@@ -191795,7 +196143,7 @@ function stem(word2) {
   if (word2.length > 3 && word2.endsWith("s") && !word2.endsWith("ss") && !word2.endsWith("us")) return word2.slice(0, -1);
   return word2;
 }
-function keyOf3(text3) {
+function keyOf4(text3) {
   return wordsOf5(text3).map(stem).join(" ");
 }
 function wordPoints(texts) {
@@ -191926,7 +196274,7 @@ var init_rank = __esm({
     INDEX = /* @__PURE__ */ new Map();
     for (const intent of INTENTS) {
       for (const [phrases, isStrong] of [[intent.strong, true], [intent.weak, false]]) {
-        for (const phrase2 of phrases) INDEX.set(keyOf3(phrase2), [...INDEX.get(keyOf3(phrase2)) ?? [], { id: intent.id, isStrong }]);
+        for (const phrase2 of phrases) INDEX.set(keyOf4(phrase2), [...INDEX.get(keyOf4(phrase2)) ?? [], { id: intent.id, isStrong }]);
       }
     }
     LONGEST_PHRASE = Math.max(...[...INDEX.keys()].map((key) => key.split(" ").length));
@@ -192541,7 +196889,7 @@ var init_view = __esm({
 });
 
 // ../../packages/diagrams/src/tools/view-link.ts
-function isRecord2(value) {
+function isRecord5(value) {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 function pictureFileName(source) {
@@ -192565,7 +196913,7 @@ function savingSentence(hasCommand, release = CLI_RELEASE) {
 async function attachViewUrl(tool, args, value, base, release = CLI_RELEASE) {
   if (tool === "sync_markdown") return rebaseFileLinks(value, base);
   const pick3 = SOURCE_OF[tool];
-  if (pick3 === void 0 || !isRecord2(value) || !isRecord2(args)) return value;
+  if (pick3 === void 0 || !isRecord5(value) || !isRecord5(args)) return value;
   const picked = pick3(args, value);
   if (typeof picked !== "string" || picked.length === 0) return value;
   const settings = SettingsSchema.safeParse(args["settings"]);
@@ -192588,10 +196936,10 @@ async function attachViewUrl(tool, args, value, base, release = CLI_RELEASE) {
   return { ...value, next: `${next}There is no viewUrl: the link would be ${link2.length} characters, over the ${VIEW_LINKS.maxLength} a link may have. ${savingSentence(false, release)}` };
 }
 function rebaseFileLinks(value, base) {
-  const files = isRecord2(value) ? value["files"] : void 0;
+  const files = isRecord5(value) ? value["files"] : void 0;
   const engine2 = viewBaseFor();
-  if (!isRecord2(value) || !Array.isArray(files) || base === engine2) return value;
-  const moved3 = files.map((file2) => isRecord2(file2) && typeof file2["viewUrl"] === "string" && file2["viewUrl"].startsWith(`${engine2}#`) ? { ...file2, viewUrl: `${base}${file2["viewUrl"].slice(engine2.length)}` } : file2);
+  if (!isRecord5(value) || !Array.isArray(files) || base === engine2) return value;
+  const moved3 = files.map((file2) => isRecord5(file2) && typeof file2["viewUrl"] === "string" && file2["viewUrl"].startsWith(`${engine2}#`) ? { ...file2, viewUrl: `${base}${file2["viewUrl"].slice(engine2.length)}` } : file2);
   return { ...value, files: moved3 };
 }
 var SOURCE_OF, VIEW_LINK_TOOLS;
@@ -192999,7 +197347,7 @@ var init_server_info = __esm({
       `Draws ${joinWords(kindNouns(), "and")} diagrams from a small line-oriented text language.`,
       "Prefer the workflow tools: each does the work of several single tools in one call.",
       "When you are unsure which kind of diagram fits, call suggest_diagram with the request in plain words and any data: it ranks the kinds and gives a starter that parses; for a whole document, plan_document_diagrams returns the sections a picture would help, each with a starter.",
-      "When the diagram should come from a file the person has (SQL, Prisma, or Drizzle models, an OpenAPI document, Terraform, docker-compose, Kubernetes manifests, a GitHub Actions workflow, CSV or JSON data, a folder listing, or a git log), call import_source with its text and format: it builds the whole diagram from the file in one call, and its diagnostics say what was left out.",
+      "When the diagram should come from a file the person has (SQL, Prisma, or Drizzle models, an OpenAPI document, Terraform, Bicep, ARM, Pulumi, or CloudFormation, docker-compose, Kubernetes manifests, a GitHub Actions workflow, CSV or JSON data, a folder listing, or a git log), call import_source with its text and format: it builds the whole diagram from the file in one call, and its diagnostics say what was left out.",
       "For a request to draw a common architecture, such as a three-tier network, a serverless API, a container platform, or a queue with workers, call find_pattern first with the request in plain words; when a pattern fits, call draw_from_pattern with its id, a provider flavour (neutral, aws, azure, or gcp), and slot values that rename its parts, or get_pattern to read and edit its source, and when nothing fits, write the diagram from scratch with draw_diagram.",
       "Call get_diagram_syntax once with no kind to read the shared language, and again with kind set to the kind you draw for its statements, limits, and example.",
       'Write the source and call draw_diagram: it returns every error with line, column, and hint and draws nothing until the source is valid, so fix every error and call again; once valid it returns the warnings, an outline to check the meaning, and the SVG for light and dark. The pictures are most of the answer and you cannot look at them, so pass svg "never" to check a diagram, and draw only when you will save, show, or publish the pictures; when a drawing is too big to read in one answer the SVG is left out, picturesOmitted says so, and svg "always" forces it.',
@@ -193507,8 +197855,8 @@ function syntaxSpan(text3, message2) {
   return position === null ? START2 : spanAt4(text3, Number(position[1]));
 }
 function codeOf(issue3, fallback) {
-  const tagged = issue3.code === "custom" ? issue3.params?.diagnostic : void 0;
-  return tagged ?? fallback;
+  const tagged2 = issue3.code === "custom" ? issue3.params?.diagnostic : void 0;
+  return tagged2 ?? fallback;
 }
 function validateJsonWith(schema, value, code, hint2, text3) {
   const parsed = schema.safeParse(value);
