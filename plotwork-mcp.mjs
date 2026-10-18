@@ -51,7 +51,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 var package_default;
 var init_package = __esm({
   "package.json"() {
-    package_default = { version: "0.1.0-beta.7" };
+    package_default = { version: "0.1.0-beta.8" };
   }
 });
 
@@ -157,6 +157,71 @@ var init_flow_node_types = __esm({
       decision: { tone: "amber", icon: "lucide:split", shape: "card", isDashed: false, isTinted: true, canBeActor: false },
       terminal: { tone: "neutral", icon: null, shape: "pill", isDashed: false, isTinted: false, canBeActor: false }
     };
+  }
+});
+
+// ../../packages/diagrams/src/constants/auto-group-types.ts
+var AUTO_GROUP_TYPES, REGION_CODE, AZURE_REGION_NAMES;
+var init_auto_group_types = __esm({
+  "../../packages/diagrams/src/constants/auto-group-types.ts"() {
+    "use strict";
+    AUTO_GROUP_TYPES = {
+      network: { ends: ["vpc", "vnet", "network", "virtual network", "private network", "virtual private cloud", "vcn"] },
+      subnet: { ends: ["subnet", "subnets"] },
+      "public-subnet": { ends: ["public subnet", "public subnets"] },
+      "private-subnet": { ends: ["private subnet", "private subnets"] },
+      environment: { ends: ["environment", "env"], whole: ["production", "prod", "staging", "dev", "development", "qa", "uat"] },
+      "ci-cd": {
+        ends: ["ci", "ci cd", "cicd", "ci pipeline", "ci cd pipeline", "build pipeline", "release pipeline", "deploy pipeline", "deployment pipeline", "delivery pipeline"],
+        whole: ["pipeline", "pipelines"]
+      },
+      messaging: { ends: ["kafka", "kafka cluster", "queue", "queues", "message queue", "message queues", "event bus", "message bus", "messaging", "event streaming", "service bus", "pub sub", "pubsub"] },
+      cluster: { ends: ["kubernetes", "k8s", "kubernetes cluster", "k8s cluster", "eks cluster", "aks cluster", "gke cluster", "container cluster"], whole: ["cluster"] },
+      region: { ends: ["region"] },
+      account: { ends: ["aws account"] },
+      "data-tier": { ends: ["data", "data tier", "database tier", "data layer", "database layer", "databases", "data stores", "data store", "storage tier", "persistence", "persistence layer"] },
+      security: { ends: ["security", "iam", "security services"] },
+      observability: { ends: ["monitoring", "observability", "logging", "telemetry"] }
+    };
+    REGION_CODE = /^(?:(?:us|eu|ap|sa|ca|me|af|il|mx)-[a-z]+-\d|(?:us|europe|asia|australia|southamerica|northamerica|me|africa)-[a-z]+\d)$/;
+    AZURE_REGION_NAMES = /* @__PURE__ */ new Set([
+      "eastus",
+      "eastus2",
+      "westus",
+      "westus2",
+      "westus3",
+      "centralus",
+      "northcentralus",
+      "southcentralus",
+      "westcentralus",
+      "canadacentral",
+      "canadaeast",
+      "brazilsouth",
+      "northeurope",
+      "westeurope",
+      "uksouth",
+      "ukwest",
+      "francecentral",
+      "germanywestcentral",
+      "swedencentral",
+      "switzerlandnorth",
+      "norwayeast",
+      "polandcentral",
+      "italynorth",
+      "eastasia",
+      "southeastasia",
+      "japaneast",
+      "japanwest",
+      "koreacentral",
+      "centralindia",
+      "southindia",
+      "australiaeast",
+      "australiasoutheast",
+      "uaenorth",
+      "southafricanorth",
+      "qatarcentral",
+      "israelcentral"
+    ]);
   }
 });
 
@@ -386,7 +451,7 @@ var init_auto_icons = __esm({
     ICON_MODE_SPEC = {
       key: "icons",
       values: ICON_MODES.join(", "),
-      meaning: 'auto (the default): an item with no icon= gets the icon its label, else its sub= or tech=, names for certain: a brand ("Postgres"), a cloud product ("Amazon S3"), or in some kinds a role ("Email"). A name that is also an everyday word ("Vault") stays plain. icon=none keeps one item plain; off keeps all plain.',
+      meaning: 'auto (the default): an item with no icon= gets the icon its label, else its sub= or tech=, names for certain: a brand ("Postgres"), a cloud product ("Amazon S3"), or in some kinds a role ("Email"). A name that is also an everyday word ("Vault") stays plain. icon=none keeps one item plain; off keeps all plain, with flow edge labels, and stops a flow group taking its type from its name.',
       example: 'flow "Checkout" icons=off'
     };
     PLAIN_WORD_NAMES = /* @__PURE__ */ new Set([
@@ -643,7 +708,7 @@ var init_view_links = __esm({
     };
     CLI_RELEASE = {
       packageName: "@buun_group/plotwork",
-      version: "0.1.0-beta.8",
+      version: "0.1.0-beta.9",
       onNpm: true
     };
   }
@@ -3500,6 +3565,195 @@ var init_label_icons = __esm({
   }
 });
 
+// ../../packages/diagrams/src/constants/label-vocabulary.ts
+var EDGE_STYLES, LABEL_VERB_PHRASES, LABEL_VERB_MAX_WORDS, NOT_VERB_PHRASES, STYLE_STEPS;
+var init_label_vocabulary = __esm({
+  "../../packages/diagrams/src/constants/label-vocabulary.ts"() {
+    "use strict";
+    EDGE_STYLES = {
+      /** Reads stored data: a query, a select. */
+      reads: { icon: "lucide:eye", role: "data" },
+      /** Reads its settings, such as a Kubernetes ConfigMap; not stored data, so no role. */
+      "reads-settings": { icon: "lucide:eye", role: null },
+      /** Writes stored data: an insert, an update. */
+      writes: { icon: "lucide:square-pen", role: "data" },
+      /** Reads and writes a store the file names without saying which: a database, a bucket, a cache. */
+      stores: { icon: "lucide:database", role: "data" },
+      /** Mounts a volume or a claim. */
+      mounts: { icon: "lucide:hard-drive", role: "data" },
+      /** Sends, publishes, produces, or emits a message it does not wait for. */
+      sends: { icon: "lucide:send", role: "async" },
+      /** Receives, consumes, or subscribes to messages. */
+      receives: { icon: "lucide:inbox", role: "async" },
+      /** Calls or requests and waits for the answer. */
+      calls: { icon: "lucide:arrow-right-left", role: null },
+      /** Routes outside traffic: a host, a path, a public address, a DNS name. */
+      routes: { icon: "lucide:globe", role: null },
+      /** Needs another thing to be there first. */
+      "depends-on": { icon: "lucide:link", role: null },
+      /** Provides an API. */
+      provides: { icon: "lucide:plug", role: null },
+      /** Consumes an API. */
+      consumes: { icon: "lucide:plug-zap", role: null },
+      /** Starts another thing: a function on an event, a downstream pipeline. */
+      triggers: { icon: "lucide:zap", role: null },
+      /** Deploys to an environment. */
+      deploys: { icon: "lucide:rocket", role: null },
+      /** Grants a role, assumes one, or authenticates. */
+      grants: { icon: "lucide:key-round", role: "identity" },
+      /** Uses a credential: a secret, a password, a key. */
+      secret: { icon: "lucide:key-round", role: "identity" },
+      /** Reaches another over a private network: a private endpoint, VPC peering, VNet integration. */
+      private: { icon: "lucide:lock", role: "private" },
+      /** Is guarded by a firewall or a security group. */
+      filters: { icon: "lucide:shield", role: null },
+      /** Sends logs or telemetry. */
+      reports: { icon: "lucide:activity", role: null },
+      /** Pulls container images. */
+      pulls: { icon: "lucide:download", role: null },
+      /** Builds on a base, such as a Kustomize overlay on its base. */
+      "builds-on": { icon: "lucide:layers", role: null },
+      /** Includes a component. */
+      includes: { icon: "lucide:package", role: null },
+      /** Patches what another file holds. */
+      patches: { icon: "lucide:replace", role: null }
+    };
+    LABEL_VERB_PHRASES = {
+      reads: ["reads", "read", "reading", "reads from", "read from", "queries", "query", "querying", "looks up", "look up", "selects", "select from", "loads from", "fetches from"],
+      writes: [
+        "writes",
+        "write",
+        "writing",
+        "writes to",
+        "write to",
+        "inserts",
+        "insert",
+        "inserts into",
+        "updates",
+        "update",
+        "saves",
+        "save",
+        "saves to",
+        "persists",
+        "persist",
+        "persists to",
+        "deletes",
+        "delete",
+        "deletes from",
+        "uploads",
+        "upload",
+        "uploads to",
+        "upload to"
+      ],
+      stores: ["stores", "store", "stores in", "store in", "caches", "caches in", "reads and writes", "reads writes", "read write", "read and write"],
+      mounts: ["mounts", "mount"],
+      sends: [
+        "sends",
+        "send",
+        "sends to",
+        "publishes",
+        "publish",
+        "publishes to",
+        "publish to",
+        "emits",
+        "emit",
+        "produces",
+        "produce",
+        "produces to",
+        "enqueues",
+        "enqueue",
+        "pushes to",
+        "notifies",
+        "notify",
+        "fires"
+      ],
+      receives: ["receives", "receive", "consumes", "consume", "consumes from", "subscribes", "subscribes to", "subscribe to", "listens to", "listens on", "polls", "dequeues"],
+      calls: ["calls", "call", "invokes", "invoke", "requests", "request", "fetches", "fetch", "queries api", "http", "https", "grpc", "rest", "graphql"],
+      routes: ["routes", "routes to", "route to", "forwards", "forwards to", "forward to", "proxies", "proxies to", "redirects to", "load balances"],
+      "depends-on": ["depends on", "depend on", "requires", "needs"],
+      provides: ["provides", "exposes", "serves"],
+      triggers: ["triggers", "trigger", "starts", "kicks off", "schedules", "wakes"],
+      deploys: ["deploys", "deploy", "deploys to", "deploy to", "releases to", "ships to", "promotes to", "rolls out", "rolls out to"],
+      grants: [
+        "authenticates",
+        "authenticate",
+        "authenticates with",
+        "authenticates against",
+        "authorizes",
+        "authorize",
+        "authorises",
+        "authorise",
+        "signs in",
+        "sign in",
+        "signs in with",
+        "logs in",
+        "log in",
+        "logs in with",
+        "grants",
+        "grant",
+        "assumes role",
+        "issues token",
+        "issues tokens",
+        "verifies token",
+        "verify token",
+        "validates token",
+        "validate token",
+        "logs out",
+        "log out",
+        "signs out",
+        "sign out"
+      ],
+      secret: ["reads secret", "reads secrets", "read secret", "read secrets", "read credentials", "fetches secret", "fetches secrets", "reads credentials", "gets secret", "gets secrets"],
+      reports: [
+        "reports",
+        "reports to",
+        "logs",
+        "logs to",
+        "metrics",
+        "telemetry",
+        "traces",
+        "logs and metrics",
+        "sends logs",
+        "sends logs to",
+        "sends metrics",
+        "sends metrics to",
+        "sends telemetry",
+        "sends traces",
+        "ships logs",
+        "ships logs to",
+        "exports metrics",
+        "exports traces",
+        "emits metrics",
+        "emits logs"
+      ],
+      pulls: ["pulls image", "pulls images", "pulls images from", "pulls image from"]
+    };
+    LABEL_VERB_MAX_WORDS = 5;
+    NOT_VERB_PHRASES = [
+      "read replica",
+      "read replicas",
+      "read model",
+      "read only",
+      "write model",
+      "write ahead",
+      "request id",
+      "request body",
+      "call center",
+      "call centre",
+      "update available",
+      "query string",
+      "query params"
+    ];
+    STYLE_STEPS = [
+      'Label each arrow with a verb, such as "reads", "writes orders", "publishes OrderPlaced", "calls", "deploys to", or "authenticates": the label then draws the icon of that relationship (verbIcons). icon= picks another icon; icon=none keeps the label plain.',
+      "Add role= to the arrows whose line means something: role=data for reads and writes of stored data, role=async for messages nobody waits for, role=identity for sign-in and credentials, role=private for private network links. The line takes the role's colour and the legend names it; warning W500 lists the arrows to mark.",
+      'Give every group a type= (network, subnet, environment, data-tier, messaging, cluster, ci-cd, observability, and the rest), so its frame, tone, and icon follow. A group named plainly, such as "VPC", "Production", "Kafka", or "Monitoring", gets its type by itself; type=none keeps it plain.',
+      'Name each node after the product it is ("Postgres", "Redis", "Amazon S3") so it draws the mark, and choose the node type that says what it is.',
+      "Keep labels to two to four words; the picture carries the rest."
+    ];
+  }
+});
+
 // ../../packages/diagrams/src/constants/status-icons.ts
 var STATUS_ICON_SPECS;
 var init_status_icons = __esm({
@@ -3548,6 +3802,7 @@ var init_constants = __esm({
     init_directions();
     init_word_list();
     init_flow_node_types();
+    init_auto_group_types();
     init_group_types();
     init_overlays();
     init_node_change();
@@ -3576,6 +3831,7 @@ var init_constants = __esm({
     init_icon_concepts();
     init_icon_sets();
     init_label_icons();
+    init_label_vocabulary();
     init_status_icons();
     init_tones();
   }
@@ -3644,7 +3900,7 @@ function formatDiagnostic(diagnostic, source) {
   if (diagnostic.hint !== null) parts.push(`hint: ${diagnostic.hint}`);
   return parts.join("\n");
 }
-var DIAGNOSTIC_CODES;
+var DIAGNOSTIC_CODES, STYLE_HINT_CODES;
 var init_diagnostics = __esm({
   "../../packages/diagrams/src/core/diagnostics.ts"() {
     "use strict";
@@ -3677,6 +3933,9 @@ var init_diagnostics = __esm({
       suggestIcon: "W204",
       suggestGroupType: "W205",
       overlayCovers: "W206",
+      // Style suggestions. W5xx says how a valid diagram would look more finished; like W204 and W205 it is a suggestion, not a problem
+      // (`isStyleHint`), so a check that fails on warnings passes it.
+      suggestLineRole: "W500",
       // Mermaid import. M1xx stops a conversion; M2xx reports something dropped or changed and never stops it.
       // They point into the Mermaid source that was submitted, not into the Plotwork source.
       mermaidNotDiagram: "M100",
@@ -3853,6 +4112,7 @@ var init_diagnostics = __esm({
       overrideRefused: "S202",
       overridesMissing: "S203"
     };
+    STYLE_HINT_CODES = /* @__PURE__ */ new Set([DIAGNOSTIC_CODES.suggestIcon, DIAGNOSTIC_CODES.suggestGroupType, DIAGNOSTIC_CODES.suggestLineRole]);
   }
 });
 
@@ -4023,13 +4283,13 @@ function indexOf(set2) {
   const known3 = indexes.get(set2);
   if (known3 !== void 0) return known3;
   const byName = /* @__PURE__ */ new Map();
-  const phrases = /* @__PURE__ */ new Map();
+  const phrases2 = /* @__PURE__ */ new Map();
   for (const icon of set2.icons) {
     if (byName.has(icon.name)) continue;
     byName.set(icon.name, definitionOf(icon));
-    phrases.set(icon.name, new Set([normalizePhrase(icon.name), ...icon.aliases.map(normalizePhrase)].filter(Boolean)));
+    phrases2.set(icon.name, new Set([normalizePhrase(icon.name), ...icon.aliases.map(normalizePhrase)].filter(Boolean)));
   }
-  const index2 = { byName, phrases };
+  const index2 = { byName, phrases: phrases2 };
   indexes.set(set2, index2);
   return index2;
 }
@@ -6697,9 +6957,9 @@ function cloudPhrases(generic) {
       const ref = `${set2}:${spec.name}`;
       const bases = [normalizePhrase(spec.name), ...(spec.aliases ?? []).map(normalizePhrase)];
       const title = normalizePhrase(spec.title);
-      const phrases = /* @__PURE__ */ new Set([title, ...bases]);
-      for (const providerName2 of providerNames) for (const base of bases) phrases.add(`${providerName2} ${base}`);
-      for (const phrase2 of phrases) {
+      const phrases2 = /* @__PURE__ */ new Set([title, ...bases]);
+      for (const providerName2 of providerNames) for (const base of bases) phrases2.add(`${providerName2} ${base}`);
+      for (const phrase2 of phrases2) {
         if (spec.vendor !== void 0 && claimed.has(phrase2)) continue;
         const isScoped = spec.scopeToProvider === true && phrase2 !== title && !providerNames.some((providerName2) => phrase2.startsWith(`${providerName2} `));
         out.push({ phrase: phrase2, words: phrase2.split(" ").length, ref, set: set2, isGeneric: generic.has(phrase2) || isScoped, isBrand: false });
@@ -6712,8 +6972,8 @@ function cloudPhrases(generic) {
 function brandPhrases() {
   return listSetNames("simple").flatMap((name2) => {
     const ref = `simple:${name2}`;
-    const phrases = /* @__PURE__ */ new Set([normalizePhrase(name2), ...(ICON_ALIASES[ref] ?? []).map(normalizePhrase), ...(findIcon(ref)?.aliases ?? []).map(normalizePhrase)]);
-    return [...phrases].map((phrase2) => ({ phrase: phrase2, words: phrase2.split(" ").length, ref, set: "simple", isGeneric: false, isBrand: true }));
+    const phrases2 = /* @__PURE__ */ new Set([normalizePhrase(name2), ...(ICON_ALIASES[ref] ?? []).map(normalizePhrase), ...(findIcon(ref)?.aliases ?? []).map(normalizePhrase)]);
+    return [...phrases2].map((phrase2) => ({ phrase: phrase2, words: phrase2.split(" ").length, ref, set: "simple", isGeneric: false, isBrand: true }));
   });
 }
 function listProductPhrases() {
@@ -6800,7 +7060,7 @@ function indexIcon(ref) {
   const glyph = glyphNameOf(ref);
   const plainNames = [normalizePhrase(name2), ...(ICON_ALIASES[ref] ?? []).map(normalizePhrase)];
   const aliases = (icon?.aliases ?? []).map(normalizePhrase);
-  const phrases = /* @__PURE__ */ new Set([...plainNames, ...aliases]);
+  const phrases2 = /* @__PURE__ */ new Set([...plainNames, ...aliases]);
   const kindPhrases = /* @__PURE__ */ new Set();
   const providerKindPhrases = /* @__PURE__ */ new Set();
   const titleWords = /* @__PURE__ */ new Set();
@@ -6809,11 +7069,11 @@ function indexIcon(ref) {
     for (const word2 of normalizePhrase(spec.title).split(" ")) titleWords.add(word2);
     for (const base of [...plainNames, ...aliases, normalizePhrase(spec.title)]) stems.add(stemPhrase(base));
     const provider = CLOUD_PROVIDER_SPECS[cloudSet];
-    phrases.add(normalizePhrase(spec.title));
-    if (spec.kind === "provider") for (const providerName2 of provider.names) phrases.add(providerName2);
+    phrases2.add(normalizePhrase(spec.title));
+    if (spec.kind === "provider") for (const providerName2 of provider.names) phrases2.add(providerName2);
     const kindPhraseList = CLOUD_KIND_SPECS[spec.kind].phrases.map(normalizePhrase);
     for (const providerName2 of provider.names) {
-      for (const base of [...plainNames, ...aliases]) phrases.add(`${providerName2} ${base}`);
+      for (const base of [...plainNames, ...aliases]) phrases2.add(`${providerName2} ${base}`);
       for (const kindPhrase of kindPhraseList) providerKindPhrases.add(`${providerName2} ${kindPhrase}`);
     }
     for (const kindPhrase of kindPhraseList) kindPhrases.add(kindPhrase);
@@ -6822,8 +7082,8 @@ function indexIcon(ref) {
     ref,
     tags: (icon?.tags ?? []).map((tag) => tag.toLowerCase()),
     concept: glyph === null ? void 0 : CONCEPTS_BY_GLYPH.get(glyph),
-    phrases,
-    haystack: ` ${[...phrases].join(" | ")} `,
+    phrases: phrases2,
+    haystack: ` ${[...phrases2].join(" | ")} `,
     stems,
     titleWords,
     isVendorOnly: spec?.vendor !== void 0,
@@ -110258,9 +110518,39 @@ var init_flow_outline = __esm({
   }
 });
 
+// ../../packages/diagrams/src/parse/label-icon.ts
+function verbPhrases() {
+  phrases ??= Object.entries(LABEL_VERB_PHRASES).flatMap(([verb, words2]) => (words2 ?? []).map((phrase2) => [phrase2, verb])).sort((a, b) => b[0].split(" ").length - a[0].split(" ").length || b[0].length - a[0].length);
+  return phrases;
+}
+function startsWithWords(text3, phrase2) {
+  return text3 === phrase2 || text3.startsWith(`${phrase2} `);
+}
+function verbNamedBy(label) {
+  const text3 = normalizePhrase(label);
+  if (text3 === "" || text3.split(" ").length > LABEL_VERB_MAX_WORDS) return null;
+  if (NOT_VERB_PHRASES.some((phrase2) => startsWithWords(text3, phrase2))) return null;
+  const found = verbPhrases().find(([phrase2]) => startsWithWords(text3, phrase2));
+  return found === void 0 ? null : found[1];
+}
+function labelIconFor(label) {
+  const word2 = label.trim().toLowerCase();
+  if (Object.hasOwn(LABEL_ICON_DEFAULTS, word2)) return LABEL_ICON_DEFAULTS[word2] ?? null;
+  const verb = verbNamedBy(label);
+  return verb === null ? null : EDGE_STYLES[verb].icon;
+}
+var phrases;
+var init_label_icon = __esm({
+  "../../packages/diagrams/src/parse/label-icon.ts"() {
+    "use strict";
+    init_constants();
+    init_phrase();
+  }
+});
+
 // ../../packages/diagrams/src/parse/group-options.ts
 function resolveGroupType(option, state) {
-  if (option === void 0) return null;
+  if (option === void 0 || option.value === PLAIN_GROUP_TYPE) return null;
   const type = GROUP_TYPES.find((candidate2) => candidate2 === option.value);
   if (type !== void 0) return type;
   state.report.push(errorAt(DIAGNOSTIC_CODES.unknownGroupType, `Unknown group type "${option.value}"`, option.valueToken, didYouMean(option.value, GROUP_TYPES)));
@@ -110273,8 +110563,29 @@ function resolveProvider(option, state) {
   state.report.push(errorAt(DIAGNOSTIC_CODES.unknownProvider, `Unknown provider "${option.value}"`, option.valueToken, providerHint(option.value)));
   return null;
 }
-function resolveGroupLook(options3, parent, state) {
-  const type = resolveGroupType(findOption(options3, "type"), state);
+function wordsOf2(phrase2) {
+  return phrase2.split(" ").length;
+}
+function longestOtherReading(normalized, type) {
+  const lengths = GROUP_TYPES.filter((other) => other !== type).flatMap((other) => GROUP_TYPE_SPECS[other].phrases.filter((phrase2) => ` ${normalized} `.includes(` ${phrase2} `)).map(wordsOf2));
+  return Math.max(0, ...lengths);
+}
+function autoGroupType(label) {
+  const trimmed4 = label.trim().toLowerCase();
+  if (REGION_CODE.test(trimmed4) || AZURE_REGION_NAMES.has(trimmed4)) return "region";
+  const normalized = normalizePhrase(label);
+  let best = null;
+  for (const [type, phrases2] of Object.entries(AUTO_GROUP_TYPES)) {
+    const fits = [...(phrases2?.ends ?? []).filter((phrase2) => normalized === phrase2 || normalized.endsWith(` ${phrase2}`)), ...(phrases2?.whole ?? []).filter((phrase2) => normalized === phrase2)];
+    for (const phrase2 of fits) if (best === null || wordsOf2(phrase2) > best.words) best = { type, words: wordsOf2(phrase2) };
+  }
+  return best === null || longestOtherReading(normalized, best.type) > best.words ? null : best.type;
+}
+function resolveGroupLook(options3, parent, state, label = null) {
+  const typeOption = findOption(options3, "type");
+  const isPlain = typeOption?.value === PLAIN_GROUP_TYPE;
+  const named = typeOption === void 0 && label !== null && !iconsAreOff(state) ? autoGroupType(label) : null;
+  const type = named ?? resolveGroupType(typeOption, state);
   const inherited = parent === null ? state.provider : state.groups.find((group2) => group2.id === parent)?.provider ?? state.provider;
   const provider = resolveProvider(findOption(options3, "provider"), state) ?? inherited;
   const spec = type === null ? null : GROUP_TYPE_SPECS[type];
@@ -110283,19 +110594,24 @@ function resolveGroupLook(options3, parent, state) {
     provider,
     tone: resolveTone(findOption(options3, "tone"), spec?.tone ?? GROUP_DEFAULTS.tone, state),
     icon: resolveIcon(findOption(options3, "icon"), type === null ? GROUP_DEFAULTS.icon : groupIcon(type, provider), state),
-    frame: spec?.frame ?? GROUP_DEFAULTS.frame
+    frame: spec?.frame ?? GROUP_DEFAULTS.frame,
+    ...isPlain ? { isPlain: true } : {}
   };
 }
+var PLAIN_GROUP_TYPE;
 var init_group_options = __esm({
   "../../packages/diagrams/src/parse/group-options.ts"() {
     "use strict";
     init_constants();
     init_core();
     init_icons();
+    init_phrase();
+    init_auto_icon();
     init_icon_hint();
     init_options();
     init_statement_helpers();
     init_suggest();
+    PLAIN_GROUP_TYPE = "none";
   }
 });
 
@@ -110538,7 +110854,7 @@ function parseGroupStatement(cursor, state, line3, parent) {
   state.groups.push({
     id: groupId,
     label,
-    ...resolveGroupLook(options3, parent, state),
+    ...resolveGroupLook(options3, parent, state, label),
     parent,
     sub: findOption(options3, "sub")?.value ?? null,
     stack: resolveStack(findOption(options3, "stack"), state, true),
@@ -110565,12 +110881,12 @@ function parseEdgeStatement(cursor, state, line3) {
   if (iconOption2 !== void 0 && label === null) {
     state.report.push(errorAt(DIAGNOSTIC_CODES.syntax, "An edge icon needs a label", iconOption2.keyToken, 'Write: a -> b : "label" icon=status:success'));
   }
-  const icon = resolveIcon(iconOption2, label === null ? null : LABEL_ICON_DEFAULTS[label.trim().toLowerCase()] ?? null, state);
+  const icon = resolveIcon(iconOption2, label === null || iconsAreOff(state) ? null : labelIconFor(label), state);
   rejectTrailing(cursor, state, "Write one edge per line; chains like a -> b -> c are not supported.");
   const spec = ARROW_SPECS[arrow.text];
   const motion = readLineMotion(options3, state.motion, spec.heads, from, state.report);
   const role = readLineRole(findOption(options3, "role"), state.report);
-  state.edges.push({ from: from.text, to: to.text, fromToken: from, toToken: to, label, icon, line: spec.line, heads: spec.heads, ...motion, ...role === void 0 ? {} : { role } });
+  state.edges.push({ from: from.text, to: to.text, fromToken: from, toToken: to, label, icon, ...iconOption2 === void 0 ? {} : { hasOwnIcon: true }, line: spec.line, heads: spec.heads, ...motion, ...role === void 0 ? {} : { role } });
 }
 function parseOverlayStatement(cursor, state, line3, parent) {
   cursor.next();
@@ -110611,6 +110927,7 @@ var init_flow_statements = __esm({
     init_constants();
     init_core();
     init_auto_icon();
+    init_label_icon();
     init_group_options();
     init_line_motion();
     init_line_role();
@@ -110757,6 +111074,7 @@ function resolveEdges(state) {
         to: toNodeId(edge.to),
         label: edge.label,
         icon: edge.icon,
+        ...edge.hasOwnIcon === void 0 ? {} : { hasOwnIcon: edge.hasOwnIcon },
         line: edge.line,
         heads: edge.heads,
         ...edge.isAnimated === void 0 ? {} : { isAnimated: edge.isAnimated },
@@ -111159,7 +111477,7 @@ function typesNamedBy(label) {
 function suggestGroupTypes(diagram) {
   const warnings = [];
   for (const group2 of diagram.groups) {
-    if (group2.type !== null) continue;
+    if (group2.type !== null || group2.isPlain === true) continue;
     const types = typesNamedBy(group2.label);
     const [type] = types;
     if (types.length !== 1 || type === void 0) continue;
@@ -111177,7 +111495,6 @@ function suggestGroupTypes(diagram) {
   }
   return warnings;
 }
-var REGION_CODE;
 var init_suggest_group_types = __esm({
   "../../packages/diagrams/src/lint/suggest-group-types.ts"() {
     "use strict";
@@ -111185,7 +111502,53 @@ var init_suggest_group_types = __esm({
     init_core();
     init_icons();
     init_suggest_icons();
-    REGION_CODE = /^(?:(?:us|eu|ap|sa|ca|me|af|il|mx)-[a-z]+-\d|(?:us|europe|asia|australia|southamerica|northamerica|me|africa)-[a-z]+\d)$/;
+  }
+});
+
+// ../../packages/diagrams/src/lint/suggest-line-roles.ts
+function nameOf(edge) {
+  return `${edge.from} -> ${edge.to}`;
+}
+function suggestLineRoles(diagram) {
+  const byRole = /* @__PURE__ */ new Map();
+  for (const edge of diagram.edges) {
+    if (edge.role !== void 0 || edge.hasOwnIcon === true || edge.label === null) continue;
+    const verb = verbNamedBy(edge.label);
+    const role = verb === null ? null : EDGE_STYLES[verb].role;
+    if (role !== null) byRole.set(role, [...byRole.get(role) ?? [], edge]);
+  }
+  return LINE_ROLES.flatMap((role) => {
+    const edges = byRole.get(role) ?? [];
+    if (edges.length === 0) return [];
+    const named = edges.slice(0, NAMED_ARROWS).map(nameOf).join(", ");
+    const rest = edges.length > NAMED_ARROWS ? ` and ${edges.length - NAMED_ARROWS} more` : "";
+    const doing = edges.length === 1 ? `1 arrow ${ROLE_DOING[role].one}` : `${edges.length} arrows ${ROLE_DOING[role].many}`;
+    const spec = LINE_ROLE_SPECS[role];
+    return [
+      warningAt(
+        DIAGNOSTIC_CODES.suggestLineRole,
+        `${doing} (${named}${rest}) with no role=`,
+        HEADER,
+        edges.length === 1 ? `Add role=${role} to it, which draws the line ${spec.tone} and names it ${spec.legend} in the legend.` : `Add role=${role} to each, which draws the lines ${spec.tone} and names them ${spec.legend} in the legend.`
+      )
+    ];
+  });
+}
+var ROLE_DOING, NAMED_ARROWS;
+var init_suggest_line_roles = __esm({
+  "../../packages/diagrams/src/lint/suggest-line-roles.ts"() {
+    "use strict";
+    init_constants();
+    init_core();
+    init_label_icon();
+    init_general_warnings();
+    ROLE_DOING = {
+      data: { one: "reads or writes stored data", many: "read or write stored data" },
+      async: { one: "sends or receives a message that is not waited for", many: "send or receive messages that are not waited for" },
+      identity: { one: "signs in or carries a credential", many: "sign in or carry credentials" },
+      private: { one: "crosses a private network", many: "cross a private network" }
+    };
+    NAMED_ARROWS = 4;
   }
 });
 
@@ -111226,7 +111589,7 @@ function lintFlow(diagram, measure) {
     shortenedWarning(shortenedIds3(diagram)),
     widthWarning(measure.size, "Use direction=down, shorten labels, or split the diagram.")
   ]);
-  return [...general, ...overlayWarnings(diagram, measure.overlayCovers), ...suggestGroupTypes(diagram), ...suggestIcons(diagram)];
+  return [...general, ...overlayWarnings(diagram, measure.overlayCovers), ...suggestGroupTypes(diagram), ...suggestIcons(diagram), ...suggestLineRoles(diagram)];
 }
 var init_lint3 = __esm({
   "../../packages/diagrams/src/kinds/flow/lint.ts"() {
@@ -111240,6 +111603,7 @@ var init_lint3 = __esm({
     init_overlay_warnings();
     init_suggest_group_types();
     init_suggest_icons();
+    init_suggest_line_roles();
   }
 });
 
@@ -112835,7 +113199,7 @@ function matches(rule, words2) {
   return rule.whole.includes(whole2) || rule.last.includes(last) || words2.some((word2) => rule.product.includes(word2));
 }
 function keywordType(label) {
-  const words2 = wordsOf2(label);
+  const words2 = wordsOf3(label);
   if (words2.length === 0 || words2.length > KEYWORD_MAX_WORDS) return null;
   const found = new Set(KEYWORD_RULES.filter((rule) => matches(rule, words2)).map((rule) => rule.type));
   const [only] = [...found];
@@ -112847,7 +113211,7 @@ function statusCodeTone(label) {
   return family === "4" || family === "5" ? "red" : null;
 }
 function productType(text3) {
-  const words2 = wordsOf2(text3);
+  const words2 = wordsOf3(text3);
   if (words2.length === 0 || words2.length > KEYWORD_MAX_WORDS) return null;
   const found = new Set(KEYWORD_RULES.filter((rule) => words2.some((word2) => rule.product.includes(word2))).map((rule) => rule.type));
   const [only] = [...found];
@@ -112884,7 +113248,7 @@ function inferNodeIcon(node3, type) {
   if (NOT_PRODUCT_TYPES2.has(type) || FLOW_NODE_TYPE_DEFAULTS[type].shape === "pill") return null;
   return brandMarkNamedBy(node3.label) ?? (node3.sub === null ? null : brandMarkNamedBy(node3.sub));
 }
-var wordsOf2, STATUS_CODE, NOT_PRODUCT_TYPES2;
+var wordsOf3, STATUS_CODE, NOT_PRODUCT_TYPES2;
 var init_infer = __esm({
   "../../packages/diagrams/src/import/infer.ts"() {
     "use strict";
@@ -112892,7 +113256,7 @@ var init_infer = __esm({
     init_icons();
     init_suggest_icons();
     init_mapping();
-    wordsOf2 = (label) => label.toLowerCase().split(/[^a-z0-9]+/).filter((word2) => word2 !== "");
+    wordsOf3 = (label) => label.toLowerCase().split(/[^a-z0-9]+/).filter((word2) => word2 !== "");
     STATUS_CODE = /^(?:(?:return|returns|respond|respond with|response|http)\s+)?(?:http\s+)?([2-5])\d\d(?:\s|$)/i;
     NOT_PRODUCT_TYPES2 = /* @__PURE__ */ new Set(["decision", "terminal", "step"]);
   }
@@ -116344,7 +116708,7 @@ function summarizeGit(diagram) {
   const counts = `${countOf(diagram.commits.length, "commit")} on ${countOf(diagram.branches.length, "branch", "branches")}${optionalCount(merges, "merge")}${optionalCount(picks2, "cherry-pick")}${optionalCount(tags, "tag")}`;
   return `${title}: ${counts}.${description}`;
 }
-function nameOf(commit) {
+function nameOf2(commit) {
   return commit.message === null ? `commit ${commit.index + 1}` : `"${commit.message}"`;
 }
 function describeCommit(commit, diagram) {
@@ -116358,7 +116722,7 @@ function describeCommit(commit, diagram) {
     return `merge of ${commit.mergedBranch ?? "a branch"} into ${commit.branch}${message2}${nothing2}${kind}${id}${tags}`;
   }
   if (commit.origin === "cherry-pick") {
-    const of = source === void 0 ? "a commit" : `${source.id ?? nameOf(source)}${source.message === null ? "" : ` ("${source.message}")`}`;
+    const of = source === void 0 ? "a commit" : `${source.id ?? nameOf2(source)}${source.message === null ? "" : ` ("${source.message}")`}`;
     const own2 = commit.message !== null && commit.message !== source?.message ? `, message "${commit.message}"` : "";
     return `cherry-pick of ${of}${own2}${kind}${id}${tags}`;
   }
@@ -116367,7 +116731,7 @@ function describeCommit(commit, diagram) {
 function describeBranch(branch, diagram) {
   const parent = branch.forkedFrom === null ? void 0 : diagram.commits[branch.forkedFrom];
   if (parent === void 0 || branch.parentBranch === null) return `${branch.name} is the default branch`;
-  return `${branch.name} was made from ${branch.parentBranch} at ${nameOf(parent)}`;
+  return `${branch.name} was made from ${branch.parentBranch} at ${nameOf2(parent)}`;
 }
 function outlineGit(diagram) {
   const lines = [summarizeGit(diagram), "Branches, in lane order:"];
@@ -117196,7 +117560,7 @@ var init_check2 = __esm({
 });
 
 // ../../packages/diagrams/src/kinds/journey/layout-columns.ts
-function wordsOf3(text3, role) {
+function wordsOf4(text3, role) {
   const widths = (text3 ?? "").split(/\s+/).filter(Boolean).map((word2) => measureRole(word2, role));
   return { widths, space: measureRole(" ", role), longest: widths.reduce((most, width) => Math.max(most, width), 0) };
 }
@@ -117236,7 +117600,7 @@ function candidates(needed) {
 }
 function chooseColumn(sections, hasTabs) {
   const tasks = sections.flatMap((section) => section.tasks);
-  const words2 = tasks.map((task) => ({ label: wordsOf3(task.label, "label"), sub: wordsOf3(task.sub, "sub") }));
+  const words2 = tasks.map((task) => ({ label: wordsOf4(task.label, "label"), sub: wordsOf4(task.sub, "sub") }));
   const longest = words2.reduce((most, item) => Math.max(most, item.label.longest, item.sub.longest), 0);
   const widths = candidates(longest + card.paddingX * 2);
   const isClean = (column) => {
@@ -117545,11 +117909,11 @@ function assignTones(chosen) {
     return given2;
   });
 }
-function wordsOf4(name2) {
+function wordsOf5(name2) {
   return (name2.match(WORD) ?? []).map((word2) => [...word2]);
 }
 function initialsCandidates(name2) {
-  const words2 = wordsOf4(name2);
+  const words2 = wordsOf5(name2);
   const first = words2[0] ?? [];
   if (first.length === 0) return [[...name2.trim()][0]?.toUpperCase() ?? "?"];
   const upper = (chars) => chars.join("").toUpperCase();
@@ -119183,7 +119547,7 @@ function outlineLayers(diagram) {
     ...diagram.links.map((link2) => `- ${describeLink(link2, labels2)}`)
   ];
 }
-var STYLE_WORDS, nameOf2, listOf;
+var STYLE_WORDS, nameOf3, listOf;
 var init_outline6 = __esm({
   "../../packages/diagrams/src/kinds/layers/outline.ts"() {
     "use strict";
@@ -119191,8 +119555,8 @@ var init_outline6 = __esm({
     init_check3();
     init_text3();
     STYLE_WORDS = { solid: "", dashed: ", optional or indirect", dotted: ", asynchronous" };
-    nameOf2 = (block) => block.sub === null ? oneLine2(block.label) : `${oneLine2(block.label)} (${oneLine2(block.sub)})`;
-    listOf = (blocks2) => blocks2.length === 0 ? "no blocks." : `${blocks2.map(nameOf2).join(", ")}.`;
+    nameOf3 = (block) => block.sub === null ? oneLine2(block.label) : `${oneLine2(block.label)} (${oneLine2(block.sub)})`;
+    listOf = (blocks2) => blocks2.length === 0 ? "no blocks." : `${blocks2.map(nameOf3).join(", ")}.`;
   }
 });
 
@@ -125664,21 +126028,21 @@ var init_marks2 = __esm({
 });
 
 // ../../packages/diagrams/src/kinds/sankey/node-content.ts
-function nameOf3(node3) {
+function nameOf4(node3) {
   const name2 = oneLine6(node3.label);
   const chars = [...name2];
   return chars.length > MAX_NAME_CHARS ? { text: chars.slice(0, MAX_NAME_CHARS).join(""), isClipped: true } : { text: name2, isClipped: false };
 }
 function wantedWidth(node3, valueText) {
-  const text3 = Math.max(measureRole(nameOf3(node3).text, "label"), valueText === null ? 0 : measureRole(valueText, "sub"));
+  const text3 = Math.max(measureRole(nameOf4(node3).text, "label"), valueText === null ? 0 : measureRole(valueText, "sub"));
   return Math.ceil(2 * SANKEY_METRICS.padX + (node3.icon === null ? 0 : SANKEY_METRICS.chipSize + SANKEY_METRICS.chipGap) + text3);
 }
 function floorWidth(node3, valueText) {
-  const longest = nameOf3(node3).text.split(" ").reduce((most, word2) => Math.max(most, measureRole(word2, "label")), 0);
+  const longest = nameOf4(node3).text.split(" ").reduce((most, word2) => Math.max(most, measureRole(word2, "label")), 0);
   return Math.ceil(2 * SANKEY_METRICS.padX + (node3.icon === null ? 0 : SANKEY_METRICS.chipSize + SANKEY_METRICS.chipGap) + Math.max(longest, valueText === null ? 0 : measureRole(valueText, "sub")));
 }
 function fitNode(node3, valueText, width) {
-  const name2 = nameOf3(node3);
+  const name2 = nameOf4(node3);
   const hasChip = node3.icon !== null;
   const textWidth3 = width - 2 * SANKEY_METRICS.padX - (hasChip ? SANKEY_METRICS.chipSize + SANKEY_METRICS.chipGap : 0);
   const fitted = fitText(name2.text, "label", textWidth3, textWidth3, SANKEY_METRICS.maxLabelLines);
@@ -130824,7 +131188,7 @@ function planState(ir, ctx) {
     origin: node3.span.line
   }));
   const kindOf3 = new Map(real.map((node3) => [node3.key, node3.kind]));
-  const nameOf10 = (key) => {
+  const nameOf11 = (key) => {
     const marker = ir.nodes.find((node3) => node3.key === key);
     return marker !== void 0 && (marker.kind === "start" || marker.kind === "end") ? `the ${marker.kind} marker` : `"${key}"`;
   };
@@ -130847,7 +131211,7 @@ function planState(ir, ctx) {
     }
     const isNested = transition.from !== transition.to && (lineageOf2(transition.to, parentKeys).includes(transition.from) || lineageOf2(transition.from, parentKeys).includes(transition.to));
     if (isNested) {
-      reporter.add(DIAGNOSTIC_CODES.mermaidDroppedMeaning, span, `Dropped a transition between ${nameOf10(transition.from)} and ${nameOf10(transition.to)}, because one is inside the other. A transition cannot join a state to one inside it.`, "Start the transition from a state inside the composite state, or from its own start marker.", "nested-transition");
+      reporter.add(DIAGNOSTIC_CODES.mermaidDroppedMeaning, span, `Dropped a transition between ${nameOf11(transition.from)} and ${nameOf11(transition.to)}, because one is inside the other. A transition cannot join a state to one inside it.`, "Start the transition from a state inside the composite state, or from its own start marker.", "nested-transition");
       continue;
     }
     const { composite, region } = transition.scope;
@@ -130912,7 +131276,7 @@ function summarizeState(diagram) {
   const description = diagram.meta.description === null ? "" : ` ${diagram.meta.description}`;
   return `${title}: ${counts}.${description}`;
 }
-function nameOf4(diagram, node3) {
+function nameOf5(diagram, node3) {
   const holder = node3.parent === null ? void 0 : diagram.states.find((candidate2) => candidate2.id === node3.parent);
   const scope = holder === void 0 ? "" : ` of ${holder.label}${node3.region === null ? "" : regionSuffix(diagram, holder.id, node3.region)}`;
   if (node3.kind === "start" || node3.kind === "end") return `${KIND_NAMES[node3.kind]}${scope}`;
@@ -130927,7 +131291,7 @@ function regionSuffix(diagram, parent, index2) {
 }
 function nodeLine2(diagram, node3) {
   const detail = node3.description.length === 0 ? "" : ` (${node3.description.join("; ")})`;
-  const name2 = nameOf4(diagram, node3);
+  const name2 = nameOf5(diagram, node3);
   if (node3.kind === "state") return `${name2}${detail}, state`;
   if (node3.kind === "composite") return `${name2}${detail}, composite state`;
   if (node3.kind === "choice") return `${name2}, choice`;
@@ -130938,7 +131302,7 @@ function nodeLine2(diagram, node3) {
 function transitionLine(diagram, transition) {
   const name2 = (id) => {
     const node3 = diagram.states.find((candidate2) => candidate2.id === id);
-    return node3 === void 0 ? id : nameOf4(diagram, node3);
+    return node3 === void 0 ? id : nameOf5(diagram, node3);
   };
   const on = transition.event === null ? "" : ` on ${transition.event}`;
   const guard = transition.guard === null ? "" : `, if ${transition.guard}`;
@@ -130970,7 +131334,7 @@ function outlineState(diagram) {
     lines.push("Notes:");
     for (const note of diagram.notes) {
       const target = diagram.states.find((node3) => node3.id === note.target);
-      lines.push(`- On ${target === void 0 ? note.target : nameOf4(diagram, target)}: ${note.text}`);
+      lines.push(`- On ${target === void 0 ? note.target : nameOf5(diagram, target)}: ${note.text}`);
     }
   }
   return lines;
@@ -138997,7 +139361,7 @@ api --> email : "Sends email using" tech="SMTP"
 email --> customer : "Sends emails to"
 ` },
       { kind: "class", title: "Notification service", source: 'class "Notification service" desc="A notifier queues messages and delivers each one through a channel. Channels are interchangeable, so a new one needs no change to the notifier."\n\nclass Notifier stereotype="service" {\n  "-queue: Queue<Message>"\n  "+send(m: Message): void"\n  "+retry(): int"\n}\n\nclass Message {\n  "+id: uuid"\n  "+body: String"\n  "+priority: Priority"\n}\n\nclass Priority type=enum {\n  "LOW"\n  "NORMAL"\n  "URGENT"\n}\n\nclass Template "Template<T>" type=abstract {\n  "+render(data: T): String" abstract\n  "+named(n: String): Template" static\n}\n\npackage channels "Channels" {\n  class Channel type=interface {\n    "+deliver(m: Message): Ack"\n  }\n  class Email "EmailChannel" {\n    "-host: String"\n    "+deliver(m: Message): Ack"\n  }\n  class Sms "SmsChannel" {\n    "-gateway: String"\n    "+deliver(m: Message): Ack"\n  }\n}\n\nNotifier "1" owns "*" Message : "queues"\nNotifier "1" has "1..*" Channel : "delivers through"\nNotifier --> Template : "renders with"\nMessage --> Priority\nEmail implements Channel\nSms implements Channel\n\nnote on Message : "Kept until every channel has confirmed delivery."\n' },
-      { kind: "flow", title: "Login request", source: 'flow "Login request" desc="A user signs in through an API that checks credentials in a database."\n\nnode user  person   "User"\nnode api   service  "Auth API"  sub="Validates credentials"\n\ngroup data "Data" icon=lucide:database {\n  node db     database "PostgreSQL"  sub="Password hashes"\n  node cache  cache    "Redis"       sub="Sessions"\n}\n\nuser -> api : "POST /login"\napi  -> db  : "look up user"\ndb   --> api : "row"\napi  -> cache : "store session"\n' },
+      { kind: "flow", title: "Login request", source: 'flow "Login request" desc="A user signs in through an API that checks credentials in a database and keeps the session in a cache."\n\nnode user  person   "User"\nnode api   service  "Auth API"  sub="Validates credentials"\n\ngroup data "Data" {\n  node db     database "PostgreSQL"  sub="Password hashes"\n  node cache  cache    "Redis"       sub="Sessions"\n}\n\nuser -> api   : "signs in"       role=identity\napi  -> db    : "looks up user"  role=data\ndb   --> api  : "row"\napi  -> cache : "stores session" role=data\n' },
       { kind: "gantt", title: "Product launch plan", source: 'gantt "Product launch plan" start=2026-01-05 unit=week today=2026-02-11 weekends=skip holidays=2026-04-03 desc="A fourteen week plan from research to launch, with design and build running side by side."\n\nsection "Discover" {\n  task research "User research"  start=2026-01-05  duration=2w  status=done\n  task brief    "Product brief"  after=research    duration=1w  status=done\n}\n\nsection "Design" tone=violet {\n  task ux  "UX flows"       after=brief  duration=2w  status=done\n  task ui  "Visual design"  after=ux     duration=3w  status=active\n  task ds  "Design system"  after=brief  duration=4w  status=active\n}\n\nsection "Build" tone=aqua {\n  task api     "API and data model"  after=brief   duration=5w  status=active\n  task web     "Web app"             after=ui,api  duration=4w  status=critical\n  task mobile  "Mobile app"          after=ui,api  duration=4w\n  milestone beta "Beta ready"        after=web\n}\n\nsection "Launch" tone=orange {\n  task docs  "Help center"        after=ui          duration=3w\n  task qa    "Testing and fixes"  after=web,mobile  duration=2w  status=critical\n  milestone ga "Public launch"    after=qa          status=critical\n}\n' },
       { kind: "git", title: "Release and hotfix", source: 'git "Release and hotfix" desc="A feature is merged into develop, develop is released as v1.0, and a hotfix is tagged and picked back."\n\ncommit "Initial commit"\nbranch develop order=2\ncommit "Set up CI"\nbranch "feature/search" from=develop\ncommit "Add search box"\ncommit "Index the docs"\ncheckout develop\nmerge "feature/search" "Add search"\ncheckout main\nmerge develop "Release 1.0" tag="v1.0" type=highlight\nbranch hotfix order=1\ncommit "Fix null check" id=fix\ncheckout main\nmerge hotfix tag="v1.0.1"\ncheckout develop\ncherry-pick fix\ncommit "Revert flaky test" type=reverse\n' },
       { kind: "journey", title: "Checkout experience", source: 'journey "Checkout experience" desc="How a shopper feels from finding a product to holding the parcel, and who is involved at each step."\n\nactor "Customer" tone=blue\nactor "Support agent" tone=violet\nactor "Bank"\nactor "Courier"\n\nsection "Browse" {\n  task "Find a product" score=5 actors="Customer"\n  task "Compare prices" score=3 actors="Customer, Support agent" sub="Asks about delivery"\n}\n\nsection "Pay" {\n  task "Enter card details" score=2 actors="Customer"\n  task "Confirm with the bank" score=1 actors="Customer, Bank"\n  task "Get a receipt" score=4 actors="Customer"\n}\n\nsection "Deliver" {\n  task "Track the parcel" score=4 actors="Customer, Courier"\n  task "Receive it" score=5 actors="Customer, Courier"\n}\n' },
@@ -139055,7 +139419,7 @@ ship -> delivered : "arrived"
       { kind: "treemap", title: "Monthly cloud spend", source: 'treemap "Monthly cloud spend" unit="$" better=down desc="Where the monthly cloud bill goes, by service, with the change since last month. A rise in cost is drawn red."\n\ngroup "Compute" icon=lucide:cpu {\n  item "EC2" 18400 icon=aws:ec2 delta="8%"\n  item "Fargate" 6800 icon=aws:fargate delta="21%"\n  item "Lambda" 4200 icon=aws:lambda delta="-12%"\n  item "EKS" 3100 icon=aws:eks\n}\n\ngroup "Data" icon=lucide:database {\n  item "RDS" 9600 icon=aws:rds delta="4%"\n  item "S3" 5200 icon=aws:s3 delta="-3%"\n  item "DynamoDB" 3900 icon=aws:dynamodb\n  item "OpenSearch" 3400 icon=aws:opensearch\n  item "ElastiCache" 2800\n}\n\ngroup "Network" icon=lucide:globe {\n  item "Data transfer" 4800 delta="15%"\n  item "NAT gateway" 3300 icon=aws:nat-gateway\n  item "CloudFront" 2200 icon=aws:cloudfront delta="-6%"\n  item "Load balancers" 1900 icon=aws:elb\n}\n\ngroup "Operations" icon=lucide:activity {\n  item "CloudWatch" 4600 icon=aws:cloudwatch\n  item "Support plan" 3200\n  group "Security" icon=lucide:shield {\n    item "GuardDuty" 2400 icon=aws:guardduty\n    item "WAF" 1900 icon=aws:waf\n  }\n}\n' },
       { kind: "xychart", title: "API latency against the SLO", source: 'xychart "API latency against the SLO" desc="Weekly p50 and p95 latency of the checkout API against its 400 ms objective: p95 crossed the line after release 2.3 and came back under it after the cache fix."\n\nx "Week" ["W1" "W2" "W3" "W4" "W5" "W6" "W7" "W8"]\ny "Latency" unit="ms" min=0 max=500\n\nbar "p95" [310 330 345 420 455 440 350 335]\nline "p50" [120 125 128 160 170 165 135 130]\n\nthreshold "SLO 400 ms" 400 tone=red\n\nnote "Release 2.3" at="W4"\nnote "Cache fix" at="W7"\n' }
     ];
-    ARCHITECTURE_EXAMPLE = { kind: "flow", title: "Web application on a cloud", source: 'flow "Web application on a cloud" provider=azure direction=down desc="Visitors load a single-page app from storage through a content delivery network and sign in through an identity service. The app calls an API on an application plan, which stores uploads, reads a database, and hands slow work to a queue that a background worker drains. A pipeline builds and deploys the API, and a monitoring service collects telemetry."\n\nnode visitors client "Visitors" sub="Browsers"\n\ngroup edge "Edge" type=edge {\n  node cdn gateway "Content delivery" icon=azure:cdn\n}\n\ngroup sign-in "Sign-in" type=identity-boundary {\n  node idp identity "Identity service" icon=azure:entra-id\n}\n\ngroup files "Storage" type=storage-account {\n  node site storage "Web app files" icon=azure:blob-storage stack=simple:react,simple:typescript\n  node uploads storage "Uploads" icon=azure:blob-storage\n}\n\ngroup plan "Application plan" type=service-plan {\n  node api service "Orders API" icon=azure:app-service stack=simple:nodedotjs\n}\n\ngroup messaging "Messaging" type=messaging {\n  node jobs queue "Job queue" icon=azure:service-bus\n}\n\nnode worker function "Background worker" icon=azure:functions stack=simple:nodedotjs\nnode db database "Database" icon=azure:sql-database\n\ngroup delivery "Delivery pipeline" type=ci-cd {\n  node repo step "Source code" icon=lucide:git-branch\n  node build step "Build pipeline" icon=azure:devops\n}\n\ngroup monitoring "Monitoring" type=observability {\n  node telemetry service "Metrics and logs" icon=azure:monitor\n}\n\nvisitors -> cdn : "HTTPS"\nvisitors -> idp : "sign in"\ncdn -> site\ncdn -> api : "API calls"\napi -> uploads : "store files"\napi -> jobs : "enqueue"\njobs ..> worker : "event"\nworker -> db : "writes"\napi -> db : "reads"\nrepo -> build\nbuild ..> api : "deploys image"\napi ..> telemetry : "telemetry"\n' };
+    ARCHITECTURE_EXAMPLE = { kind: "flow", title: "Web application on a cloud", source: 'flow "Web application on a cloud" provider=azure direction=down desc="Visitors load a single-page app from storage through a content delivery network and sign in through an identity service. The app calls an API on an application plan, which stores uploads, reads a database, and hands slow work to a queue that a background worker drains. A pipeline builds and deploys the API, and a monitoring service collects telemetry."\n\nnode visitors client "Visitors" sub="Browsers"\n\ngroup edge "Edge" type=edge {\n  node cdn gateway "Content delivery" icon=azure:cdn\n}\n\ngroup sign-in "Sign-in" type=identity-boundary {\n  node idp identity "Identity service" icon=azure:entra-id\n}\n\ngroup files "Storage" type=storage-account {\n  node site storage "Web app files" icon=azure:blob-storage stack=simple:react,simple:typescript\n  node uploads storage "Uploads" icon=azure:blob-storage\n}\n\ngroup plan "Application plan" type=service-plan {\n  node api service "Orders API" icon=azure:app-service stack=simple:nodedotjs\n}\n\ngroup messaging "Messaging" type=messaging {\n  node jobs queue "Job queue" icon=azure:service-bus\n}\n\nnode worker function "Background worker" icon=azure:functions stack=simple:nodedotjs\nnode db database "Database" icon=azure:sql-database\n\ngroup delivery "Delivery pipeline" type=ci-cd {\n  node repo step "Source code" icon=lucide:git-branch\n  node build step "Build pipeline" icon=azure:devops\n}\n\ngroup monitoring "Monitoring" type=observability {\n  node telemetry service "Metrics and logs" icon=azure:monitor\n}\n\nvisitors -> cdn : "HTTPS"\nvisitors -> idp : "sign in" role=identity\ncdn -> site\ncdn -> api : "API calls"\napi -> uploads : "store files" role=data\napi -> jobs : "enqueue" role=async\njobs ..> worker : "event"\nworker -> db : "writes" role=data\napi -> db : "reads" role=data\nrepo -> build\nbuild ..> api : "deploys image"\napi ..> telemetry : "telemetry"\n' };
   }
 });
 
@@ -139107,6 +139471,8 @@ function buildVocabulary() {
     },
     lineOptions: LINE_OPTION_SPECS.map((spec) => ({ ...spec })),
     labelIcons: Object.entries(LABEL_ICON_DEFAULTS).map(([label, icon]) => ({ label, icon })),
+    verbIcons: Object.entries(LABEL_VERB_PHRASES).map(([verb, words2]) => ({ icon: EDGE_STYLES[verb].icon, words: [...words2 ?? []] })),
+    style: [...STYLE_STEPS],
     autoIcons: { ...ICON_MODE_SPEC },
     roleIcons: roleIconTable(),
     statusIcons: Object.entries(STATUS_ICON_SPECS).map(([name2, spec]) => ({ ref: `status:${name2}`, tone: spec.tone, meaning: spec.meaning })),
@@ -139215,6 +139581,8 @@ var init_build_vocabulary = __esm({
       arrows: ["overview", "flow", "sequence"],
       lineOptions: ["overview", "flow", "sequence"],
       labelIcons: ["overview", "flow"],
+      verbIcons: ["flow"],
+      style: ["overview", "flow"],
       autoIcons: AUTO_ICON_KINDS,
       roleIcons: ["flow", "c4", "layers", "mindmap", "swimlane"],
       blockTypes: ["overview", "sequence"],
@@ -139835,7 +140203,7 @@ function descendantsOf(scan, index2) {
   });
   return inside;
 }
-function nameOf5(element) {
+function nameOf6(element) {
   if (element.role === "edge") return `${element.from ?? ""} ${element.arrow ?? ""} ${element.to ?? ""}`;
   return element.id ?? (element.label === null ? element.rest : `"${element.label}"`);
 }
@@ -139859,7 +140227,7 @@ function subjectOf(element) {
 function renamedName(element, rename2) {
   if (element.role === "edge") return `${rename2(element.from ?? "")} -> ${rename2(element.to ?? "")}`;
   if (element.role === "header") return "header";
-  return element.id === null ? nameOf5(element) : rename2(element.id);
+  return element.id === null ? nameOf6(element) : rename2(element.id);
 }
 function entriesOf3(source, rename2) {
   const { elements } = scanSource(source);
@@ -178587,6 +178955,8 @@ var init_vocabulary18 = __esm({
       group: GroupSchema.describe("How a flow group looks and what it accepts; its corner tab shows its icon and name."),
       lineOptions: external_exports.array(LineOptionSchema).describe("Options that animate a line (animate=on makes dashes travel toward the arrowhead) or number the steps of a flow or sequence (numbered=on, start=, and step= on a line). All are off by default."),
       labelIcons: external_exports.array(LabelIconSchema).describe("Edge labels that get a tick or cross automatically; icon=none on the edge removes it."),
+      verbIcons: external_exports.array(external_exports.object({ icon: external_exports.string().describe("The icon drawn in the label."), words: external_exports.array(external_exports.string()).describe('Phrases that draw it: the whole label, or its first words followed by what is acted on ("reads orders").') })).describe("The icons a flow edge label draws when it names a relationship with a verb. icon= on the edge wins, icon=none removes it, and icons=off on the header turns them all off."),
+      style: external_exports.array(external_exports.string()).describe("How to make a flow diagram look finished: verbs on arrows, role= on lines that mean something, typed groups, product names."),
       autoIcons: AutoIconsSchema.describe("Items with no icon= get the icon their label names for certain (a brand, a cloud product, a common role). icon=none keeps one item plain; icons=off on the header keeps them all plain."),
       roleIcons: external_exports.array(external_exports.object({ icon: external_exports.string().describe("The icon drawn."), words: external_exports.array(external_exports.string()).describe("Whole words of a label of three words or fewer that draw it.") })).describe("The plain icons for common roles, drawn on flow and sequence service and external items, C4 elements, layers blocks, mind map topics, and swimlane lanes. The last role word of the label wins."),
       statusIcons: external_exports.array(StatusIconSchema).describe("Colored status and outcome icons: a green check, a red X, and so on."),
@@ -179206,7 +179576,7 @@ function finding(level2, code, message2, at3, hint2) {
 function appliesTo(rule, kind) {
   return rule.kinds === void 0 || rule.kinds.includes(kind);
 }
-function nameOf6(subject) {
+function nameOf7(subject) {
   return subject.id === null || subject.id === subject.label ? `"${subject.label}"` : `${subject.id} ("${subject.label}")`;
 }
 function iconAccepted(icon, choices) {
@@ -179233,7 +179603,7 @@ function iconFindings(rule, subjects, level2, places) {
     const drawn = subject.icon === null ? "draws no icon" : `draws ${subject.icon}`;
     const [first] = rule.use;
     const choices = rule.use.length === 1 ? `icon=${first ?? ""}` : `icon= with one of ${rule.use.join(", ")}`;
-    return [finding(rule.level ?? level2, DIAGNOSTIC_CODES.ruleIcon, `${nameOf6(subject)} matches /${rule.label}/ and ${drawn}`, places.of(subject), rule.hint ?? `Give it ${choices}.`)];
+    return [finding(rule.level ?? level2, DIAGNOSTIC_CODES.ruleIcon, `${nameOf7(subject)} matches /${rule.label}/ and ${drawn}`, places.of(subject), rule.hint ?? `Give it ${choices}.`)];
   });
 }
 function toneFindings(rule, subjects, level2, places) {
@@ -179243,7 +179613,7 @@ function toneFindings(rule, subjects, level2, places) {
     if (!broken) return [];
     const of = rule.types === void 0 ? "a node" : `a ${subject.type}`;
     const fix = rule.allow !== void 0 ? `Use tone=${rule.allow.join(" or tone=")}.` : `Use a tone other than ${(rule.forbid ?? []).join(", ")}.`;
-    return [finding(rule.level ?? level2, DIAGNOSTIC_CODES.ruleTone, `${nameOf6(subject)} is ${subject.tone}, a tone the team does not use for ${of}`, places.of(subject), rule.hint ?? fix)];
+    return [finding(rule.level ?? level2, DIAGNOSTIC_CODES.ruleTone, `${nameOf7(subject)} is ${subject.tone}, a tone the team does not use for ${of}`, places.of(subject), rule.hint ?? fix)];
   });
 }
 function diagramFindings(diagram, rules, count3, level2, places) {
@@ -179536,9 +179906,9 @@ users -> ingress : "HTTPS"
 ingress -> web
 ingress -> api
 ingress -> admin
-api -> config : "reads"
+api -> config : "reads" icon=lucide:eye
 web ..> monitor : "metrics"
-api -> secrets : "reads"`;
+api -> secrets : "reads secrets" role=identity`;
     NEUTRAL2 = `flow "{{title}}" direction=down desc="{{description}}"
 
 group delivery "{{pipeline}}" type=ci-cd {
@@ -179844,8 +180214,8 @@ bus ..> processor : "all events"
 bus ..> notifier : "alerts"
 bus ..> dlq : "after retries"
 archiver -> archive : "archive"
-processor -> db : "write"
-notifier ..> mail : "send"`;
+processor -> db : "write" role=data
+notifier ..> mail : "send" role=async`;
     NEUTRAL5 = `flow "{{title}}" direction=down desc="{{description}}"
 
 group producers "{{producers}}" type=app-tier {
@@ -180073,7 +180443,7 @@ var init_microservices_gateway = __esm({
       { id: "billing-database", default: "Billing database", meaning: "The database that only the billing service reads and writes." }
     ];
     EDGES6 = `clients -> gateway : "HTTPS"
-gateway -> idp : "verify token"
+gateway -> idp : "verify token" role=identity
 gateway -> catalog : "{{catalog-path}}"
 gateway -> booking : "{{booking-path}}"
 catalog -> catalog-db
@@ -180223,12 +180593,12 @@ var init_queue_worker = __esm({
       { id: "alarm", default: "Queue depth alarm", meaning: "The alarm that fires when too many jobs wait in the queue." }
     ];
     EDGES7 = `client -> api : "{{submit}}"
-api ..> queue : "enqueue job"
+api ..> queue : "enqueue job" role=async
 queue ..> w1
 queue ..> w2
 queue ..> w3
 queue ..> alarm
-w2 -> db : "write result"
+w2 -> db : "write result" role=data
 w3 ..> dlq : "after {{retries}} tries"`;
     OVERLAY = 'overlay pool "{{pool}}" type=scale-group members=w1,w2,w3';
     NEUTRAL9 = `flow "{{title}}" direction=down desc="{{description}}"
@@ -180325,9 +180695,9 @@ var init_serverless_api = __esm({
 gateway -> create : "POST {{path}}"
 gateway -> list : "GET {{path}}"
 gateway -> get : "GET {{path}}/id"
-gateway -> auth : "verify token"
-create -> bucket : "upload"
-create -> db : "write"
+gateway -> auth : "verify token" role=identity
+create -> bucket : "upload" role=data
+create -> db : "write" role=data
 list -> db
 get -> db
 get ..> monitor : "logs and metrics"`;
@@ -180521,7 +180891,7 @@ dns -> cdn
 cert -> cdn
 publish ..> cdn
 cdn -> bucket : "fetch files"
-publish -> bucket : "upload"`;
+publish -> bucket : "upload" role=data`;
     NEUTRAL12 = `flow "{{title}}" direction=down desc="{{description}}"
 
 group pipeline "{{pipeline}}" type=ci-cd {
@@ -180905,14 +181275,14 @@ var init_web_app_on_cloud = __esm({
       { id: "telemetry", default: "Metrics and logs", meaning: "The service that collects what the API reports." }
     ];
     EDGES11 = `visitors -> cdn : "HTTPS"
-visitors -> idp : "sign in"
+visitors -> idp : "sign in" role=identity
 cdn -> site
 cdn -> api : "API calls"
-api -> uploads : "store files"
-api -> jobs : "enqueue"
+api -> uploads : "store files" role=data
+api -> jobs : "enqueue" role=async
 jobs ..> worker : "event"
-worker -> db : "writes"
-api -> db : "reads"
+worker -> db : "writes" role=data
+api -> db : "reads" role=data
 repo -> build
 build ..> api : "deploys image"
 api ..> telemetry : "telemetry"`;
@@ -181193,6 +181563,14 @@ var init_direction = __esm({
   "../../packages/diagrams/src/importers/shared/direction.ts"() {
     "use strict";
     ROW_PER_CHAIN = 0.9;
+  }
+});
+
+// ../../packages/diagrams/src/importers/shared/edge-style.ts
+var init_edge_style = __esm({
+  "../../packages/diagrams/src/importers/shared/edge-style.ts"() {
+    "use strict";
+    init_constants();
   }
 });
 
@@ -181688,7 +182066,7 @@ function writeOneFlow(draft, report3) {
   const children = (parent) => groups.filter((group2) => parentOf4(group2) === parent);
   const writeGroup = (group2, depth) => {
     lines.gap();
-    lines.add(`group ${ids.idFor(`group:${group2.key}`)} ${quote(group2.label)}${options2({ type: group2.type ?? namedType(group2.label), icon: known2(group2.icon ?? null), sub: group2.sub ?? null, tone: group2.tone ?? null })} {`, depth);
+    lines.add(`group ${ids.idFor(`group:${group2.key}`)} ${quote(group2.label)}${options2({ type: group2.type ?? namedType(group2.label) ?? group2.otherwise ?? null, icon: known2(group2.icon ?? null), sub: group2.sub ?? null, tone: group2.tone ?? null })} {`, depth);
     for (const node3 of kept2) if ((node3.group ?? null) === group2.key) nodeLine4(node3, depth + 1);
     for (const child of children(group2.key)) writeGroup(child, depth + 1);
     lines.add("}", depth);
@@ -181698,16 +182076,24 @@ function writeOneFlow(draft, report3) {
   for (const node3 of kept2) if (node3.group === void 0 || node3.group === null || !groupKeys.has(node3.group)) nodeLine4(node3, 0);
   for (const group2 of children(null)) writeGroup(group2, 0);
   const written3 = /* @__PURE__ */ new Set();
-  let links = 0;
-  lines.gap();
+  const drawn = [];
   for (const edge of draft.edges) {
     const pair2 = `${edge.from}\0${edge.to}`;
     if (edge.from === edge.to || !keptKeys.has(edge.from) || !keptKeys.has(edge.to) || written3.has(pair2)) continue;
     written3.add(pair2);
-    links += 1;
-    const label = edge.label === void 0 || edge.label === null || edge.label === "" ? "" : ` : ${quote(edge.label)}`;
-    lines.add(`${ids.idFor(`node:${edge.from}`)} ${edge.arrow ?? "->"} ${ids.idFor(`node:${edge.to}`)}${label}`);
+    drawn.push(edge);
   }
+  const roleOf3 = (edge) => edge.verb === void 0 || edge.verb === null ? null : EDGE_STYLES[edge.verb].role;
+  const roles = new Set(drawn.map(roleOf3));
+  const colour = roles.size > 1;
+  lines.gap();
+  for (const edge of drawn) {
+    const hasLabel = edge.label !== void 0 && edge.label !== null && edge.label !== "";
+    const label = hasLabel ? ` : ${quote(edge.label ?? "")}` : "";
+    const style = edge.verb === void 0 || edge.verb === null ? null : EDGE_STYLES[edge.verb];
+    lines.add(`${ids.idFor(`node:${edge.from}`)} ${edge.arrow ?? "->"} ${ids.idFor(`node:${edge.to}`)}${label}${options2({ icon: hasLabel ? known2(style?.icon ?? null) : null, role: colour ? style?.role ?? null : null })}`);
+  }
+  const links = drawn.length;
   const coverage = draft.coverage ?? { noun: draft.noun, total: draft.nodes.length, drawn: kept2.length, summarised: 0 };
   const named = { ...ids.mapped("group:"), ...ids.mapped("node:") };
   return { kind: "flow", source: lines.toString(), stats: { items: kept2.length, links, groups: groups.length, dropped: left.length }, advice: draft.advice ?? null, coverage, ids: named };
@@ -181719,6 +182105,7 @@ var init_flow2 = __esm({
     init_core();
     init_lint21();
     init_suggest_icons();
+    init_edge_style();
     init_icons3();
     init_reporter2();
     init_split_flow();
@@ -182090,6 +182477,7 @@ var init_shared2 = __esm({
   "../../packages/diagrams/src/importers/shared/index.ts"() {
     "use strict";
     init_direction();
+    init_edge_style();
     init_flow2();
     init_split_flow();
     init_icons3();
@@ -182677,7 +183065,7 @@ function drawCharts(files, context, index2) {
   const edges = [];
   const repositories = new Set(charts.flatMap((chart) => chart.dependencies.map((dependency) => dependency.repository)).filter((repository) => repository !== null && repository !== "" && !repository.startsWith("file://")));
   const framed = repositories.size > 1;
-  const groups = framed ? [...repositories].sort().map((repository) => ({ key: `repository:${repository}`, label: repositoryLabel(repository), sub: "Chart repository", icon: "simple:helm", idHint: repositoryLabel(repository).split("/").pop() ?? "repository" })) : [];
+  const groups = framed ? [...repositories].sort().map((repository) => ({ key: `repository:${repository}`, label: repositoryLabel(repository), sub: "Chart repository", type: "external-systems", icon: "simple:helm", idHint: repositoryLabel(repository).split("/").pop() ?? "repository" })) : [];
   for (const chart of charts) {
     const look = imageLook(chart.name);
     nodes.push({ key: chartKey(chart), type: look?.type ?? "service", label: chart.name, sub: cleanText([[chart.library ? "Library chart" : "Chart", chart.version].filter((part) => part !== null).join(" "), chart.appVersion === null ? null : `app ${chart.appVersion}`].filter((part) => part !== null).join(", ")), icon: look?.icon ?? "simple:helm", idHint: chart.name });
@@ -182695,7 +183083,7 @@ function drawCharts(files, context, index2) {
         nodes.push({ key, type: look?.type ?? "service", label: shown, sub: cleanText([shown === dependency.name ? "Chart" : `Chart ${dependency.name}`, off ? "off in values" : dependency.condition !== null && setting !== "true" ? "optional" : null].filter((part) => part !== null).join(", ")), icon: look?.icon ?? iconForName(dependency.name, look?.type ?? "service") ?? "simple:helm", group: repository, idHint: shown });
       }
       const version2 = chart.locked.get(dependency.name) ?? dependency.version;
-      edges.push({ from: chartKey(chart), to: key, label: version2, ...off ? { arrow: "-->" } : {} });
+      edges.push({ from: chartKey(chart), to: key, label: version2, verb: "depends-on", ...off ? { arrow: "-->" } : {} });
     }
   }
   const root = charts[0];
@@ -182911,7 +183299,7 @@ function edgesOf(drawn, folded, context) {
     const from = keyOf(manifest.kind, manifest.namespace, manifest.name);
     for (const route of manifest.routes) {
       const service = keyOf("Service", manifest.namespace, route.service);
-      if (has("Service", manifest.namespace, route.service)) edges.push({ from, to: folded.get(service) ?? service, label: route.label });
+      if (has("Service", manifest.namespace, route.service)) edges.push({ from, to: folded.get(service) ?? service, label: route.label, verb: "routes" });
       else unresolved(manifest, `Service ${route.service}`);
     }
     if (manifest.kind === "Service" && !folded.has(from)) {
@@ -182929,7 +183317,7 @@ function edgesOf(drawn, folded, context) {
       }
     }
     for (const use of manifest.uses) {
-      if (has(use.kind, manifest.namespace, use.name)) edges.push({ from, to: keyOf(use.kind, manifest.namespace, use.name), arrow: use.kind === "PersistentVolumeClaim" ? "->" : "-->", label: use.kind === "PersistentVolumeClaim" ? "mounts" : "reads" });
+      if (has(use.kind, manifest.namespace, use.name)) edges.push({ from, to: keyOf(use.kind, manifest.namespace, use.name), arrow: use.kind === "PersistentVolumeClaim" ? "->" : "-->", label: use.kind === "PersistentVolumeClaim" ? "mounts" : "reads", verb: use.kind === "PersistentVolumeClaim" ? "mounts" : use.kind === "Secret" ? "secret" : "reads-settings" });
       else unresolved(manifest, `${use.kind} ${use.name}`);
     }
   }
@@ -182971,13 +183359,13 @@ function drawManifests(documents, context, framing) {
   const ordered = [...drawn].sort((a, b) => (LOOKS[a.kind]?.rank ?? 2) - (LOOKS[b.kind]?.rank ?? 2));
   const namespaces = [...new Set(ordered.map((manifest) => manifest.namespace))];
   const grouped = namespaces.length > 1;
-  const groups = grouped ? namespaces.map((namespace) => ({ key: `ns:${namespace}`, label: namespace, type: namespaceType(namespace), sub: "Namespace", idHint: `ns_${namespace}` })) : [];
+  const groups = grouped ? namespaces.map((namespace) => ({ key: `ns:${namespace}`, label: namespace, type: namespaceType(namespace), otherwise: "resource-group", tone: namespaceType(namespace) === null ? "violet" : null, sub: "Namespace", idHint: `ns_${namespace}` })) : [];
   const framed = /* @__PURE__ */ new Map();
   for (const manifest of framing === null ? [] : ordered) {
     let parent = grouped ? `ns:${manifest.namespace}` : null;
     for (const frame of framing?.framesOf(manifest) ?? []) {
       const key = grouped ? `${manifest.namespace}/${frame.key}` : frame.key;
-      if (!groups.some((group2) => group2.key === key)) groups.push({ key, label: frame.label, sub: frame.sub, icon: frame.icon, parent, idHint: frame.idHint });
+      if (!groups.some((group2) => group2.key === key)) groups.push({ key, label: frame.label, sub: frame.sub, icon: frame.icon, otherwise: frame.type, tone: frame.tone ?? null, parent, idHint: frame.idHint });
       parent = key;
     }
     if (parent !== null) framed.set(manifest, parent);
@@ -183135,18 +183523,18 @@ function drawFolder(files, context, index2) {
   for (const entry2 of ordered) {
     const role = roleOf3(entry2);
     const frame = `frame:${entry2.folder}`;
-    groups.push({ key: frame, label: entry2.folder.slice(common.length) || baseName2(entry2.folder) || "kustomization", sub: role, icon: "lucide:layers", idHint: entry2.folder.slice(common.length) || baseName2(entry2.folder) || "root" });
+    groups.push({ key: frame, label: entry2.folder.slice(common.length) || baseName2(entry2.folder) || "kustomization", sub: role, ...role === "Overlay" ? { type: "environment" } : { otherwise: "resource-group" }, icon: "lucide:layers", idHint: entry2.folder.slice(common.length) || baseName2(entry2.folder) || "root" });
     nodes.push({ key: own2(entry2), type: "service", label: baseName2(entry2.folder) || "kustomization", sub: cleanText(entry2.details.length === 0 ? "kustomization.yaml" : entry2.details.slice(0, 4).join(", ")), icon: "lucide:layers", group: frame, idHint: `${baseName2(entry2.folder) || "kustomization"}_kustomization` });
     for (const resource of entry2.resources) {
       if (isRemote(resource)) {
         nodes.push({ key: `remote:${resource}`, type: "service", label: cleanText(resource.replace(/^https?:\/\//, "").replace(/\?.*$/, "").split("/").slice(-2).join("/")), sub: "Remote resource", icon: "lucide:globe", group: frame, idHint: "remote" });
-        edges.push({ from: own2(entry2), to: `remote:${resource}`, label: "builds on" });
+        edges.push({ from: own2(entry2), to: `remote:${resource}`, label: "builds on", verb: "builds-on" });
         continue;
       }
       const path = resolvePath(entry2.folder, resource);
       const inner = path === null ? void 0 : byFolder.get(path);
       if (inner !== void 0) {
-        edges.push({ from: own2(entry2), to: own2(inner), label: "builds on" });
+        edges.push({ from: own2(entry2), to: own2(inner), label: "builds on", verb: "builds-on" });
         continue;
       }
       const found = path === null ? void 0 : objects.get(path);
@@ -183160,7 +183548,7 @@ function drawFolder(files, context, index2) {
     }
     for (const component of entry2.components) {
       const inner = byFolder.get(resolvePath(entry2.folder, component) ?? "\0");
-      if (inner !== void 0) edges.push({ from: own2(entry2), to: own2(inner), label: "includes" });
+      if (inner !== void 0) edges.push({ from: own2(entry2), to: own2(inner), label: "includes", verb: "includes" });
       else missing.push(`${entry2.folder === "" ? "" : `${entry2.folder}/`}${component}`);
     }
     for (const generator of entry2.generators) {
@@ -183175,16 +183563,16 @@ function drawFolder(files, context, index2) {
       const key = `patch:${entry2.folder}/${patch.path ?? `${kind ?? "any"}/${name2 ?? "any"}`}`;
       nodes.push({ key, type: "service", label: patch.path === null ? `${kind ?? "object"} ${name2 ?? ""}`.trim() : baseName2(patch.path), sub: cleanText(`Patch${kind === null ? "" : ` of ${kind}${name2 === null ? "" : ` ${name2}`}`}`), icon: "lucide:file-code", group: frame, idHint: `${baseName2(patch.path ?? "patch").replace(/\.ya?ml$/, "")}_patch` });
       const target = kind === null && name2 === null ? null : fileOf2(entry2, kind, name2) ?? [...objects].find(([, inside]) => inside.some((object2) => (kind === null || object2.kind === kind) && (name2 === null || object2.name === name2)))?.[0] ?? null;
-      if (target !== null) edges.push({ from: key, to: `file:${target}`, label: "patches" });
+      if (target !== null) edges.push({ from: key, to: `file:${target}`, label: "patches", verb: "patches" });
     }
   }
   const drawnFiles = [...objects].filter(([path]) => nodes.some((node3) => node3.key === `file:${path}`));
   for (const [path, manifests] of drawnFiles) {
     for (const manifest of manifests) {
       for (const use of manifest.uses) {
-        for (const node3 of nodes) if (node3.key.startsWith("generator:") && node3.key.endsWith(`/${use.kind}/${use.name}`)) edges.push({ from: `file:${path}`, to: node3.key, arrow: "-->", label: "reads" });
+        for (const node3 of nodes) if (node3.key.startsWith("generator:") && node3.key.endsWith(`/${use.kind}/${use.name}`)) edges.push({ from: `file:${path}`, to: node3.key, arrow: "-->", label: "reads", verb: use.kind === "Secret" ? "secret" : "reads-settings" });
         const holder = drawnFiles.find(([, others]) => others.some((other) => other.kind === use.kind && other.name === use.name));
-        if (holder !== void 0 && holder[0] !== path) edges.push({ from: `file:${path}`, to: `file:${holder[0]}`, arrow: "-->", label: use.kind === "PersistentVolumeClaim" ? "mounts" : "reads" });
+        if (holder !== void 0 && holder[0] !== path) edges.push({ from: `file:${path}`, to: `file:${holder[0]}`, arrow: "-->", label: use.kind === "PersistentVolumeClaim" ? "mounts" : "reads", verb: use.kind === "PersistentVolumeClaim" ? "mounts" : use.kind === "Secret" ? "secret" : "reads-settings" });
       }
       for (const [other, inside] of drawnFiles) {
         if (other === path) continue;
@@ -184334,7 +184722,7 @@ function bundleArrows(nodes, groups, edges, ownBox, joinPairs = true) {
     if (sources.length < BUNDLE_AT) continue;
     if (sources.length < FEW && (!joinPairs || !HOSTS2.has(typeOf.get(frame) ?? "") || (pairs.get(frame) ?? 0) < 2 || sources.some((edge) => !edges.some((other) => !joinable.has(other) && (other.from === edge.from || other.to === edge.from))))) continue;
     for (const edge of sources) joined2.add(edge);
-    replacements.set(first, { from: own2.key, to: first.to, label: `${first.label ?? ""} (${sources.length})` });
+    replacements.set(first, { from: own2.key, to: first.to, label: `${first.label ?? ""} (${sources.length})`, verb: first.verb ?? null });
   }
   const out = [];
   const written3 = /* @__PURE__ */ new Set();
@@ -184346,7 +184734,7 @@ function bundleArrows(nodes, groups, edges, ownBox, joinPairs = true) {
     if (written3.has(pair2)) {
       const index2 = out.findIndex((candidate2) => `${candidate2.from}\0${candidate2.to}` === pair2);
       const before = out[index2];
-      out[index2] = { ...before, label: [before.label, next.label].filter((label) => label !== null && label !== void 0 && label !== "").join(", ") };
+      out[index2] = { ...before, label: [before.label, next.label].filter((label) => label !== null && label !== void 0 && label !== "").join(", "), verb: before.verb === next.verb ? before.verb ?? null : null };
       continue;
     }
     written3.add(pair2);
@@ -184869,6 +185257,10 @@ function stackArrows(plan) {
   }
   return { arrows, unjoined };
 }
+function verbOf(arrow) {
+  if (arrow.grant || arrow.order !== true && POLICY_KEY.test(arrow.via)) return "grants";
+  return LABEL_VERBS[arrow.label ?? ""] ?? null;
+}
 function joinArrows(arrows) {
   const joined2 = new Set(arrows.filter((arrow) => arrow.order !== true).flatMap((arrow) => [`${arrow.from}\0${arrow.to}`, `${arrow.to}\0${arrow.from}`]));
   const byPair = /* @__PURE__ */ new Map();
@@ -184880,10 +185272,12 @@ function joinArrows(arrows) {
     const grantWords = grants.length === 0 ? [] : grants.length === 1 ? [grants[0]?.label ?? "role"] : [`${grants.length} roles`];
     const words2 = [...grantWords, ...others];
     const label = words2.length === 0 ? null : words2.length <= MAX_LABELS2 ? words2.join(", ") : `${group2.length} links`;
-    return { from: first.from, to: first.to, label, ...group2.every((arrow) => arrow.order === true) ? { arrow: "-->" } : {} };
+    const verbs = new Set(group2.map(verbOf));
+    const verb = verbs.size === 1 ? [...verbs][0] ?? null : null;
+    return { from: first.from, to: first.to, label, verb, ...group2.every((arrow) => arrow.order === true) ? { arrow: "-->" } : {} };
   });
 }
-var ORDER_LABEL, INBOUND, QUIET, ATTRIBUTE_LABELS, TYPE_LABELS, VAGUE_ATTRIBUTES, MAX_LABELS2;
+var ORDER_LABEL, INBOUND, QUIET, ATTRIBUTE_LABELS, TYPE_LABELS, VAGUE_ATTRIBUTES, LABEL_VERBS, POLICY_KEY, MAX_LABELS2;
 var init_edges2 = __esm({
   "../../packages/diagrams/src/importers/terraform/edges.ts"() {
     "use strict";
@@ -184944,6 +185338,34 @@ var init_edges2 = __esm({
       service: "calls"
     };
     VAGUE_ATTRIBUTES = /* @__PURE__ */ new Set(["value", "values", "config", "configuration", "settings", "properties", "body", "content", "input", "inputs", "parameters", "source", "data"]);
+    LABEL_VERBS = {
+      identity: "grants",
+      role: "grants",
+      policy: "grants",
+      grants: "grants",
+      "grants on": "grants",
+      principal: "grants",
+      data: "stores",
+      storage: "stores",
+      cache: "stores",
+      secret: "secret",
+      secrets: "secret",
+      password: "secret",
+      messages: "sends",
+      "dead letters": "sends",
+      triggers: "triggers",
+      logs: "reports",
+      "logs to": "reports",
+      telemetry: "reports",
+      images: "pulls",
+      "private link": "private",
+      "VNet integration": "private",
+      "public IP": "routes",
+      firewall: "filters",
+      calls: "calls",
+      [ORDER_LABEL]: "depends-on"
+    };
+    POLICY_KEY = /(?:^|\.)[a-z0-9_]*polic(?:y|ies)[a-z0-9_]*\./;
     MAX_LABELS2 = 2;
   }
 });
@@ -185207,7 +185629,7 @@ function picture(plan, context, groupType) {
       if (shape === "container") {
         const frame = containerFrame(resource.key);
         const parent = byFile ? parentOf4(frame, resource) : plan.parents.get(frame) ?? null;
-        groups.push({ key: frame, label: box.label, type: null, icon: box.icon ?? null, sub: null, parent, idHint: `${resource.name}_group` });
+        groups.push({ key: frame, label: box.label, type: HOLDER_TYPES[box.type] ?? "resource-group", icon: box.icon ?? null, sub: null, parent, idHint: `${resource.name}_group` });
         const product = role.role === "node" ? productOf2(resource, plan) : box.label;
         nodes.push({ ...box, label: box.label === product ? box.label : product, sub: box.label === product ? box.sub ?? null : withParts(literalDetails(resource), multiplicity(resource), resource.kind === "data" && !plan.compatible ? "existing" : null), group: frame });
       } else {
@@ -185227,7 +185649,7 @@ function picture(plan, context, groupType) {
     for (const [key, module] of plan.modules) {
       const source = module.source.replace(/^(?:\.\.?\/)+/, "");
       const label = `${humanize(module.name)}${module.instance === null ? "" : ` ${module.instance}`}`;
-      groups.push({ key, label, type: null, icon: moduleIcon(module.name, module.source, stackProvider(plan)) ?? "lucide:package", sub: cleanText(`${module.noun ?? "Module"} ${source}`), parent: plan.parents.get(key) ?? null, idHint: `${module.name}${module.instance === null ? "" : `_${module.instance}`}` });
+      groups.push({ key, label, type: null, otherwise: "resource-group", icon: moduleIcon(module.name, module.source, stackProvider(plan)) ?? "lucide:package", sub: cleanText(`${module.noun ?? "Module"} ${source}`), parent: plan.parents.get(key) ?? null, idHint: `${module.name}${module.instance === null ? "" : `_${module.instance}`}` });
     }
     const holding = /* @__PURE__ */ new Set();
     for (const node3 of nodes) for (const key of [node3.group ?? "", ...plan.ancestors(node3.group ?? "")]) holding.add(key);
@@ -185269,7 +185691,7 @@ function withoutIdleBoxes(nodes, groups, edges) {
   const framed = groups.map((group2) => {
     const box = idle.get(group2.key);
     if (box === void 0) return group2;
-    const said = group2.label.includes(box.label) || group2.type !== null && group2.type !== void 0 ? null : box.label;
+    const said = group2.label.includes(box.label) || group2.type !== null && group2.type !== void 0 && group2.key !== containerFrame(box.key) ? null : box.label;
     return { ...group2, sub: withParts(group2.sub ?? null, said, box.sub ?? null) };
   });
   return { nodes: kept2, groups: framed };
@@ -185293,7 +185715,7 @@ function literalDetails(resource) {
   const values = names8.map((name2) => literal2(resource, name2)).filter((value) => value !== null && value !== "");
   return values.length === 0 ? null : values.join(" ");
 }
-var ACCOUNT_NAMES;
+var ACCOUNT_NAMES, HOLDER_TYPES;
 var init_picture = __esm({
   "../../packages/diagrams/src/importers/terraform/picture.ts"() {
     "use strict";
@@ -185306,6 +185728,17 @@ var init_picture = __esm({
     init_plan9();
     init_resources();
     ACCOUNT_NAMES = { aws: "AWS account", azure: "Azure subscription", gcp: "Google Cloud project" };
+    HOLDER_TYPES = {
+      database: "data-tier",
+      cache: "data-tier",
+      storage: "storage-account",
+      queue: "messaging",
+      secret: "security",
+      identity: "identity-boundary",
+      service: "app-tier",
+      function: "app-tier",
+      gateway: "edge"
+    };
   }
 });
 
@@ -187362,7 +187795,7 @@ function chainOf(expr) {
   }
   return { base: current, steps };
 }
-function nameOf7(slot, evaluator) {
+function nameOf8(slot, evaluator) {
   const named = bodyObject(slot.declaration.value)?.entries.find((entry2) => entry2.key === "name")?.value;
   return named === void 0 ? null : textOf5(evaluator.evaluate(named, slot.env));
 }
@@ -187377,15 +187810,15 @@ var init_slots2 = __esm({
 
 // ../../packages/diagrams/src/importers/bicep/items.ts
 function withoutReadCopies(items2) {
-  const nameOf10 = (item) => item.attributes.find((attribute2) => attribute2.name === "name")?.value ?? null;
+  const nameOf11 = (item) => item.attributes.find((attribute2) => attribute2.name === "name")?.value ?? null;
   const made = /* @__PURE__ */ new Map();
   for (const item of items2) {
-    const name2 = nameOf10(item);
+    const name2 = nameOf11(item);
     if (!item.existing && name2 !== null) made.set(`${item.type}\0${name2}`, item.name);
   }
   const alias = /* @__PURE__ */ new Map();
   for (const item of items2) {
-    const name2 = nameOf10(item);
+    const name2 = nameOf11(item);
     const real = name2 === null ? void 0 : made.get(`${item.type}\0${name2}`);
     if (item.existing && real !== void 0) alias.set(item.name, real);
   }
@@ -187478,18 +187911,18 @@ var init_items3 = __esm({
       }
       /** The resource a child names as its parent by the start of its name (`vnet-shop` of `vnet-shop/app`), when the stack declares it. */
       parentByName(slot) {
-        const name2 = nameOf7(slot, this.evaluator);
+        const name2 = nameOf8(slot, this.evaluator);
         const segments = slot.armType.split("/");
         if (name2 === null || !name2.includes("/") || segments.length < 3) return null;
         const parentType = segments.slice(0, -1).join("/").toLowerCase();
         const parentName = name2.slice(0, name2.lastIndexOf("/"));
-        for (const list of this.slots.values()) for (const candidate2 of list) if (candidate2.armType.toLowerCase() === parentType && nameOf7(candidate2, this.evaluator) === parentName) return candidate2.transparent ? candidate2.holder?.name ?? null : candidate2.name;
+        for (const list of this.slots.values()) for (const candidate2 of list) if (candidate2.armType.toLowerCase() === parentType && nameOf8(candidate2, this.evaluator) === parentName) return candidate2.transparent ? candidate2.holder?.name ?? null : candidate2.name;
         if (/\/(?:blob|queue|table|file)services$/.test(parentType) && segments.length >= 4) return this.declared(segments.slice(0, -2).join("/"), parentName.slice(0, parentName.lastIndexOf("/")));
         return null;
       }
       /** The item of a type and a name the deployment declares, or null. */
       declared(type, name2) {
-        for (const list of this.slots.values()) for (const candidate2 of list) if (candidate2.armType.toLowerCase() === type.toLowerCase() && nameOf7(candidate2, this.evaluator) === name2) return candidate2.name;
+        for (const list of this.slots.values()) for (const candidate2 of list) if (candidate2.armType.toLowerCase() === type.toLowerCase() && nameOf8(candidate2, this.evaluator) === name2) return candidate2.name;
         return null;
       }
       /** The item that stands for a name: a storage service's account, since the service itself is not drawn. */
@@ -187730,9 +188163,9 @@ var init_references = __esm({
           if (type !== null && last !== null && last !== void 0) {
             for (const list of this.slots.values()) {
               for (const slot of list) {
-                const own2 = nameOf7(slot, this.evaluator);
+                const own2 = nameOf8(slot, this.evaluator);
                 if (slot.armType.toLowerCase() === type && (own2 === last || own2 === names8.join("/"))) return [slot.name];
-                if (type === `${slot.armType.toLowerCase()}/subnets` && nameOf7(slot, this.evaluator) === names8[names8.length - 2]) {
+                if (type === `${slot.armType.toLowerCase()}/subnets` && nameOf8(slot, this.evaluator) === names8[names8.length - 2]) {
                   const subnet = slot.subnets.find((entry2) => entry2.display === last || entry2.label === last);
                   if (subnet !== void 0) return [subnet.name];
                 }
@@ -188885,6 +189318,74 @@ var init_document2 = __esm({
   }
 });
 
+// ../../packages/diagrams/src/importers/asyncapi/layers.ts
+function adjacency(keys, arrows, reverse) {
+  const next = new Map(keys.map((key) => [key, []]));
+  for (const arrow of arrows) next.get(reverse ? arrow.to : arrow.from)?.push(reverse ? arrow.from : arrow.to);
+  return next;
+}
+function finishOrder(start2, next, seen, finished2) {
+  const stack = [{ key: start2, index: 0 }];
+  seen.add(start2);
+  while (stack.length > 0) {
+    const top = stack[stack.length - 1];
+    const following = next.get(top.key) ?? [];
+    if (top.index < following.length) {
+      const key = following[top.index];
+      top.index += 1;
+      if (!seen.has(key)) {
+        seen.add(key);
+        stack.push({ key, index: 0 });
+      }
+    } else {
+      finished2.push(top.key);
+      stack.pop();
+    }
+  }
+}
+function layersOf(keys, arrows) {
+  const forward = adjacency(keys, arrows, false);
+  const backward = adjacency(keys, arrows, true);
+  const finished2 = [];
+  const seen = /* @__PURE__ */ new Set();
+  for (const key of keys) if (!seen.has(key)) finishOrder(key, forward, seen, finished2);
+  const component = /* @__PURE__ */ new Map();
+  const members2 = [];
+  const assigned = /* @__PURE__ */ new Set();
+  for (const key of [...finished2].reverse()) {
+    if (assigned.has(key)) continue;
+    const found = [];
+    finishOrder(key, backward, assigned, found);
+    for (const member of found) component.set(member, members2.length);
+    members2.push(found);
+  }
+  const looped = new Set(members2.filter((group2) => group2.length > 1).flat());
+  for (const arrow of arrows) if (arrow.from === arrow.to) looped.add(arrow.from);
+  const step = new Array(members2.length).fill(0);
+  const fed = /* @__PURE__ */ new Set();
+  for (let index2 = 0; index2 < members2.length; index2 += 1) {
+    for (const key of members2[index2] ?? []) {
+      for (const to of forward.get(key) ?? []) {
+        const target = component.get(to);
+        if (target === index2) continue;
+        step[target] = Math.max(step[target], step[index2] + 1);
+        fed.add(target);
+      }
+    }
+  }
+  for (let index2 = members2.length - 1; index2 >= 0; index2 -= 1) {
+    if (fed.has(index2)) continue;
+    const targets = (members2[index2] ?? []).flatMap((key) => forward.get(key) ?? []).map((to) => component.get(to)).filter((target) => target !== index2);
+    if (targets.length > 0) step[index2] = Math.min(...targets.map((target) => step[target])) - 1;
+  }
+  return { layer: new Map(keys.map((key) => [key, step[component.get(key)]])), looped };
+}
+var init_layers2 = __esm({
+  "../../packages/diagrams/src/importers/asyncapi/layers.ts"() {
+    "use strict";
+  }
+});
+
 // ../../packages/diagrams/src/importers/asyncapi/spec.ts
 function messageName(root, node3, fallback) {
   const ref = refOf(node3);
@@ -189019,6 +189520,7 @@ function readAsyncApi(text3, context) {
   const edges = [];
   const arrows = /* @__PURE__ */ new Map();
   const channelBox = /* @__PURE__ */ new Map();
+  const channelFamily = /* @__PURE__ */ new Map();
   const brokerHosts = /* @__PURE__ */ new Map();
   const brokerServers = /* @__PURE__ */ new Map();
   let operations = 0;
@@ -189038,8 +189540,9 @@ function readAsyncApi(text3, context) {
       const key = `channel:${channel.address}`;
       const existing = channelBox.get(key);
       if (existing === void 0) {
-        const box = { key, type: "queue", label: cleanText(channel.address), sub: channel.description === null ? null : cleanText(channel.description), group: family === void 0 ? null : `broker:${family}`, idHint: channel.address };
+        const box = { key, type: "queue", label: cleanText(channel.address), sub: channel.description === null ? null : cleanText(channel.description), group: null, idHint: channel.address };
         channelBox.set(key, box);
+        if (family !== void 0) channelFamily.set(key, family);
         nodes.push(box);
       }
     }
@@ -189053,19 +189556,37 @@ function readAsyncApi(text3, context) {
       arrows.set(pair2, { from, to, messages: [...arrows.get(pair2)?.messages ?? [], ...operation.messages] });
     }
   }
-  for (const arrow of arrows.values()) edges.push({ from: arrow.from, to: arrow.to, label: messagesLabel(arrow.messages) });
-  const usedFamilies = new Set(nodes.map((node3) => node3.group).filter((group2) => group2 !== null && group2 !== void 0));
+  for (const arrow of arrows.values()) edges.push({ from: arrow.from, to: arrow.to, label: messagesLabel(arrow.messages), verb: arrow.from.startsWith("channel:") ? "receives" : "sends" });
+  const { layer: layer2, looped } = layersOf(
+    nodes.map((node3) => node3.key),
+    edges
+  );
+  const brokerIcon = (family) => BROKERS[family]?.icon ?? (brokerServers.get(family) ?? []).map((server) => iconForName(`${server.name} ${server.host ?? ""}`, "queue")).find((icon) => icon?.startsWith("simple:") === true) ?? null;
+  const frameSteps = /* @__PURE__ */ new Map();
+  const frameKey = (family, step) => {
+    const index3 = (frameSteps.get(family) ?? []).indexOf(step);
+    return index3 === 0 ? `broker:${family}` : `broker:${family}:${index3 + 1}`;
+  };
+  const placed = nodes.map((node3) => {
+    const family = channelFamily.get(node3.key);
+    if (family === void 0) return node3;
+    if (looped.has(node3.key)) return { ...node3, icon: brokerIcon(family) };
+    const step = layer2.get(node3.key) ?? 0;
+    const steps = frameSteps.get(family) ?? [];
+    if (!steps.includes(step)) frameSteps.set(family, [...steps, step]);
+    return { ...node3, group: frameKey(family, step) };
+  });
+  const usedFamilies = new Set(channelFamily.values());
   for (const family of [...brokerServers.keys()]) {
-    const key = `broker:${family}`;
-    if (!usedFamilies.has(key)) continue;
     const broker = BROKERS[family];
     const hosts = [...brokerHosts.get(family) ?? []];
-    const servers = brokerServers.get(family) ?? [];
-    const named = servers.map((server) => iconForName(`${server.name} ${server.host ?? ""}`, "queue")).find((icon) => icon?.startsWith("simple:") === true) ?? null;
     const where = hosts.length === 0 ? null : hosts.length === 1 ? hosts[0] ?? null : `${hosts.length} hosts`;
-    groups.push({ key, label: broker?.label ?? `${family.toUpperCase()} broker`, type: "messaging", icon: broker?.icon ?? named, sub: where === null ? null : cleanText(where), idHint: family });
+    const steps = [...frameSteps.get(family) ?? []].sort((a, b) => a - b);
+    for (const step of steps) {
+      groups.push({ key: frameKey(family, step), label: broker?.label ?? `${family.toUpperCase()} broker`, type: "messaging", icon: brokerIcon(family), sub: where === null || step !== steps[0] ? null : cleanText(where), idHint: family });
+    }
   }
-  const unused = [...brokerServers.entries()].filter(([family]) => !usedFamilies.has(`broker:${family}`)).flatMap(([, servers]) => servers);
+  const unused = [...brokerServers.entries()].filter(([family]) => !usedFamilies.has(family)).flatMap(([, servers]) => servers);
   if (unused.length > 0) {
     const first = unused[0];
     const file2 = applications.find(({ app }) => app.servers.includes(first))?.file ?? files[0];
@@ -189074,14 +189595,14 @@ function readAsyncApi(text3, context) {
   const sends = (key) => edges.some((edge) => edge.from === key);
   const receives = (key) => edges.some((edge) => edge.to === key);
   const rank = (node3) => node3.type === "queue" ? 1 : sends(node3.key) && !receives(node3.key) ? 0 : !sends(node3.key) && receives(node3.key) ? 2 : 1;
-  const ordered = [...nodes].sort((a, b) => rank(a) - rank(b));
+  const ordered = [...placed].sort((a, b) => rank(a) - rank(b));
   const one = applications.length === 1 ? applications[0]?.app : void 0;
   const channels = channelBox.size;
   return writeFlow(
     {
       title: context.title ?? (one === void 0 ? "Event flows" : cleanText(one.title)),
       desc: one === void 0 ? `${countOf2(applications.length, "application")} and the ${countOf2(channels, "channel")} where they meet: an arrow into a channel sends to it, an arrow out of one receives from it, labelled with the messages. Imported from AsyncAPI.` : `What ${cleanText(one.title)} sends and receives on ${countOf2(channels, "channel")}: an arrow into a channel sends to it, an arrow out of one receives from it, labelled with the messages. Imported from AsyncAPI ${cleanText(one.version)}.`,
-      direction: "right",
+      direction: "down",
       nodes: ordered,
       groups,
       edges,
@@ -189099,6 +189620,7 @@ var init_asyncapi = __esm({
     init_core();
     init_shared2();
     init_document2();
+    init_layers2();
     init_spec();
     BROKERS = {
       kafka: { label: "Kafka", icon: "simple:apachekafka" },
@@ -189460,12 +189982,12 @@ function readBackstage(textIn, context) {
     for (const group2 of entities.filter((entity) => entity.kind === "Group")) {
       const members2 = entities.filter((entity) => entity.kind === "User" && entity.memberOf.includes(group2.ref)).map((user) => user.title ?? user.name);
       const said = members2.length === 0 ? null : members2.length <= 2 ? members2.join(", ") : countOf2(members2.length, "member");
-      groups.push({ key: group2.ref, label: group2.title ?? group2.name, sub: cleanText(["Group", group2.type, said].filter((part) => part !== null).join(", ")), icon: "lucide:users", parent: group2.parent !== null && byRef.has(group2.parent) ? group2.parent : null, idHint: group2.name });
+      groups.push({ key: group2.ref, label: group2.title ?? group2.name, sub: cleanText(["Group", group2.type, said].filter((part) => part !== null).join(", ")), type: "identity-boundary", icon: "lucide:users", parent: group2.parent !== null && byRef.has(group2.parent) ? group2.parent : null, idHint: group2.name });
     }
     for (const entity of boxes2) if (entity.owner !== null && byRef.get(entity.owner)?.kind === "Group") frameOf3.set(entity.ref, entity.owner);
   } else {
-    for (const domain2 of entities.filter((entity) => entity.kind === "Domain")) groups.push({ key: domain2.ref, label: domain2.title ?? domain2.name, sub: cleanText(`Domain${domain2.owner === null ? "" : `, owned by ${nameOfRef2(domain2.owner)}`}`), icon: "lucide:map", idHint: domain2.name });
-    for (const system of entities.filter((entity) => entity.kind === "System")) groups.push({ key: system.ref, label: system.title ?? system.name, sub: cleanText(`System${system.owner === null ? "" : `, owned by ${nameOfRef2(system.owner)}`}`), icon: "lucide:boxes", parent: system.domain !== null && byRef.has(system.domain) ? system.domain : null, idHint: system.name });
+    for (const domain2 of entities.filter((entity) => entity.kind === "Domain")) groups.push({ key: domain2.ref, label: domain2.title ?? domain2.name, sub: cleanText(`Domain${domain2.owner === null ? "" : `, owned by ${nameOfRef2(domain2.owner)}`}`), type: "resource-group", tone: "blue", icon: "lucide:map", idHint: domain2.name });
+    for (const system of entities.filter((entity) => entity.kind === "System")) groups.push({ key: system.ref, label: system.title ?? system.name, sub: cleanText(`System${system.owner === null ? "" : `, owned by ${nameOfRef2(system.owner)}`}`), type: "app-tier", icon: "lucide:boxes", parent: system.domain !== null && byRef.has(system.domain) ? system.domain : null, idHint: system.name });
     for (const entity of boxes2) if (entity.system !== null && byRef.get(entity.system)?.kind === "System") frameOf3.set(entity.ref, entity.system);
   }
   const order = { Component: 0, API: 1, Resource: 2 };
@@ -189478,19 +190000,19 @@ function readBackstage(textIn, context) {
   const drawn = new Set(nodes.map((node3) => node3.key));
   const edges = [];
   const unknown2 = /* @__PURE__ */ new Set();
-  const link2 = (from, to, label, arrow) => {
+  const link2 = (from, to, label, verb, arrow) => {
     if (!drawn.has(to)) {
       if (!byRef.has(to)) unknown2.add(to);
       return;
     }
-    edges.push({ from, to, label, ...arrow === void 0 ? {} : { arrow } });
+    edges.push({ from, to, label, verb, ...arrow === void 0 ? {} : { arrow } });
   };
   for (const entity of ordered) {
-    for (const api of entity.providesApis) link2(entity.ref, api, "provides");
-    for (const api of entity.consumesApis) link2(entity.ref, api, "consumes");
-    for (const target of entity.dependsOn) link2(entity.ref, target, "depends on");
-    for (const source of entity.dependencyOf) if (drawn.has(source)) link2(source, entity.ref, "depends on");
-    if (entity.kind === "Component" && entity.parent !== null) link2(entity.ref, entity.parent, "part of", "-->");
+    for (const api of entity.providesApis) link2(entity.ref, api, "provides", "provides");
+    for (const api of entity.consumesApis) link2(entity.ref, api, "consumes", "consumes");
+    for (const target of entity.dependsOn) link2(entity.ref, target, "depends on", "depends-on");
+    for (const source of entity.dependencyOf) if (drawn.has(source)) link2(source, entity.ref, "depends on", "depends-on");
+    if (entity.kind === "Component" && entity.parent !== null) link2(entity.ref, entity.parent, "part of", null, "-->");
   }
   if (unknown2.size > 0) {
     context.report.add(DIAGNOSTIC_CODES.importUnresolved, START, `${countOf2(unknown2.size, "relation")} name${unknown2.size === 1 ? "s an entity" : " entities"} the files do not describe, so no arrow is drawn: ${[...unknown2].slice(0, 3).join(", ")}.`, "Send the catalog-info.yaml files that describe them, or check that each reference names its kind, such as resource:orders-db.");
@@ -190700,7 +191222,7 @@ function edgesOf2(services, volumes) {
     for (const other of services) {
       if (other.name !== service.name && service.environment.some((value) => namesHost2(value, other.name))) edges.push({ from: `service:${service.name}`, to: `service:${other.name}` });
     }
-    for (const volume of service.volumes) if (volumes.has(volume)) edges.push({ from: `service:${service.name}`, to: `volume:${volume}`, label: "mounts" });
+    for (const volume of service.volumes) if (volumes.has(volume)) edges.push({ from: `service:${service.name}`, to: `volume:${volume}`, label: "mounts", verb: "mounts" });
   }
   return edges;
 }
@@ -192416,12 +192938,12 @@ function helmFrames(manifests) {
     const release = releaseOf(manifest);
     const chart = chartLabel(manifest);
     const partOf2 = manifest.meta.get("app.kubernetes.io/part-of");
-    if (partOf2 !== void 0 && partOf2 !== "" && partOf2 !== release) frames.push({ key: `part-of:${partOf2}`, label: partOf2, sub: "Application", icon: "lucide:boxes", idHint: partOf2 });
+    if (partOf2 !== void 0 && partOf2 !== "" && partOf2 !== release) frames.push({ key: `part-of:${partOf2}`, label: partOf2, sub: "Application", icon: "lucide:boxes", type: "app-tier", idHint: partOf2 });
     if (release === null) return frames;
     const several = (charts.get(release)?.size ?? 0) > 1;
     const only = several || chart === null ? null : chart;
-    frames.push({ key: `release:${release}`, label: release, sub: cleanText(only === null ? "Release" : `Release of ${only.name}${only.version === null ? "" : ` ${only.version}`}`), icon: "simple:helm", idHint: release });
-    if (several && chart !== null) frames.push({ key: `chart:${release}/${chart.name}`, label: chart.name, sub: cleanText(`Chart${chart.version === null ? "" : ` ${chart.version}`}`), icon: "lucide:package", idHint: chart.name });
+    frames.push({ key: `release:${release}`, label: release, sub: cleanText(only === null ? "Release" : `Release of ${only.name}${only.version === null ? "" : ` ${only.version}`}`), icon: "simple:helm", type: "resource-group", tone: "blue", idHint: release });
+    if (several && chart !== null) frames.push({ key: `chart:${release}/${chart.name}`, label: chart.name, sub: cleanText(`Chart${chart.version === null ? "" : ` ${chart.version}`}`), icon: "lucide:package", type: "resource-group", idHint: chart.name });
     return frames;
   };
 }
@@ -192635,7 +193157,7 @@ function stepBoxes(jobs) {
     last.set(job.id, keys[keys.length - 1]);
   }
   for (const job of jobs) for (const need of job.needs) edges.push({ from: last.get(need) ?? "", to: first.get(job.id) ?? "" });
-  const groups = jobs.map((job) => ({ key: `job:${job.id}`, label: job.label, sub: job.detail, idHint: `job_${job.id}` }));
+  const groups = jobs.map((job) => ({ key: `job:${job.id}`, label: job.label, sub: job.detail, otherwise: "ci-cd", idHint: `job_${job.id}` }));
   return { nodes, edges, groups };
 }
 function readWorkflow(source, context) {
@@ -192846,7 +193368,7 @@ function readGitlabCi(source, context) {
       nodes.push({ key: `job:${job.name}`, type: "step", label: cleanText(job.name), sub: subOf3(job), icon: job.image === null ? null : imageLook(job.image)?.icon ?? null, group: `stage:${stage}`, idHint: job.name });
       if (job.trigger !== null) {
         nodes.push({ key: `trigger:${job.name}`, type: "external", label: cleanText(job.trigger.label), sub: job.trigger.child ? "Child pipeline" : "Downstream pipeline", icon: "simple:gitlab", idHint: `${job.name}_pipeline` });
-        edges.push({ from: `job:${job.name}`, to: `trigger:${job.name}`, label: "triggers" });
+        edges.push({ from: `job:${job.name}`, to: `trigger:${job.name}`, label: "triggers", verb: "triggers" });
       }
     }
   }
@@ -194308,7 +194830,7 @@ function stateResources(state, offsetOf) {
   const byUrn = new Map(all.map((resource) => [resource.urn, resource]));
   const counts = /* @__PURE__ */ new Map();
   for (const resource of all) counts.set(logicalName(resource.urn), (counts.get(logicalName(resource.urn)) ?? 0) + 1);
-  const nameOf10 = (urn) => (counts.get(logicalName(urn)) ?? 0) > 1 ? urn : logicalName(urn);
+  const nameOf11 = (urn) => (counts.get(logicalName(urn)) ?? 0) > 1 ? urn : logicalName(urn);
   const safe3 = (name2) => name2.replace(/[^A-Za-z0-9_-]+/g, "_");
   const scopeOf2 = (resource) => {
     const chain2 = [];
@@ -194333,21 +194855,21 @@ function stateResources(state, offsetOf) {
         const outputs = target?.outputs;
         const name2 = typeof outputs === "object" && outputs !== null && !Array.isArray(outputs) ? outputs["name"] : null;
         const path = pathTo(inputs[property] ?? null, [target?.id ?? "", typeof name2 === "string" && property.endsWith("Name") ? name2 : ""], [property]);
-        return { path: path ?? [property], refs: [nameOf10(urn)] };
+        return { path: path ?? [property], refs: [nameOf11(urn)] };
       })
     );
     const parent = resource.parent === null ? void 0 : byUrn.get(resource.parent);
     for (const urns of Object.values(resource.propertyDependencies)) for (const urn of urns) named.add(urn);
-    const dependsOn = resource.dependencies.filter((urn) => !named.has(urn) && byUrn.get(urn)?.custom === true && urn !== resource.urn && urn !== resource.parent).map(nameOf10);
+    const dependsOn = resource.dependencies.filter((urn) => !named.has(urn) && byUrn.get(urn)?.custom === true && urn !== resource.urn && urn !== resource.parent).map(nameOf11);
     const properties = mergeValues2(resource.outputs, resource.inputs);
     return {
-      name: nameOf10(resource.urn),
+      name: nameOf11(resource.urn),
       logical: logicalName(resource.urn),
       token: resource.type,
       properties,
       refs: refs.filter((entry2) => entry2.refs.length > 0),
       dependsOn,
-      parent: parent?.custom === true ? nameOf10(parent.urn) : null,
+      parent: parent?.custom === true ? nameOf11(parent.urn) : null,
       existing: false,
       start: offsetOf(resource.urn),
       scope: scopeOf2(resource)
@@ -195591,7 +196113,7 @@ function writeC4(workspace, view, shown, title, desc) {
   };
   const writeBoundary = (boundary, depth) => {
     lines.gap();
-    lines.add(`boundary ${ids.idFor(`b:${boundary.key}`)} ${quote(cleanText(boundary.name))}${options2({ kind: boundary.kind, tech: boundary.tech === null ? null : cleanText(boundary.tech) }, ["tech"])} {`, depth);
+    lines.add(`boundary ${ids.idFor(`b:${boundary.key}`)} ${quote(cleanText(boundary.name))}${options2({ kind: boundary.kind, tech: boundary.tech === null ? null : cleanText(boundary.tech), icon: BOUNDARY_LOOKS2[boundary.kind].icon, tone: BOUNDARY_LOOKS2[boundary.kind].tone }, ["tech"])} {`, depth);
     for (const entry2 of shown.elements) if (entry2.boundary === boundary.key) elementLine2(entry2, depth + 1);
     for (const child of shown.boundaries) if (child.parent === boundary.key) writeBoundary(child, depth + 1);
     lines.add("}", depth);
@@ -195682,7 +196204,7 @@ function readStructurizr(text3, context) {
     ids: written3.ids
   };
 }
-var DATABASE_WORDS, LEVELS, LEVEL_WORDS, structurizrImporter;
+var BOUNDARY_LOOKS2, DATABASE_WORDS, LEVELS, LEVEL_WORDS, structurizrImporter;
 var init_structurizr = __esm({
   "../../packages/diagrams/src/importers/structurizr/index.ts"() {
     "use strict";
@@ -195692,6 +196214,12 @@ var init_structurizr = __esm({
     init_dsl();
     init_json2();
     init_view();
+    BOUNDARY_LOOKS2 = {
+      system: { icon: "lucide:blocks", tone: "blue" },
+      container: { icon: "lucide:box", tone: "blue" },
+      group: { icon: "lucide:boxes", tone: "violet" },
+      enterprise: { icon: "lucide:building", tone: "neutral" }
+    };
     DATABASE_WORDS = /\b(?:database|postgres(?:ql)?|mysql|mariadb|oracle|sql server|sqlite|mongodb|dynamodb|cassandra|cosmos ?db|couchdb|neo4j|elasticsearch|opensearch|clickhouse|snowflake|bigquery|redshift)\b/i;
     LEVELS = ["context", "container", "component"];
     LEVEL_WORDS = {
@@ -196328,7 +196856,7 @@ function childOf(parent, name2, line3) {
   parent.push(entry2);
   return entry2;
 }
-function nameOf8(raw) {
+function nameOf9(raw) {
   const text3 = cleanText(raw, "");
   const isDir = text3.endsWith("/") && text3.length > 1;
   return { name: isDir ? text3.slice(0, -1) : text3, isDir };
@@ -196355,7 +196883,7 @@ function readCommand(lines) {
       depth += 1;
       at3 += 4;
     }
-    const { name: name2, isDir } = nameOf8(line3.slice(at3));
+    const { name: name2, isDir } = nameOf9(line3.slice(at3));
     if (name2 === "") continue;
     if (!branched && root === null && top.length === 0) {
       root = name2;
@@ -196405,7 +196933,7 @@ function readOutline(lines) {
   for (const [index2, raw] of lines.entries()) {
     if (raw.trim() === "") continue;
     const { width, text: text3 } = indentOf6(raw);
-    const { name: name2, isDir } = nameOf8(text3);
+    const { name: name2, isDir } = nameOf9(text3);
     if (name2 === "") continue;
     while (stack.length > 0 && (stack[stack.length - 1]?.width ?? 0) >= width) stack.pop();
     const parent = stack[stack.length - 1]?.entry;
@@ -198165,14 +198693,14 @@ function isProduct(ref) {
   return cloudSetOf2(ref) !== void 0 || setOf(ref) === "simple";
 }
 function isTheIcon(query, ref) {
-  if (normalizePhrase(nameOf9(ref)) === query) return true;
+  if (normalizePhrase(nameOf10(ref)) === query) return true;
   if (customIconPhrases(ref)?.has(query) === true) return true;
   const set2 = cloudSetOf2(ref);
-  if (set2 !== void 0 && nameOf9(ref) === "cloud" && CLOUD_PROVIDER_SPECS[set2].names.includes(query)) return true;
+  if (set2 !== void 0 && nameOf10(ref) === "cloud" && CLOUD_PROVIDER_SPECS[set2].names.includes(query)) return true;
   return (phrasesByText().get(query) ?? []).some((phrase2) => phrase2.ref === ref && !phrase2.isGeneric);
 }
 function nameHasWords(query, ref) {
-  const words2 = nameOf9(ref).split("-");
+  const words2 = nameOf10(ref).split("-");
   return query.split(" ").every((word2) => words2.includes(word2));
 }
 function isContested(query, top, others, needsSameMatch) {
@@ -198188,7 +198716,7 @@ function classifyIcon(name2, results) {
   if (nameHasWords(query, top) && !isContested(query, top, others, false)) return "strong";
   return "ambiguous";
 }
-var phraseIndex, setOf, nameOf9, cloudSetOf2;
+var phraseIndex, setOf, nameOf10, cloudSetOf2;
 var init_icon_confidence = __esm({
   "../../packages/diagrams/src/tools/workflows/icon-confidence.ts"() {
     "use strict";
@@ -198196,7 +198724,7 @@ var init_icon_confidence = __esm({
     init_icons();
     phraseIndex = null;
     setOf = (ref) => ref.slice(0, ref.indexOf(":"));
-    nameOf9 = (ref) => ref.slice(ref.indexOf(":") + 1);
+    nameOf10 = (ref) => ref.slice(ref.indexOf(":") + 1);
     cloudSetOf2 = (ref) => CLOUD_SETS.find((set2) => set2 === setOf(ref));
   }
 });
@@ -198547,7 +199075,7 @@ function isMarkCell(cell2) {
   const word2 = cell2.trim().toLowerCase();
   return YES_WORDS.includes(word2) || NO_WORDS.includes(word2) || TICKS.includes(word2) || CROSSES2.includes(word2) || word2 === "partial";
 }
-function wordsOf5(text3) {
+function wordsOf6(text3) {
   return text3.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim().split(" ").filter((word2) => word2 !== "");
 }
 function cleanLabel2(text3) {
@@ -198581,7 +199109,7 @@ function idMaker(fallback) {
   let count3 = 0;
   return (label) => {
     count3 += 1;
-    const words2 = wordsOf5(label).slice(0, 3);
+    const words2 = wordsOf6(label).slice(0, 3);
     let id = words2.join("_");
     if (!/^[a-z]/.test(id) || RESERVED_IDS.has(id)) id = `${fallback}${count3}`;
     id = id.slice(0, 24);
@@ -199319,7 +199847,7 @@ function singular2(word2) {
 function iconFor(name2) {
   const product = iconNamedBy(name2, null);
   if (product !== null) return product;
-  for (const word2 of wordsOf5(name2)) {
+  for (const word2 of wordsOf6(name2)) {
     const ref = ROLE_ICONS2[word2] ?? ROLE_ICONS2[singular2(word2)];
     if (ref !== void 0 && isKnownIcon(ref)) return ref;
   }
@@ -199411,7 +199939,7 @@ var init_icons4 = __esm({
 function chain(ids, arrow = "->", label = "") {
   return ids.slice(1).map((id, index2) => `${ids[index2] ?? id} ${arrow} ${id}${label}`);
 }
-function layersOf(material) {
+function layersOf2(material) {
   const lists = listsOf(material);
   if (lists.length >= 2) return lists.slice(0, 6).map((list) => ({ name: list.label, blocks: list.values.slice(0, 6) }));
   if (material.items.some((item) => item.depth > 0)) {
@@ -199433,6 +199961,11 @@ function partType(name2) {
   if (/\b(web app|browser|mobile|app|client|frontend)\b/i.test(name2)) return "client";
   return "service";
 }
+function roleOption(verb) {
+  const named = verbNamedBy(verb);
+  const role = named === null ? null : EDGE_STYLES[named].role;
+  return role === null ? "" : ` role=${role}`;
+}
 function linkedFlow(material, title) {
   const ids = idMaker("part");
   const nodes = /* @__PURE__ */ new Map();
@@ -199446,7 +199979,7 @@ function linkedFlow(material, title) {
     return node3.id;
   };
   const links = material.relations.slice(0, MOST * 2).map((relation2) => ({ from: nodeOf5(relation2.from), to: nodeOf5(relation2.to), verb: relation2.verb }));
-  const edges = links.map((link2) => `${link2.from} -> ${link2.to} : ${quoted4(link2.verb)}`);
+  const edges = links.map((link2) => `${link2.from} -> ${link2.to} : ${quoted4(link2.verb)}${roleOption(link2.verb)}`);
   return sourceOf(`flow ${quoted4(title)} direction=${directionFor(longestChain2(links))}`, [
     ...[...nodes.values()].map((node3) => `node ${node3.id} ${partType(node3.label)} ${quoted4(node3.label)}${iconOption(node3.label)}`),
     "",
@@ -199482,6 +200015,8 @@ var WIDEST_CHAIN, SYSTEM_BUILDERS;
 var init_systems = __esm({
   "../../packages/diagrams/src/guidance/starters/systems.ts"() {
     "use strict";
+    init_constants();
+    init_label_icon();
     init_icons4();
     init_text6();
     init_shared4();
@@ -199568,7 +200103,7 @@ var init_systems = __esm({
       },
       layers: (material, title) => {
         const ids = idMaker("block");
-        const body6 = layersOf(material).flatMap((layer2) => {
+        const body6 = layersOf2(material).flatMap((layer2) => {
           const blocks2 = distinctLabels(layer2.blocks);
           return [`layer ${quoted4(layer2.name)} {`, ...(blocks2.length > 0 ? blocks2 : [layer2.name]).map((block) => `  block ${ids(block)} ${quoted4(block)}`), "}", ""];
         });
@@ -199622,13 +200157,13 @@ function stem(word2) {
   return word2;
 }
 function keyOf4(text3) {
-  return wordsOf5(text3).map(stem).join(" ");
+  return wordsOf6(text3).map(stem).join(" ");
 }
 function wordPoints(texts) {
   const strong = /* @__PURE__ */ new Map();
   const weak = /* @__PURE__ */ new Map();
   for (const { text: text3, weight } of texts) {
-    const words2 = wordsOf5(text3).map(stem);
+    const words2 = wordsOf6(text3).map(stem);
     const seen = /* @__PURE__ */ new Set();
     for (let start2 = 0; start2 < words2.length; start2 += 1) {
       let key = "";
@@ -199751,8 +200286,8 @@ var init_rank = __esm({
     MEDIUM = 4;
     INDEX = /* @__PURE__ */ new Map();
     for (const intent of INTENTS) {
-      for (const [phrases, isStrong] of [[intent.strong, true], [intent.weak, false]]) {
-        for (const phrase2 of phrases) INDEX.set(keyOf4(phrase2), [...INDEX.get(keyOf4(phrase2)) ?? [], { id: intent.id, isStrong }]);
+      for (const [phrases2, isStrong] of [[intent.strong, true], [intent.weak, false]]) {
+        for (const phrase2 of phrases2) INDEX.set(keyOf4(phrase2), [...INDEX.get(keyOf4(phrase2)) ?? [], { id: intent.id, isStrong }]);
       }
     }
     LONGEST_PHRASE = Math.max(...[...INDEX.keys()].map((key) => key.split(" ").length));
@@ -200854,6 +201389,7 @@ var init_server_info = __esm({
       "Set embedSource true on draw_diagram whenever you save an SVG into a repository, so the file carries its source and read_diagram can give it back next time; the source is then readable by anyone who has the file.",
       ...SAVING_INSTRUCTIONS,
       'An item with no icon= gets the icon its label names when the match is certain, such as the Postgres mark on a node labelled "Postgres", so label items with the product they are; icon=none keeps one item plain and icons=off on the header keeps them all plain.',
+      'For a finished look, label flow arrows with verbs ("reads", "publishes", "deploys to") so they draw icons, add role= (data, async, identity, private) to the lines that carry those, and give groups a type=; style in get_diagram_syntax says more.',
       "Use map_icons to choose icons for many names at once; it never guesses, so choose from the candidates for an ambiguous name, and never invent an icon.",
       "To move Mermaid to Plotwork, call convert_mermaid with one diagram, read every diagnostic and its hint, then choose node types and icons; for a whole Markdown file call sync_markdown with the document, its path, and convertMermaid true, write the returned markdown and files, then review the diff.",
       "When the repository has a plotwork.config.json (or .plotwork/config.json) at its root, read it and pass it as settings to every tool that takes settings: its defaults fill the header options the source leaves out, and broken style rules come back as warnings to fix.",
