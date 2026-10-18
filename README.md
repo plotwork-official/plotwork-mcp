@@ -7,7 +7,7 @@ The Plotwork diagram tools as a local MCP (Model Context Protocol) server. An AI
 | Question | Answer |
 |---|---|
 | Does it need an API key? | No. There is no key, no sign-in, and no account. |
-| Does it use the network? | Not by default. Every tool is a pure computation over its arguments, and with nothing set it reads no file but your repository's settings (`plotwork.config.json`, if you have one), writes none, and makes no network request. Only if you set `PLOTWORK_USAGE` does it count your tool calls, and only if you set it to `share` does it send anything. See [Usage counts](#usage-counts-off-unless-you-turn-them-on). |
+| Does it use the network? | Not by default. Every tool is a pure computation over its arguments, and with nothing set it reads no file but its own (the program, and the icon art in `icons/` beside it) and your repository's settings (`plotwork.config.json`, if you have one), writes none, and makes no network request. Only if you set `PLOTWORK_USAGE` does it count your tool calls, and only if you set it to `share` does it send anything. See [Usage counts](#usage-counts-off-unless-you-turn-them-on). |
 | How do I start it? | `npx -y @buun_group/plotwork-mcp`. Your MCP client runs this command for you. |
 | Which Node version? | Node 22 or newer. |
 | What are the tools? | Workflows that draw a diagram, convert Mermaid, choose icons, and sync a Markdown document in one call, and single steps for fine control. All are read-only. Your client lists them, and the tool reference in the documentation has every name and schema. |

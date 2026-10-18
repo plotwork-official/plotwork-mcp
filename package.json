@@ -1,6 +1,6 @@
 {
   "name": "@buun_group/plotwork-mcp",
-  "version": "0.1.0-beta.8",
+  "version": "0.1.0-beta.9",
   "description": "No API key and no account. Plotwork MCP server for local use over stdio: read-only tools that draw, validate, outline, convert, and render twenty kinds of diagram, from flow, sequence, and database to Gantt, state, mind map, and treemap. It sends nothing unless you opt in.",
   "mcpName": "dev.plotwork/mcp",
   "license": "MIT",
@@ -12,7 +12,8 @@
     "plotwork-mcp.mjs",
     "README.md",
     "LICENSE",
-    "THIRD-PARTY-NOTICES.md"
+    "THIRD-PARTY-NOTICES.md",
+    "icons/"
   ],
   "engines": {
     "node": ">=22"
