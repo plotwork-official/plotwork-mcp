@@ -51,7 +51,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 var package_default;
 var init_package = __esm({
   "package.json"() {
-    package_default = { version: "0.1.0-beta.6" };
+    package_default = { version: "0.1.0-beta.7" };
   }
 });
 
@@ -643,7 +643,7 @@ var init_view_links = __esm({
     };
     CLI_RELEASE = {
       packageName: "@buun_group/plotwork",
-      version: "0.1.0-beta.7",
+      version: "0.1.0-beta.8",
       onNpm: true
     };
   }
@@ -662,7 +662,7 @@ var init_mcp_release = __esm({
     "use strict";
     MCP_RELEASE = {
       packageName: "@buun_group/plotwork-mcp",
-      version: "0.1.0-beta.5"
+      version: "0.1.0-beta.6"
     };
   }
 });
@@ -6944,7 +6944,11 @@ var init_guide = __esm({
       helm: { reads: "The output of helm template, or a chart folder (Chart.yaml, charts/, Chart.lock, values.yaml).", draws: "flow as kubernetes framed by release and chart, or a flow of charts and their dependencies", options: "none." },
       kustomize: { reads: "The output of kustomize build, or a folder of kustomization.yaml files with what they list.", draws: "flow as kubernetes, or a flow of overlays, bases, and components", options: "none." },
       backstage: { reads: "Backstage catalog descriptors (catalog-info.yaml), one file or a folder.", draws: "flow of components, APIs, and resources in systems and domains", options: "groupBy owner: frame by the owning group instead." },
+      structurizr: { reads: "A Structurizr workspace: its DSL (workspace.dsl, with !identifiers hierarchical) or its JSON export.", draws: "c4 of one view: the containers of the first system that has some, or the view the workspace defines first", options: "view context, container, or component; root: the system or container, by identifier or name." },
+      asyncapi: { reads: "AsyncAPI 2.x or 3.x documents in YAML or JSON; send one application's, or a folder of them in files.", draws: "flow of applications and channels in their brokers' frames, an arrow for each send or receive labelled with its messages", options: "none." },
       "github-actions": { reads: "A GitHub Actions workflow file.", draws: "flow of the trigger, the jobs in needs order, and their steps", options: "none." },
+      "gitlab-ci": { reads: "A .gitlab-ci.yml; extends and hidden jobs are resolved, include: is not fetched.", draws: "flow of stages as frames in order, jobs by needs or stage after stage, dashed when manual or by rules, triggers to downstream pipelines", options: "none." },
+      "azure-pipelines": { reads: "An azure-pipelines.yml: stages, jobs, and deployment jobs, or a file of only jobs or steps; templates are not fetched.", draws: "flow of stages as frames, jobs by dependsOn at both levels, deployments with their environment", options: "none." },
       csv: { reads: "A CSV, TSV, or semicolon-separated table.", draws: "the chart its shape suits: xychart, pie, sankey, treemap, or matrix", options: "chart: auto or one of those." },
       json: { reads: "Records, rows, a name to number object, or nested objects of numbers.", draws: "the same charts as csv", options: "chart." },
       tree: { reads: "tree output, a list of paths, or an indented outline.", draws: "tree", options: "none." },
@@ -6958,8 +6962,8 @@ var IMPORT_FORMATS, IMPORT_VIEWS, IMPORT_CHARTS, IMPORT_GROUP_BY, NO_STATS;
 var init_types2 = __esm({
   "../../packages/diagrams/src/importers/types.ts"() {
     "use strict";
-    IMPORT_FORMATS = ["sql", "prisma", "drizzle", "openapi", "terraform", "terraform-plan", "bicep", "arm", "pulumi", "cloudformation", "cdk", "compose", "kubernetes", "helm", "kustomize", "backstage", "github-actions", "csv", "json", "tree", "git-log"];
-    IMPORT_VIEWS = ["endpoints", "map", "sequence", "git", "timeline"];
+    IMPORT_FORMATS = ["sql", "prisma", "drizzle", "openapi", "terraform", "terraform-plan", "bicep", "arm", "pulumi", "cloudformation", "cdk", "compose", "kubernetes", "helm", "kustomize", "backstage", "structurizr", "asyncapi", "github-actions", "gitlab-ci", "azure-pipelines", "csv", "json", "tree", "git-log"];
+    IMPORT_VIEWS = ["endpoints", "map", "sequence", "git", "timeline", "context", "container", "component"];
     IMPORT_CHARTS = ["auto", "xychart", "pie", "sankey", "treemap", "matrix"];
     IMPORT_GROUP_BY = ["module", "network", "file", "owner"];
     NO_STATS = { items: 0, links: 0, groups: 0, dropped: 0 };
@@ -7023,7 +7027,8 @@ var init_looks = __esm({
       system: { caption: "Software System", frame: "dashed", icon: null },
       container: { caption: "Container", frame: "dashed", icon: null },
       enterprise: { caption: "Enterprise", frame: "dashed", icon: null },
-      deployment: { caption: "Deployment Node", frame: "solid", icon: "lucide:server" }
+      deployment: { caption: "Deployment Node", frame: "solid", icon: "lucide:server" },
+      group: { caption: "Group", frame: "dashed", icon: null }
     };
   }
 });
@@ -102504,13 +102509,13 @@ var init_stretch = __esm({
 function tryRoutes(scene, changes) {
   const old = changes.map(({ edge }) => ({ edge, points: edge.points, label: edge.label, hits: intrusions(scene, edge, edge.points, edge.label) }));
   const crossingsOf2 = (edge) => scene.edges.reduce((sum, other) => other === edge ? sum : sum + crossingsNear(edge.points, other.points), 0);
-  const runsOf5 = (edge) => scene.edges.reduce((sum, other) => other === edge ? sum : sum + sharedRuns(edge.points, other.points), 0);
-  const before = changes.reduce((sum, { edge }) => ({ crossings: sum.crossings + crossingsOf2(edge), runs: sum.runs + runsOf5(edge), bends: sum.bends + bends(edge.points) }), { crossings: 0, runs: 0, bends: 0 });
+  const runsOf6 = (edge) => scene.edges.reduce((sum, other) => other === edge ? sum : sum + sharedRuns(edge.points, other.points), 0);
+  const before = changes.reduce((sum, { edge }) => ({ crossings: sum.crossings + crossingsOf2(edge), runs: sum.runs + runsOf6(edge), bends: sum.bends + bends(edge.points) }), { crossings: 0, runs: 0, bends: 0 });
   for (const change of changes) {
     change.edge.points = change.points;
     change.edge.label = change.label;
   }
-  const after = changes.reduce((sum, { edge }) => ({ crossings: sum.crossings + crossingsOf2(edge), runs: sum.runs + runsOf5(edge), bends: sum.bends + bends(edge.points) }), { crossings: 0, runs: 0, bends: 0 });
+  const after = changes.reduce((sum, { edge }) => ({ crossings: sum.crossings + crossingsOf2(edge), runs: sum.runs + runsOf6(edge), bends: sum.bends + bends(edge.points) }), { crossings: 0, runs: 0, bends: 0 });
   const isClean = old.every(({ edge, hits }) => isSubset(intrusions(scene, edge, edge.points, edge.label), hits)) && after.crossings <= before.crossings && after.runs <= before.runs && after.bends <= before.bends;
   if (isClean) return true;
   for (const { edge, points, label } of old) {
@@ -105226,7 +105231,7 @@ var init_words = __esm({
     C4_VIEWS = ["context", "container", "component", "deployment", "dynamic"];
     DEFAULT_VIEW = "container";
     C4_ELEMENT_WORDS = ["person", "system", "container", "component", "db"];
-    C4_BOUNDARY_KINDS = ["system", "container", "enterprise", "deployment"];
+    C4_BOUNDARY_KINDS = ["system", "container", "enterprise", "deployment", "group"];
     DEFAULT_BOUNDARY_KIND = "system";
     C4_HEADER_OPTIONS = ["view", "direction", "desc", "icons"];
     C4_ELEMENT_OPTIONS = ["desc", "tech", "external", "icon", "tone"];
@@ -105351,7 +105356,7 @@ function resolveRelationships(state) {
   const elementIds = new Set(state.elements.map((element) => element.id));
   const boundaryIds = new Set(state.boundaries.map((boundary) => boundary.id));
   const names8 = [...elementIds];
-  const resolved = [];
+  const resolved2 = [];
   let suggested = 0;
   for (const pending of state.pending) {
     const missing = [pending.from, pending.to].filter((end) => !elementIds.has(end.text));
@@ -105362,19 +105367,19 @@ function resolveRelationships(state) {
       state.report.push(errorAt(DIAGNOSTIC_CODES.unknownNode, message2, spanOf2(end), `${guess}Declare it first with: container ${end.text} "Name"`));
     }
     if (missing.length > 0) continue;
-    resolved.push({
-      id: toEdgeId(resolved.length),
+    resolved2.push({
+      id: toEdgeId(resolved2.length),
       from: toNodeId(pending.from.text),
       to: toNodeId(pending.to.text),
       label: pending.label,
       tech: pending.tech,
       line: pending.arrow.line,
       heads: pending.arrow.heads,
-      ...state.view === "dynamic" ? { step: DEFAULT_FIRST_STEP + resolved.length } : {},
+      ...state.view === "dynamic" ? { step: DEFAULT_FIRST_STEP + resolved2.length } : {},
       at: pending.at
     });
   }
-  return resolved;
+  return resolved2;
 }
 function dispatch(line3, state, scopes) {
   const cursor = new TokenCursor(line3.tokens);
@@ -106393,7 +106398,7 @@ function c4Vocabulary() {
         example: 'container api "API Application" tech="Spring Boot" desc="Serves the banking data as JSON."'
       },
       {
-        syntax: 'boundary <id> "Name" kind=system|container|enterprise|deployment tech="<technology>" {',
+        syntax: 'boundary <id> "Name" kind=system|container|enterprise|deployment|group tech="<technology>" {',
         meaning: "Opens a boundary: a frame with its name and a caption such as [Software System] in a corner tab, around the elements written inside it. Boundaries nest, up to four deep, and close with } on a line of its own. A deployment boundary is a solid frame with a server icon, and tech= is its technology, such as Ubuntu 22.04.",
         example: 'boundary bank "Internet Banking System" kind=system {'
       },
@@ -108974,15 +108979,15 @@ function resolveRelation(pending, state, ids, known3, index2) {
 }
 function resolveNotes(state) {
   const ids = state.classes.map((node3) => node3.id);
-  const resolved = [];
+  const resolved2 = [];
   for (const note of state.notes) {
     if (note.target !== null && !ids.includes(note.target.text)) {
       state.report.push(errorAt(DIAGNOSTIC_CODES.unknownNode, `Unknown class "${note.target.text}"`, note.target, `${didYouMean(note.target.text, ids)} A note belongs to a class: note on Order : "text"`));
       continue;
     }
-    resolved.push({ id: `note${resolved.length}`, text: note.text, target: note.target === null ? null : toNodeId(note.target.text), at: note.at });
+    resolved2.push({ id: `note${resolved2.length}`, text: note.text, target: note.target === null ? null : toNodeId(note.target.text), at: note.at });
   }
-  return resolved;
+  return resolved2;
 }
 function parseClass(lines, report3) {
   const state = {
@@ -109017,8 +109022,8 @@ function parseClass(lines, report3) {
   const ids = state.classes.map((node3) => node3.id);
   const known3 = new Set(ids);
   for (const pending of state.relations) {
-    const resolved = resolveRelation(pending, state, ids, known3, relations.length);
-    if (resolved !== null) relations.push(resolved);
+    const resolved2 = resolveRelation(pending, state, ids, known3, relations.length);
+    if (resolved2 !== null) relations.push(resolved2);
   }
   return {
     kind: "class",
@@ -110654,7 +110659,7 @@ function isRefused(member, at3, overlay, seen, state, parents) {
 function resolveOverlays(state) {
   const parents = parentsOf2(state);
   const claimedBy = /* @__PURE__ */ new Map();
-  const resolved = [];
+  const resolved2 = [];
   for (const overlay of state.overlays) {
     const seen = /* @__PURE__ */ new Set();
     let isSound = true;
@@ -110678,9 +110683,9 @@ function resolveOverlays(state) {
     if (!isSound) continue;
     for (const member of overlay.members) claimedBy.set(member, overlay.id);
     const { memberAt: _memberAt, ...rest } = overlay;
-    resolved.push(rest);
+    resolved2.push(rest);
   }
-  return resolved;
+  return resolved2;
 }
 var init_overlay_resolve = __esm({
   "../../packages/diagrams/src/parse/overlay-resolve.ts"() {
@@ -110734,7 +110739,7 @@ function closeScope3(line3, state, scopes) {
 function resolveEdges(state) {
   const nodeIds = state.nodes.map((node3) => node3.id);
   const known3 = new Set(nodeIds);
-  const resolved = [];
+  const resolved2 = [];
   for (const edge of state.edges) {
     const missing = [
       { id: edge.from, token: edge.fromToken },
@@ -110746,8 +110751,8 @@ function resolveEdges(state) {
       state.report.push(errorAt(DIAGNOSTIC_CODES.unknownNode, `Unknown node "${end.id}"`, end.token, hint2));
     }
     if (missing.length === 0) {
-      resolved.push({
-        id: toEdgeId(resolved.length),
+      resolved2.push({
+        id: toEdgeId(resolved2.length),
         from: toNodeId(edge.from),
         to: toNodeId(edge.to),
         label: edge.label,
@@ -110760,7 +110765,7 @@ function resolveEdges(state) {
       });
     }
   }
-  return resolved;
+  return resolved2;
 }
 function parseFlow(lines, report3) {
   const state = {
@@ -112649,19 +112654,19 @@ function resolve(declaration) {
   if (fill !== null && tone === null) leftOut.unshift(`fill ${fill} has no tone`);
   return { tone, fill, leftOut };
 }
-function report2(state, declaration, resolved, subject, isApplied) {
+function report2(state, declaration, resolved2, subject, isApplied) {
   const { reporter } = state.ctx;
-  const leftOut = [...resolved.leftOut];
-  if (resolved.tone !== null && resolved.fill !== null && isApplied) {
+  const leftOut = [...resolved2.leftOut];
+  if (resolved2.tone !== null && resolved2.fill !== null && isApplied) {
     reporter.add(
       DIAGNOSTIC_CODES.mermaidMappedToNearest,
       declaration.span,
-      `The fill ${resolved.fill} of ${subject} became the tone ${resolved.tone}.`,
+      `The fill ${resolved2.fill} of ${subject} became the tone ${resolved2.tone}.`,
       "Check that the tone says what it means. The theme draws it in light and dark.",
       "fill-tone"
     );
-  } else if (resolved.tone !== null && resolved.fill !== null) {
-    leftOut.unshift(`fill ${resolved.fill} has no node or subgraph to colour`);
+  } else if (resolved2.tone !== null && resolved2.fill !== null) {
+    leftOut.unshift(`fill ${resolved2.fill} has no node or subgraph to colour`);
   }
   if (leftOut.length > 0) reporter.dropped("styleLeftOut", declaration.span, leftOut.join(", "));
 }
@@ -112669,9 +112674,9 @@ function applyStyles(state) {
   const { builder, ctx } = state;
   const classTones = /* @__PURE__ */ new Map();
   for (const declaration of state.classDefs) {
-    const resolved = resolve(declaration);
-    if (resolved.tone !== null) for (const name2 of declaration.targets) classTones.set(name2, resolved.tone);
-    report2(state, declaration, resolved, `the class ${declaration.targets.map((name2) => `"${name2}"`).join(", ")}`, resolved.tone !== null);
+    const resolved2 = resolve(declaration);
+    if (resolved2.tone !== null) for (const name2 of declaration.targets) classTones.set(name2, resolved2.tone);
+    report2(state, declaration, resolved2, `the class ${declaration.targets.map((name2) => `"${name2}"`).join(", ")}`, resolved2.tone !== null);
   }
   for (const node3 of builder.nodes) {
     for (const name2 of node3.classes) {
@@ -112680,9 +112685,9 @@ function applyStyles(state) {
     }
   }
   for (const declaration of state.styles) {
-    const resolved = resolve(declaration);
-    const applied = resolved.tone === null ? [] : declaration.targets.filter((target) => builder.setTone(target, resolved.tone));
-    report2(state, declaration, resolved, `the style of ${declaration.targets.map((target) => `"${target}"`).join(", ")}`, applied.length > 0);
+    const resolved2 = resolve(declaration);
+    const applied = resolved2.tone === null ? [] : declaration.targets.filter((target) => builder.setTone(target, resolved2.tone));
+    report2(state, declaration, resolved2, `the style of ${declaration.targets.map((target) => `"${target}"`).join(", ")}`, applied.length > 0);
   }
   for (const use of state.classUses) {
     if (!classTones.has(use.name)) ctx.reporter.dropped("classAssign", use.span, use.name);
@@ -114278,7 +114283,7 @@ function resolveWindows(ir, calendar, ctx) {
     if (target === void 0) return fail2(task, `${what} "${key}", which is not a task of this chart.`, hint2);
     return windowOf(target, ir.tasks.indexOf(target)) ?? fail2(task, `${what} "${key}", which cannot be placed.`, "Fix that task first, or give this one a start date.");
   };
-  const startOf3 = (task, index2) => {
+  const startOf4 = (task, index2) => {
     if (task.start.kind === "date") return task.start.day;
     if (task.start.kind === "previous") {
       const previous = ir.tasks[index2 - 1];
@@ -114289,7 +114294,7 @@ function resolveWindows(ir, calendar, ctx) {
     return ends.length === 0 || ends.includes(null) ? null : Math.max(...ends.map((day) => day ?? 0));
   };
   const place2 = (task, index2) => {
-    const wanted2 = startOf3(task, index2);
+    const wanted2 = startOf4(task, index2);
     if (wanted2 === null) return null;
     const start2 = task.start.kind === "date" || !calendar.isActive ? wanted2 : nextWorkingDay(calendar, wanted2);
     const { end } = task;
@@ -119403,7 +119408,7 @@ function close(line3, state) {
 function resolveLinks(state) {
   const ids = state.layers.flatMap((layer2) => layer2.blocks.map((block) => block.id));
   const inAside = new Set(state.asides.flatMap((aside) => aside.blocks.map((block) => block.id)));
-  const resolved = [];
+  const resolved2 = [];
   for (const link2 of state.links) {
     const missing = [link2.from, link2.to].filter((end) => !ids.includes(end.text));
     for (const end of missing) {
@@ -119412,9 +119417,9 @@ function resolveLinks(state) {
     }
     if (missing.length > 0) continue;
     if (link2.from.text === link2.to.text) syntax(state, `The block "${link2.from.text}" cannot link to itself`, link2.to, "Link two different blocks.");
-    else resolved.push({ from: link2.from.text, to: link2.to.text, label: link2.label, line: link2.line, heads: link2.heads });
+    else resolved2.push({ from: link2.from.text, to: link2.to.text, label: link2.label, line: link2.line, heads: link2.heads });
   }
-  return resolved;
+  return resolved2;
 }
 function parseLayers(lines, report3) {
   const state = { title: null, description: null, direction: "down", showCounts: false, layers: [], asides: [], links: [], open: [], declared: /* @__PURE__ */ new Map(), report: report3 };
@@ -127198,14 +127203,14 @@ function resolveEnd(token, tables, report3) {
   return { table: table2, column: columnName2 };
 }
 function resolveRelations(state) {
-  const resolved = [];
+  const resolved2 = [];
   for (const pending of state.relations) {
     const from = resolveEnd(pending.from, state.tables, state.report);
     const to = resolveEnd(pending.to, state.tables, state.report);
     if (from === null || to === null) continue;
     const fromColumn = from.table.columns.find((column) => column.name === from.column);
-    resolved.push({
-      id: toEdgeId(resolved.length),
+    resolved2.push({
+      id: toEdgeId(resolved2.length),
       fromTable: toTableId(from.table.id),
       fromColumn: from.column,
       toTable: toTableId(to.table.id),
@@ -127214,7 +127219,7 @@ function resolveRelations(state) {
       cardinality: fromColumn?.isPrimaryKey === true || fromColumn?.isUnique === true ? "one-to-one" : "many-to-one"
     });
   }
-  return resolved;
+  return resolved2;
 }
 function parseSchema(lines, report3) {
   const state = { title: null, description: null, tables: [], relations: [], openTable: null, declared: /* @__PURE__ */ new Map(), report: report3 };
@@ -131287,7 +131292,7 @@ function lineage(id, byId) {
 }
 function resolveTransitions(state, byId) {
   const names8 = state.nodes.filter((node3) => node3.kind === "state" || node3.kind === "composite" || node3.kind === "choice" || node3.kind === "fork" || node3.kind === "join" || node3.kind === "history").map((node3) => node3.id);
-  const resolved = [];
+  const resolved2 = [];
   let suggested = 0;
   for (const pending of state.transitions) {
     const missing = [
@@ -131310,9 +131315,9 @@ function resolveTransitions(state, byId) {
       continue;
     }
     const parts = pending.label === null ? { event: null, guard: null, action: null } : splitLabel(pending.label);
-    resolved.push({ id: `t${resolved.length}`, from: pending.from, to: pending.to, label: pending.label, ...parts, at: pending.at });
+    resolved2.push({ id: `t${resolved2.length}`, from: pending.from, to: pending.to, label: pending.label, ...parts, at: pending.at });
   }
-  return resolved;
+  return resolved2;
 }
 function resolveNotes2(state, byId) {
   const names8 = state.nodes.filter((node3) => node3.kind === "state" || node3.kind === "composite" || node3.kind === "choice").map((node3) => node3.id);
@@ -132593,7 +132598,7 @@ function parseFlow2(cursor, p, line3) {
 }
 function resolveFlows(p) {
   const names8 = p.items.map((item) => item.id);
-  const resolved = [];
+  const resolved2 = [];
   let suggested = 0;
   for (const pending of p.pending) {
     const missing = [pending.from, pending.to].filter((end) => !names8.includes(end.text));
@@ -132608,9 +132613,9 @@ function resolveFlows(p) {
       continue;
     }
     const parts = pending.label === null ? { event: null, guard: null, action: null } : splitLabel(pending.label);
-    resolved.push({ id: `f${resolved.length}`, from: pending.from.text, to: pending.to.text, label: pending.label, ...parts, line: pending.line, ...pending.step === void 0 ? {} : { step: pending.step }, at: pending.at });
+    resolved2.push({ id: `f${resolved2.length}`, from: pending.from.text, to: pending.to.text, label: pending.label, ...parts, line: pending.line, ...pending.step === void 0 ? {} : { step: pending.step }, at: pending.at });
   }
-  return resolved;
+  return resolved2;
 }
 function dispatch11(line3, p, scope) {
   const cursor = new TokenCursor(line3.tokens);
@@ -143355,7 +143360,7 @@ var init_schemas = __esm({
         }
         return propValues;
       });
-      const isObject5 = isObject;
+      const isObject6 = isObject;
       const catchall = def.catchall;
       let value;
       const memo3 = globalConfig.memoizer;
@@ -143363,7 +143368,7 @@ var init_schemas = __esm({
       inst._zod.parse = (payload, ctx) => {
         value ?? (value = _normalized.value);
         const input2 = payload.value;
-        if (!isObject5(input2)) {
+        if (!isObject6(input2)) {
           payload.issues.push({
             expected: "object",
             code: "invalid_type",
@@ -143499,7 +143504,7 @@ var init_schemas = __esm({
         return doc.compile();
       };
       let fastpass;
-      const isObject5 = isObject;
+      const isObject6 = isObject;
       const jit = !globalConfig.jitless;
       const allowsEval2 = allowsEval;
       const fastEnabled = jit && allowsEval2.value;
@@ -143508,7 +143513,7 @@ var init_schemas = __esm({
       inst._zod.parse = (payload, ctx) => {
         value ?? (value = _normalized.value);
         const input2 = payload.value;
-        if (!isObject5(input2)) {
+        if (!isObject6(input2)) {
           payload.issues.push({
             expected: "object",
             code: "invalid_type",
@@ -159272,8 +159277,8 @@ function convertBaseSchema(schema, ctx) {
       });
     }
     ctx.processing.add(refPath);
-    const resolved = resolveRef(refPath, ctx);
-    const zodSchema2 = convertSchema(resolved, ctx);
+    const resolved2 = resolveRef(refPath, ctx);
+    const zodSchema2 = convertSchema(resolved2, ctx);
     ctx.refs.set(refPath, zodSchema2);
     ctx.processing.delete(refPath);
     return zodSchema2;
@@ -161646,9 +161651,9 @@ async function runSync(document2, settings, ops, cache, limit) {
   const render = async (written3, id) => {
     const source = applyDefaults(written3, settings.defaults).source;
     if (calls.length >= limit) {
-      const capped = calls.length >= settings.countLimit ? "count" : "bytes";
-      calls.push({ id, source, detail: null, capped });
-      return { diagnostics: capped === "count" ? CAPPED_BY_COUNT : CAPPED_BY_BYTES };
+      const capped2 = calls.length >= settings.countLimit ? "count" : "bytes";
+      calls.push({ id, source, detail: null, capped: capped2 });
+      return { diagnostics: capped2 === "count" ? CAPPED_BY_COUNT : CAPPED_BY_BYTES };
     }
     const key = `${id}\0${source}`;
     let detail = cache.get(key);
@@ -171949,9 +171954,9 @@ var init_ajvProvider_CEoC_sr = __esm({
       }
       function resolve5(baseURI, relativeURI, options3) {
         const schemelessOptions = options3 ? Object.assign({ scheme: "null" }, options3) : { scheme: "null" };
-        const resolved = resolveComponent(parse4(baseURI, schemelessOptions), parse4(relativeURI, schemelessOptions), schemelessOptions, true);
+        const resolved2 = resolveComponent(parse4(baseURI, schemelessOptions), parse4(relativeURI, schemelessOptions), schemelessOptions, true);
         schemelessOptions.skipEscape = true;
-        return serialize(resolved, schemelessOptions);
+        return serialize(resolved2, schemelessOptions);
       }
       function resolveComponent(base, relative, options3, skipNormalization) {
         const target = {};
@@ -178123,7 +178128,7 @@ var init_sources = __esm({
       tags: external_exports.array(external_exports.string().min(1).max(200)).max(200).optional().describe("openapi: the tags to read."),
       groupBy: external_exports.enum(IMPORT_GROUP_BY).optional().describe("terraform, bicep, arm, pulumi, cloudformation, cdk: module (the default) frames each module's resources and nests them by what they name; network nests by what they name alone; file (terraform) frames them by their .tf file; owner (backstage) frames a catalog by the group that owns each entity."),
       varFiles: external_exports.array(repositoryPath).max(20).optional().describe("terraform: the variables files to apply, as -var-file would; bicep: the .bicepparam file; arm: the parameters file; pulumi: the Pulumi.<stack>.yaml file."),
-      root: repositoryPath.optional().describe("terraform, bicep, pulumi, cloudformation, cdk: the root module, deployment, program, template, or stack to draw when the files hold several, such as envs/prod; each is a part of its own when left out.")
+      root: repositoryPath.optional().describe("terraform, bicep, pulumi, cloudformation, cdk: the root module, deployment, program, template, or stack to draw when the files hold several, such as envs/prod; each is a part of its own when left out. structurizr: the system or container the view is about.")
     }).meta({ id: "SourceOptions", description: "The reader options of one source, as import_source takes them." });
     SourcePublishSchema = external_exports.strictObject({
       alias: external_exports.string().min(1).max(60).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "An alias is lower-case words joined by single hyphens, such as checkout-flow").optional().describe("A stable link of a personal key: one address that always shows the latest version."),
@@ -178139,7 +178144,7 @@ var init_sources = __esm({
       from: external_exports.union([pattern2, external_exports.array(pattern2).min(1).max(GENERATE.maxPatterns)]).describe("The files to read: one pattern or a list."),
       format: external_exports.enum(IMPORT_FORMATS).describe("The format of the files, as import_source reads them."),
       out: outPath.describe("The diagram to write: a .diagram file, or a Markdown file and the id of a ```diagram id=<id> fence in it."),
-      view: external_exports.enum(IMPORT_VIEWS).optional().describe("openapi: endpoints, map, or sequence; git-log: git or timeline."),
+      view: external_exports.enum(IMPORT_VIEWS).optional().describe("openapi: endpoints, map, or sequence; git-log: git or timeline; structurizr: context, container, or component."),
       title: external_exports.string().min(1).max(120).optional().describe("The title of the diagram; the reader takes one from the files when left out."),
       options: SourceOptionsSchema.optional(),
       overrides: repositoryPath.refine((path) => path.endsWith(".json"), { message: "An overrides file is a .json file" }).optional().describe("The overrides file, applied after every import. Left out: the out path with .overrides.json in place of .diagram, or <file>.<fence id>.overrides.json beside a Markdown file."),
@@ -183291,6 +183296,8 @@ var init_detect = __esm({
       { format: "cdk", test: (text3) => /"?aws:cdk:path"?\s*:/.test(text3) || /"artifacts"\s*:/.test(text3) && /"aws:cloudformation:stack"/.test(text3) },
       { format: "cloudformation", test: (text3) => /^\s*"?AWSTemplateFormatVersion"?\s*:/m.test(text3) || /^Transform\s*:\s*AWS::Serverless/m.test(text3) || /^\s*"?Resources"?\s*:/m.test(text3) && /"?Type"?\s*:\s*["']?AWS::[A-Za-z0-9]+::/.test(text3) },
       { format: "backstage", test: (text3) => /^apiVersion\s*:\s*["']?backstage\.io\//m.test(text3) },
+      { format: "asyncapi", test: (text3) => /^\s*["']?asyncapi["']?\s*:\s*["']?[23]\./m.test(text3) },
+      { format: "structurizr", test: (text3) => /^\s*workspace\b[^\n{]*\{/m.test(text3) && /^\s*model\s*\{/m.test(text3) || /^\s*\{/.test(text3) && /"model"\s*:\s*\{/.test(text3) && /"(?:softwareSystems|people)"\s*:\s*\[/.test(text3) },
       // A kustomization, or what kustomize build makes of one: a generated ConfigMap or Secret whose name ends in its hash.
       { format: "kustomize", test: (text3) => isKustomization(text3) || /^kind\s*:\s*(?:ConfigMap|Secret)\s*$/m.test(text3) && /^\s+name\s*:\s*[\w.-]+-(?=[^-\s]*\d)[b-df-hj-np-tv-z0-9]{10}\s*$/m.test(text3) },
       { format: "helm", test: (text3) => /^\s*apiVersion\s*:/m.test(text3) && /^\s*kind\s*:\s*\w+/m.test(text3) && (/^# Source: [^\n]*\/templates\//m.test(text3) || /^\s*helm\.sh\/chart\s*:/m.test(text3)) || isChartFile(text3) },
@@ -183306,9 +183313,13 @@ var init_detect = __esm({
     NAMES = [
       { format: "compose", words: /\b(?:docker[- ]compose|compose (?:file|yaml|yml|stack))\b/i },
       { format: "backstage", words: /\b(?:backstage|catalog-info(?:\.yaml)?|software catalog)\b/i },
+      { format: "asyncapi", words: /\b(?:asyncapi|async api)\b/i },
+      { format: "structurizr", words: /\b(?:structurizr|workspace\.dsl|c4 (?:model|workspace))\b/i },
       { format: "kustomize", words: /\b(?:kustomize|kustomization(?:\.yaml)?)\b/i },
       { format: "helm", words: /\b(?:helm (?:charts?|template|release)|chart\.yaml)\b/i },
       { format: "kubernetes", words: /\b(?:kubernetes|k8s)\b/i },
+      { format: "gitlab-ci", words: /(?:\.gitlab-ci\.ya?ml\b|\bgitlab(?:[- ]ci| pipelines?| ci\/cd)\b)/i },
+      { format: "azure-pipelines", words: /(?:\bazure-pipelines\.ya?ml\b|\bazure (?:devops )?pipelines?\b)/i },
       { format: "github-actions", words: /\b(?:github actions?|workflow (?:file|yaml|yml)|ci workflow)\b/i },
       { format: "terraform-plan", words: /\b(?:terraform|tofu) (?:plan|state|show -json)\b|\bplan\.json\b/i },
       { format: "terraform", words: /\b(?:terraform|opentofu|hcl|\.tf files?)\b/i },
@@ -183326,7 +183337,7 @@ var init_detect = __esm({
       { format: "json", words: /\bjson (?:data|file|records|export)\b/i },
       { format: "tree", words: /\b(?:tree output|folder (?:structure|tree|listing)|directory (?:tree|listing))\b/i }
     ];
-    SURE_FROM_DATA = /* @__PURE__ */ new Set(["sql", "prisma", "drizzle", "openapi", "terraform", "terraform-plan", "bicep", "arm", "pulumi", "cloudformation", "cdk", "compose", "kubernetes", "helm", "kustomize", "backstage", "github-actions", "git-log"]);
+    SURE_FROM_DATA = /* @__PURE__ */ new Set(["sql", "prisma", "drizzle", "openapi", "terraform", "terraform-plan", "bicep", "arm", "pulumi", "cloudformation", "cdk", "compose", "kubernetes", "helm", "kustomize", "backstage", "structurizr", "asyncapi", "github-actions", "git-log"]);
   }
 });
 
@@ -183638,8 +183649,8 @@ function rawValue(resource, name2) {
   return resource.block.attributes.find((attribute2) => attribute2.name === name2)?.raw ?? null;
 }
 function tagName(resource) {
-  const resolved = resource.values.get("tags.Name");
-  if (resolved !== void 0 && !resolved.includes("{")) return resolved;
+  const resolved2 = resource.values.get("tags.Name");
+  if (resolved2 !== void 0 && !resolved2.includes("{")) return resolved2;
   const tags = rawValue(resource, "tags");
   if (tags === null) return null;
   const match = /\bName\s*=\s*"((?:[^"\\$\n]|\\.)*)"/.exec(tags);
@@ -186358,13 +186369,13 @@ function expression(value, depth) {
 }
 function body5(object2, depth, lines) {
   for (const [key, value] of Object.entries(object2)) {
-    const isObject5 = (item) => typeof item === "object" && item !== null && !Array.isArray(item);
+    const isObject6 = (item) => typeof item === "object" && item !== null && !Array.isArray(item);
     if (key === "locals" || key === "tags" || key === "labels" || key === "app_settings" || key === "default" || depth > MAX_DEPTH9) lines.push(`${keyOf2(key)} = ${expression(value, depth)}`);
-    else if (isObject5(value)) {
+    else if (isObject6(value)) {
       lines.push(`${keyOf2(key)} {`);
       body5(value, depth + 1, lines);
       lines.push("}");
-    } else if (Array.isArray(value) && value.length > 0 && value.every(isObject5)) {
+    } else if (Array.isArray(value) && value.length > 0 && value.every(isObject6)) {
       for (const item of value) {
         lines.push(`${keyOf2(key)} {`);
         body5(item, depth + 1, lines);
@@ -186975,9 +186986,9 @@ var init_evaluate = __esm({
           }
           case "replace": {
             const [value, search, replacement] = args();
-            const [known3, find, put] = [value instanceof Partial ? value.name : text3(value), text3(search), text3(replacement)];
-            if (known3 === null || find === null || put === null || find === "") return value ?? null;
-            const out = known3.split(find).join(put);
+            const [known3, find2, put] = [value instanceof Partial ? value.name : text3(value), text3(search), text3(replacement)];
+            if (known3 === null || find2 === null || put === null || find2 === "") return value ?? null;
+            const out = known3.split(find2).join(put);
             return value instanceof Partial ? new Partial(out) : out;
           }
           case "take":
@@ -188815,8 +188826,537 @@ var init_arm = __esm({
   }
 });
 
+// ../../packages/diagrams/src/importers/asyncapi/document.ts
+function nodeOf2(value, depth = 0) {
+  const at3 = { line: 1, column: 1 };
+  if (depth > MAX_DEPTH13 || value === null || value === void 0) return { kind: "scalar", value: "", quoted: false, isNull: true, ...at3 };
+  if (Array.isArray(value)) return { kind: "seq", items: value.map((item) => nodeOf2(item, depth + 1)), ...at3 };
+  if (typeof value === "object") return { kind: "map", entries: Object.entries(value).map(([key, entry2]) => ({ key, value: nodeOf2(entry2, depth + 1), ...at3 })), ...at3 };
+  return { kind: "scalar", value: String(value), quoted: typeof value === "string", isNull: false, ...at3 };
+}
+function readDocument(text3) {
+  if (/^\s*\{/.test(text3)) {
+    try {
+      return { root: nodeOf2(JSON.parse(text3)), problem: null };
+    } catch (error62) {
+      return { root: null, problem: { line: 1, column: 1, message: `The JSON cannot be read: ${error62 instanceof Error ? error62.message : "it is not valid"}.`, hint: "Fix the JSON, often a missing or extra comma or quote." } };
+    }
+  }
+  const read = parseYaml(text3);
+  if (read.error !== null) return { root: null, problem: { ...read.error, message: `The YAML cannot be read: ${read.error.message}` } };
+  return { root: read.documents.find((document2) => document2.root !== null)?.root ?? null, problem: null };
+}
+function pointerPart(part) {
+  const plain3 = part.replace(/~1/g, "/").replace(/~0/g, "~");
+  try {
+    return decodeURIComponent(plain3);
+  } catch {
+    return plain3;
+  }
+}
+function nameOfRef(ref) {
+  const path = ref.slice(ref.indexOf("#") + 1);
+  const last = path.split("/").filter((part) => part !== "").pop() ?? ref;
+  return pointerPart(last);
+}
+function deref(root, node3) {
+  let at3 = node3;
+  for (let hop = 0; hop < MAX_HOPS; hop += 1) {
+    const ref = refOf(at3);
+    if (ref === null || !ref.startsWith("#/")) return at3;
+    let target = root;
+    for (const part of ref.slice(2).split("/")) target = get(target, pointerPart(part));
+    if (target === void 0) return at3;
+    at3 = target;
+  }
+  return at3;
+}
+var MAX_HOPS, MAX_DEPTH13, refOf;
+var init_document2 = __esm({
+  "../../packages/diagrams/src/importers/asyncapi/document.ts"() {
+    "use strict";
+    init_yaml();
+    MAX_HOPS = 10;
+    MAX_DEPTH13 = 64;
+    refOf = (node3) => {
+      const ref = get(node3, "$ref");
+      return ref?.kind === "scalar" ? ref.value : null;
+    };
+  }
+});
+
+// ../../packages/diagrams/src/importers/asyncapi/spec.ts
+function messageName(root, node3, fallback) {
+  const ref = refOf(node3);
+  const message2 = deref(root, node3);
+  return text(get(message2, "name")) ?? text(get(message2, "title")) ?? text(get(message2, "messageId")) ?? fallback ?? (ref === null ? null : nameOfRef(ref));
+}
+function messagesOf2(root, operation) {
+  const message2 = get(operation, "message");
+  const resolved2 = deref(root, message2);
+  const choices = items(get(resolved2, "oneOf"));
+  const list = choices.length > 0 ? choices : message2 === void 0 ? [] : [message2];
+  return list.map((node3) => messageName(root, node3, null)).filter((name2) => name2 !== null);
+}
+function serversOf(root) {
+  return entries(get(root, "servers")).map((entry2) => {
+    const server = deref(root, entry2.value);
+    const host = text(get(server, "host")) ?? text(get(server, "url"));
+    return { name: entry2.key, protocol: (text(get(server, "protocol")) ?? "").toLowerCase(), host, line: entry2.line, column: entry2.column };
+  });
+}
+function channelServers(root, channel) {
+  return items(get(channel, "servers")).map((node3) => text(node3) ?? (refOf(node3) === null ? null : nameOfRef(refOf(node3) ?? ""))).filter((name2) => name2 !== null);
+}
+function readVersion2(root) {
+  const channels = [];
+  const operations = [];
+  for (const entry2 of entries(get(root, "channels"))) {
+    const channel = deref(root, entry2.value);
+    channels.push({ id: entry2.key, address: entry2.key, description: text(get(channel, "description")), servers: channelServers(root, channel), line: entry2.line, column: entry2.column });
+    for (const [key, direction] of [["subscribe", "send"], ["publish", "receive"]]) {
+      const operation = get(channel, key);
+      if (operation === void 0) continue;
+      const at3 = channel?.kind === "map" ? channel.entries.find((candidate2) => candidate2.key === key) : void 0;
+      operations.push({ id: text(get(operation, "operationId")) ?? `${key} ${entry2.key}`, channel: entry2.key, direction, messages: messagesOf2(root, operation), line: at3?.line ?? entry2.line, column: at3?.column ?? entry2.column });
+    }
+  }
+  return { channels, operations, unresolved: [] };
+}
+function readVersion3(root) {
+  const channels = [];
+  const messagesOfChannel = /* @__PURE__ */ new Map();
+  for (const entry2 of entries(get(root, "channels"))) {
+    const channel = deref(root, entry2.value);
+    channels.push({ id: entry2.key, address: text(get(channel, "address")) ?? entry2.key, description: text(get(channel, "description")) ?? text(get(channel, "summary")), servers: channelServers(root, channel), line: entry2.line, column: entry2.column });
+    messagesOfChannel.set(
+      entry2.key,
+      entries(get(channel, "messages")).map((message2) => messageName(root, message2.value, message2.key)).filter((name2) => name2 !== null)
+    );
+  }
+  const operations = [];
+  const unresolved = [];
+  for (const entry2 of entries(get(root, "operations"))) {
+    const operation = deref(root, entry2.value);
+    const action = text(get(operation, "action"));
+    const ref = refOf(get(operation, "channel"));
+    const channel = ref === null ? null : ref.startsWith("#/channels/") ? nameOfRef(ref) : null;
+    if (channel === null || !messagesOfChannel.has(channel)) {
+      unresolved.push({ name: ref ?? entry2.key, line: entry2.line, column: entry2.column });
+      continue;
+    }
+    if (action !== "send" && action !== "receive") continue;
+    const listed2 = items(get(operation, "messages")).map((node3) => {
+      const target = refOf(node3);
+      const key = target === null ? null : nameOfRef(target);
+      return messageName(root, node3, null) ?? key;
+    }).filter((name2) => name2 !== null);
+    operations.push({ id: entry2.key, channel, direction: action, messages: listed2.length > 0 ? listed2 : messagesOfChannel.get(channel) ?? [], line: entry2.line, column: entry2.column });
+  }
+  return { channels, operations, unresolved };
+}
+function majorOf(root) {
+  const version2 = text(get(root, "asyncapi"));
+  if (version2 === null) return null;
+  return version2.startsWith("2.") ? 2 : version2.startsWith("3.") ? 3 : null;
+}
+function readApplication(root, major) {
+  const info = get(root, "info");
+  const read = major === 2 ? readVersion2(root) : readVersion3(root);
+  return { title: text(get(info, "title")) ?? "Application", version: text(get(root, "asyncapi")) ?? "", appVersion: text(get(info, "version")), major, servers: serversOf(root), ...read };
+}
+var init_spec = __esm({
+  "../../packages/diagrams/src/importers/asyncapi/spec.ts"() {
+    "use strict";
+    init_yaml();
+    init_document2();
+  }
+});
+
+// ../../packages/diagrams/src/importers/asyncapi/index.ts
+function familyOf2(protocol) {
+  if (protocol.startsWith("kafka")) return "kafka";
+  if (protocol.startsWith("amqp")) return "amqp";
+  if (protocol.includes("mqtt")) return "mqtt";
+  if (protocol === "wss") return "ws";
+  if (protocol === "https") return "http";
+  return protocol === "" ? "broker" : protocol;
+}
+function messagesLabel(messages) {
+  const unique2 = [...new Set(messages.map((message2) => cleanText(message2)))];
+  if (unique2.length === 0) return null;
+  return unique2.length <= 2 ? unique2.join(", ") : `${unique2[0]} and ${unique2.length - 1} more`;
+}
+function readAsyncApi(text3, context) {
+  const index2 = new LineIndex(text3);
+  const files = context.files.map((file2, position) => ({ path: file2.path, start: file2.start, text: text3.slice(file2.start, context.files[position + 1]?.start ?? text3.length) }));
+  const at3 = (file2, line3, column) => index2.span(file2.start + file2.text.split("\n").slice(0, line3 - 1).join("\n").length + (line3 > 1 ? 1 : 0) + column - 1);
+  const applications = [];
+  for (const file2 of files) {
+    const read = readDocument(file2.text);
+    const name2 = cleanText(file2.path, "The file");
+    if (read.problem !== null || read.root === null) {
+      const problem = read.problem ?? { line: 1, column: 1, message: "The file is empty.", hint: "Send an AsyncAPI document." };
+      context.report.add(files.length === 1 ? DIAGNOSTIC_CODES.importUnreadable : DIAGNOSTIC_CODES.importSkipped, at3(file2, problem.line, problem.column), `${files.length === 1 ? "" : `${name2} is not drawn: `}${problem.message}`, problem.hint);
+      if (files.length === 1) return null;
+      continue;
+    }
+    const major = majorOf(read.root);
+    if (major === null) {
+      const said = read.root.kind === "map" && read.root.entries.some((entry2) => entry2.key === "asyncapi") ? "is of an AsyncAPI version this reader does not read" : "has no asyncapi: field, so it is not an AsyncAPI document";
+      if (files.length > 1) context.report.add(DIAGNOSTIC_CODES.importSkipped, at3(file2, 1, 1), `${name2} ${said}, and is not drawn.`, "Send AsyncAPI 2.x or 3.x documents; convert a 1.x document with the AsyncAPI converter.");
+      else context.report.add(DIAGNOSTIC_CODES.importNoShape, START, `The text ${said}.`, "Send an AsyncAPI 2.x or 3.x document, which starts with asyncapi: and a version.");
+      continue;
+    }
+    applications.push({ app: readApplication(read.root, major), file: file2 });
+  }
+  if (applications.length === 0) {
+    if (files.length > 1) context.report.add(DIAGNOSTIC_CODES.importNoShape, START, "None of the files is an AsyncAPI document.", "Send AsyncAPI 2.x or 3.x documents, each starting with asyncapi: and a version.");
+    return null;
+  }
+  const nodes = [];
+  const groups = [];
+  const edges = [];
+  const arrows = /* @__PURE__ */ new Map();
+  const channelBox = /* @__PURE__ */ new Map();
+  const brokerHosts = /* @__PURE__ */ new Map();
+  const brokerServers = /* @__PURE__ */ new Map();
+  let operations = 0;
+  for (const { app, file: file2 } of applications) {
+    for (const problem of app.unresolved) context.report.add(DIAGNOSTIC_CODES.importUnresolved, at3(file2, problem.line, problem.column), `The operation names a channel the document does not hold: ${cleanText(problem.name)}, so no arrow is drawn for it.`, "Point channel at an entry of channels, such as $ref: '#/channels/orderPlaced'.");
+    const appKey = `app:${app.title}`;
+    if (!nodes.some((node3) => node3.key === appKey)) nodes.push({ key: appKey, type: "service", label: cleanText(app.title), sub: app.appVersion === null ? null : `Version ${cleanText(app.appVersion)}`, idHint: app.title.toLowerCase() });
+    const serverFamily = new Map(app.servers.map((server) => [server.name, familyOf2(server.protocol)]));
+    for (const server of app.servers) {
+      const family = familyOf2(server.protocol);
+      brokerServers.set(family, [...brokerServers.get(family) ?? [], server]);
+      if (server.host !== null) brokerHosts.set(family, (brokerHosts.get(family) ?? /* @__PURE__ */ new Set()).add(server.host));
+    }
+    for (const channel of app.channels) {
+      const families = new Set((channel.servers.length > 0 ? channel.servers : app.servers.map((server) => server.name)).map((name2) => serverFamily.get(name2)).filter((family2) => family2 !== void 0));
+      const family = families.size === 1 ? [...families][0] : void 0;
+      const key = `channel:${channel.address}`;
+      const existing = channelBox.get(key);
+      if (existing === void 0) {
+        const box = { key, type: "queue", label: cleanText(channel.address), sub: channel.description === null ? null : cleanText(channel.description), group: family === void 0 ? null : `broker:${family}`, idHint: channel.address };
+        channelBox.set(key, box);
+        nodes.push(box);
+      }
+    }
+    for (const operation of app.operations) {
+      const channel = app.channels.find((candidate2) => candidate2.id === operation.channel);
+      if (channel === void 0) continue;
+      const channelKey = `channel:${channel.address}`;
+      operations += 1;
+      const [from, to] = operation.direction === "send" ? [appKey, channelKey] : [channelKey, appKey];
+      const pair2 = `${from}\0${to}`;
+      arrows.set(pair2, { from, to, messages: [...arrows.get(pair2)?.messages ?? [], ...operation.messages] });
+    }
+  }
+  for (const arrow of arrows.values()) edges.push({ from: arrow.from, to: arrow.to, label: messagesLabel(arrow.messages) });
+  const usedFamilies = new Set(nodes.map((node3) => node3.group).filter((group2) => group2 !== null && group2 !== void 0));
+  for (const family of [...brokerServers.keys()]) {
+    const key = `broker:${family}`;
+    if (!usedFamilies.has(key)) continue;
+    const broker = BROKERS[family];
+    const hosts = [...brokerHosts.get(family) ?? []];
+    const servers = brokerServers.get(family) ?? [];
+    const named = servers.map((server) => iconForName(`${server.name} ${server.host ?? ""}`, "queue")).find((icon) => icon?.startsWith("simple:") === true) ?? null;
+    const where = hosts.length === 0 ? null : hosts.length === 1 ? hosts[0] ?? null : `${hosts.length} hosts`;
+    groups.push({ key, label: broker?.label ?? `${family.toUpperCase()} broker`, type: "messaging", icon: broker?.icon ?? named, sub: where === null ? null : cleanText(where), idHint: family });
+  }
+  const unused = [...brokerServers.entries()].filter(([family]) => !usedFamilies.has(`broker:${family}`)).flatMap(([, servers]) => servers);
+  if (unused.length > 0) {
+    const first = unused[0];
+    const file2 = applications.find(({ app }) => app.servers.includes(first))?.file ?? files[0];
+    context.report.add(DIAGNOSTIC_CODES.importSkipped, at3(file2, first.line, first.column), `${countOf2(unused.length, "server")} carr${unused.length === 1 ? "ies" : "y"} no channel that is drawn in a frame, so ${unused.length === 1 ? "it is" : "they are"} not drawn: ${unused.slice(0, 3).map((server) => cleanText(server.name)).join(", ")}.`, "Name the servers of each channel with servers:, so each channel sits in the frame of its broker.");
+  }
+  const sends = (key) => edges.some((edge) => edge.from === key);
+  const receives = (key) => edges.some((edge) => edge.to === key);
+  const rank = (node3) => node3.type === "queue" ? 1 : sends(node3.key) && !receives(node3.key) ? 0 : !sends(node3.key) && receives(node3.key) ? 2 : 1;
+  const ordered = [...nodes].sort((a, b) => rank(a) - rank(b));
+  const one = applications.length === 1 ? applications[0]?.app : void 0;
+  const channels = channelBox.size;
+  return writeFlow(
+    {
+      title: context.title ?? (one === void 0 ? "Event flows" : cleanText(one.title)),
+      desc: one === void 0 ? `${countOf2(applications.length, "application")} and the ${countOf2(channels, "channel")} where they meet: an arrow into a channel sends to it, an arrow out of one receives from it, labelled with the messages. Imported from AsyncAPI.` : `What ${cleanText(one.title)} sends and receives on ${countOf2(channels, "channel")}: an arrow into a channel sends to it, an arrow out of one receives from it, labelled with the messages. Imported from AsyncAPI ${cleanText(one.version)}.`,
+      direction: "right",
+      nodes: ordered,
+      groups,
+      edges,
+      noun: "channels",
+      advice: one === void 0 ? "Check that each channel has the same address in every file that uses it, so producers and consumers meet on one box." : "Import the AsyncAPI documents of the other applications with this one, as files, to see who sends and who receives on each channel.",
+      coverage: { noun: "channels and operations", total: channels + operations, drawn: channels + operations, summarised: 0 }
+    },
+    context.report
+  );
+}
+var BROKERS, asyncapiImporter;
+var init_asyncapi = __esm({
+  "../../packages/diagrams/src/importers/asyncapi/index.ts"() {
+    "use strict";
+    init_core();
+    init_shared2();
+    init_document2();
+    init_spec();
+    BROKERS = {
+      kafka: { label: "Kafka", icon: "simple:apachekafka" },
+      amqp: { label: "AMQP broker", icon: null },
+      mqtt: { label: "MQTT broker", icon: null },
+      nats: { label: "NATS", icon: null },
+      redis: { label: "Redis", icon: "simple:redis" },
+      pulsar: { label: "Pulsar", icon: "simple:apachepulsar" },
+      sns: { label: "Amazon SNS", icon: "aws:sns" },
+      sqs: { label: "Amazon SQS", icon: "aws:sqs" },
+      googlepubsub: { label: "Google Pub/Sub", icon: "gcp:pubsub" },
+      ibmmq: { label: "IBM MQ", icon: null },
+      jms: { label: "JMS broker", icon: null },
+      solace: { label: "Solace", icon: null },
+      stomp: { label: "STOMP broker", icon: null },
+      ws: { label: "WebSocket", icon: null },
+      http: { label: "HTTP", icon: null },
+      anypointmq: { label: "Anypoint MQ", icon: null },
+      mercure: { label: "Mercure", icon: null }
+    };
+    asyncapiImporter = { format: "asyncapi", kinds: ["flow"], joins: "\n", extensions: [".yaml", ".yml", ".json"], read: readAsyncApi };
+  }
+});
+
+// ../../packages/diagrams/src/importers/azure-pipelines/pipeline.ts
+function dependsOnOf2(node3) {
+  const value = get(node3, "dependsOn");
+  if (value === void 0) return null;
+  return items(value).map((item) => text(item)).filter((name2) => name2 !== null && name2 !== "");
+}
+function stepLabel(step) {
+  const named = text(get(step, "displayName")) ?? text(get(step, "name"));
+  if (named !== null) return named;
+  const task = text(get(step, "task"));
+  if (task !== null) return task.split("@")[0] ?? task;
+  const checkout = text(get(step, "checkout"));
+  if (checkout !== null) return checkout === "none" ? "No checkout" : `Check out ${checkout}`;
+  for (const key of ["script", "bash", "pwsh", "powershell"]) {
+    const script = text(get(step, key));
+    if (script === null) continue;
+    const first = script.split("\n").map((line3) => line3.trim()).find((line3) => line3 !== "" && !line3.startsWith("#")) ?? "Run a script";
+    if (first.length <= MAX_STEP_LABEL) return first;
+    const cut = first.slice(0, MAX_STEP_LABEL);
+    return cut.lastIndexOf(" ") > 12 ? cut.slice(0, cut.lastIndexOf(" ")) : cut;
+  }
+  for (const key of ["download", "publish", "getPackage", "restoreCache", "reviewApp"]) if (get(step, key) !== void 0) return `${key.charAt(0).toUpperCase()}${key.slice(1)} ${text(get(step, key)) ?? ""}`.trim();
+  return "Step";
+}
+function stepsOf(list, templates) {
+  const out = [];
+  for (const step of items(list)) {
+    const template = text(get(step, "template"));
+    if (template !== null) templates.push({ path: template, line: step.line, column: step.column });
+    else if (step.kind === "map") out.push({ label: cleanText(stepLabel(step), "Step"), line: step.line, column: step.column });
+  }
+  return out;
+}
+function poolOf(node3, fallback) {
+  const pool = get(node3, "pool");
+  if (pool === void 0) return fallback;
+  return text(pool) ?? text(get(pool, "vmImage")) ?? text(get(pool, "name")) ?? fallback;
+}
+function deploymentSteps(job, templates) {
+  const strategy = get(job, "strategy");
+  return entries(strategy).flatMap((kind) => entries(kind.value).flatMap((hook) => (hook.key === "on" ? entries(hook.value).map((when) => when.value) : [hook.value]).flatMap((phase) => stepsOf(get(phase, "steps"), templates))));
+}
+function jobsOf(list, pool, templates) {
+  const out = [];
+  for (const job of items(list)) {
+    const template = text(get(job, "template"));
+    if (template !== null) {
+      templates.push({ path: template, line: job.line, column: job.column });
+      continue;
+    }
+    const deployment = text(get(job, "deployment"));
+    const name2 = deployment ?? text(get(job, "job"));
+    if (name2 === null) continue;
+    const strategy = get(job, "strategy");
+    const matrix = entries(get(strategy, "matrix")).length;
+    const parallel = Number(text(get(strategy, "parallel")));
+    const environment = get(job, "environment");
+    out.push({
+      name: name2,
+      label: cleanText(text(get(job, "displayName")) ?? name2, name2),
+      dependsOn: dependsOnOf2(job),
+      conditional: get(job, "condition") !== void 0,
+      environment: deployment === null ? null : text(environment) ?? text(get(environment, "name")),
+      pool: poolOf(job, pool),
+      runs: matrix > 1 ? matrix : Number.isInteger(parallel) && parallel > 1 ? parallel : 1,
+      matrix: matrix > 1,
+      steps: deployment === null ? stepsOf(get(job, "steps"), templates) : deploymentSteps(job, templates),
+      line: job.line,
+      column: job.column
+    });
+  }
+  return out;
+}
+function readPipeline(root) {
+  const templates = [];
+  const extended2 = text(get(get(root, "extends"), "template"));
+  if (extended2 !== null) {
+    const at3 = root.kind === "map" ? root.entries.find((entry2) => entry2.key === "extends") : void 0;
+    templates.push({ path: extended2, line: at3?.line ?? 1, column: at3?.column ?? 1 });
+  }
+  const pool = poolOf(root, null);
+  if (get(root, "stages") !== void 0) {
+    const stages = [];
+    for (const stage of items(get(root, "stages"))) {
+      const template = text(get(stage, "template"));
+      if (template !== null) {
+        templates.push({ path: template, line: stage.line, column: stage.column });
+        continue;
+      }
+      const name2 = text(get(stage, "stage"));
+      if (name2 === null) continue;
+      stages.push({ name: name2, label: cleanText(text(get(stage, "displayName")) ?? name2, name2), dependsOn: dependsOnOf2(stage), conditional: get(stage, "condition") !== void 0, jobs: jobsOf(get(stage, "jobs"), poolOf(stage, pool), templates), line: stage.line, column: stage.column });
+    }
+    return { stages, shape: "stages", templates };
+  }
+  if (get(root, "jobs") !== void 0) return { stages: [{ name: "", label: "", dependsOn: [], conditional: false, jobs: jobsOf(get(root, "jobs"), pool, templates), line: 1, column: 1 }], shape: "jobs", templates };
+  const steps = stepsOf(get(root, "steps"), templates);
+  const job = { name: "Job", label: "Job", dependsOn: null, conditional: false, environment: null, pool, runs: 1, matrix: false, steps, line: 1, column: 1 };
+  return { stages: steps.length === 0 ? [] : [{ name: "", label: "", dependsOn: [], conditional: false, jobs: [job], line: 1, column: 1 }], shape: "steps", templates };
+}
+var MAX_STEP_LABEL;
+var init_pipeline = __esm({
+  "../../packages/diagrams/src/importers/azure-pipelines/pipeline.ts"() {
+    "use strict";
+    init_shared2();
+    init_yaml();
+    MAX_STEP_LABEL = 48;
+  }
+});
+
+// ../../packages/diagrams/src/importers/azure-pipelines/index.ts
+function subOf(job, stage) {
+  const parts = [
+    job.conditional || stage.conditional ? "when its condition holds" : null,
+    job.runs > 1 ? `${job.runs} ${job.matrix ? "matrix" : "parallel"} runs` : null,
+    job.environment === null ? null : `deploys to ${job.environment}`,
+    job.pool,
+    job.steps.length === 0 ? null : countOf2(job.steps.length, "step")
+  ].filter((part) => part !== null);
+  return parts.length === 0 ? null : cleanText(parts.join(", "));
+}
+function readAzurePipelines(source, context) {
+  const read = parseYaml(source);
+  if (read.error !== null) {
+    context.report.add(DIAGNOSTIC_CODES.importUnreadable, spanAt3(read.error.line, read.error.column), read.error.message, read.error.hint);
+    return null;
+  }
+  const root = read.documents.find((document2) => document2.root?.kind === "map")?.root ?? null;
+  const pipeline = root === null ? null : readPipeline(root);
+  const firstTemplate = pipeline?.templates[0];
+  if (pipeline !== null && firstTemplate !== void 0) {
+    const paths = [...new Set(pipeline.templates.map((template) => cleanText(template.path)))];
+    context.report.add(DIAGNOSTIC_CODES.importSkipped, spanAt3(firstTemplate.line, firstTemplate.column), `${countOf2(paths.length, "template")} ${paths.length === 1 ? "is" : "are"} not fetched, so what ${paths.length === 1 ? "it adds is" : "they add is"} not drawn: ${paths.slice(0, 3).join(", ")}.`, "Import the template files too, or draw this file knowing their stages, jobs, and steps are missing.");
+  }
+  if (pipeline === null || pipeline.stages.every((stage) => stage.jobs.length === 0)) {
+    context.report.add(DIAGNOSTIC_CODES.importNoShape, START, "The file has no stages, jobs, or steps of its own.", "Send an azure-pipelines.yml with stages:, jobs:, or steps:.");
+    return null;
+  }
+  const stages = pipeline.stages.filter((stage) => stage.jobs.length > 0);
+  const nodes = [{ key: START_KEY, type: "terminal", label: "Pipeline starts" }];
+  const groups = [];
+  const edges = [];
+  const unresolved = [];
+  if (pipeline.shape === "steps") {
+    const job = stages[0]?.jobs[0];
+    job.steps.forEach((step, index2) => nodes.push({ key: `step:${index2}`, type: "step", label: step.label, idHint: `step_${index2 + 1}` }));
+    job.steps.forEach((_step, index2) => edges.push({ from: index2 === 0 ? START_KEY : `step:${index2 - 1}`, to: `step:${index2}` }));
+    return writeFlow(
+      {
+        title: context.title ?? "Azure pipeline",
+        desc: `The ${countOf2(job.steps.length, "step")} of an Azure pipeline of one job${job.pool === null ? "" : ` on ${cleanText(job.pool)}`}, in order. Imported from Azure Pipelines.`,
+        direction: "down",
+        nodes,
+        groups,
+        edges,
+        noun: "steps",
+        coverage: { noun: "steps", total: job.steps.length, drawn: job.steps.length, summarised: 0 },
+        advice: "Give each step a displayName, so the picture says what it does."
+      },
+      context.report
+    );
+  }
+  const keyOf5 = (stage, job) => pipeline.shape === "jobs" ? `job:${job.name}` : `job:${stage.name}.${job.name}`;
+  const stageNames = new Set(pipeline.stages.map((stage) => stage.name));
+  for (const stage of stages) {
+    if (pipeline.shape === "stages") groups.push({ key: `stage:${stage.name}`, label: stage.label, type: "ci-cd", idHint: `stage_${hintOf(stage.name)}` });
+    for (const job of stage.jobs) nodes.push({ key: keyOf5(stage, job), type: "step", label: job.label, sub: subOf(job, stage), group: pipeline.shape === "stages" ? `stage:${stage.name}` : null, idHint: hintOf(job.name) });
+  }
+  const inStage = (stage, job) => (job.dependsOn ?? []).filter((name2) => stage.jobs.some((other) => other.name === name2));
+  const firstJobs = (stage) => stage.jobs.filter((job) => inStage(stage, job).length === 0);
+  const lastJobs = (stage) => stage.jobs.filter((job) => !stage.jobs.some((other) => inStage(stage, other).includes(job.name)));
+  stages.forEach((stage, index2) => {
+    const dashed = (job) => job.conditional || stage.conditional ? "-->" : void 0;
+    const link2 = (from, job) => {
+      const arrow = dashed(job);
+      edges.push({ from, to: keyOf5(stage, job), ...arrow === void 0 ? {} : { arrow } });
+    };
+    const before = stage.dependsOn === null ? index2 === 0 ? [] : [stages[index2 - 1]] : stage.dependsOn.flatMap((name2) => {
+      const found = stages.find((other) => other.name === name2);
+      if (found === void 0 && !stageNames.has(name2)) unresolved.push({ name: `stage ${name2}`, line: stage.line, column: stage.column });
+      return found === void 0 ? [] : [found];
+    });
+    for (const job of stage.jobs) {
+      for (const name2 of job.dependsOn ?? []) {
+        if (stage.jobs.some((other) => other.name === name2)) link2(keyOf5(stage, stage.jobs.find((other) => other.name === name2)), job);
+        else unresolved.push({ name: `job ${name2}`, line: job.line, column: job.column });
+      }
+    }
+    for (const job of firstJobs(stage)) {
+      if (before.length === 0) link2(START_KEY, job);
+      for (const previous of before) for (const last of lastJobs(previous)) link2(keyOf5(previous, last), job);
+    }
+  });
+  const first = unresolved[0];
+  if (first !== void 0) {
+    context.report.add(DIAGNOSTIC_CODES.importUnresolved, spanAt3(first.line, first.column), `${countOf2(unresolved.length, "dependsOn")} name${unresolved.length === 1 ? "s" : ""} what the file does not hold, so no arrow is drawn for ${unresolved.length === 1 ? "it" : "them"}: ${unresolved.slice(0, 3).map((entry2) => cleanText(entry2.name)).join(", ")}.`, "Fix the name in dependsOn, or import the template that defines it.");
+  }
+  const jobs = stages.reduce((sum, stage) => sum + stage.jobs.length, 0);
+  const deployments = stages.reduce((sum, stage) => sum + stage.jobs.filter((job) => job.environment !== null).length, 0);
+  return writeFlow(
+    {
+      title: context.title ?? "Azure pipeline",
+      desc: `${countOf2(jobs, "job")}${pipeline.shape === "stages" ? ` in ${countOf2(stages.length, "stage")}` : ""}${deployments === 0 ? "" : `, ${deployments} of which ${deployments === 1 ? "deploys" : "deploy"} to an environment`}, in the order dependsOn sets. A dashed arrow reaches a job that runs only when its condition holds. Imported from Azure Pipelines.`,
+      direction: "down",
+      nodes,
+      groups,
+      edges,
+      noun: "jobs",
+      capSpan: (key) => {
+        const job = stages.flatMap((stage) => stage.jobs.map((entry2) => ({ key: keyOf5(stage, entry2), entry: entry2 }))).find((candidate2) => candidate2.key === key)?.entry;
+        return spanAt3(job?.line ?? 1, job?.column ?? 1);
+      },
+      coverage: { noun: "jobs", total: jobs, drawn: jobs, summarised: 0 },
+      advice: "Give each stage and job a displayName, so the picture says what it does."
+    },
+    context.report
+  );
+}
+var hintOf, START_KEY, azurePipelinesImporter;
+var init_azure_pipelines = __esm({
+  "../../packages/diagrams/src/importers/azure-pipelines/index.ts"() {
+    "use strict";
+    init_core();
+    init_shared2();
+    init_yaml();
+    init_pipeline();
+    hintOf = (name2) => name2.replace(/([a-z0-9])([A-Z][a-z])/g, "$1_$2").toLowerCase();
+    START_KEY = "pipeline";
+    azurePipelinesImporter = { format: "azure-pipelines", kinds: ["flow"], joins: null, extensions: [], read: readAzurePipelines };
+  }
+});
+
 // ../../packages/diagrams/src/importers/backstage/entities.ts
-function refOf(written3, fallbackKind, namespace) {
+function refOf2(written3, fallbackKind, namespace) {
   const colon = written3.indexOf(":");
   const kind = colon === -1 ? fallbackKind : written3.slice(0, colon).toLowerCase();
   const rest = colon === -1 ? written3 : written3.slice(colon + 1);
@@ -188833,9 +189373,9 @@ function readEntity2(root) {
   const spec = get(root, "spec");
   const one = (key, fallback) => {
     const value = text(get(spec, key));
-    return value === null || value === "" ? null : refOf(value, fallback, namespace);
+    return value === null || value === "" ? null : refOf2(value, fallback, namespace);
   };
-  const many = (key, fallback) => names5(get(spec, key)).map((value) => refOf(value, fallback, namespace));
+  const many = (key, fallback) => names5(get(spec, key)).map((value) => refOf2(value, fallback, namespace));
   return {
     kind,
     ref: `${kind.toLowerCase()}:${namespace}/${name2}`,
@@ -188856,14 +189396,14 @@ function readEntity2(root) {
     column: root.column
   };
 }
-var DRAWN_KINDS2, QUIET_KINDS2, nameOfRef;
+var DRAWN_KINDS2, QUIET_KINDS2, nameOfRef2;
 var init_entities = __esm({
   "../../packages/diagrams/src/importers/backstage/entities.ts"() {
     "use strict";
     init_yaml();
     DRAWN_KINDS2 = ["Domain", "System", "Component", "API", "Resource", "Group", "User"];
     QUIET_KINDS2 = /* @__PURE__ */ new Set(["Location"]);
-    nameOfRef = (ref) => ref.slice(ref.lastIndexOf("/") + 1);
+    nameOfRef2 = (ref) => ref.slice(ref.lastIndexOf("/") + 1);
   }
 });
 
@@ -188877,7 +189417,7 @@ function brandOf(...texts) {
 }
 function boxOf3(entity, byOwner) {
   const type = (entity.type ?? "").toLowerCase();
-  const said = (words3) => cleanText([words3, entity.lifecycle === null || entity.lifecycle === "production" ? null : entity.lifecycle, byOwner || entity.owner === null ? null : `owned by ${nameOfRef(entity.owner)}`].filter((part) => part !== null).join(", "));
+  const said = (words3) => cleanText([words3, entity.lifecycle === null || entity.lifecycle === "production" ? null : entity.lifecycle, byOwner || entity.owner === null ? null : `owned by ${nameOfRef2(entity.owner)}`].filter((part) => part !== null).join(", "));
   const label = entity.title ?? entity.name;
   if (entity.kind === "API") return { type: "gateway", label, sub: said(`${API_NAMES[type] ?? entity.type ?? ""} API`.trim()), icon: API_ICONS[type] ?? "lucide:plug", idHint: entity.name };
   if (entity.kind === "Resource") {
@@ -188924,15 +189464,15 @@ function readBackstage(textIn, context) {
     }
     for (const entity of boxes2) if (entity.owner !== null && byRef.get(entity.owner)?.kind === "Group") frameOf3.set(entity.ref, entity.owner);
   } else {
-    for (const domain2 of entities.filter((entity) => entity.kind === "Domain")) groups.push({ key: domain2.ref, label: domain2.title ?? domain2.name, sub: cleanText(`Domain${domain2.owner === null ? "" : `, owned by ${nameOfRef(domain2.owner)}`}`), icon: "lucide:map", idHint: domain2.name });
-    for (const system of entities.filter((entity) => entity.kind === "System")) groups.push({ key: system.ref, label: system.title ?? system.name, sub: cleanText(`System${system.owner === null ? "" : `, owned by ${nameOfRef(system.owner)}`}`), icon: "lucide:boxes", parent: system.domain !== null && byRef.has(system.domain) ? system.domain : null, idHint: system.name });
+    for (const domain2 of entities.filter((entity) => entity.kind === "Domain")) groups.push({ key: domain2.ref, label: domain2.title ?? domain2.name, sub: cleanText(`Domain${domain2.owner === null ? "" : `, owned by ${nameOfRef2(domain2.owner)}`}`), icon: "lucide:map", idHint: domain2.name });
+    for (const system of entities.filter((entity) => entity.kind === "System")) groups.push({ key: system.ref, label: system.title ?? system.name, sub: cleanText(`System${system.owner === null ? "" : `, owned by ${nameOfRef2(system.owner)}`}`), icon: "lucide:boxes", parent: system.domain !== null && byRef.has(system.domain) ? system.domain : null, idHint: system.name });
     for (const entity of boxes2) if (entity.system !== null && byRef.get(entity.system)?.kind === "System") frameOf3.set(entity.ref, entity.system);
   }
   const order = { Component: 0, API: 1, Resource: 2 };
   const ordered = [...boxes2].sort((a, b) => order[a.kind] - order[b.kind]);
   const nodes = ordered.map((entity) => {
     const box = boxOf3(entity, byOwner);
-    const system = byOwner && entity.system !== null ? `, in ${nameOfRef(entity.system)}` : "";
+    const system = byOwner && entity.system !== null ? `, in ${nameOfRef2(entity.system)}` : "";
     return { key: entity.ref, ...box, sub: box.sub === null || box.sub === void 0 ? null : cleanText(`${box.sub}${system}`), group: frameOf3.get(entity.ref) ?? null };
   });
   const drawn = new Set(nodes.map((node3) => node3.key));
@@ -189225,14 +189765,14 @@ function templateItems(template, offsetOf) {
   }
   return { items: items2, empty };
 }
-var MAX_DEPTH13, PSEUDO, entryOf, scalarOf, itemsOf, subNames, Template;
+var MAX_DEPTH14, PSEUDO, entryOf, scalarOf, itemsOf, subNames, Template;
 var init_template = __esm({
   "../../packages/diagrams/src/importers/cloudformation/template.ts"() {
     "use strict";
     init_attributes();
     init_type_names();
     init_value();
-    MAX_DEPTH13 = 16;
+    MAX_DEPTH14 = 16;
     PSEUDO = {
       "AWS::Region": "region",
       "AWS::AccountId": "account",
@@ -189264,7 +189804,7 @@ var init_template = __esm({
       conditionMemo = /* @__PURE__ */ new Map();
       /** The value of a node as far as the template's defaults give it. */
       evaluate(node3, depth = 0) {
-        if (node3 === void 0 || depth > MAX_DEPTH13) return new Unknown("value");
+        if (node3 === void 0 || depth > MAX_DEPTH14) return new Unknown("value");
         const intrinsic = intrinsicOf(node3);
         if (intrinsic !== null) return this.call(intrinsic, depth);
         if (node3.kind === "scalar") return node3.isNull ? null : node3.value;
@@ -189372,7 +189912,7 @@ var init_template = __esm({
       }
       /** The resources a node names: `Ref`, `GetAtt`, and `${ }` of `Sub`, and only the branch an `If` takes when its condition is known. */
       refs(node3, depth = 0) {
-        if (node3 === void 0 || depth > MAX_DEPTH13) return [];
+        if (node3 === void 0 || depth > MAX_DEPTH14) return [];
         const intrinsic = intrinsicOf(node3);
         if (intrinsic !== null) {
           const argument = intrinsic.argument;
@@ -189409,7 +189949,7 @@ var init_template = __esm({
       }
       /** Every reference a node holds, by the keys that lead to it. */
       refsByPath(node3, path, out, depth = 0) {
-        if (node3 === void 0 || depth > MAX_DEPTH13) return;
+        if (node3 === void 0 || depth > MAX_DEPTH14) return;
         if (intrinsicOf(node3) === null && node3.kind === "map") {
           for (const entry2 of node3.entries) this.refsByPath(entry2.value, [...path, entry2.key], out, depth + 1);
           return;
@@ -189426,17 +189966,17 @@ var init_template = __esm({
 });
 
 // ../../packages/diagrams/src/importers/cloudformation/index.ts
-function nodeOf2(value, depth = 0) {
+function nodeOf3(value, depth = 0) {
   const at3 = { line: 1, column: 1 };
   if (depth > 64 || value === null || value === void 0) return { kind: "scalar", value: "", quoted: false, isNull: true, ...at3 };
-  if (Array.isArray(value)) return { kind: "seq", items: value.map((item) => nodeOf2(item, depth + 1)), ...at3 };
-  if (typeof value === "object") return { kind: "map", entries: Object.entries(value).map(([key, entry2]) => ({ key, value: nodeOf2(entry2, depth + 1), ...at3 })), ...at3 };
+  if (Array.isArray(value)) return { kind: "seq", items: value.map((item) => nodeOf3(item, depth + 1)), ...at3 };
+  if (typeof value === "object") return { kind: "map", entries: Object.entries(value).map(([key, entry2]) => ({ key, value: nodeOf3(entry2, depth + 1), ...at3 })), ...at3 };
   return { kind: "scalar", value: String(value), quoted: typeof value === "string", isNull: false, ...at3 };
 }
 function readFile(text3) {
   if (/^\s*\{/.test(text3)) {
     try {
-      return { root: nodeOf2(JSON.parse(text3)), problem: null };
+      return { root: nodeOf3(JSON.parse(text3)), problem: null };
     } catch (error62) {
       return { root: null, problem: { line: 1, column: 1, message: `The template is not JSON: ${error62 instanceof Error ? error62.message : "it cannot be read"}.`, hint: "Send the template as CloudFormation writes it, in JSON or YAML." } };
     }
@@ -189669,7 +190209,7 @@ function readable(segment, stack) {
   const at3 = stack.length >= 3 ? own2.indexOf(stack) : -1;
   return (at3 > 0 ? own2.slice(0, at3) : own2) || segment;
 }
-function frameModules2(tree, classes, startOf3) {
+function frameModules2(tree, classes, startOf4) {
   const scopes = /* @__PURE__ */ new Map();
   const used = /* @__PURE__ */ new Set();
   const modules = [];
@@ -189684,7 +190224,7 @@ function frameModules2(tree, classes, startOf3) {
     const kind = tree.frames.get(path) ?? "Construct";
     const fqn = classes.get(path) ?? "";
     const own2 = /^(?:aws-cdk-lib|@aws-cdk\/[^.]+)\./.test(fqn) && !/\.(?:Stack|NestedStack|Stage)$/.test(fqn) ? fqn.split(".").pop() ?? "" : "";
-    modules.push({ scope, name: path, label: id, instance: null, source: own2, start: startOf3(path), noun: kind });
+    modules.push({ scope, name: path, label: id, instance: null, source: own2, start: startOf4(path), noun: kind });
   }
   return { modules, scopes };
 }
@@ -189849,7 +190389,7 @@ function readCdk(joined2, context) {
   }
   let hops = 0;
   const refsOf = (read, node3) => {
-    if (node3 === void 0 || hops >= MAX_HOPS) return [];
+    if (node3 === void 0 || hops >= MAX_HOPS2) return [];
     hops += 1;
     try {
       return read.model.refs(node3).map((ref) => read.names.get(ref) ?? ref);
@@ -189915,12 +190455,12 @@ function readCdk(joined2, context) {
     const maker = makers.get(item.name) ?? null;
     if ((labelCount.get(item.label) ?? 0) > 1 && maker !== null && !item.label.startsWith(`${maker}_`)) items2[position] = { ...item, label: `${maker}_${item.label}` };
   }
-  const startOf3 = (path) => {
+  const startOf4 = (path) => {
     const owner = reads.find((read) => read.template.stackPath === path) ?? reads.find((read) => read.template.topPath === path.split("/")[0]);
     const at3 = owner === void 0 ? -1 : owner.template.file.text.indexOf(`"${path}/`);
     return owner === void 0 ? 0 : owner.template.file.start + Math.max(0, at3);
   };
-  const { modules, scopes } = frameModules2(tree, assembly.classes, startOf3);
+  const { modules, scopes } = frameModules2(tree, assembly.classes, startOf4);
   const scoped = items2.map((item) => {
     const frames = placements.get(item.name) ?? [];
     const innermost = frames[frames.length - 1];
@@ -189950,7 +190490,7 @@ function readCdk(joined2, context) {
     framing: "construct"
   });
 }
-var LISTED9, MAX_HOPS, METADATA_TYPE, withoutHash, cdkImporter;
+var LISTED9, MAX_HOPS2, METADATA_TYPE, withoutHash, cdkImporter;
 var init_cdk = __esm({
   "../../packages/diagrams/src/importers/cdk/index.ts"() {
     "use strict";
@@ -189964,7 +190504,7 @@ var init_cdk = __esm({
     init_assembly();
     init_constructs();
     LISTED9 = 3;
-    MAX_HOPS = 8;
+    MAX_HOPS2 = 8;
     METADATA_TYPE = "AWS::CDK::Metadata";
     withoutHash = (logical) => logical.replace(/[0-9A-F]{8}$/, "") || logical;
     cdkImporter = { format: "cdk", kinds: ["flow"], joins: "\n", extensions: [".json", ".yaml", ".yml", ".out"], read: readCdk };
@@ -190119,17 +190659,17 @@ var init_services2 = __esm({
 });
 
 // ../../packages/diagrams/src/importers/compose/index.ts
-function subOf(service) {
+function subOf2(service) {
   const runs = service.image ?? (service.build === null ? null : `build ${service.build}`);
   const ports = service.ports.length === 0 ? null : `${service.ports.length === 1 ? "port" : "ports"} ${service.ports.join(", ")}`;
   const replicas = service.replicas === null || service.replicas === "1" ? null : `${service.replicas} replicas`;
   const parts = [runs, ports, replicas].filter((part) => part !== null);
   return parts.length === 0 ? null : parts.join(", ");
 }
-function nodeOf3(service, group2) {
+function nodeOf4(service, group2) {
   const look = (service.image === null ? null : imageLook(service.image)) ?? imageLook(service.name);
   const type = look?.type ?? "service";
-  return { key: `service:${service.name}`, type, label: service.name, sub: subOf(service), icon: look?.icon ?? iconForName(service.name, type), group: group2, idHint: service.name };
+  return { key: `service:${service.name}`, type, label: service.name, sub: subOf2(service), icon: look?.icon ?? iconForName(service.name, type), group: group2, idHint: service.name };
 }
 function groupsOf(services, networks) {
   const home = /* @__PURE__ */ new Map();
@@ -190187,7 +190727,7 @@ function readCompose(source, context) {
   const mounted = new Set(services.flatMap((service) => service.volumes));
   const volumes = declared(root, "volumes").filter((volume) => mounted.has(volume));
   const nodes = [
-    ...services.map((service) => nodeOf3(service, home.get(service.name) ?? null)),
+    ...services.map((service) => nodeOf4(service, home.get(service.name) ?? null)),
     ...volumes.map((volume) => ({ key: `volume:${volume}`, type: "storage", label: volume, sub: "Named volume", idHint: `${volume}_volume` }))
   ];
   const name2 = text(get(root, "name"));
@@ -191942,8 +192482,8 @@ function actionLabel(uses) {
 }
 function commandLabel(run3) {
   const first = run3.split("\n").map((line3) => line3.trim()).find((line3) => line3 !== "" && !line3.startsWith("#")) ?? "Run a script";
-  if (first.length <= MAX_STEP_LABEL) return first;
-  const cut = first.slice(0, MAX_STEP_LABEL);
+  if (first.length <= MAX_STEP_LABEL2) return first;
+  const cut = first.slice(0, MAX_STEP_LABEL2);
   const space = cut.lastIndexOf(" ");
   return space > 12 ? cut.slice(0, space) : cut;
 }
@@ -192015,13 +192555,13 @@ function triggerOf(root) {
   const short3 = `${words2.map((word2) => word2.short).join(" or ")}${more}`;
   return { label: cleanText(`${short3.charAt(0).toUpperCase()}${short3.slice(1)}`), sentence: cleanText(`${words2.map((word2) => word2.long).join(" or ")}${more}`) };
 }
-var MAX_STEP_LABEL, ACTION_ICONS, COMMAND_ICONS;
+var MAX_STEP_LABEL2, ACTION_ICONS, COMMAND_ICONS;
 var init_workflow = __esm({
   "../../packages/diagrams/src/importers/github-actions/workflow.ts"() {
     "use strict";
     init_shared2();
     init_yaml();
-    MAX_STEP_LABEL = 48;
+    MAX_STEP_LABEL2 = 48;
     ACTION_ICONS = {
       "actions/checkout": "lucide:git-branch",
       "actions/setup-node": "simple:nodedotjs",
@@ -192111,31 +192651,31 @@ function readWorkflow(source, context) {
     return null;
   }
   const ids = new Set(jobs.map((job) => job.id));
-  const resolved = jobs.map((job) => {
+  const resolved2 = jobs.map((job) => {
     const missing = job.needs.filter((need) => !ids.has(need));
     for (const need of missing) context.report.add(DIAGNOSTIC_CODES.importUnresolved, spanAt3(job.line, job.column, job.id.length), `Job ${job.id} needs ${need}, which is not a job of this workflow.`, "Fix the name in needs:, or add the job.");
     return missing.length === 0 ? job : { ...job, needs: job.needs.filter((need) => ids.has(need)) };
   });
-  const expanded = fitsSteps(resolved);
-  const drawn = expanded ? stepBoxes(resolved) : { ...jobBoxes(resolved), groups: [] };
+  const expanded = fitsSteps(resolved2);
+  const drawn = expanded ? stepBoxes(resolved2) : { ...jobBoxes(resolved2), groups: [] };
   const trigger = triggerOf(root);
   const firstOf = (job) => expanded ? job.steps.length === 0 ? `job:${job.id}` : `step:${job.id}:0` : `job:${job.id}`;
-  const starts = resolved.filter((job) => job.needs.length === 0).map((job) => ({ from: TRIGGER, to: firstOf(job) }));
+  const starts = resolved2.filter((job) => job.needs.length === 0).map((job) => ({ from: TRIGGER, to: firstOf(job) }));
   const name2 = text(get(root, "name"));
-  const depth = depthOf5(resolved);
-  const steps = resolved.reduce((sum, job) => sum + job.steps.length, 0);
+  const depth = depthOf5(resolved2);
+  const steps = resolved2.reduce((sum, job) => sum + job.steps.length, 0);
   const coverage = expanded ? { noun: "steps", total: drawn.nodes.length, drawn: drawn.nodes.length, summarised: 0 } : { noun: "steps", total: steps, drawn: 0, summarised: steps };
   return writeFlow(
     {
       title: context.title ?? name2 ?? "GitHub Actions workflow",
-      desc: `${countOf2(resolved.length, "job")}${expanded ? " and their steps" : ""} of ${name2 === null ? "a GitHub Actions workflow" : `the ${name2} workflow`}, started by ${trigger === null ? "its trigger" : trigger.sentence}, in the order their needs set, imported from GitHub Actions.`,
+      desc: `${countOf2(resolved2.length, "job")}${expanded ? " and their steps" : ""} of ${name2 === null ? "a GitHub Actions workflow" : `the ${name2} workflow`}, started by ${trigger === null ? "its trigger" : trigger.sentence}, in the order their needs set, imported from GitHub Actions.`,
       direction: expanded || depth > 4 ? "down" : "right",
       nodes: [{ key: TRIGGER, type: "terminal", label: trigger?.label ?? "Workflow starts" }, ...drawn.nodes],
       groups: drawn.groups,
       edges: [...starts, ...drawn.edges],
       noun: expanded ? "steps" : "jobs",
       capSpan: (key) => {
-        const job = resolved.find((candidate2) => key === `job:${candidate2.id}`);
+        const job = resolved2.find((candidate2) => key === `job:${candidate2.id}`);
         return spanAt3(job?.line ?? 1, job?.column ?? 1);
       },
       coverage,
@@ -192156,6 +192696,213 @@ var init_github_actions = __esm({
     TRIGGER = "on";
     PLUMBING_ICONS = /* @__PURE__ */ new Set(["lucide:git-branch", "lucide:upload", "lucide:download", "lucide:database-zap"]);
     githubActionsImporter = { format: "github-actions", kinds: ["flow"], joins: null, extensions: [], read: readWorkflow };
+  }
+});
+
+// ../../packages/diagrams/src/importers/gitlab-ci/pipeline.ts
+function resolved(name2, byName, missing, depth = 0) {
+  const own2 = byName.get(name2);
+  const out = /* @__PURE__ */ new Map();
+  if (own2 === void 0 || depth > MAX_EXTENDS) return out;
+  for (const parent of names5(get(own2, "extends"))) {
+    if (!byName.has(parent)) {
+      if (!missing.includes(parent)) missing.push(parent);
+      continue;
+    }
+    for (const [key, value] of resolved(parent, byName, missing, depth + 1)) out.set(key, value);
+  }
+  for (const entry2 of entries(own2)) if (entry2.key !== "extends") out.set(entry2.key, entry2.value);
+  return out;
+}
+function runsOf5(parallel) {
+  const count3 = Number(text(parallel));
+  if (Number.isInteger(count3) && count3 > 1) return { runs: count3, matrix: false };
+  const matrix = items(get(parallel, "matrix"));
+  if (matrix.length === 0) return { runs: 1, matrix: false };
+  const runs = matrix.reduce((sum, entry2) => sum + entries(entry2).reduce((product, variable) => product * Math.max(1, items(variable.value).length), 1), 0);
+  return { runs, matrix: true };
+}
+function startOf3(keys) {
+  const when = text(keys.get("when"));
+  if (when === "manual") return "manual";
+  if (when === "delayed") return "delayed";
+  if (when === "on_failure") return "on_failure";
+  const rules = items(keys.get("rules"));
+  if (rules.some((rule) => text(get(rule, "when")) === "manual")) return "manual";
+  if (rules.length > 0) return "rules";
+  if (keys.has("only") || keys.has("except")) return "only";
+  return "always";
+}
+function triggerOf2(node3) {
+  if (node3 === void 0) return null;
+  const project2 = text(node3) ?? text(get(node3, "project"));
+  if (project2 !== null) return { label: project2, child: false };
+  const include = get(node3, "include");
+  const file2 = text(include) ?? items(include).map((entry2) => text(entry2) ?? text(get(entry2, "local")) ?? text(get(entry2, "file")) ?? text(get(entry2, "template")) ?? text(get(entry2, "artifact"))).find((value) => value !== null) ?? null;
+  return { label: file2 ?? "Child pipeline", child: true };
+}
+function includesOf(root) {
+  const include = get(root, "include");
+  return items(include).map((entry2) => {
+    const said = text(entry2) ?? (text(get(entry2, "project")) === null ? null : `${text(get(entry2, "project"))}: ${names5(get(entry2, "file")).join(", ")}`) ?? text(get(entry2, "local")) ?? text(get(entry2, "remote")) ?? text(get(entry2, "template")) ?? text(get(entry2, "component")) ?? "an include";
+    return { said: cleanText(said), line: entry2.line, column: entry2.column };
+  });
+}
+function readPipeline2(root) {
+  const byName = /* @__PURE__ */ new Map();
+  for (const entry2 of entries(root)) if (entry2.value.kind === "map") byName.set(entry2.key, entry2.value);
+  const written3 = names5(get(root, "stages"));
+  const defaults = get(root, "default");
+  const fallbackImage = text(get(defaults, "image")) ?? text(get(get(defaults, "image"), "name")) ?? text(get(root, "image")) ?? text(get(get(root, "image"), "name"));
+  const jobs = [];
+  for (const entry2 of entries(root)) {
+    if (entry2.key.startsWith(".") || GLOBAL_KEYS.has(entry2.key) || entry2.value.kind !== "map") continue;
+    const missing = [];
+    const keys = resolved(entry2.key, byName, missing);
+    const needsNode = keys.get("needs");
+    const needs2 = needsNode === void 0 ? null : items(needsNode).map((need) => text(need) ?? (get(need, "pipeline") === void 0 && get(need, "project") === void 0 ? text(get(need, "job")) : null)).filter((need) => need !== null);
+    const image = text(keys.get("image")) ?? text(get(keys.get("image"), "name")) ?? fallbackImage;
+    const environment = text(keys.get("environment")) ?? text(get(keys.get("environment"), "name"));
+    const allow = keys.get("allow_failure");
+    jobs.push({
+      name: entry2.key,
+      stage: text(keys.get("stage")) ?? "test",
+      needs: needs2,
+      start: startOf3(keys),
+      image: image === null ? null : image.split("/").pop() ?? image,
+      ...runsOf5(keys.get("parallel")),
+      environment,
+      trigger: triggerOf2(keys.get("trigger")),
+      allowFailure: text(allow) === "true" || allow?.kind === "map",
+      missingExtends: missing,
+      line: entry2.line,
+      column: entry2.column
+    });
+  }
+  return { stages: written3.length > 0 ? written3 : [...DEFAULT_STAGES], stagesWritten: written3.length > 0, jobs, includes: includesOf(root) };
+}
+var DEFAULT_STAGES, GLOBAL_KEYS, MAX_EXTENDS;
+var init_pipeline2 = __esm({
+  "../../packages/diagrams/src/importers/gitlab-ci/pipeline.ts"() {
+    "use strict";
+    init_shared2();
+    init_yaml();
+    DEFAULT_STAGES = [".pre", "build", "test", "deploy", ".post"];
+    GLOBAL_KEYS = /* @__PURE__ */ new Set(["default", "include", "stages", "variables", "workflow", "image", "services", "cache", "before_script", "after_script", "types", "spec"]);
+    MAX_EXTENDS = 11;
+  }
+});
+
+// ../../packages/diagrams/src/importers/gitlab-ci/index.ts
+function subOf3(job) {
+  const parts = [
+    START_WORDS[job.start],
+    job.runs > 1 ? `${job.runs} ${job.matrix ? "matrix" : "parallel"} runs` : null,
+    job.environment === null ? null : `deploys to ${job.environment}`,
+    job.image,
+    job.allowFailure ? "may fail" : null
+  ].filter((part) => part !== null);
+  return parts.length === 0 ? null : cleanText(parts.join(", "));
+}
+function readGitlabCi(source, context) {
+  const read = parseYaml(source);
+  if (read.error !== null) {
+    context.report.add(DIAGNOSTIC_CODES.importUnreadable, spanAt3(read.error.line, read.error.column), read.error.message, read.error.hint);
+    return null;
+  }
+  const root = [...read.documents].reverse().find((document2) => document2.root?.kind === "map")?.root ?? null;
+  const pipeline = root === null ? null : readPipeline2(root);
+  if (pipeline === null || pipeline.jobs.length === 0) {
+    const includes = pipeline?.includes.length ?? 0;
+    context.report.add(DIAGNOSTIC_CODES.importNoShape, START, includes > 0 ? "The file has no jobs of its own; they come from what it includes, which is not fetched." : "The file has no jobs.", includes > 0 ? "Import the included files, or a .gitlab-ci.yml with jobs." : "Send a .gitlab-ci.yml with at least one job, a key with a script or a trigger.");
+    return null;
+  }
+  const firstInclude = pipeline.includes[0];
+  if (firstInclude !== void 0) {
+    context.report.add(DIAGNOSTIC_CODES.importSkipped, spanAt3(firstInclude.line, firstInclude.column), `${countOf2(pipeline.includes.length, "include")} ${pipeline.includes.length === 1 ? "is" : "are"} not fetched, so the jobs ${pipeline.includes.length === 1 ? "it adds are" : "they add are"} not drawn: ${pipeline.includes.slice(0, 3).map((include) => include.said).join(", ")}.`, "Import the included files too, or draw this file alone knowing those jobs are missing.");
+  }
+  const names8 = new Set(pipeline.jobs.map((job) => job.name));
+  const missingExtends = pipeline.jobs.filter((job) => job.missingExtends.length > 0);
+  const firstMissing = missingExtends[0];
+  if (firstMissing !== void 0) {
+    const parents = [...new Set(missingExtends.flatMap((job) => job.missingExtends))];
+    context.report.add(DIAGNOSTIC_CODES.importUnresolved, spanAt3(firstMissing.line, firstMissing.column, firstMissing.name.length), `${countOf2(missingExtends.length, "job")} extend${missingExtends.length === 1 ? "s" : ""} ${parents.length === 1 ? "a job" : "jobs"} the file does not hold, so what ${parents.length === 1 ? "it sets is" : "they set is"} not read: ${parents.slice(0, 3).map((name2) => cleanText(name2)).join(", ")}.`, "They often come from an include; import the file that defines them with this one.");
+  }
+  const stages = pipeline.stages.filter((stage) => pipeline.jobs.some((job) => job.stage === stage));
+  const unknown2 = [...new Set(pipeline.jobs.map((job) => job.stage).filter((stage) => !pipeline.stages.includes(stage)))];
+  const firstUnknown = pipeline.jobs.find((job) => unknown2.includes(job.stage));
+  if (firstUnknown !== void 0) {
+    context.report.add(DIAGNOSTIC_CODES.importUnresolved, spanAt3(firstUnknown.line, firstUnknown.column, firstUnknown.name.length), `${countOf2(unknown2.length, "stage")} ${unknown2.length === 1 ? "is" : "are"} used by jobs but not listed in stages, so ${unknown2.length === 1 ? "it is" : "they are"} drawn last: ${unknown2.slice(0, 3).map((stage) => cleanText(stage)).join(", ")}.`, "List every stage in stages:, in the order they run.");
+  }
+  const ordered = [...stages, ...unknown2];
+  const jobsOf2 = (stage) => pipeline.jobs.filter((job) => job.stage === stage);
+  const nodes = [{ key: START_KEY2, type: "terminal", label: "Pipeline starts" }];
+  const groups = [];
+  const edges = [];
+  const unresolvedNeeds = [];
+  for (const stage of ordered) {
+    groups.push({ key: `stage:${stage}`, label: cleanText(stage), type: "ci-cd", idHint: `stage_${stage.replace(/^\./, "")}` });
+    for (const job of jobsOf2(stage)) {
+      nodes.push({ key: `job:${job.name}`, type: "step", label: cleanText(job.name), sub: subOf3(job), icon: job.image === null ? null : imageLook(job.image)?.icon ?? null, group: `stage:${stage}`, idHint: job.name });
+      if (job.trigger !== null) {
+        nodes.push({ key: `trigger:${job.name}`, type: "external", label: cleanText(job.trigger.label), sub: job.trigger.child ? "Child pipeline" : "Downstream pipeline", icon: "simple:gitlab", idHint: `${job.name}_pipeline` });
+        edges.push({ from: `job:${job.name}`, to: `trigger:${job.name}`, label: "triggers" });
+      }
+    }
+  }
+  for (const job of pipeline.jobs) {
+    const arrow = job.start === "always" ? void 0 : "-->";
+    const into = (from) => {
+      edges.push({ from, to: `job:${job.name}`, ...arrow === void 0 ? {} : { arrow } });
+    };
+    if (job.needs !== null) {
+      for (const need of job.needs) {
+        if (names8.has(need)) into(`job:${need}`);
+        else unresolvedNeeds.push({ job, need });
+      }
+      if (job.needs.filter((need) => names8.has(need)).length === 0) into(START_KEY2);
+      continue;
+    }
+    const before = ordered.slice(0, ordered.indexOf(job.stage)).reverse().find((stage) => jobsOf2(stage).length > 0);
+    if (before === void 0) into(START_KEY2);
+    else for (const previous of jobsOf2(before)) into(`job:${previous.name}`);
+  }
+  const firstNeed = unresolvedNeeds[0];
+  if (firstNeed !== void 0) {
+    context.report.add(DIAGNOSTIC_CODES.importUnresolved, spanAt3(firstNeed.job.line, firstNeed.job.column, firstNeed.job.name.length), `${countOf2(unresolvedNeeds.length, "need")} name${unresolvedNeeds.length === 1 ? "s a job" : " jobs"} the file does not hold, so no arrow is drawn for ${unresolvedNeeds.length === 1 ? "it" : "them"}: ${unresolvedNeeds.slice(0, 3).map((entry2) => `${cleanText(entry2.job.name)} needs ${cleanText(entry2.need)}`).join(", ")}.`, "Fix the name in needs:, or import the file that defines the job.");
+  }
+  const triggers = pipeline.jobs.filter((job) => job.trigger !== null).length;
+  return writeFlow(
+    {
+      title: context.title ?? "GitLab CI/CD pipeline",
+      desc: `${countOf2(pipeline.jobs.length, "job")} in ${countOf2(ordered.length, "stage")}${triggers === 0 ? "" : `, ${triggers} of which ${triggers === 1 ? "starts" : "start"} another pipeline`}, in the order they run: by needs, or stage after stage. A dashed arrow reaches a job that runs by hand or by its rules. Imported from GitLab CI/CD.`,
+      // Stages run down the page: across, even three stages of a few jobs are wider than a column.
+      direction: "down",
+      nodes,
+      groups,
+      edges,
+      noun: "jobs",
+      capSpan: (key) => {
+        const job = pipeline.jobs.find((candidate2) => key === `job:${candidate2.name}`);
+        return spanAt3(job?.line ?? 1, job?.column ?? 1);
+      },
+      coverage: { noun: "jobs", total: pipeline.jobs.length, drawn: pipeline.jobs.length, summarised: 0 },
+      advice: pipeline.stagesWritten ? "Add needs: to jobs that do not wait for a whole stage, so the picture shows what really runs in parallel." : "List the stages in stages:, so the picture shows them in the order they run."
+    },
+    context.report
+  );
+}
+var START_KEY2, START_WORDS, gitlabCiImporter;
+var init_gitlab_ci = __esm({
+  "../../packages/diagrams/src/importers/gitlab-ci/index.ts"() {
+    "use strict";
+    init_core();
+    init_shared2();
+    init_yaml();
+    init_pipeline2();
+    START_KEY2 = "pipeline";
+    START_WORDS = { always: null, manual: "manual", rules: "when its rules match", only: "only on some refs", delayed: "delayed", on_failure: "on failure" };
+    gitlabCiImporter = { format: "gitlab-ci", kinds: ["flow"], joins: null, extensions: [], read: readGitlabCi };
   }
 });
 
@@ -192483,7 +193230,7 @@ function withoutSchemaBodies(text3) {
   }
   return lines.join("\n");
 }
-function readDocument(text3, report3) {
+function readDocument2(text3, report3) {
   const index2 = new LineIndex(text3);
   if (text3.trimStart().startsWith("{")) {
     try {
@@ -192503,7 +193250,7 @@ function readDocument(text3, report3) {
   return root === void 0 || root === null ? null : plain2(root);
 }
 var UNREAD_SECTIONS;
-var init_document2 = __esm({
+var init_document3 = __esm({
   "../../packages/diagrams/src/importers/openapi/document.ts"() {
     "use strict";
     init_core();
@@ -192860,7 +193607,7 @@ var METHODS;
 var init_operations = __esm({
   "../../packages/diagrams/src/importers/openapi/operations.ts"() {
     "use strict";
-    init_document2();
+    init_document3();
     METHODS = ["get", "post", "put", "patch", "delete", "head", "options", "trace"];
   }
 });
@@ -192964,7 +193711,7 @@ function readOpenApi(text3, context) {
     report3.add(DIAGNOSTIC_CODES.importNotFound, START, `An OpenAPI document has no "${asked}" view.`, 'Set options.view to "endpoints" for an access matrix, "map" for the endpoints by tag, or "sequence" for one operation.');
     return null;
   }
-  const document2 = readDocument(text3, report3);
+  const document2 = readDocument2(text3, report3);
   if (document2 === null) return null;
   if (!isOpenApi3(document2)) {
     report3.add(DIAGNOSTIC_CODES.importNoShape, START, "The document has no openapi: 3.x field, so it is not an OpenAPI 3 document.", "Send an OpenAPI 3.0 or 3.1 document. A Swagger 2.0 file can be converted with the swagger2openapi tool first.");
@@ -193011,7 +193758,7 @@ var init_openapi = __esm({
     "use strict";
     init_core();
     init_shared2();
-    init_document2();
+    init_document3();
     init_endpoints();
     init_map();
     init_operations();
@@ -193303,19 +194050,19 @@ function piecesOf4(value) {
   }
   return out;
 }
-var MAX_DEPTH14, Program;
+var MAX_DEPTH15, Program;
 var init_program = __esm({
   "../../packages/diagrams/src/importers/pulumi/program.ts"() {
     "use strict";
     init_value();
     init_yaml();
     init_item();
-    MAX_DEPTH14 = 16;
+    MAX_DEPTH15 = 16;
     Program = class {
-      constructor(root, config2, stack, project) {
+      constructor(root, config2, stack, project2) {
         this.config = config2;
         this.stack = stack;
-        this.project = project;
+        this.project = project2;
         this.resources = entries(get(root, "resources")).filter((entry2) => entry2.value.kind === "map").map((entry2) => ({ name: entry2.key, node: entry2.value, line: entry2.line, column: entry2.column }));
         this.variables = new Map(entries(get(root, "variables")).map((entry2) => [entry2.key, entry2.value]));
         const defaults = /* @__PURE__ */ new Map();
@@ -193338,7 +194085,7 @@ var init_program = __esm({
       }
       /** The value of a node as far as the program and the stack give it. */
       evaluate(node3, depth = 0) {
-        if (node3 === void 0 || depth > MAX_DEPTH14) return new Unknown("value");
+        if (node3 === void 0 || depth > MAX_DEPTH15) return new Unknown("value");
         if (node3.kind === "scalar") {
           if (node3.isNull) return null;
           if (!node3.value.includes("${")) return node3.value;
@@ -193423,7 +194170,7 @@ var init_program = __esm({
       }
       /** The resources a node names, through the variables it uses. */
       refs(node3, depth = 0) {
-        if (node3 === void 0 || depth > MAX_DEPTH14) return [];
+        if (node3 === void 0 || depth > MAX_DEPTH15) return [];
         if (node3.kind === "scalar") {
           if (!node3.value.includes("${")) return [];
           return piecesOf4(node3.value).flatMap((piece) => {
@@ -193446,7 +194193,7 @@ var init_program = __esm({
       }
       /** Every reference a node holds, by the keys that lead to it. */
       refsByPath(node3, path, out, depth) {
-        if (node3 === void 0 || depth > MAX_DEPTH14) return;
+        if (node3 === void 0 || depth > MAX_DEPTH15) return;
         if (node3.kind === "map" && !(node3.entries.length === 1 && node3.entries[0]?.key.startsWith("fn::"))) {
           for (const entry2 of node3.entries) this.refsByPath(entry2.value, [...path, entry2.key], out, depth + 1);
           return;
@@ -194244,6 +194991,718 @@ var init_sql = __esm({
   }
 });
 
+// ../../packages/diagrams/src/importers/structurizr/tokens.ts
+function tokensOf(line3) {
+  const tokens = [];
+  let index2 = 0;
+  while (index2 < line3.length) {
+    const char = line3.charAt(index2);
+    if (char === " " || char === "	") {
+      index2 += 1;
+      continue;
+    }
+    if (char === '"') {
+      let value = "";
+      let at3 = index2 + 1;
+      for (; at3 < line3.length && line3.charAt(at3) !== '"'; at3 += 1) {
+        if (line3.charAt(at3) === "\\" && at3 + 1 < line3.length) at3 += 1;
+        value += line3.charAt(at3);
+      }
+      tokens.push({ text: value, quoted: true, column: index2 + 1 });
+      index2 = at3 + 1;
+      continue;
+    }
+    if (char === "#" || line3.startsWith("//", index2)) break;
+    let end = index2;
+    while (end < line3.length && !' 	"'.includes(line3.charAt(end))) end += 1;
+    const word2 = line3.slice(index2, end);
+    let start2 = 0;
+    for (let at3 = 0; at3 < word2.length; at3 += 1) {
+      const single = word2.charAt(at3) === "{" || word2.charAt(at3) === "}" || word2.charAt(at3) === "=";
+      const arrow = word2.startsWith("->", at3);
+      if (!single && !arrow) continue;
+      if (at3 > start2) tokens.push({ text: word2.slice(start2, at3), quoted: false, column: index2 + start2 + 1 });
+      const size = arrow ? 2 : 1;
+      tokens.push({ text: word2.slice(at3, at3 + size), quoted: false, column: index2 + at3 + 1 });
+      start2 = at3 + size;
+      at3 += size - 1;
+    }
+    if (start2 < word2.length) tokens.push({ text: word2.slice(start2), quoted: false, column: index2 + start2 + 1 });
+    index2 = end;
+  }
+  return tokens;
+}
+function statementsOf2(text3) {
+  const lines = text3.split("\n");
+  const out = [];
+  let inComment = false;
+  let pending = null;
+  for (let index2 = 0; index2 < lines.length && out.length < MAX_STATEMENTS; index2 += 1) {
+    let line3 = lines[index2] ?? "";
+    if (inComment) {
+      const close2 = line3.indexOf("*/");
+      if (close2 === -1) continue;
+      line3 = " ".repeat(close2 + 2) + line3.slice(close2 + 2);
+      inComment = false;
+    }
+    const trimmed4 = line3.trim();
+    if (trimmed4.startsWith("/*")) {
+      const close2 = line3.indexOf("*/", line3.indexOf("/*") + 2);
+      if (close2 === -1) {
+        inComment = true;
+        continue;
+      }
+      line3 = " ".repeat(close2 + 2) + line3.slice(close2 + 2);
+    }
+    if (line3.trimEnd().endsWith("\\")) {
+      const head = line3.trimEnd().slice(0, -1);
+      pending = pending === null ? { text: head, line: index2 + 1 } : { text: `${pending.text} ${head.trim()}`, line: pending.line };
+      continue;
+    }
+    const whole2 = pending === null ? { text: line3, line: index2 + 1 } : { text: `${pending.text} ${line3.trim()}`, line: pending.line };
+    pending = null;
+    const tokens = tokensOf(whole2.text);
+    if (tokens.length === 0) continue;
+    const open2 = tokens.findIndex((token) => !token.quoted && token.text === "{");
+    const last = tokens[tokens.length - 1];
+    if (open2 !== -1 && open2 < tokens.length - 1 && last !== void 0 && !last.quoted && last.text === "}") {
+      out.push({ tokens: tokens.slice(0, open2 + 1), line: whole2.line });
+      if (open2 + 1 < tokens.length - 1) out.push({ tokens: tokens.slice(open2 + 1, -1), line: whole2.line });
+      out.push({ tokens: [last], line: whole2.line });
+      continue;
+    }
+    out.push({ tokens, line: whole2.line });
+  }
+  return out;
+}
+var MAX_STATEMENTS;
+var init_tokens4 = __esm({
+  "../../packages/diagrams/src/importers/structurizr/tokens.ts"() {
+    "use strict";
+    MAX_STATEMENTS = 5e4;
+  }
+});
+
+// ../../packages/diagrams/src/importers/structurizr/dsl.ts
+function readDsl(text3) {
+  const statements = statementsOf2(text3);
+  const elements = [];
+  const byKey = /* @__PURE__ */ new Map();
+  const groups = [];
+  const relationships = [];
+  const views = [];
+  const cylinderTags = [];
+  const skipped = [];
+  const constants = /* @__PURE__ */ new Map();
+  const stack = [];
+  let hierarchical = false;
+  let name2 = null;
+  let description = null;
+  const skip = (what, at3, hint2) => {
+    if (!skipped.some((entry2) => entry2.what === what)) skipped.push({ what, line: at3.line, column: at3.column, hint: hint2 });
+  };
+  const expand2 = (value) => value.includes("${") ? value.replace(/\$\{([A-Za-z0-9_-]{1,64})\}/g, (whole2, key) => constants.get(key) ?? whole2) : value;
+  const currentElement = () => {
+    for (let index2 = stack.length - 1; index2 >= 0; index2 -= 1) {
+      const frame = stack[index2];
+      if (frame?.type === "element") return frame.key;
+    }
+    return null;
+  };
+  const currentGroup = () => {
+    for (let index2 = stack.length - 1; index2 >= 0; index2 -= 1) {
+      const frame = stack[index2];
+      if (frame?.type === "group") return frame.key;
+      if (frame?.type === "element") return null;
+    }
+    return null;
+  };
+  const resolve5 = (reference, scope) => {
+    if (reference === "this") return scope;
+    const lower = reference.toLowerCase();
+    if (hierarchical) {
+      for (let at3 = scope; at3 !== null; at3 = byKey.get(at3.toLowerCase())?.parent ?? null) {
+        const found = byKey.get(`${at3.toLowerCase()}.${lower}`);
+        if (found !== void 0) return found.key;
+      }
+    }
+    return byKey.get(lower)?.key ?? null;
+  };
+  const addElement = (statement, identifier, kind, args) => {
+    const parent = currentElement();
+    const parentDraft = parent === null ? void 0 : byKey.get(parent.toLowerCase());
+    const label = args[0]?.text ?? kind;
+    const named = parentDraft === void 0 ? label : `${parentDraft.key}/${label}`;
+    const key = identifier === null ? named : hierarchical && parentDraft !== void 0 ? `${parentDraft.key}.${identifier}` : identifier;
+    const hasTech = kind === "container" || kind === "component";
+    const tags = tagsOf2(args.slice(hasTech ? 3 : 2));
+    const draft = {
+      key,
+      kind,
+      name: label,
+      description: args[1]?.text === "" ? null : args[1]?.text ?? null,
+      technology: hasTech && args[2] !== void 0 && args[2].text !== "" ? args[2].text : null,
+      tags,
+      parent: parentDraft?.key ?? null,
+      group: currentGroup(),
+      external: tags.some((tag) => tag.toLowerCase() === "external"),
+      line: statement.line,
+      column: statement.tokens[0]?.column ?? 1
+    };
+    if (!byKey.has(key.toLowerCase())) {
+      elements.push(draft);
+      byKey.set(key.toLowerCase(), draft);
+    }
+    return { type: "element", key: byKey.get(key.toLowerCase())?.key ?? key };
+  };
+  const readModelStatement = (statement, words2) => {
+    const first = words2[0];
+    if (first === void 0) return { type: "skip" };
+    const keyword = first.text.toLowerCase();
+    const scope = currentElement();
+    if (!first.quoted && keyword === "!identifiers") {
+      hierarchical = words2[1]?.text.toLowerCase() === "hierarchical";
+      return { type: "skip" };
+    }
+    if (!first.quoted && (keyword === "!element" || keyword === "!ref")) {
+      const key = resolve5(words2[1]?.text ?? "", scope);
+      if (key === null) {
+        skip(`!element ${words2[1]?.text ?? ""}`, { line: statement.line, column: first.column }, "The element it extends is not in the files sent; send the workspace that defines it.");
+        return { type: "skip" };
+      }
+      return { type: "element", key };
+    }
+    const assigned = words2[1]?.text === "=" && !words2[1].quoted;
+    const rest = assigned ? words2.slice(2) : words2;
+    const arrow = rest.findIndex((token) => !token.quoted && token.text === "->");
+    if (arrow === 0 || arrow === 1) {
+      const from = arrow === 0 ? "this" : rest[0]?.text ?? "";
+      const to = rest[arrow + 1];
+      if (to === void 0 || arrow === 0 && scope === null) {
+        skip("A relationship with no source", { line: statement.line, column: first.column }, "Write the relationship as source -> destination, or inside the block of its source.");
+        return { type: "skip" };
+      }
+      const args = rest.slice(arrow + 2);
+      relationships.push({ from, to: to.text, scope, description: args[0]?.text === "" ? null : args[0]?.text ?? null, technology: args[1]?.text === "" ? null : args[1]?.text ?? null, tags: tagsOf2(args.slice(2)), line: statement.line, column: first.column });
+      return { type: "relationship", index: relationships.length - 1 };
+    }
+    const word2 = (rest[0]?.text ?? "").toLowerCase();
+    const kind = rest[0]?.quoted === true ? void 0 : ELEMENT_WORDS[word2];
+    if (kind !== void 0) return addElement(statement, assigned ? first.text : null, kind, rest.slice(1));
+    if (word2 === "group" || word2 === "enterprise") {
+      const label = rest[1]?.text ?? (word2 === "enterprise" ? "Enterprise" : "Group");
+      const parent = currentGroup();
+      const key = parent !== null ? `${parent}/${label}` : scope !== null ? `${scope}/${label}` : label;
+      if (!groups.some((group2) => group2.key === key)) groups.push({ key, name: label, parent, enterprise: word2 === "enterprise", line: statement.line });
+      return { type: "group", key };
+    }
+    if (DEPLOYMENT_WORDS.has(word2)) {
+      skip("Deployment environments", { line: statement.line, column: first.column }, "The picture shows the system context, container, or component level; a deployment view is not drawn.");
+      return { type: "skip" };
+    }
+    if (word2 === "element") {
+      skip("Custom elements", { line: statement.line, column: first.column }, "Only people, software systems, containers, and components are drawn.");
+      return { type: "skip" };
+    }
+    if (scope !== null && (word2 === "description" || word2 === "technology" || word2 === "tags" || word2 === "tag")) {
+      const draft = byKey.get(scope.toLowerCase());
+      const value = rest[1]?.text ?? "";
+      if (draft !== void 0 && word2 === "description") draft.description = value === "" ? null : value;
+      if (draft !== void 0 && word2 === "technology") draft.technology = value === "" ? null : value;
+      if (draft !== void 0 && (word2 === "tags" || word2 === "tag")) {
+        draft.tags = [...draft.tags, ...tagsOf2(rest.slice(1))];
+        draft.external ||= draft.tags.some((tag) => tag.toLowerCase() === "external");
+      }
+      return { type: "skip" };
+    }
+    if (scope !== null && word2 === "location") {
+      const draft = byKey.get(scope.toLowerCase());
+      if (draft !== void 0 && rest[1]?.text.toLowerCase() === "external") draft.external = true;
+      return { type: "skip" };
+    }
+    if (word2 === "!include") skip(`!include ${rest[1]?.text ?? ""}`, { line: statement.line, column: first.column }, "Included files are not fetched; send the workspace with the included text in place.");
+    return { type: "skip" };
+  };
+  for (const statement of statements) {
+    const tokens = statement.tokens.map((token) => ({ ...token, text: expand2(token.text) }));
+    const first = tokens[0];
+    if (first === void 0) continue;
+    if (!first.quoted && first.text === "}") {
+      stack.pop();
+      continue;
+    }
+    const last = tokens[tokens.length - 1];
+    const opens = last !== void 0 && !last.quoted && last.text === "{";
+    const words2 = opens ? tokens.slice(0, -1) : tokens;
+    const keyword = first.quoted ? "" : first.text.toLowerCase();
+    const frame = stack[stack.length - 1];
+    let next = { type: "skip" };
+    if (keyword === "!const" || keyword === "!constant" || keyword === "!var") {
+      const key = words2[1]?.text;
+      if (key !== void 0) constants.set(key, words2[2]?.text ?? "");
+    } else if (frame === void 0) {
+      if (keyword === "workspace") {
+        if (words2[1]?.text.toLowerCase() === "extends" && !words2[1].quoted) skip("workspace extends", { line: statement.line, column: first.column }, "The workspace it extends is not fetched; send the base workspace, or one that holds the whole model.");
+        else {
+          name2 = words2[1]?.text ?? null;
+          description = words2[2]?.text ?? null;
+        }
+        next = { type: "workspace" };
+      }
+    } else if (frame.type === "workspace") {
+      if (keyword === "model") next = { type: "model" };
+      else if (keyword === "views") next = { type: "views" };
+      else if (keyword === "name") name2 = words2[1]?.text ?? name2;
+      else if (keyword === "description") description = words2[1]?.text ?? description;
+      else if (keyword === "!identifiers") hierarchical = words2[1]?.text.toLowerCase() === "hierarchical";
+      else if (keyword === "!include") skip(`!include ${words2[1]?.text ?? ""}`, { line: statement.line, column: first.column }, "Included files are not fetched; send the workspace with the included text in place.");
+    } else if (frame.type === "model" || frame.type === "element" || frame.type === "group") {
+      next = readModelStatement(statement, words2);
+    } else if (frame.type === "relationship") {
+      const relationship = relationships[frame.index];
+      if (relationship !== void 0 && (keyword === "tags" || keyword === "tag")) relationship.tags.push(...tagsOf2(words2.slice(1)));
+      if (relationship !== void 0 && keyword === "description") relationship.description = words2[1]?.text ?? relationship.description;
+      if (relationship !== void 0 && keyword === "technology") relationship.technology = words2[1]?.text ?? relationship.technology;
+    } else if (frame.type === "views") {
+      const level2 = VIEW_WORDS2[keyword];
+      if (level2 !== void 0 && words2[1] !== void 0) {
+        views.push({ level: level2, scope: words2[1].text, title: null, direction: null, line: statement.line, column: words2[1].column });
+        next = { type: "view", index: views.length - 1 };
+      } else if (keyword === "styles") next = { type: "styles" };
+    } else if (frame.type === "view") {
+      const view = views[frame.index];
+      if (view !== void 0 && keyword === "title") view.title = words2[1]?.text ?? null;
+      if (view !== void 0 && keyword === "autolayout") view.direction = /^(?:lr|rl)$/i.test(words2[1]?.text ?? "") ? "right" : "down";
+    } else if (frame.type === "styles") {
+      if (keyword === "element" && words2[1] !== void 0) next = { type: "style", tag: words2[1].text };
+    } else if (frame.type === "style") {
+      if (keyword === "shape" && words2[1]?.text.toLowerCase() === "cylinder") cylinderTags.push(frame.tag);
+    }
+    if (opens) stack.push(next);
+  }
+  const unresolved = [];
+  const resolved2 = [];
+  for (const relationship of relationships) {
+    const from = resolve5(relationship.from, relationship.scope);
+    const to = resolve5(relationship.to, relationship.scope);
+    for (const [written3, key] of [[relationship.from, from], [relationship.to, to]]) if (key === null) unresolved.push({ name: written3, line: relationship.line, column: relationship.column });
+    if (from !== null && to !== null) resolved2.push({ from, to, description: relationship.description, technology: relationship.technology, tags: relationship.tags, line: relationship.line, column: relationship.column });
+  }
+  const modelViews = [];
+  for (const view of views) {
+    const scope = resolve5(view.scope, null);
+    if (scope === null) unresolved.push({ name: view.scope, line: view.line, column: view.column });
+    else modelViews.push({ level: view.level, scope, title: view.title, direction: view.direction, line: view.line });
+  }
+  return { workspace: { name: name2, description, elements, relationships: resolved2, groups, views: modelViews, cylinderTags, skipped }, unresolved };
+}
+var ELEMENT_WORDS, VIEW_WORDS2, DEPLOYMENT_WORDS, tagsOf2;
+var init_dsl = __esm({
+  "../../packages/diagrams/src/importers/structurizr/dsl.ts"() {
+    "use strict";
+    init_tokens4();
+    ELEMENT_WORDS = { person: "person", softwaresystem: "system", container: "container", component: "component" };
+    VIEW_WORDS2 = { systemcontext: "context", container: "container", component: "component" };
+    DEPLOYMENT_WORDS = /* @__PURE__ */ new Set(["deploymentenvironment", "deploymentnode", "infrastructurenode", "softwaresysteminstance", "containerinstance", "deploymentgroup"]);
+    tagsOf2 = (tokens) => tokens.flatMap((token) => token.text.split(",")).map((tag) => tag.trim()).filter((tag) => tag !== "");
+  }
+});
+
+// ../../packages/diagrams/src/importers/structurizr/json.ts
+function isWorkspaceJson(value) {
+  return isObject4(value) && isObject4(value["model"]) && (Array.isArray(value["model"]["softwareSystems"]) || Array.isArray(value["model"]["people"]));
+}
+function readWorkspaceJson(json2) {
+  const model = isObject4(json2["model"]) ? json2["model"] : {};
+  const elements = [];
+  const keyOfId = /* @__PURE__ */ new Map();
+  const groups = [];
+  const rawRelationships = [];
+  const add2 = (entry2, kind, parent) => {
+    const name2 = textOf7(entry2["name"]) ?? kind;
+    const properties = isObject4(entry2["properties"]) ? entry2["properties"] : {};
+    const identifier = textOf7(properties["structurizr.dsl.identifier"]);
+    const tags = tagsOf3(entry2["tags"]);
+    const group2 = textOf7(entry2["group"]);
+    if (group2 !== null && !groups.some((existing) => existing.key === group2)) groups.push({ key: group2, name: group2, parent: null, enterprise: false, line: 1 });
+    const element = {
+      key: identifier ?? (parent === null ? name2 : `${parent.key}/${name2}`),
+      kind,
+      name: name2,
+      description: textOf7(entry2["description"]),
+      technology: kind === "container" || kind === "component" ? textOf7(entry2["technology"]) : null,
+      tags,
+      parent: parent?.key ?? null,
+      group: group2,
+      external: textOf7(entry2["location"])?.toLowerCase() === "external" || tags.some((tag) => tag.toLowerCase() === "external"),
+      line: 1,
+      column: 1
+    };
+    elements.push(element);
+    const id = textOf7(entry2["id"]);
+    if (id !== null) keyOfId.set(id, element.key);
+    rawRelationships.push(...listOf4(entry2["relationships"]));
+    return element;
+  };
+  for (const person of listOf4(model["people"])) add2(person, "person", null);
+  for (const system of listOf4(model["softwareSystems"])) {
+    const parent = add2(system, "system", null);
+    for (const container of listOf4(system["containers"])) {
+      const holder = add2(container, "container", parent);
+      for (const component of listOf4(container["components"])) add2(component, "component", holder);
+    }
+  }
+  const relationships = [];
+  for (const relationship of rawRelationships) {
+    if (relationship["linkedRelationshipId"] !== void 0) continue;
+    const from = keyOfId.get(textOf7(relationship["sourceId"]) ?? "");
+    const to = keyOfId.get(textOf7(relationship["destinationId"]) ?? "");
+    if (from === void 0 || to === void 0) continue;
+    relationships.push({ from, to, description: textOf7(relationship["description"]), technology: textOf7(relationship["technology"]), tags: tagsOf3(relationship["tags"]), line: 1, column: 1 });
+  }
+  const viewsJson = isObject4(json2["views"]) ? json2["views"] : {};
+  const views = [];
+  const lists = [
+    ["systemContextViews", "context", "softwareSystemId"],
+    ["containerViews", "container", "softwareSystemId"],
+    ["componentViews", "component", "containerId"]
+  ];
+  for (const [list, level2, field] of lists) {
+    for (const view of listOf4(viewsJson[list])) {
+      const scope = keyOfId.get(textOf7(view[field]) ?? "");
+      const rank = isObject4(view["automaticLayout"]) ? textOf7(view["automaticLayout"]["rankDirection"]) : null;
+      if (scope !== void 0) views.push({ level: level2, scope, title: textOf7(view["title"]), direction: rank === null ? null : /^(?:LeftRight|RightLeft)$/i.test(rank) ? "right" : "down", line: 1 });
+    }
+  }
+  const configuration = isObject4(viewsJson["configuration"]) ? viewsJson["configuration"] : {};
+  const styles = isObject4(configuration["styles"]) ? configuration["styles"] : {};
+  const cylinderTags = listOf4(styles["elements"]).filter((style) => textOf7(style["shape"])?.toLowerCase() === "cylinder").map((style) => textOf7(style["tag"]) ?? "").filter((tag) => tag !== "");
+  return { name: textOf7(json2["name"]), description: textOf7(json2["description"]), elements, relationships, groups, views, cylinderTags, skipped: [] };
+}
+var isObject4, listOf4, textOf7, DEFAULT_TAGS, tagsOf3;
+var init_json2 = __esm({
+  "../../packages/diagrams/src/importers/structurizr/json.ts"() {
+    "use strict";
+    isObject4 = (value) => typeof value === "object" && value !== null && !Array.isArray(value);
+    listOf4 = (value) => Array.isArray(value) ? value.filter(isObject4) : [];
+    textOf7 = (value) => typeof value === "string" && value.trim() !== "" ? value : typeof value === "number" ? String(value) : null;
+    DEFAULT_TAGS = /* @__PURE__ */ new Set(["element", "person", "software system", "container", "component", "relationship"]);
+    tagsOf3 = (value) => (textOf7(value) ?? "").split(",").map((tag) => tag.trim()).filter((tag) => tag !== "" && !DEFAULT_TAGS.has(tag.toLowerCase()));
+  }
+});
+
+// ../../packages/diagrams/src/importers/structurizr/view.ts
+function find(workspace, name2) {
+  const lower = name2.toLowerCase();
+  return workspace.elements.find((element) => element.key.toLowerCase() === lower) ?? workspace.elements.find((element) => element.name.toLowerCase() === lower);
+}
+function chooseView(workspace, level2, root) {
+  const named = root === null ? null : find(workspace, root) ?? null;
+  if (root !== null && named === null) return { view: null, missing: root };
+  const systems = workspace.elements.filter((element) => element.kind === "system");
+  const withChildren = (kind) => workspace.elements.find((element) => element.kind === kind && childrenOf(workspace, element.key).length > 0);
+  const systemOf = (element) => {
+    let at3 = element;
+    for (let depth = 0; at3.parent !== null && depth < 3; depth += 1) at3 = workspace.elements.find((candidate2) => candidate2.key === at3.parent) ?? at3;
+    return at3;
+  };
+  if (level2 === null && named === null) {
+    const defined2 = workspace.views[0];
+    const scope = defined2 === void 0 ? void 0 : workspace.elements.find((element) => element.key === defined2.scope);
+    if (defined2 !== void 0 && scope !== void 0) return { view: { level: defined2.level, scope, title: defined2.title, direction: defined2.direction }, missing: null };
+    const system2 = withChildren("system");
+    if (system2 !== void 0) return { view: { level: "container", scope: system2, title: null, direction: null }, missing: null };
+    const first = systems[0];
+    return { view: first === void 0 ? null : { level: "context", scope: first, title: null, direction: null }, missing: null };
+  }
+  const wanted2 = level2 ?? (named?.kind === "container" || named?.kind === "component" ? "component" : named !== null && childrenOf(workspace, named.key).length > 0 ? "container" : "context");
+  const defined = (scope) => workspace.views.find((view) => view.level === wanted2 && view.scope === scope.key);
+  if (wanted2 === "component") {
+    const container = named === null ? withChildren("container") : named.kind === "component" ? workspace.elements.find((element) => element.key === named.parent) : named.kind === "container" ? named : childrenOf(workspace, named.key).find((child) => childrenOf(workspace, child.key).length > 0) ?? childrenOf(workspace, named.key)[0];
+    return { view: container === void 0 ? null : { level: "component", scope: container, title: defined(container)?.title ?? null, direction: defined(container)?.direction ?? null }, missing: null };
+  }
+  const system = named === null ? wanted2 === "container" ? withChildren("system") ?? systems[0] : withChildren("system") ?? systems[0] : named.kind === "person" ? void 0 : systemOf(named);
+  return { view: system === void 0 ? null : { level: wanted2, scope: system, title: defined(system)?.title ?? null, direction: defined(system)?.direction ?? null }, missing: null };
+}
+function hiddenWords(workspace, element) {
+  const containers = childrenOf(workspace, element.key);
+  const components = containers.flatMap((child) => childrenOf(workspace, child.key));
+  const parts = [
+    containers.length === 0 ? null : `${containers.length} ${element.kind === "container" ? containers.length === 1 ? "component" : "components" : containers.length === 1 ? "container" : "containers"}`,
+    components.length === 0 ? null : `${components.length} ${components.length === 1 ? "component" : "components"}`
+  ].filter((part) => part !== null);
+  return { count: containers.length + components.length, words: parts.join(" and ") };
+}
+function project(workspace, view) {
+  const byKey = new Map(workspace.elements.map((element) => [element.key, element]));
+  const ancestors = (element) => {
+    const out = [];
+    for (let at3 = element.parent === null ? void 0 : byKey.get(element.parent); at3 !== void 0 && out.length < 3; at3 = at3.parent === null ? void 0 : byKey.get(at3.parent)) out.push(at3);
+    return out;
+  };
+  const within = (element, holder) => element.key === holder.key || ancestors(element).some((ancestor) => ancestor.key === holder.key);
+  const top = (element) => ancestors(element).pop() ?? element;
+  const scope = view.scope;
+  const system = top(scope);
+  const inner = view.level === "context" ? [scope] : childrenOf(workspace, scope.key);
+  const innerKeys = new Set(inner.map((element) => element.key));
+  const innerOf2 = (element) => [element, ...ancestors(element)].find((candidate2) => innerKeys.has(candidate2.key)) ?? null;
+  const outerOf = (element) => {
+    if (view.level === "component" && within(element, system) && !within(element, scope)) return [element, ...ancestors(element)].find((candidate2) => candidate2.kind === "container") ?? null;
+    if (within(element, system)) return null;
+    return top(element);
+  };
+  const shown = new Map(inner.map((element) => [element.key, element]));
+  const lines = [];
+  const seen = /* @__PURE__ */ new Set();
+  for (const relationship of workspace.relationships) {
+    const fromElement = byKey.get(relationship.from);
+    const toElement = byKey.get(relationship.to);
+    if (fromElement === void 0 || toElement === void 0) continue;
+    const fromInner = innerOf2(fromElement);
+    const toInner = innerOf2(toElement);
+    if (fromInner === null && toInner === null) continue;
+    const from = fromInner ?? outerOf(fromElement);
+    const to = toInner ?? outerOf(toElement);
+    if (from === null || to === null || from.key === to.key) continue;
+    shown.set(from.key, from);
+    shown.set(to.key, to);
+    const pair2 = `${from.key}\0${to.key}`;
+    if (seen.has(pair2)) continue;
+    seen.add(pair2);
+    lines.push({ from: from.key, to: to.key, relationship });
+  }
+  for (const relationship of workspace.relationships) {
+    const fromElement = byKey.get(relationship.from);
+    const toElement = byKey.get(relationship.to);
+    if (fromElement === void 0 || toElement === void 0 || innerOf2(fromElement) !== null || innerOf2(toElement) !== null) continue;
+    const from = outerOf(fromElement);
+    const to = outerOf(toElement);
+    if (from === null || to === null || from.key === to.key || !shown.has(from.key) || !shown.has(to.key)) continue;
+    const pair2 = `${from.key}\0${to.key}`;
+    if (seen.has(pair2)) continue;
+    seen.add(pair2);
+    lines.push({ from: from.key, to: to.key, relationship });
+  }
+  const boundaries = [];
+  const groupBoundary = (groupKey, holder) => {
+    const group2 = groupKey === null ? void 0 : workspace.groups.find((entry2) => entry2.key === groupKey);
+    if (group2 === void 0) return holder;
+    const parent = groupBoundary(group2.parent, holder);
+    const key = `group:${group2.key}`;
+    if (!boundaries.some((boundary) => boundary.key === key)) boundaries.push({ key, name: group2.name, kind: group2.enterprise ? "enterprise" : "group", parent, tech: null, element: null });
+    return key;
+  };
+  let scopeBoundary = null;
+  if (view.level === "component") {
+    boundaries.push({ key: system.key, name: system.name, kind: "system", parent: groupBoundary(system.group, null), tech: null, element: system });
+    boundaries.push({ key: scope.key, name: scope.name, kind: "container", parent: system.key, tech: scope.technology, element: scope });
+    scopeBoundary = scope.key;
+  } else if (view.level === "container") {
+    boundaries.push({ key: scope.key, name: scope.name, kind: "system", parent: groupBoundary(scope.group, null), tech: null, element: scope });
+    scopeBoundary = scope.key;
+  }
+  const enterprise = workspace.groups.some((group2) => group2.enterprise);
+  const inEnterprise = (element) => {
+    let group2 = workspace.groups.find((entry2) => entry2.key === top(element).group);
+    for (let depth = 0; group2 !== void 0 && depth < workspace.groups.length; depth += 1) {
+      if (group2.enterprise) return true;
+      group2 = workspace.groups.find((entry2) => entry2.key === group2?.parent);
+    }
+    return false;
+  };
+  const order = (element) => innerKeys.has(element.key) ? 1 : element.kind === "person" ? 0 : 2;
+  const placed = [...shown.values()].sort((a, b) => order(a) - order(b) || workspace.elements.indexOf(a) - workspace.elements.indexOf(b)).map((element) => {
+    const holder = innerKeys.has(element.key) && view.level !== "context" ? scopeBoundary : view.level === "component" && within(element, system) ? system.key : null;
+    const hidden = hiddenWords(workspace, element);
+    return { element, boundary: groupBoundary(element.group, holder), external: element.external || element.kind === "system" && element.key !== system.key && (enterprise ? !inEnterprise(element) : true), hidden: hidden.count, hiddenWords: hidden.words };
+  });
+  const depthOf7 = (key) => {
+    let depth = 0;
+    for (let at3 = key; at3 !== null && depth <= boundaries.length; depth += 1) at3 = boundaries.find((boundary) => boundary.key === at3)?.parent ?? null;
+    return depth;
+  };
+  const kept2 = (key) => {
+    let at3 = key;
+    while (at3 !== null && depthOf7(at3) > MAX_DEPTH16) at3 = boundaries.find((boundary) => boundary.key === at3)?.parent ?? null;
+    return at3;
+  };
+  const elements = placed.map((entry2) => ({ ...entry2, boundary: kept2(entry2.boundary) }));
+  const used = new Set(elements.map((entry2) => entry2.boundary));
+  for (let changed = true, round2 = 0; changed && round2 <= boundaries.length; round2 += 1) {
+    changed = false;
+    for (const boundary of boundaries) if (used.has(boundary.key) && boundary.parent !== null && !used.has(boundary.parent)) {
+      used.add(boundary.parent);
+      changed = true;
+    }
+  }
+  const shownBoundaries = boundaries.filter((boundary) => depthOf7(boundary.key) <= MAX_DEPTH16 && (boundary.element !== null || used.has(boundary.key)));
+  const drawn = /* @__PURE__ */ new Set([...elements.map((entry2) => entry2.element.key), ...shownBoundaries.flatMap((boundary) => boundary.element === null ? [] : [boundary.element.key])]);
+  const summarisedBy = (element) => ancestors(element).some((ancestor) => shown.has(ancestor.key));
+  const summarised = workspace.elements.filter((element) => !drawn.has(element.key) && summarisedBy(element)).length;
+  const omitted = workspace.elements.filter((element) => !drawn.has(element.key) && !summarisedBy(element));
+  return { elements, boundaries: shownBoundaries, relationships: lines, summarised, omitted };
+}
+var MAX_DEPTH16, childrenOf;
+var init_view = __esm({
+  "../../packages/diagrams/src/importers/structurizr/view.ts"() {
+    "use strict";
+    MAX_DEPTH16 = 4;
+    childrenOf = (workspace, key) => workspace.elements.filter((element) => element.parent === key);
+  }
+});
+
+// ../../packages/diagrams/src/importers/structurizr/index.ts
+function isDatabase(element, workspace) {
+  if (element.kind !== "container" && element.kind !== "component") return false;
+  const tags = element.tags.map((tag) => tag.toLowerCase());
+  return tags.includes("database") || workspace.cylinderTags.some((tag) => tags.includes(tag.toLowerCase())) || element.technology !== null && DATABASE_WORDS.test(element.technology);
+}
+function readWorkspace(text3, context) {
+  if (/^\s*\{/.test(text3)) {
+    let json2;
+    try {
+      json2 = JSON.parse(text3);
+    } catch (error62) {
+      context.report.add(DIAGNOSTIC_CODES.importUnreadable, START, `The text is not JSON: ${error62 instanceof Error ? error62.message : "it cannot be read"}.`, "Send the workspace as Structurizr exports it (workspace.json), or its DSL (workspace.dsl).");
+      return null;
+    }
+    if (!isWorkspaceJson(json2)) {
+      context.report.add(DIAGNOSTIC_CODES.importNoShape, START, "The JSON has no model of people or software systems, so it is not a Structurizr workspace.", "Send workspace.json as Structurizr exports it, or the workspace DSL.");
+      return null;
+    }
+    return { workspace: readWorkspaceJson(json2), unresolved: [] };
+  }
+  return readDsl(text3);
+}
+function writeC4(workspace, view, shown, title, desc) {
+  const ids = new IdAllocator();
+  const hint2 = (element) => element.key.includes("/") ? element.name : element.key.split(".").pop() ?? element.name;
+  for (const boundary of shown.boundaries) if (boundary.element !== null) ids.idFor(`b:${boundary.key}`, hint2(boundary.element));
+  for (const entry2 of shown.elements) ids.idFor(`e:${entry2.element.key}`, hint2(entry2.element));
+  for (const boundary of shown.boundaries) if (boundary.element === null) ids.idFor(`b:${boundary.key}`, boundary.name.toLowerCase());
+  const lines = new SourceLines();
+  lines.add(`c4 ${quote(title)}${options2({ view: view.level, direction: view.direction, desc })}`);
+  const elementLine2 = (entry2, depth) => {
+    const { element } = entry2;
+    const type = isDatabase(element, workspace) ? "db" : element.kind;
+    const text3 = [element.description === null ? null : cleanText(element.description), entry2.hidden === 0 ? null : `Holds ${entry2.hiddenWords}.`].filter((part) => part !== null).join(" ");
+    lines.add(`${type} ${ids.idFor(`e:${element.key}`)} ${quote(cleanText(element.name))}${options2({ tech: element.technology === null ? null : cleanText(element.technology), desc: text3, external: entry2.external ? "on" : null }, ["tech", "desc"])}`, depth);
+  };
+  const writeBoundary = (boundary, depth) => {
+    lines.gap();
+    lines.add(`boundary ${ids.idFor(`b:${boundary.key}`)} ${quote(cleanText(boundary.name))}${options2({ kind: boundary.kind, tech: boundary.tech === null ? null : cleanText(boundary.tech) }, ["tech"])} {`, depth);
+    for (const entry2 of shown.elements) if (entry2.boundary === boundary.key) elementLine2(entry2, depth + 1);
+    for (const child of shown.boundaries) if (child.parent === boundary.key) writeBoundary(child, depth + 1);
+    lines.add("}", depth);
+  };
+  lines.gap();
+  const people = shown.elements.filter((entry2) => entry2.boundary === null && entry2.element.kind === "person");
+  for (const entry2 of people) elementLine2(entry2, 0);
+  for (const boundary of shown.boundaries) if (boundary.parent === null) writeBoundary(boundary, 0);
+  lines.gap();
+  for (const entry2 of shown.elements) if (entry2.boundary === null && entry2.element.kind !== "person") elementLine2(entry2, 0);
+  lines.gap();
+  const kindOf3 = new Map(shown.elements.map((entry2) => [entry2.element.key, entry2.element.kind]));
+  const ordered = [...shown.relationships].sort((a, b) => Number(kindOf3.get(a.from) !== "person") - Number(kindOf3.get(b.from) !== "person"));
+  for (const line3 of ordered) {
+    const { relationship } = line3;
+    const async = relationship.tags.some((tag) => /^async(?:hronous)?$/i.test(tag));
+    const label = relationship.description === null ? "" : ` : ${quote(cleanText(relationship.description))}${options2({ tech: relationship.technology === null ? null : cleanText(relationship.technology) }, ["tech"])}`;
+    lines.add(`${ids.idFor(`e:${line3.from}`)} ${async ? "-->" : "->"} ${ids.idFor(`e:${line3.to}`)}${label}`);
+  }
+  return { source: lines.toString(), ids: { ...ids.mapped("b:"), ...ids.mapped("e:") }, links: shown.relationships.length };
+}
+function capped(shown, context) {
+  const elements = shown.elements.slice(0, C4_BUDGET.maxElements);
+  const keys = new Set(elements.map((entry2) => entry2.element.key));
+  const relationships = shown.relationships.filter((line3) => keys.has(line3.from) && keys.has(line3.to)).slice(0, C4_BUDGET.maxRelationships);
+  const leftElements = shown.elements.length - elements.length;
+  const leftLines = shown.relationships.length - relationships.length;
+  if (leftElements + leftLines > 0) {
+    const first = shown.elements[C4_BUDGET.maxElements]?.element;
+    context.report.add(
+      DIAGNOSTIC_CODES.importDropped,
+      first === void 0 ? START : spanAt3(first.line, first.column),
+      `${[leftElements === 0 ? null : countOf2(leftElements, "element"), leftLines === 0 ? null : countOf2(leftLines, "relationship")].filter((part) => part !== null).join(" and ")} past what one C4 picture holds ${leftElements + leftLines === 1 ? "was" : "were"} left out.`,
+      "Draw a smaller view: one container with options.view component, or one system with options.root."
+    );
+  }
+  return { ...shown, elements, relationships, omitted: [...shown.omitted, ...shown.elements.slice(C4_BUDGET.maxElements).map((entry2) => entry2.element)] };
+}
+function readStructurizr(text3, context) {
+  const read = readWorkspace(text3, context);
+  if (read === null) return null;
+  const { workspace, unresolved } = read;
+  if (workspace.elements.length === 0) {
+    context.report.add(DIAGNOSTIC_CODES.importNoShape, START, "The workspace has no people, software systems, containers, or components.", 'Send a workspace with a model block, such as workspace { model { user = person "User" } }.');
+    return null;
+  }
+  for (const skipped of workspace.skipped) context.report.add(DIAGNOSTIC_CODES.importSkipped, spanAt3(skipped.line, skipped.column), `${cleanText(skipped.what)} ${skipped.what.startsWith("!") || skipped.what.startsWith("workspace") ? "is" : "are"} not drawn.`, skipped.hint);
+  const firstUnresolved = unresolved[0];
+  if (firstUnresolved !== void 0) {
+    context.report.add(DIAGNOSTIC_CODES.importUnresolved, spanAt3(firstUnresolved.line, firstUnresolved.column), `${countOf2(unresolved.length, "reference")} name${unresolved.length === 1 ? "s" : ""} no element of the model: ${[...new Set(unresolved.map((entry2) => entry2.name))].slice(0, 3).map((name2) => cleanText(name2)).join(", ")}.`, "Check the identifier; with !identifiers hierarchical, an element inside another is named by its path, such as shop.api.");
+  }
+  const requested = context.options.view;
+  const level2 = requested !== void 0 && LEVELS.includes(requested) ? requested : null;
+  const chosen = chooseView(workspace, level2, context.options.root ?? null);
+  if (chosen.missing !== null) {
+    context.report.add(DIAGNOSTIC_CODES.importNotFound, START, `No element of the workspace is named ${cleanText(chosen.missing)}.`, `Set options.root to the identifier or name of a software system or container, such as ${workspace.elements.find((element) => element.kind === "system")?.key ?? "shop"}.`);
+    return null;
+  }
+  if (chosen.view === null) {
+    context.report.add(DIAGNOSTIC_CODES.importNoShape, START, level2 === "component" ? "No container of the workspace has components." : "The workspace has no software system to draw a view of.", "Add a softwareSystem to the model, or choose another level with options.view.");
+    return null;
+  }
+  const view = chosen.view;
+  const shown = capped(project(workspace, view), context);
+  const omitted = shown.omitted;
+  const firstOmitted = omitted[0];
+  if (firstOmitted !== void 0) {
+    context.report.add(
+      DIAGNOSTIC_CODES.importSkipped,
+      spanAt3(firstOmitted.line, firstOmitted.column),
+      `${countOf2(omitted.length, "element")} ${omitted.length === 1 ? "is" : "are"} not in the ${LEVEL_WORDS[view.level].title} view of ${cleanText(view.scope.name)}: ${omitted.slice(0, 3).map((element) => cleanText(element.key)).join(", ")}.`,
+      "An element is drawn when a relationship joins it to what the view is about. Choose another view with options.view (context, container, or component) and options.root."
+    );
+  }
+  const scopeName = cleanText(view.scope.name);
+  const title = context.title ?? (view.title === null ? `${scopeName}: ${LEVEL_WORDS[view.level].title}` : cleanText(view.title));
+  const what = view.level === "context" ? `${scopeName} ${LEVEL_WORDS.context.sentence}` : `${LEVEL_WORDS[view.level].sentence} ${scopeName} and what they talk to`;
+  const desc = `${what.charAt(0).toUpperCase()}${what.slice(1)}, imported from the Structurizr workspace${workspace.name === null ? "" : ` ${cleanText(workspace.name)}`}.`;
+  const written3 = writeC4(workspace, view, shown, title, desc);
+  const drawn = shown.elements.length + shown.boundaries.filter((boundary) => boundary.element !== null).length;
+  const others = workspace.views.length > 1 ? ` The workspace defines ${countOf2(workspace.views.length, "view")}; draw another with options.view and options.root.` : "";
+  return {
+    kind: "c4",
+    source: written3.source,
+    stats: { items: shown.elements.length, links: written3.links, groups: shown.boundaries.length, dropped: omitted.length },
+    advice: `Check that each element has a description and each relationship a technology, so the cards and lines say what they do.${others}`,
+    coverage: { noun: "elements", total: workspace.elements.length, drawn, summarised: shown.summarised },
+    ids: written3.ids
+  };
+}
+var DATABASE_WORDS, LEVELS, LEVEL_WORDS, structurizrImporter;
+var init_structurizr = __esm({
+  "../../packages/diagrams/src/importers/structurizr/index.ts"() {
+    "use strict";
+    init_core();
+    init_limits();
+    init_shared2();
+    init_dsl();
+    init_json2();
+    init_view();
+    DATABASE_WORDS = /\b(?:database|postgres(?:ql)?|mysql|mariadb|oracle|sql server|sqlite|mongodb|dynamodb|cassandra|cosmos ?db|couchdb|neo4j|elasticsearch|opensearch|clickhouse|snowflake|bigquery|redshift)\b/i;
+    LEVELS = ["context", "container", "component"];
+    LEVEL_WORDS = {
+      context: { title: "system context", sentence: "and the people and systems around it" },
+      container: { title: "containers", sentence: "the containers of" },
+      component: { title: "components", sentence: "the components of" }
+    };
+    structurizrImporter = { format: "structurizr", kinds: ["c4"], joins: null, extensions: [".dsl", ".json"], read: readStructurizr };
+  }
+});
+
 // ../../packages/diagrams/src/importers/terraform-plan/document.ts
 function moduleOfAddress(address, type, mode) {
   const own2 = `${mode === "data" ? "data." : ""}${type}.`;
@@ -194251,7 +195710,7 @@ function moduleOfAddress(address, type, mode) {
   return at3 <= 0 ? "" : address.slice(0, at3 - 1);
 }
 function resourceOf3(raw, module) {
-  if (!isObject4(raw) || typeof raw["address"] !== "string" || typeof raw["type"] !== "string" || typeof raw["name"] !== "string") return null;
+  if (!isObject5(raw) || typeof raw["address"] !== "string" || typeof raw["type"] !== "string" || typeof raw["name"] !== "string") return null;
   const mode = raw["mode"] === "data" ? "data" : "managed";
   const index2 = typeof raw["index"] === "string" || typeof raw["index"] === "number" ? raw["index"] : null;
   return {
@@ -194261,13 +195720,13 @@ function resourceOf3(raw, module) {
     name: raw["name"],
     index: index2,
     module: module === "" ? moduleOfAddress(raw["address"], raw["type"], mode) : module,
-    values: isObject4(raw["values"]) ? raw["values"] : {},
-    sensitive: isObject4(raw["sensitive_values"]) ? raw["sensitive_values"] : {},
+    values: isObject5(raw["values"]) ? raw["values"] : {},
+    sensitive: isObject5(raw["sensitive_values"]) ? raw["sensitive_values"] : {},
     dependsOn: strings2(raw["depends_on"])
   };
 }
 function moduleResources(raw, depth = 0) {
-  if (!isObject4(raw) || depth > MAX_MODULE_DEPTH2) return [];
+  if (!isObject5(raw) || depth > MAX_MODULE_DEPTH2) return [];
   const address = typeof raw["address"] === "string" ? raw["address"] : "";
   const own2 = (Array.isArray(raw["resources"]) ? raw["resources"] : []).map((entry2) => resourceOf3(entry2, address)).filter((entry2) => entry2 !== null);
   const children = Array.isArray(raw["child_modules"]) ? raw["child_modules"].flatMap((child) => moduleResources(child, depth + 1)) : [];
@@ -194275,9 +195734,9 @@ function moduleResources(raw, depth = 0) {
 }
 function variablesOf(raw, sensitive) {
   const out = /* @__PURE__ */ new Map();
-  if (!isObject4(raw)) return out;
+  if (!isObject5(raw)) return out;
   for (const [name2, entry2] of Object.entries(raw)) {
-    if (sensitive.has(name2) || !isObject4(entry2)) continue;
+    if (sensitive.has(name2) || !isObject5(entry2)) continue;
     const value = entry2["value"];
     if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") out.set(name2, String(value));
   }
@@ -194286,28 +195745,28 @@ function variablesOf(raw, sensitive) {
 function sensitiveVariables(configuration) {
   const out = /* @__PURE__ */ new Set();
   const root = configuration === null ? null : configuration["root_module"];
-  const variables = isObject4(root) && isObject4(root["variables"]) ? root["variables"] : {};
-  for (const [name2, entry2] of Object.entries(variables)) if (isObject4(entry2) && entry2["sensitive"] === true) out.add(name2);
+  const variables = isObject5(root) && isObject5(root["variables"]) ? root["variables"] : {};
+  for (const [name2, entry2] of Object.entries(variables)) if (isObject5(entry2) && entry2["sensitive"] === true) out.add(name2);
   return out;
 }
 function changesOf(raw) {
   const out = /* @__PURE__ */ new Map();
   if (!Array.isArray(raw)) return out;
   for (const entry2 of raw) {
-    if (!isObject4(entry2) || typeof entry2["address"] !== "string" || !isObject4(entry2["change"])) continue;
+    if (!isObject5(entry2) || typeof entry2["address"] !== "string" || !isObject5(entry2["change"])) continue;
     const change = entry2["change"];
-    out.set(entry2["address"], { actions: strings2(change["actions"]), previous: typeof entry2["previous_address"] === "string" ? entry2["previous_address"] : null, before: isObject4(change["before"]) ? change["before"] : null });
+    out.set(entry2["address"], { actions: strings2(change["actions"]), previous: typeof entry2["previous_address"] === "string" ? entry2["previous_address"] : null, before: isObject5(change["before"]) ? change["before"] : null });
   }
   return out;
 }
 function readPlanDocument(json2) {
-  if (!isObject4(json2)) return null;
-  const configuration = isObject4(json2["configuration"]) ? json2["configuration"] : null;
-  const providers = configuration !== null && isObject4(configuration["provider_config"]) ? configuration["provider_config"] : {};
+  if (!isObject5(json2)) return null;
+  const configuration = isObject5(json2["configuration"]) ? json2["configuration"] : null;
+  const providers = configuration !== null && isObject5(configuration["provider_config"]) ? configuration["provider_config"] : {};
   const variables = variablesOf(json2["variables"], sensitiveVariables(configuration));
-  if (isObject4(json2["planned_values"]) || Array.isArray(json2["resource_changes"])) {
-    const planned = isObject4(json2["planned_values"]) ? moduleResources(json2["planned_values"]["root_module"]) : [];
-    const prior = isObject4(json2["prior_state"]) && isObject4(json2["prior_state"]["values"]) ? moduleResources(json2["prior_state"]["values"]["root_module"]) : [];
+  if (isObject5(json2["planned_values"]) || Array.isArray(json2["resource_changes"])) {
+    const planned = isObject5(json2["planned_values"]) ? moduleResources(json2["planned_values"]["root_module"]) : [];
+    const prior = isObject5(json2["prior_state"]) && isObject5(json2["prior_state"]["values"]) ? moduleResources(json2["prior_state"]["values"]["root_module"]) : [];
     const changes = changesOf(json2["resource_changes"]);
     const kept2 = new Set(planned.map((resource) => resource.address));
     const data = prior.filter((resource) => resource.mode === "data" && !kept2.has(resource.address));
@@ -194320,11 +195779,11 @@ function readPlanDocument(json2) {
     }
     const drift = /* @__PURE__ */ new Set();
     if (Array.isArray(json2["resource_drift"])) {
-      for (const entry2 of json2["resource_drift"]) if (isObject4(entry2) && typeof entry2["address"] === "string") drift.add(entry2["address"]);
+      for (const entry2 of json2["resource_drift"]) if (isObject5(entry2) && typeof entry2["address"] === "string") drift.add(entry2["address"]);
     }
     return { kind: "plan", resources: [...planned, ...data], destroyed, changes, drift, configuration, providers, variables };
   }
-  if (isObject4(json2["values"]) && isObject4(json2["values"]["root_module"])) {
+  if (isObject5(json2["values"]) && isObject5(json2["values"]["root_module"])) {
     return { kind: "state", resources: moduleResources(json2["values"]["root_module"]), destroyed: [], changes: /* @__PURE__ */ new Map(), drift: /* @__PURE__ */ new Set(), configuration, providers, variables };
   }
   if (Array.isArray(json2["resources"]) && typeof json2["version"] === "number") return { kind: "state", resources: rawStateResources(json2["resources"]), destroyed: [], changes: /* @__PURE__ */ new Map(), drift: /* @__PURE__ */ new Set(), configuration: null, providers: {}, variables: /* @__PURE__ */ new Map() };
@@ -194333,12 +195792,12 @@ function readPlanDocument(json2) {
 function rawStateResources(raw) {
   const out = [];
   for (const block of raw) {
-    if (!isObject4(block) || typeof block["type"] !== "string" || typeof block["name"] !== "string" || !Array.isArray(block["instances"])) continue;
+    if (!isObject5(block) || typeof block["type"] !== "string" || typeof block["name"] !== "string" || !Array.isArray(block["instances"])) continue;
     const module = typeof block["module"] === "string" ? block["module"] : "";
     const mode = block["mode"] === "data" ? "data" : "managed";
     const base = `${module === "" ? "" : `${module}.`}${mode === "data" ? "data." : ""}${block["type"]}.${block["name"]}`;
     for (const instance of block["instances"]) {
-      if (!isObject4(instance)) continue;
+      if (!isObject5(instance)) continue;
       const key = instance["index_key"];
       const index2 = typeof key === "string" || typeof key === "number" ? key : null;
       const address = `${base}${index2 === null ? "" : typeof index2 === "number" ? `[${index2}]` : `[${JSON.stringify(index2)}]`}`;
@@ -194346,20 +195805,20 @@ function rawStateResources(raw) {
       if (Array.isArray(instance["sensitive_attributes"])) {
         for (const path of instance["sensitive_attributes"]) {
           const first = Array.isArray(path) ? path[0] : null;
-          if (isObject4(first) && typeof first["value"] === "string") sensitive[first["value"]] = true;
+          if (isObject5(first) && typeof first["value"] === "string") sensitive[first["value"]] = true;
         }
       }
-      out.push({ address, mode, type: block["type"], name: block["name"], index: index2, module, values: isObject4(instance["attributes"]) ? instance["attributes"] : {}, sensitive, dependsOn: strings2(instance["dependencies"]) });
+      out.push({ address, mode, type: block["type"], name: block["name"], index: index2, module, values: isObject5(instance["attributes"]) ? instance["attributes"] : {}, sensitive, dependsOn: strings2(instance["dependencies"]) });
     }
   }
   return out;
 }
-var MAX_MODULE_DEPTH2, isObject4, strings2, destroys;
-var init_document3 = __esm({
+var MAX_MODULE_DEPTH2, isObject5, strings2, destroys;
+var init_document4 = __esm({
   "../../packages/diagrams/src/importers/terraform-plan/document.ts"() {
     "use strict";
     MAX_MODULE_DEPTH2 = 16;
-    isObject4 = (value) => typeof value === "object" && value !== null && !Array.isArray(value);
+    isObject5 = (value) => typeof value === "object" && value !== null && !Array.isArray(value);
     strings2 = (value) => Array.isArray(value) ? value.filter((item) => typeof item === "string") : [];
     destroys = (change) => change !== void 0 && change.actions.length === 1 && change.actions[0] === "delete";
   }
@@ -194367,14 +195826,14 @@ var init_document3 = __esm({
 
 // ../../packages/diagrams/src/importers/terraform-plan/references.ts
 function attributesOf3(expressions, depth = 0) {
-  if (!isObject4(expressions) || depth > MAX_NESTING) return [];
+  if (!isObject5(expressions) || depth > MAX_NESTING) return [];
   const out = [];
   for (const [name2, value] of Object.entries(expressions)) {
-    if (isObject4(value) && ("references" in value || "constant_value" in value)) {
+    if (isObject5(value) && ("references" in value || "constant_value" in value)) {
       const refs = strings3(value["references"]);
       out.push({ name: name2, refs: refs.filter((ref) => !SAME_INSTANCE.has(ref)), paired: refs.some((ref) => SAME_INSTANCE.has(ref)) });
     } else if (Array.isArray(value)) for (const block of value) out.push(...attributesOf3(block, depth + 1));
-    else if (isObject4(value)) out.push(...attributesOf3(value, depth + 1));
+    else if (isObject5(value)) out.push(...attributesOf3(value, depth + 1));
   }
   return out;
 }
@@ -194399,13 +195858,13 @@ function parentOf3(module) {
   const at3 = module.lastIndexOf(".module.");
   return at3 === -1 ? "" : module.slice(0, at3);
 }
-var MAX_DEPTH15, MAX_NESTING, TYPE2, SAME_INSTANCE, strings3, Configuration;
+var MAX_DEPTH17, MAX_NESTING, TYPE2, SAME_INSTANCE, strings3, Configuration;
 var init_references2 = __esm({
   "../../packages/diagrams/src/importers/terraform-plan/references.ts"() {
     "use strict";
     init_address();
-    init_document3();
-    MAX_DEPTH15 = 8;
+    init_document4();
+    MAX_DEPTH17 = 8;
     MAX_NESTING = 8;
     TYPE2 = /^[a-z][a-z0-9]*_[a-z0-9_]+$/;
     SAME_INSTANCE = /* @__PURE__ */ new Set(["each.key", "each.value", "count.index"]);
@@ -194421,11 +195880,11 @@ var init_references2 = __esm({
       moduleAt(address) {
         let module = this.root;
         for (const call of callsOf2(address)) {
-          const calls = isObject4(module) && isObject4(module["module_calls"]) ? module["module_calls"] : null;
+          const calls = isObject5(module) && isObject5(module["module_calls"]) ? module["module_calls"] : null;
           const entry2 = calls === null ? null : calls[call.name];
-          module = isObject4(entry2) ? entry2["module"] : null;
+          module = isObject5(entry2) ? entry2["module"] : null;
         }
-        return isObject4(module) ? module : null;
+        return isObject5(module) ? module : null;
       }
       /** The call of a module instance, as its parent's configuration writes it: its source, version, and the values it passes. */
       callAt(address) {
@@ -194433,20 +195892,20 @@ var init_references2 = __esm({
         const last = calls[calls.length - 1];
         if (last === void 0) return null;
         const parent = this.moduleAt(parentOf3(address));
-        const entry2 = parent !== null && isObject4(parent["module_calls"]) ? parent["module_calls"][last.name] : null;
-        return isObject4(entry2) ? entry2 : null;
+        const entry2 = parent !== null && isObject5(parent["module_calls"]) ? parent["module_calls"][last.name] : null;
+        return isObject5(entry2) ? entry2 : null;
       }
       /** The configured block of a resource, by the module instance it is in and its address inside the module. */
       resourceAt(module, local2) {
         const config2 = this.moduleAt(module);
         const list = config2 !== null && Array.isArray(config2["resources"]) ? config2["resources"] : [];
-        const found = list.find((entry2) => isObject4(entry2) && entry2["address"] === local2);
+        const found = list.find((entry2) => isObject5(entry2) && entry2["address"] === local2);
         if (found === void 0) return null;
         return { attributes: attributesOf3(found["expressions"]), dependsOn: strings3(found["depends_on"]), providerKey: typeof found["provider_config_key"] === "string" ? found["provider_config_key"] : null };
       }
       /** What a reference written in a module instance names, followed through module outputs and the variables its call passes. */
       resolve(ref, module, depth = 0) {
-        if (depth > MAX_DEPTH15) return [];
+        if (depth > MAX_DEPTH17) return [];
         const steps = references(ref)[0] ?? [];
         const [first, second, third, fourth] = steps;
         const name2 = (step) => step?.kind === "name" ? step.text : null;
@@ -194471,9 +195930,9 @@ var init_references2 = __esm({
         const out = [];
         for (const instance of chosen) {
           const config2 = this.moduleAt(instance);
-          const outputs = config2 !== null && isObject4(config2["outputs"]) ? config2["outputs"] : {};
+          const outputs = config2 !== null && isObject5(config2["outputs"]) ? config2["outputs"] : {};
           const entry2 = outputs[output2];
-          const expression2 = isObject4(entry2) && isObject4(entry2["expression"]) ? entry2["expression"] : null;
+          const expression2 = isObject5(entry2) && isObject5(entry2["expression"]) ? entry2["expression"] : null;
           for (const inner of strings3(expression2?.["references"])) out.push(...this.resolve(inner, instance, depth + 1));
         }
         return out;
@@ -194482,9 +195941,9 @@ var init_references2 = __esm({
       variable(module, variable, depth) {
         if (module === "") return [{ kind: "var", name: variable }];
         const call = this.callAt(module);
-        const expressions = call !== null && isObject4(call["expressions"]) ? call["expressions"] : {};
+        const expressions = call !== null && isObject5(call["expressions"]) ? call["expressions"] : {};
         const passed = expressions[variable];
-        const refs = isObject4(passed) ? strings3(passed["references"]).filter((ref) => !SAME_INSTANCE.has(ref)) : [];
+        const refs = isObject5(passed) ? strings3(passed["references"]).filter((ref) => !SAME_INSTANCE.has(ref)) : [];
         return refs.flatMap((ref) => this.resolve(ref, parentOf3(module), depth + 1));
       }
     };
@@ -194493,7 +195952,7 @@ var init_references2 = __esm({
 
 // ../../packages/diagrams/src/importers/terraform-plan/resources.ts
 function rawOf(value) {
-  if (isObject4(value)) {
+  if (isObject5(value)) {
     const entries2 = Object.entries(value).filter((entry2) => typeof entry2[1] === "string");
     return `{ ${entries2.map(([key, entry2]) => `${key} = ${JSON.stringify(entry2)}`).join(", ")} }`;
   }
@@ -194507,7 +195966,7 @@ function valuesOf2(resource) {
   }
   const tags = resource.values["tags"];
   const hidden = resource.sensitive["tags"];
-  if (isObject4(tags) && typeof tags["Name"] === "string" && !(isObject4(hidden) && hidden["Name"] === true) && hidden !== true) out.set("tags.Name", tags["Name"]);
+  if (isObject5(tags) && typeof tags["Name"] === "string" && !(isObject5(hidden) && hidden["Name"] === true) && hidden !== true) out.set("tags.Name", tags["Name"]);
   return out;
 }
 function blockOf2(resource, values, start2) {
@@ -194525,7 +195984,7 @@ function stringsOf(values, sensitive) {
     if (out.length >= MAX_VALUES || depth > MAX_VALUE_DEPTH || hidden === true) return;
     if (typeof value === "string") out.push({ name: name2, value });
     else if (Array.isArray(value)) value.forEach((item, index2) => walk(item, name2, Array.isArray(hidden) ? hidden[index2] : void 0, depth + 1));
-    else if (isObject4(value)) for (const [key, entry2] of Object.entries(value)) walk(entry2, key, isObject4(hidden) ? hidden[key] : void 0, depth + 1);
+    else if (isObject5(value)) for (const [key, entry2] of Object.entries(value)) walk(entry2, key, isObject5(hidden) ? hidden[key] : void 0, depth + 1);
   };
   for (const [name2, value] of Object.entries(values)) if (!OWN_IDS.has(name2) && !SKIPPED2.has(name2) && name2 !== "tags") walk(value, name2, sensitive[name2], 0);
   return out;
@@ -194546,7 +196005,7 @@ function planResources(document2, text3) {
     if (byBase.has(same)) alias.set(baseOf(resource), same);
   }
   const instances = [...new Set(all.map((resource) => resource.module).filter((module) => module !== "").flatMap((module) => callsOf2(module).map((_call, index2, calls) => calls.slice(0, index2 + 1).map((call) => `module.${call.name}${call.suffix}`).join("."))))];
-  const configuration = new Configuration(document2.configuration === null ? null : isObject4(document2.configuration["root_module"]) ? document2.configuration["root_module"] : null, instances);
+  const configuration = new Configuration(document2.configuration === null ? null : isObject5(document2.configuration["root_module"]) ? document2.configuration["root_module"] : null, instances);
   const expand2 = (target, own2, paired) => {
     if (target.kind !== "item") return [];
     const base = alias.get(target.address) ?? target.address;
@@ -194688,7 +196147,7 @@ var init_resources2 = __esm({
     init_generic();
     init_graph4();
     init_resources();
-    init_document3();
+    init_document4();
     init_references2();
     MAX_VALUE_DEPTH = 6;
     MAX_VALUES = 400;
@@ -194719,19 +196178,19 @@ function importedOf(json2) {
   const out = /* @__PURE__ */ new Set();
   const changes = json2["resource_changes"];
   if (Array.isArray(changes)) {
-    for (const entry2 of changes) if (isObject4(entry2) && isObject4(entry2["change"]) && entry2["change"]["importing"] !== void 0 && typeof entry2["address"] === "string") out.add(entry2["address"]);
+    for (const entry2 of changes) if (isObject5(entry2) && isObject5(entry2["change"]) && entry2["change"]["importing"] !== void 0 && typeof entry2["address"] === "string") out.add(entry2["address"]);
   }
   return out;
 }
 function accountsOf(document2, types) {
   const out = /* @__PURE__ */ new Map();
   for (const entry2 of Object.values(document2.providers)) {
-    if (!isObject4(entry2) || typeof entry2["name"] !== "string") continue;
+    if (!isObject5(entry2) || typeof entry2["name"] !== "string") continue;
     const cloud = providerOf2(`${entry2["name"]}_x`);
     if (cloud === null || out.get(cloud) !== void 0) continue;
-    const expressions = isObject4(entry2["expressions"]) ? entry2["expressions"] : {};
-    const project = isObject4(expressions["project"]) ? expressions["project"]["constant_value"] : void 0;
-    out.set(cloud, cloud === "gcp" && typeof project === "string" ? project : null);
+    const expressions = isObject5(entry2["expressions"]) ? entry2["expressions"] : {};
+    const project2 = isObject5(expressions["project"]) ? expressions["project"]["constant_value"] : void 0;
+    out.set(cloud, cloud === "gcp" && typeof project2 === "string" ? project2 : null);
   }
   for (const type of types) {
     const cloud = providerOf2(type);
@@ -194743,9 +196202,9 @@ function regionsOf2(document2) {
   const out = /* @__PURE__ */ new Map();
   const byProvider = /* @__PURE__ */ new Map();
   for (const [key, entry2] of Object.entries(document2.providers)) {
-    if (!isObject4(entry2) || typeof entry2["name"] !== "string" || key.includes(":")) continue;
-    const expressions = isObject4(entry2["expressions"]) ? entry2["expressions"] : {};
-    const region = isObject4(expressions["region"]) ? expressions["region"]["constant_value"] : void 0;
+    if (!isObject5(entry2) || typeof entry2["name"] !== "string" || key.includes(":")) continue;
+    const expressions = isObject5(entry2["expressions"]) ? entry2["expressions"] : {};
+    const region = isObject5(expressions["region"]) ? expressions["region"]["constant_value"] : void 0;
     if (typeof region !== "string" || region === "") continue;
     out.set(key, region);
     byProvider.set(entry2["name"], /* @__PURE__ */ new Set([...byProvider.get(entry2["name"]) ?? [], region]));
@@ -194778,7 +196237,7 @@ function readTerraformPlan(text3, context) {
     return null;
   }
   const document2 = readPlanDocument(json2);
-  if (document2 === null || !isObject4(json2)) {
+  if (document2 === null || !isObject5(json2)) {
     context.report.add(DIAGNOSTIC_CODES.importNoShape, START, "The JSON is neither a plan (planned_values and resource_changes) nor a state (values.root_module).", "Run terraform plan -out=plan.out, then send the output of terraform show -json plan.out; or send terraform show -json for the state.");
     return null;
   }
@@ -194846,7 +196305,7 @@ var init_terraform_plan = __esm({
     init_labels();
     init_resources();
     init_values2();
-    init_document3();
+    init_document4();
     init_resources2();
     CHANGES = {
       create: { tone: "green", word: "create", said: "one marked + is created", mark: "create" },
@@ -195162,6 +196621,8 @@ var init_registry4 = __esm({
   "../../packages/diagrams/src/importers/registry.ts"() {
     "use strict";
     init_arm();
+    init_asyncapi();
+    init_azure_pipelines();
     init_backstage();
     init_bicep();
     init_cdk();
@@ -195172,6 +196633,7 @@ var init_registry4 = __esm({
     init_git_log();
     init_helm();
     init_github_actions();
+    init_gitlab_ci();
     init_json();
     init_kubernetes();
     init_kustomize();
@@ -195179,6 +196641,7 @@ var init_registry4 = __esm({
     init_prisma();
     init_pulumi();
     init_sql();
+    init_structurizr();
     init_terraform();
     init_terraform_plan();
     init_tree5();
@@ -195199,7 +196662,11 @@ var init_registry4 = __esm({
       helm: helmImporter,
       kustomize: kustomizeImporter,
       backstage: backstageImporter,
+      structurizr: structurizrImporter,
+      asyncapi: asyncapiImporter,
       "github-actions": githubActionsImporter,
+      "gitlab-ci": gitlabCiImporter,
+      "azure-pipelines": azurePipelinesImporter,
       csv: csvImporter,
       json: jsonImporter,
       tree: treeImporter,
@@ -197086,7 +198553,7 @@ function wordsOf5(text3) {
 function cleanLabel2(text3) {
   return text3.replace(/!?\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/[`*_~"\\]/g, "").replace(/[\u0000-\u001f\u007f]/g, " ").replace(/\s+/g, " ").trim();
 }
-function stepLabel(text3) {
+function stepLabel2(text3) {
   const clean = cleanLabel2(text3).replace(/[.;]$/, "");
   const capital2 = `${clean.charAt(0).toUpperCase()}${clean.slice(1)}`;
   if (capital2.length <= ONE_LINE) return { label: capital2, sub: null };
@@ -197097,7 +198564,7 @@ function stepLabel(text3) {
   return { label: capital2, sub: null };
 }
 function stepText2(text3) {
-  const { label, sub } = stepLabel(text3);
+  const { label, sub } = stepLabel2(text3);
   return sub === null ? `"${label}"` : `"${label}" sub="${sub}"`;
 }
 function withDescription(source, description) {
@@ -197969,7 +199436,7 @@ function partType(name2) {
 function linkedFlow(material, title) {
   const ids = idMaker("part");
   const nodes = /* @__PURE__ */ new Map();
-  const nodeOf4 = (label) => {
+  const nodeOf5 = (label) => {
     const key = label.toLowerCase();
     const known3 = nodes.get(key);
     if (known3 !== void 0 && /^[a-z]/.test(known3.label) && /^[A-Z]/.test(label)) known3.label = label;
@@ -197978,7 +199445,7 @@ function linkedFlow(material, title) {
     nodes.set(key, node3);
     return node3.id;
   };
-  const links = material.relations.slice(0, MOST * 2).map((relation2) => ({ from: nodeOf4(relation2.from), to: nodeOf4(relation2.to), verb: relation2.verb }));
+  const links = material.relations.slice(0, MOST * 2).map((relation2) => ({ from: nodeOf5(relation2.from), to: nodeOf5(relation2.to), verb: relation2.verb }));
   const edges = links.map((link2) => `${link2.from} -> ${link2.to} : ${quoted4(link2.verb)}`);
   return sourceOf(`flow ${quoted4(title)} direction=${directionFor(longestChain2(links))}`, [
     ...[...nodes.values()].map((node3) => `node ${node3.id} ${partType(node3.label)} ${quoted4(node3.label)}${iconOption(node3.label)}`),
@@ -197998,7 +199465,7 @@ function longestChain2(links) {
   };
   return Math.max(0, ...links.map((link2) => walk(link2.from, /* @__PURE__ */ new Set([link2.from]))));
 }
-function stepsOf(material) {
+function stepsOf2(material) {
   const pairs = material.labelled.filter((line3) => cleanLabel2(line3.text) !== "");
   const repeated = new Set(pairs.map((line3) => line3.label.toLowerCase())).size < pairs.length;
   if (pairs.length >= 2 && repeated || pairs.length >= 3) return pairs.slice(0, MOST).map((pair2) => ({ label: pair2.label, text: pair2.text }));
@@ -198109,7 +199576,7 @@ var init_systems = __esm({
       },
       swimlane: (material, title) => {
         const ids = idMaker("step");
-        const steps = stepsOf(material);
+        const steps = stepsOf2(material);
         const laneNames = distinctLabels(steps.map((step) => step.label)).slice(0, 6);
         const placed = steps.map((step) => ({ lane: laneNames.findIndex((name2) => name2.toLowerCase() === cleanLabel2(step.label).toLowerCase()), label: cleanLabel2(step.text) })).filter((step) => step.lane >= 0).map((step) => ({ ...step, id: ids(step.label) }));
         const begin = ids("Start");
@@ -198889,7 +200356,7 @@ var init_draw_for_view = __esm({
 });
 
 // ../../packages/diagrams/src/view/index.ts
-var init_view = __esm({
+var init_view2 = __esm({
   "../../packages/diagrams/src/view/index.ts"() {
     "use strict";
     init_fragment();
@@ -198974,7 +200441,7 @@ var init_view_link = __esm({
     init_constants();
     init_apply_defaults();
     init_schema4();
-    init_view();
+    init_view2();
     SOURCE_OF = {
       draw_diagram: (args, answer) => answer["valid"] === true ? args["source"] : null,
       draw_from_pattern: (_args, answer) => answer["valid"] === true ? answer["source"] : null,
@@ -199379,7 +200846,7 @@ var init_server_info = __esm({
       `Draws ${joinWords(kindNouns(), "and")} diagrams from a small line-oriented text language.`,
       "Prefer the workflow tools: each does the work of several single tools in one call.",
       "When you are unsure which kind of diagram fits, call suggest_diagram with the request in plain words and any data: it ranks the kinds and gives a starter that parses; for a whole document, plan_document_diagrams returns the sections a picture would help, each with a starter.",
-      "When the diagram should come from a file the person has (SQL, Prisma, or Drizzle models, an OpenAPI document, Terraform, Bicep, ARM, Pulumi, CloudFormation, or the CDK, docker-compose, Kubernetes manifests, Helm, Kustomize, a Backstage catalog, a GitHub Actions workflow, CSV or JSON data, a folder listing, or a git log), call import_source with its text and format: it builds the whole diagram from the file in one call, and its diagnostics say what was left out get_diagram_syntax with topic import-formats says what each format reads.",
+      "When the diagram should come from a file the person has (SQL, Prisma, or Drizzle models, an OpenAPI document, Terraform, Bicep, ARM, Pulumi, CloudFormation, or the CDK, docker-compose, Kubernetes manifests, Helm, Kustomize, a Backstage catalog, a Structurizr workspace, AsyncAPI documents, a GitHub Actions workflow, a GitLab CI/CD or Azure Pipelines pipeline, CSV or JSON data, a folder listing, or a git log), call import_source with its text and format: it builds the whole diagram from the file in one call, and its diagnostics say what was left out get_diagram_syntax with topic import-formats says what each format reads.",
       "For a request to draw a common architecture, such as a three-tier network, a serverless API, a container platform, or a queue with workers, call find_pattern first with the request in plain words; when a pattern fits, call draw_from_pattern with its id, a provider flavour (neutral, aws, azure, or gcp), and slot values that rename its parts, or get_pattern to read and edit its source, and when nothing fits, write the diagram from scratch with draw_diagram.",
       "Call get_diagram_syntax once with no kind to read the shared language, and again with kind set to the kind you draw for its statements, limits, and example.",
       'Write the source and call draw_diagram: it returns every error with line, column, and hint and draws nothing until the source is valid, so fix every error and call again; once valid it returns the warnings, an outline to check the meaning, and the SVG for light and dark. The pictures are most of the answer and you cannot look at them, so pass svg "never" to check a diagram, and draw only when you will save, show, or publish the pictures; when a drawing is too big to read in one answer the SVG is left out, picturesOmitted says so, and svg "always" forces it.',
@@ -199763,7 +201230,7 @@ var init_create_server = __esm({
     "use strict";
     init_dist();
     init_tools();
-    init_view();
+    init_view2();
     init_activity();
     init_audit();
     init_engine_runner();
@@ -200227,7 +201694,7 @@ var VIEWER_URL_VARIABLE;
 var init_viewer_address = __esm({
   "src/viewer-address.ts"() {
     "use strict";
-    init_view();
+    init_view2();
     VIEWER_URL_VARIABLE = "PLOTWORK_VIEWER_URL";
   }
 });
