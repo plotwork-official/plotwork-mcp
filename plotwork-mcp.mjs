@@ -65,7 +65,7 @@ var init_icon_art_folder = __esm({
 var package_default;
 var init_package = __esm({
   "package.json"() {
-    package_default = { version: "0.1.0-beta.9" };
+    package_default = { version: "0.1.0-beta.10" };
   }
 });
 
@@ -722,9 +722,23 @@ var init_view_links = __esm({
     };
     CLI_RELEASE = {
       packageName: "@buun_group/plotwork",
-      version: "0.1.0-beta.10",
+      version: "0.1.0-beta.12",
       onNpm: true
     };
+  }
+});
+
+// ../../packages/diagrams/src/constants/action-release.ts
+var ACTION_REPOSITORY, ACTION_RELEASE, PINNED_ACTION_LINE;
+var init_action_release = __esm({
+  "../../packages/diagrams/src/constants/action-release.ts"() {
+    "use strict";
+    ACTION_REPOSITORY = "plotwork-official/plotwork-action";
+    ACTION_RELEASE = {
+      version: "1.0.0-beta.12",
+      sha: "53d6170aee30dc3d9728de11524a68f6bc490596"
+    };
+    PINNED_ACTION_LINE = `uses: ${ACTION_REPOSITORY}@${ACTION_RELEASE.sha} # v${ACTION_RELEASE.version}`;
   }
 });
 
@@ -741,7 +755,7 @@ var init_mcp_release = __esm({
     "use strict";
     MCP_RELEASE = {
       packageName: "@buun_group/plotwork-mcp",
-      version: "0.1.0-beta.8"
+      version: "0.1.0-beta.9"
     };
   }
 });
@@ -3633,7 +3647,7 @@ var init_label_vocabulary = __esm({
       patches: { icon: "lucide:replace", role: null }
     };
     LABEL_VERB_PHRASES = {
-      reads: ["reads", "read", "reading", "reads from", "read from", "queries", "query", "querying", "looks up", "look up", "selects", "select from", "loads from", "fetches from"],
+      reads: ["reads", "read", "reading", "reads from", "read from", "queries", "query", "querying", "looks up", "look up", "selects", "select from", "loads from", "fetches from", "read by", "queried by", "looked up by", "loaded from", "fetched from"],
       writes: [
         "writes",
         "write",
@@ -3657,10 +3671,22 @@ var init_label_vocabulary = __esm({
         "uploads",
         "upload",
         "uploads to",
-        "upload to"
+        "upload to",
+        "written to",
+        "written by",
+        "written into",
+        "inserted into",
+        "updated by",
+        "saved to",
+        "saved in",
+        "persisted to",
+        "persisted in",
+        "deleted from",
+        "uploaded to",
+        "uploaded by"
       ],
-      stores: ["stores", "store", "stores in", "store in", "caches", "caches in", "reads and writes", "reads writes", "read write", "read and write"],
-      mounts: ["mounts", "mount"],
+      stores: ["stores", "store", "stores in", "store in", "caches", "caches in", "reads and writes", "reads writes", "read write", "read and write", "stored in", "stored by", "cached in", "cached by"],
+      mounts: ["mounts", "mount", "mounted by", "mounted at", "mounted in", "mounted on"],
       sends: [
         "sends",
         "send",
@@ -3679,15 +3705,27 @@ var init_label_vocabulary = __esm({
         "pushes to",
         "notifies",
         "notify",
-        "fires"
+        "fires",
+        "sent to",
+        "sent by",
+        "published to",
+        "published by",
+        "emitted to",
+        "emitted by",
+        "produced to",
+        "enqueued to",
+        "enqueued in",
+        "enqueued on",
+        "pushed to",
+        "notified by"
       ],
-      receives: ["receives", "receive", "consumes", "consume", "consumes from", "subscribes", "subscribes to", "subscribe to", "listens to", "listens on", "polls", "dequeues"],
-      calls: ["calls", "call", "invokes", "invoke", "requests", "request", "fetches", "fetch", "queries api", "http", "https", "grpc", "rest", "graphql"],
-      routes: ["routes", "routes to", "route to", "forwards", "forwards to", "forward to", "proxies", "proxies to", "redirects to", "load balances"],
-      "depends-on": ["depends on", "depend on", "requires", "needs"],
-      provides: ["provides", "exposes", "serves"],
-      triggers: ["triggers", "trigger", "starts", "kicks off", "schedules", "wakes"],
-      deploys: ["deploys", "deploy", "deploys to", "deploy to", "releases to", "ships to", "promotes to", "rolls out", "rolls out to"],
+      receives: ["receives", "receive", "consumes", "consume", "consumes from", "subscribes", "subscribes to", "subscribe to", "listens to", "listens on", "polls", "dequeues", "received by", "received from", "consumed by", "consumed from", "subscribed to", "polled by", "polled from", "dequeued by"],
+      calls: ["calls", "call", "invokes", "invoke", "requests", "request", "fetches", "fetch", "queries api", "http", "https", "grpc", "rest", "graphql", "called by", "invoked by", "requested by", "requested from", "fetched by"],
+      routes: ["routes", "routes to", "route to", "forwards", "forwards to", "forward to", "proxies", "proxies to", "redirects to", "load balances", "routed to", "routed by", "routed through", "forwarded to", "forwarded by", "proxied to", "proxied by", "proxied through", "redirected to", "load balanced by"],
+      "depends-on": ["depends on", "depend on", "requires", "needs", "required by", "needed by", "depended on by"],
+      provides: ["provides", "exposes", "serves", "provided by", "exposed by", "served by", "served from"],
+      triggers: ["triggers", "trigger", "starts", "kicks off", "schedules", "wakes", "triggered by", "started by", "kicked off by", "scheduled by", "woken by"],
+      deploys: ["deploys", "deploy", "deploys to", "deploy to", "releases to", "ships to", "promotes to", "rolls out", "rolls out to", "deployed to", "deployed by", "deployed on", "released to", "shipped to", "promoted to", "rolled out to", "rolled out by"],
       grants: [
         "authenticates",
         "authenticate",
@@ -3715,7 +3753,16 @@ var init_label_vocabulary = __esm({
         "logs out",
         "log out",
         "signs out",
-        "sign out"
+        "sign out",
+        "authenticated by",
+        "authenticated with",
+        "authenticated against",
+        "authorized by",
+        "authorised by",
+        "granted by",
+        "granted to",
+        "assumed by",
+        "issued by"
       ],
       secret: ["reads secret", "reads secrets", "read secret", "read secrets", "read credentials", "fetches secret", "fetches secrets", "reads credentials", "gets secret", "gets secrets"],
       reports: [
@@ -3738,9 +3785,12 @@ var init_label_vocabulary = __esm({
         "exports metrics",
         "exports traces",
         "emits metrics",
-        "emits logs"
+        "emits logs",
+        "reported to",
+        "reported by",
+        "logged to"
       ],
-      pulls: ["pulls image", "pulls images", "pulls images from", "pulls image from"]
+      pulls: ["pulls image", "pulls images", "pulls images from", "pulls image from", "pulled from"]
     };
     LABEL_VERB_MAX_WORDS = 5;
     NOT_VERB_PHRASES = [
@@ -3830,6 +3880,7 @@ var init_constants = __esm({
     init_editing();
     init_diagram_links();
     init_view_links();
+    init_action_release();
     init_mcp_release();
     init_layout_limits();
     init_lint_limits();
@@ -121600,6 +121651,10 @@ var init_metrics = __esm({
       blockBranchHeader: 30,
       blockBottomPadding: 10,
       blockRadius: 10,
+      /** Room from the frame's left edge to its operator ("alt", "else"), and the least room after its condition to the right edge. */
+      blockHeaderInset: 12,
+      /** Room between the operator and its condition. */
+      blockKeywordGap: 8,
       lifelineDash: "4 5",
       lifelineOvershoot: 22
     };
@@ -121737,7 +121792,7 @@ function bareGlyphColor(theme, tone) {
 function getTheme(name2) {
   return name2 === "dark" ? DARK_THEME : LIGHT_THEME;
 }
-var THEME_NAMES, PICTURE_SCHEMES, GRAPHIC_CONTRAST, SCHEME_INPUTS, LIGHT_THEME, DARK_THEME, BARE_GLYPH_CONTRAST;
+var THEME_NAMES, PICTURE_SCHEMES, PICTURE_FILE_SCHEMES, GRAPHIC_CONTRAST, SCHEME_INPUTS, LIGHT_THEME, DARK_THEME, BARE_GLYPH_CONTRAST;
 var init_themes = __esm({
   "../../packages/diagrams/src/theme/themes.ts"() {
     "use strict";
@@ -121746,6 +121801,7 @@ var init_themes = __esm({
     init_palette();
     THEME_NAMES = ["light", "dark"];
     PICTURE_SCHEMES = [...THEME_NAMES, "auto"];
+    PICTURE_FILE_SCHEMES = ["light-and-dark", "auto"];
     GRAPHIC_CONTRAST = 3;
     SCHEME_INPUTS = {
       light: { name: "light", surfaces: LIGHT_SURFACES, tones: LIGHT_TONES, tint: 0.12, pushToward: "#000000" },
@@ -121771,7 +121827,7 @@ function hueDistance(a, b) {
 }
 function fitToScheme(color, scheme) {
   const input2 = SCHEME_INPUTS[scheme];
-  return ensureContrast(color, input2.surfaces.surface, GRAPHIC_CONTRAST2, input2.pushToward);
+  return ensureContrast(color, input2.surfaces.surface, GRAPHIC_CONTRAST, input2.pushToward);
 }
 function checkBrand(input2) {
   const issues = [];
@@ -121836,7 +121892,7 @@ function brandTheme(scheme, brand) {
   const input2 = SCHEME_INPUTS[scheme];
   const wash = NEUTRAL_WASH[scheme];
   const surfaces = input2.surfaces;
-  const edge = ensureContrast(mix(brand.primary, surfaces.edge, wash.edge), surfaces.surface, GRAPHIC_CONTRAST2, input2.pushToward);
+  const edge = ensureContrast(mix(brand.primary, surfaces.edge, wash.edge), surfaces.surface, GRAPHIC_CONTRAST, input2.pushToward);
   return buildTheme({
     ...input2,
     tones: brandTones(scheme, brand),
@@ -121860,7 +121916,7 @@ function themeFor(scheme, brand) {
   CACHE.set(key, theme);
   return theme;
 }
-var BRAND_ROLES, HUE_STEP, TONE_OF_ROLE, STATUS_HUES, STATUS_HUE_DISTANCE, STATUS_SATURATION, DISTINCT_CONTRAST, GRAPHIC_CONTRAST2, NEUTRAL_WASH, CACHE, CACHE_LIMIT;
+var BRAND_ROLES, HUE_STEP, TONE_OF_ROLE, STATUS_HUES, STATUS_HUE_DISTANCE, STATUS_SATURATION, DISTINCT_CONTRAST, NEUTRAL_WASH, CACHE, CACHE_LIMIT;
 var init_brand = __esm({
   "../../packages/diagrams/src/theme/brand.ts"() {
     "use strict";
@@ -121876,7 +121932,6 @@ var init_brand = __esm({
     STATUS_HUE_DISTANCE = 16;
     STATUS_SATURATION = 0.45;
     DISTINCT_CONTRAST = 1.15;
-    GRAPHIC_CONTRAST2 = 3;
     NEUTRAL_WASH = {
       light: { group: 0.035, border: 0.1, edge: 0.3 },
       dark: { group: 0.05, border: 0.12, edge: 0.3 }
@@ -123115,9 +123170,9 @@ function sceneOf(shapes2, input2) {
     const source = diagram.edges[Number(route.id.slice(1))];
     return source === void 0 ? [] : [{ id: route.id, from: source.from, to: source.to, points: route.points, label: route.label?.rect ?? null }];
   });
-  const bounds = boundsOf([...shapes2.nodes.map((node3) => node3.rect), ...shapes2.groups.map((group2) => group2.rect), ...shapes2.overlays.map((overlay) => overlay.rect)]) ?? { x: 0, y: 0, width: 0, height: 0 };
+  const bounds2 = boundsOf([...shapes2.nodes.map((node3) => node3.rect), ...shapes2.groups.map((group2) => group2.rect), ...shapes2.overlays.map((overlay) => overlay.rect)]) ?? { x: 0, y: 0, width: 0, height: 0 };
   const finish = (points, label, boxes2) => giveEndRoom(points, EDGE_METRICS.endRun, boxes2, label === null ? null : centerOf(label));
-  const scene = { isVertical: direction === "down" || direction === "up", alongSign: ALONG_SIGN[direction], nodes, frames, edges, bounds, finish };
+  const scene = { isVertical: direction === "down" || direction === "up", alongSign: ALONG_SIGN[direction], nodes, frames, edges, bounds: bounds2, finish };
   return scene;
 }
 function balanceFlow(shapes2, input2) {
@@ -124820,12 +124875,15 @@ function declareId(cursor, ctx, kind, line3) {
   ctx.declared.set(token.text, { kind, line: line3 });
   return token;
 }
-function readLabel(cursor, ctx, line3, what) {
-  const token = cursor.next();
-  if (token?.kind === "string") return token.text;
-  ctx.report.push(
-    errorAt(DIAGNOSTIC_CODES.syntax, `Expected a quoted ${what}`, token ?? cursor.endPosition(line3), 'Labels are always in double quotes, for example "Auth server".')
-  );
+function readLabel(cursor, ctx, line3, what, form) {
+  const token = cursor.peek();
+  if (token?.kind === "string") {
+    cursor.next();
+    return token.text;
+  }
+  if (!(token?.kind === "word" && cursor.peek(1)?.kind === "equals") && !(token?.kind === "lbrace")) cursor.next();
+  const hint2 = `Labels are always in double quotes, for example "Auth server".${form === void 0 ? "" : ` The statement is: ${form}`}`;
+  ctx.report.push(errorAt(DIAGNOSTIC_CODES.syntax, `Expected a quoted ${what}`, token ?? cursor.endPosition(line3), hint2));
   return null;
 }
 function resolveTone(option, fallback, ctx) {
@@ -129029,30 +129087,29 @@ function paintNote(note, theme) {
   ]);
 }
 function paintHeader2(keyword, label, x, bandTop, bandHeight, theme) {
-  const chipWidth2 = measureRole(keyword, "groupLabel") + CHIP_PADDING * 2;
-  const chipY = bandTop + (bandHeight - CHIP_HEIGHT) / 2;
-  const textTop4 = chipY + (CHIP_HEIGHT - TYPE_ROLES.groupLabel.lineHeight) / 2;
-  return [
-    el("rect", { x, y: chipY, width: chipWidth2, height: CHIP_HEIGHT, rx: CHIP_RADIUS, fill: theme.surfaceGroup, stroke: theme.borderGroup, "stroke-width": 1 }),
-    paintTextBlock({ x: x + CHIP_PADDING, top: textTop4, lines: [keyword], role: "groupLabel", color: theme.ink }),
-    paintTextBlock({ x: x + chipWidth2 + HEADER_TEXT_GAP, top: textTop4, lines: [label], role: "edgeLabel", color: theme.inkSecondary })
-  ];
+  const textTop4 = bandTop + (bandHeight - TYPE_ROLES.groupLabel.lineHeight) / 2;
+  const parts = [paintTextBlock({ x, top: textTop4, lines: [keyword], role: "groupLabel", color: theme.inkSecondary })];
+  if (label !== "") {
+    const labelX = x + measureRole(keyword, "groupLabel") + SEQUENCE_METRICS.blockKeywordGap;
+    parts.push(paintTextBlock({ x: labelX, top: textTop4, lines: [label], role: "edgeLabel", color: theme.inkSecondary }));
+  }
+  return parts;
 }
 function paintBlock(block, theme) {
   const { x, y, width, height } = block.rect;
   const parts = [
     el("rect", { x, y, width, height, rx: SEQUENCE_METRICS.blockRadius, fill: "none", stroke: theme.borderGroup, "stroke-width": 1 }),
-    ...paintHeader2(block.blockType, block.label, x + HEADER_LEFT, y, SEQUENCE_METRICS.blockHeader, theme)
+    ...paintHeader2(block.blockType, block.label, x + SEQUENCE_METRICS.blockHeaderInset, y, SEQUENCE_METRICS.blockHeader, theme)
   ];
   for (const divider of block.dividers) {
     parts.push(
       el("line", { x1: x, y1: divider.y, x2: x + width, y2: divider.y, stroke: theme.borderGroup, "stroke-width": 1, "stroke-dasharray": "5 4" }),
-      ...paintHeader2(divider.keyword, divider.label, x + HEADER_LEFT, divider.y, SEQUENCE_METRICS.blockBranchHeader, theme)
+      ...paintHeader2(divider.keyword, divider.label, x + SEQUENCE_METRICS.blockHeaderInset, divider.y, SEQUENCE_METRICS.blockBranchHeader, theme)
     );
   }
   return el("g", { "data-block": block.blockType }, parts);
 }
-var NOTE_FILL_TINT, NOTE_BORDER_TINT, CHIP_HEIGHT, CHIP_PADDING, CHIP_RADIUS, HEADER_TEXT_GAP, HEADER_LEFT;
+var NOTE_FILL_TINT, NOTE_BORDER_TINT;
 var init_paint_parts = __esm({
   "../../packages/diagrams/src/render/sequence/paint-parts.ts"() {
     "use strict";
@@ -129061,11 +129118,6 @@ var init_paint_parts = __esm({
     init_svg2();
     NOTE_FILL_TINT = 0.12;
     NOTE_BORDER_TINT = 0.5;
-    CHIP_HEIGHT = 20;
-    CHIP_PADDING = 8;
-    CHIP_RADIUS = 6;
-    HEADER_TEXT_GAP = 10;
-    HEADER_LEFT = 12;
   }
 });
 
@@ -130370,7 +130422,7 @@ function parseNodeStatement(cursor, state, line3, group2) {
     state.report.push(errorAt(DIAGNOSTIC_CODES.unknownNodeType, `Unknown node type "${typeToken.text}"`, typeToken, didYouMean(typeToken.text, FLOW_NODE_TYPES)));
   }
   const labelToken = cursor.peek();
-  const label = readLabel(cursor, state, line3, "label");
+  const label = readLabel(cursor, state, line3, "label", 'node <id> <type> "Label" icon=<set:name>.');
   const options3 = readOptions(cursor, NODE_OPTIONS, state.report, { lists: ["stack"] });
   rejectTrailing(cursor, state, 'A node is: node id type "Label" sub="..." icon=lucide:name tone=blue stack=simple:angular,simple:typescript change=update');
   if (id === null || type === void 0 || label === null) return;
@@ -130411,7 +130463,7 @@ function parseGroupStatement(cursor, state, line3, parent) {
   cursor.next();
   const id = declareId(cursor, state, "group", line3);
   const labelToken = cursor.peek();
-  const label = readLabel(cursor, state, line3, "label");
+  const label = readLabel(cursor, state, line3, "label", 'group <id> "Label" type=<group type> {, then its nodes, then } on its own line.');
   const options3 = readOptions(cursor, GROUP_OPTIONS, state.report, { lists: ["stack"], moved: MOVED_GROUP_OPTIONS });
   const brace = cursor.next();
   if (brace?.kind !== "lbrace") {
@@ -130605,7 +130657,7 @@ function dispatchStatement(line3, state, scopes) {
         DIAGNOSTIC_CODES.unknownStatement,
         `Unknown statement "${first.text}"`,
         first,
-        `${didYouMean(first.text, STATEMENT_KEYWORDS2)} Edges look like: from -> to : "label"`
+        first.text === "flow" ? 'The header is one line, the first: put the title and every header option on it together, such as flow "Checkout" direction=right.' : first.text === "title" ? `There is no title statement: the title is the quoted text after the kind on the first line, such as flow "Checkout".` : line3.tokens[1]?.kind === "equals" ? `An option such as ${first.text}= goes at the end of the line of the node or edge it sets, not on a line of its own: node cdn service "CloudFront" ${first.text}=...` : FLOW_NODE_TYPES.includes(first.text) ? `A box is declared with node and its type comes after the id: node <id> ${first.text} "Label". Edges look like: from -> to : "label"` : `${didYouMean(first.text, STATEMENT_KEYWORDS2)} Edges look like: from -> to : "label"`
       )
     );
   } else {
@@ -138746,19 +138798,19 @@ function separatePorts(plans) {
     if (!moved3) return;
   }
 }
-function placeRuns(plan, bounds) {
+function placeRuns(plan, bounds2) {
   const runs = runsOf3(plan);
   const length = (run3) => run3 === void 0 ? 0 : Math.abs(run3.a - run3.b);
   plan.labelLeg = length(runs[0]) > length(runs[1]) ? 0 : runs.length - 1;
   const labelRun = runs[plan.labelLeg];
   const half = (plan.label?.width ?? 0) / 2;
-  plan.labelCenter = clamp4((labelRun.a + labelRun.b) / 2, bounds.left + half + 8, bounds.right - half - 8);
+  plan.labelCenter = clamp4((labelRun.a + labelRun.b) / 2, bounds2.left + half + 8, bounds2.right - half - 8);
   plan.legs = runs.map((run3, position) => {
     const reach2 = position === plan.labelLeg && plan.label !== null ? [plan.labelCenter - half - 6, plan.labelCenter + half + 6] : [];
     return { band: run3.band, use: useBand(run3.band, Math.min(run3.a, run3.b, ...reach2), Math.max(run3.a, run3.b, ...reach2), run3.ups.map((tip) => tip.x), run3.downs.map((tip) => tip.x)) };
   });
 }
-function planLinks(links, where, bounds) {
+function planLinks(links, where, bounds2) {
   let lanes = 0;
   const plans = [];
   links.forEach((link2, index2) => {
@@ -138767,7 +138819,7 @@ function planLinks(links, where, bounds) {
     if (from === void 0 || to === void 0) return;
     const kind = from.row === to.row ? "under" : Math.abs(from.row - to.row) === 1 ? "step" : "lane";
     const down = to.row > from.row;
-    const laneX = kind === "lane" ? bounds.right + (LAYERS_METRICS.laneOffsets[lanes++ % LAYERS_METRICS.laneOffsets.length] ?? 0) : null;
+    const laneX = kind === "lane" ? bounds2.right + (LAYERS_METRICS.laneOffsets[lanes++ % LAYERS_METRICS.laneOffsets.length] ?? 0) : null;
     const one = link2.label?.replace(/\s+/g, " ").trim();
     const fitted = one === void 0 ? null : fitLine(one.slice(0, 400), "edgeLabel", LAYERS_METRICS.maxLabelText);
     const label = one === void 0 || fitted === null ? null : { text: fitted, width: Math.ceil(measureRole(fitted, "edgeLabel")) + 2 * EDGE_METRICS.labelPaddingX, isShortened: fitted !== one };
@@ -138775,7 +138827,7 @@ function planLinks(links, where, bounds) {
   });
   placePorts(plans);
   separatePorts(plans);
-  for (const plan of plans) placeRuns(plan, bounds);
+  for (const plan of plans) placeRuns(plan, bounds2);
   return plans;
 }
 function pointsOf(plan) {
@@ -143749,17 +143801,17 @@ var init_paint_hole = __esm({
 // ../../packages/diagrams/src/kinds/pie/look.ts
 function sliceLook(theme, tone) {
   const outline2 = theme.tones[tone].outline;
-  const segment = tone === "neutral" ? ensureContrast(mix(outline2, theme.surface, NEUTRAL_SHARE), theme.surface, GRAPHIC_CONTRAST3, theme.ink) : outline2;
+  const segment = tone === "neutral" ? ensureContrast(mix(outline2, theme.surface, NEUTRAL_SHARE), theme.surface, GRAPHIC_CONTRAST2, theme.ink) : outline2;
   return { segment, leader: mix(segment, theme.surface, LEADER_SHARE), icon: bareGlyphColor(theme, tone) };
 }
-var LEADER_SHARE, NEUTRAL_SHARE, GRAPHIC_CONTRAST3;
+var LEADER_SHARE, NEUTRAL_SHARE, GRAPHIC_CONTRAST2;
 var init_look4 = __esm({
   "../../packages/diagrams/src/kinds/pie/look.ts"() {
     "use strict";
     init_theme();
     LEADER_SHARE = 0.92;
     NEUTRAL_SHARE = 0.62;
-    GRAPHIC_CONTRAST3 = 3;
+    GRAPHIC_CONTRAST2 = 3;
   }
 });
 
@@ -148060,8 +148112,26 @@ function labelGap(message2) {
     y2: Math.max(message2.labelY, badge === void 0 ? Number.NEGATIVE_INFINITY : badge.y + badge.height) + LABEL_CLEARANCE2
   };
 }
-function buildLifelines(actors, messages, top, bottom) {
-  const gaps = messages.map(labelGap);
+function headerGap(x, bandTop, bandHeight, keyword, label) {
+  const left = x + SEQUENCE_METRICS.blockHeaderInset;
+  const condition = label === "" ? 0 : SEQUENCE_METRICS.blockKeywordGap + measureRole(label, "edgeLabel");
+  const top = bandTop + (bandHeight - TYPE_ROLES.groupLabel.lineHeight) / 2;
+  return {
+    x1: left - LABEL_CLEARANCE2,
+    x2: left + measureRole(keyword, "groupLabel") + condition + LABEL_CLEARANCE2,
+    y1: top - LABEL_CLEARANCE2 / 2,
+    y2: top + TYPE_ROLES.groupLabel.lineHeight + LABEL_CLEARANCE2 / 2
+  };
+}
+function blockGaps(block) {
+  const { x, y } = block.rect;
+  return [
+    headerGap(x, y, SEQUENCE_METRICS.blockHeader, block.blockType, block.label),
+    ...block.dividers.map((divider) => headerGap(x, divider.y, SEQUENCE_METRICS.blockBranchHeader, divider.keyword, divider.label))
+  ];
+}
+function buildLifelines(actors, messages, blocks2, top, bottom) {
+  const gaps = [...messages.map(labelGap), ...blocks2.flatMap(blockGaps)];
   return actors.map((actor) => {
     const crossing = gaps.filter((gap2) => gap2.x1 < actor.centerX && actor.centerX < gap2.x2).sort((a, b) => a.y1 - b.y1);
     const segments = [];
@@ -148154,6 +148224,10 @@ function placeNote(item, ctx, y) {
   ctx.notes.push({ rect: { x, y, width, height }, lines });
   return { y: y + height + SEQUENCE_METRICS.noteGap, extent: { minX: x, maxX: x + width } };
 }
+function blockHeaderWidth(keyword, label) {
+  const condition = label === "" ? 0 : SEQUENCE_METRICS.blockKeywordGap + measureRole(label, "edgeLabel");
+  return SEQUENCE_METRICS.blockHeaderInset * 2 + measureRole(keyword, "groupLabel") + condition;
+}
 function placeBlock2(item, ctx, y) {
   const first = item.branches[0];
   const dividers = [];
@@ -148171,9 +148245,9 @@ function placeBlock2(item, ctx, y) {
   cursor += SEQUENCE_METRICS.blockBottomPadding;
   const reach2 = extent2 ?? { minX: ctx.centers[0] ?? 0, maxX: ctx.centers[ctx.centers.length - 1] ?? 0 };
   const label = first?.label ?? "";
-  const tabWidth2 = measureRole(`${item.blockType} ${label}`, "groupLabel") + TAB_PADDING;
+  const headerWidth = Math.max(blockHeaderWidth(item.blockType, label), ...dividers.map((divider) => blockHeaderWidth(divider.keyword, divider.label)));
   const x = reach2.minX - SEQUENCE_METRICS.blockPadding;
-  const width = Math.max(reach2.maxX - reach2.minX + SEQUENCE_METRICS.blockPadding * 2, tabWidth2);
+  const width = Math.max(reach2.maxX - reach2.minX + SEQUENCE_METRICS.blockPadding * 2, headerWidth);
   ctx.blocks.push({ blockType: item.blockType, rect: { x, y, width, height: cursor - y }, label, dividers });
   return { y: cursor + SEQUENCE_METRICS.noteGap, extent: { minX: x, maxX: x + width } };
 }
@@ -148187,7 +148261,7 @@ function placeItems3(items2, ctx, startY) {
   }
   return { y, extent: extent2 };
 }
-var HOP_LABEL_MARGIN, NOTE_OVERHANG, TAB_PADDING, leadOf2;
+var HOP_LABEL_MARGIN, NOTE_OVERHANG, leadOf2;
 var init_rows2 = __esm({
   "../../packages/diagrams/src/layout/sequence/rows.ts"() {
     "use strict";
@@ -148197,7 +148271,6 @@ var init_rows2 = __esm({
     init_columns();
     HOP_LABEL_MARGIN = 4;
     NOTE_OVERHANG = 16;
-    TAB_PADDING = 28;
     leadOf2 = (step) => stepBadgeWidth(step) + STEP_METRICS.labelGap;
   }
 });
@@ -148237,7 +148310,7 @@ function layoutSequence(diagram) {
   return {
     size: { width: Math.ceil(right + CANVAS_METRICS.padding), height: Math.ceil(lifelineBottom + CANVAS_METRICS.padding) },
     actors,
-    lifelines: buildLifelines(actors, messages, lifelineTop, lifelineBottom),
+    lifelines: buildLifelines(actors, messages, blocks2, lifelineTop, lifelineBottom),
     blocks: blocks2,
     notes,
     messages
@@ -148357,7 +148430,7 @@ function parseActorStatement2(cursor, state, line3) {
   if (type === void 0) {
     state.report.push(errorAt(DIAGNOSTIC_CODES.unknownNodeType, `Unknown actor type "${typeToken.text}"`, typeToken, didYouMean(typeToken.text, ACTOR_TYPES)));
   }
-  const label = readLabel(cursor, state, line3, "label");
+  const label = readLabel(cursor, state, line3, "label", 'actor <id> <type> "Label", such as actor db database "Users DB".');
   const options3 = readOptions(cursor, ACTOR_OPTIONS, state.report);
   rejectTrailing(cursor, state, 'An actor is: actor id type "Label" sub="..." icon=lucide:name tone=blue');
   if (id === null || type === void 0 || label === null) return;
@@ -148499,7 +148572,7 @@ function dispatchStatement4(line3, state) {
         DIAGNOSTIC_CODES.unknownStatement,
         `Unknown statement "${first.text}"`,
         first,
-        `${didYouMean(first.text, STATEMENT_KEYWORDS5)} Messages look like: from -> to : "label"`
+        first.text === "sequence" ? 'The header is one line, the first: put the title and every header option on it together, such as sequence "Checkout" direction=right.' : first.text === "title" ? `There is no title statement: the title is the quoted text after the kind on the first line, such as sequence "Checkout".` : line3.tokens[1]?.kind === "equals" ? `An option such as ${first.text}= goes at the end of the line of the actor or message it sets, not on a line of its own: actor api service "API" ${first.text}=...` : FLOW_NODE_TYPES.includes(first.text) ? `A participant is declared with actor and its type comes after the id: actor <id> ${first.text} "Label". Messages look like: from -> to : "label"` : `${didYouMean(first.text, STATEMENT_KEYWORDS5)} Messages look like: from -> to : "label"`
       )
     );
   }
@@ -154783,12 +154856,12 @@ function place({ diagram, flat: flat3, cards, hang: hang2 }) {
       top += sized.height + TREE_METRICS.hangGap;
     }
   }
-  const bounds = rects.reduce((box, rect) => ({ left: Math.min(box.left, rect.x), top: Math.min(box.top, rect.y), right: Math.max(box.right, rect.x + rect.width), bottom: Math.max(box.bottom, rect.y + rect.height) }), { left: Number.POSITIVE_INFINITY, top: Number.POSITIVE_INFINITY, right: Number.NEGATIVE_INFINITY, bottom: Number.NEGATIVE_INFINITY });
-  const shift2 = { x: TREE_METRICS.canvasPadding - bounds.left, y: TREE_METRICS.canvasPadding - bounds.top };
+  const bounds2 = rects.reduce((box, rect) => ({ left: Math.min(box.left, rect.x), top: Math.min(box.top, rect.y), right: Math.max(box.right, rect.x + rect.width), bottom: Math.max(box.bottom, rect.y + rect.height) }), { left: Number.POSITIVE_INFINITY, top: Number.POSITIVE_INFINITY, right: Number.NEGATIVE_INFINITY, bottom: Number.NEGATIVE_INFINITY });
+  const shift2 = { x: TREE_METRICS.canvasPadding - bounds2.left, y: TREE_METRICS.canvasPadding - bounds2.top };
   const moved3 = rects.map((rect) => ({ x: rect.x + shift2.x, y: rect.y + shift2.y, width: rect.width, height: rect.height }));
   return {
     kind: "org",
-    size: { width: Math.ceil(bounds.right - bounds.left + 2 * TREE_METRICS.canvasPadding), height: Math.ceil(bounds.bottom - bounds.top + 2 * TREE_METRICS.canvasPadding) },
+    size: { width: Math.ceil(bounds2.right - bounds2.left + 2 * TREE_METRICS.canvasPadding), height: Math.ceil(bounds2.bottom - bounds2.top + 2 * TREE_METRICS.canvasPadding) },
     cards: flat3.map((entry2) => cardOf(entry2, size(entry2.index), moved3[entry2.index], isHung[entry2.index] === true)),
     links: flat3.flatMap((entry2) => linksOf2(entry2, moved3, isDown, isHanging, isHung)),
     facts: { cut: flat3.flatMap((entry2) => size(entry2.index).name.isCut || size(entry2.index).note?.isCut === true ? [`"${entry2.path}"`] : []), rows: flat3.length }
@@ -157440,7 +157513,7 @@ function valueAxisTitle(title, unit3) {
   if (!isWordUnit(unit3)) return title === null ? null : oneLine9(title);
   return title === null ? unit3 : `${oneLine9(title)} (${unit3})`;
 }
-function fitPlaces(labels2, slot, centerOf3, bounds) {
+function fitPlaces(labels2, slot, centerOf3, bounds2) {
   const longest = Math.max(0, ...labels2.flatMap((label) => label.split(" ").map((word2) => measureRole(word2, "sub"))));
   let step = 1;
   while (step < labels2.length && step * slot - XYCHART_METRICS.pill.gap < longest) step += 1;
@@ -157448,7 +157521,7 @@ function fitPlaces(labels2, slot, centerOf3, bounds) {
     const room = Math.max(8, step * slot - XYCHART_METRICS.pill.gap);
     const fitted = labels2.map((label) => fitText(label, "sub", room, room, 2));
     const half = fitted.map((entry2) => Math.max(...entry2.lines.map((line3) => measureRole(line3, "sub"))) / 2);
-    const x = fitted.map((_, index2) => Math.min(Math.max(centerOf3(index2), bounds.left + (half[index2] ?? 0)), Math.max(bounds.left + (half[index2] ?? 0), bounds.right - (half[index2] ?? 0))));
+    const x = fitted.map((_, index2) => Math.min(Math.max(centerOf3(index2), bounds2.left + (half[index2] ?? 0)), Math.max(bounds2.left + (half[index2] ?? 0), bounds2.right - (half[index2] ?? 0))));
     const shown = fitted.flatMap((_, index2) => index2 % step === 0 ? [index2] : []);
     const isApart = shown.every((index2, at3) => {
       const before = shown[at3 - 1];
@@ -158526,16 +158599,16 @@ var init_parse19 = __esm({
 
 // ../../packages/diagrams/src/kinds/xychart/look.ts
 function seriesLook(theme, tone) {
-  const outline2 = ensureContrast(theme.tones[tone].outline, theme.surfaceGroup, GRAPHIC_CONTRAST4, theme.ink);
-  const mark = tone === "neutral" ? ensureContrast(mix(outline2, theme.surfaceGroup, 0.62), theme.surfaceGroup, GRAPHIC_CONTRAST4, theme.ink) : outline2;
+  const outline2 = ensureContrast(theme.tones[tone].outline, theme.surfaceGroup, GRAPHIC_CONTRAST3, theme.ink);
+  const mark = tone === "neutral" ? ensureContrast(mix(outline2, theme.surfaceGroup, 0.62), theme.surfaceGroup, GRAPHIC_CONTRAST3, theme.ink) : outline2;
   return { mark, rim: mix(mark, theme.ink, 0.86), leader: mix(mark, theme.surfaceGroup, 0.55), washOpacity: 0.16 };
 }
-var GRAPHIC_CONTRAST4, chartLook;
+var GRAPHIC_CONTRAST3, chartLook;
 var init_look9 = __esm({
   "../../packages/diagrams/src/kinds/xychart/look.ts"() {
     "use strict";
     init_theme();
-    GRAPHIC_CONTRAST4 = 3;
+    GRAPHIC_CONTRAST3 = 3;
     chartLook = (theme) => ({
       plate: theme.surfaceGroup,
       grid: mix(theme.border, theme.surfaceGroup, 0.55),
@@ -159297,18 +159370,18 @@ function lexLine(text3, line3, diagnostics) {
       tokens.push({ kind: "word", text: word2, line: line3, column, length: word2.length });
       index2 += word2.length;
     } else {
-      diagnostics.push(
-        errorAt(
-          DIAGNOSTIC_CODES.syntax,
-          `Unexpected character "${char}"`,
-          { line: line3, column, length: 1 },
-          'Labels go in double quotes; ids use letters, digits, "_" and "-".'
-        )
-      );
+      diagnostics.push(errorAt(DIAGNOSTIC_CODES.syntax, `Unexpected character "${char}"`, { line: line3, column, length: 1 }, unexpectedCharacterHint(char, tokens[tokens.length - 1], text3[index2 + 1])));
       index2 += 1;
     }
   }
   return tokens;
+}
+function unexpectedCharacterHint(char, previous, following) {
+  if (char === "\\" && following === '"') return 'The source has \\" where a plain " belongs: a label is written "Label" in the source. In JSON, escape that quote once, as \\", never as \\\\\\".';
+  if (char === "\\" && following === "u" || char === "-" && following === "\\") return "The source has a JSON escape written out, such as \\u003e: write the character it stands for instead (\\u003e is >, \\u003c is <, \\u0026 is &), so an arrow is -> and not -\\u003e.";
+  if (char === "\\" && following === "n") return "The source has a written \\n where a line should end: each statement goes on its own line. In JSON, write a line break inside the string as \\n, not \\\\n.";
+  if (previous?.kind === "arrow" || char === ">" || char === "<") return ARROW_HINT;
+  return 'Labels go in double quotes; ids use letters, digits, "_" and "-".';
 }
 function lex(source) {
   const diagnostics = [];
@@ -159320,7 +159393,7 @@ function lex(source) {
   });
   return { lines, diagnostics };
 }
-var STRING_ESCAPES, isWordStart, isWordPart;
+var STRING_ESCAPES, isWordStart, isWordPart, ARROW_HINT;
 var init_lexer = __esm({
   "../../packages/diagrams/src/parse/lexer.ts"() {
     "use strict";
@@ -159329,6 +159402,7 @@ var init_lexer = __esm({
     STRING_ESCAPES = { '"': '"', "\\": "\\", n: "\n", t: "	" };
     isWordStart = (char) => /[A-Za-z0-9_]/.test(char);
     isWordPart = (char) => /[A-Za-z0-9_]/.test(char);
+    ARROW_HINT = "An arrow is one of ->, -->, ..>, <->, <-->, or --, written from the sender to the receiver (a -> b). Mermaid's ->> and -->> are -> and --> here, and a reply is b --> a, never a <-- b.";
   }
 });
 
@@ -159350,7 +159424,7 @@ function parseDiagram(source) {
         DIAGNOSTIC_CODES.missingHeader,
         `The first line must name the diagram kind, found "${text3}"`,
         header,
-        `${didYouMean(text3, implementedKinds())} Start with: ${headerHint()}`
+        text3 === "title" ? 'There is no title statement: the title is the quoted text after the kind on the first line, such as flow "Checkout" or sequence "Sign in".' : `${didYouMean(text3, implementedKinds())} Start with: ${headerHint()}`
       )
     );
     return err(report3);
@@ -160405,6 +160479,13 @@ var init_render_pair = __esm({
   }
 });
 
+// ../../packages/diagrams/src/markdown/dark-pictures.ts
+var init_dark_pictures = __esm({
+  "../../packages/diagrams/src/markdown/dark-pictures.ts"() {
+    "use strict";
+  }
+});
+
 // ../../packages/diagrams/src/services/render-diagram-svg.ts
 async function renderDiagramSource(input2, brand = null) {
   const parsed = parseDiagram(input2.source);
@@ -160828,12 +160909,11 @@ function attr(text3) {
 function buildBlock(content) {
   const isListLine = (line3) => line3.startsWith("- ") || line3.startsWith("  ");
   const outline2 = content.outline.flatMap((line3) => isListLine(line3) ? [line3] : ["", `**${line3}**`, ""]);
+  const image = `<img alt="${attr(content.alt)}" src="${attr(content.lightSrc)}">`;
+  const picture2 = content.darkSrc === null ? [image] : ["<picture>", `  <source media="(prefers-color-scheme: dark)" srcset="${attr(content.darkSrc)}">`, `  ${image}`, "</picture>"];
   return [
     `${BLOCK_START} id="${content.id}" hash="${content.hash}" -->`,
-    "<picture>",
-    `  <source media="(prefers-color-scheme: dark)" srcset="${attr(content.darkSrc)}">`,
-    `  <img alt="${attr(content.alt)}" src="${attr(content.lightSrc)}">`,
-    "</picture>",
+    ...picture2,
     "",
     "<details>",
     "<summary>Text description</summary>",
@@ -160927,11 +161007,11 @@ var init_locate_block = __esm({
 
 // ../../packages/diagrams/src/markdown/sync-markdown.ts
 import { createHash } from "node:crypto";
-function hashBlock(source, pair2) {
+function hashBlock(source, pair2, schemes = "light-and-dark") {
   return createHash("sha256").update(`${BLOCK_FORMAT_VERSION}
 ${source}
 ${pair2.light}
-${pair2.dark}`).digest("hex").slice(0, 12);
+${pair2.dark}${schemes === "auto" ? "\nauto" : ""}`).digest("hex").slice(0, 12);
 }
 function slugify2(text3) {
   const slug = text3.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
@@ -160974,7 +161054,8 @@ async function syncMarkdown(markdown, stem2, hooks) {
       continue;
     }
     const { pair: pair2 } = outcome;
-    const hash2 = hashBlock(fence.source, pair2);
+    const merged = hooks.schemes === "auto" ? mergeSchemes(pair2.light, pair2.dark, id) : null;
+    const hash2 = hashBlock(fence.source, pair2, merged === null ? "light-and-dark" : "auto");
     const isFresh = place2.block !== null && readBlockHash(lines[place2.block.start] ?? "") === hash2;
     if (isFresh && !needsWrap) {
       unchangedCount += 1;
@@ -160982,8 +161063,8 @@ async function syncMarkdown(markdown, stem2, hooks) {
     }
     stale.push({ fenceLine: fence.openLine + 1, reason: place2.block === null ? "missing" : isFresh ? "unwrapped" : "changed" });
     const lightSrc = `${hooks.assetDir}/${id}.svg`;
-    const darkSrc = `${hooks.assetDir}/${id}.dark.svg`;
-    assets.push({ path: lightSrc, content: pair2.light }, { path: darkSrc, content: pair2.dark });
+    const darkSrc = merged === null ? `${hooks.assetDir}/${id}.dark.svg` : null;
+    assets.push({ path: lightSrc, content: merged ?? pair2.light }, ...darkSrc === null ? [] : [{ path: darkSrc, content: pair2.dark }]);
     const block = buildBlock({ id, hash: hash2, alt: pair2.summary, outline: pair2.outline, lightSrc, darkSrc }).split("\n");
     if (needsWrap) {
       const source = lines.slice(fence.openLine, fence.closeLine + 1);
@@ -161008,6 +161089,7 @@ var BLOCK_FORMAT_VERSION;
 var init_sync_markdown = __esm({
   "../../packages/diagrams/src/markdown/sync-markdown.ts"() {
     "use strict";
+    init_merge_schemes();
     init_diagram_block();
     init_extract_fences();
     init_locate_block();
@@ -161021,6 +161103,7 @@ var init_markdown = __esm({
     "use strict";
     init_diagram_block();
     init_extract_fences();
+    init_dark_pictures();
     init_sync_markdown();
   }
 });
@@ -161302,6 +161385,7 @@ async function runSync(document2, settings, ops, cache, limit) {
   const result = await syncMarkdown(document2, settings.stem, {
     render,
     assetDir: settings.assetDir,
+    ...settings.defaults?.schemes === void 0 ? {} : { schemes: settings.defaults.schemes },
     ...settings.prefix === void 0 ? {} : { idPrefix: settings.prefix }
   });
   return { result, calls };
@@ -161723,13 +161807,13 @@ function shareAnEnd(a, b) {
   return ends.some((end) => end === b.from || end === b.to);
 }
 function countCrossings(lines) {
-  const bounds = lines.map((line3) => boundsOf2(line3.points));
+  const bounds2 = lines.map((line3) => boundsOf2(line3.points));
   const segments = lines.map(segmentsOf2);
   let crossings2 = 0;
   for (let i = 0; i < lines.length; i += 1) {
     for (let j = i + 1; j < lines.length; j += 1) {
       if (shareAnEnd(lines[i], lines[j])) continue;
-      if (!rectsCollide(inflate(bounds[i], 3), inflate(bounds[j], 3))) continue;
+      if (!rectsCollide(inflate(bounds2[i], 3), inflate(bounds2[j], 3))) continue;
       const ends = [...endsOf2(lines[i]), ...endsOf2(lines[j])];
       for (const [a, b] of segments[i]) {
         for (const [c, d] of segments[j]) {
@@ -162309,6 +162393,7 @@ var init_services = __esm({
     init_render_pair();
     init_source_metadata();
     init_picture_facts();
+    init_dark_pictures();
     init_render_diagram_svg();
     init_search_icon_names();
     init_sync_document();
@@ -166038,8 +166123,8 @@ function enforceDeletedFields(method, result) {
     }
     return next;
   };
-  const tools = result.tools;
-  if (method === "tools/list" && Array.isArray(tools) && tools.some((tool) => isPlainObject$4(tool) && "execution" in tool)) copy().tools = tools.map((tool) => {
+  const tools2 = result.tools;
+  if (method === "tools/list" && Array.isArray(tools2) && tools2.some((tool) => isPlainObject$4(tool) && "execution" in tool)) copy().tools = tools2.map((tool) => {
     if (!isPlainObject$4(tool) || !("execution" in tool)) return tool;
     const rest = { ...tool };
     delete rest["execution"];
@@ -166894,11 +166979,11 @@ var init_src_BHSMhZ_W = __esm({
       },
       encodeResult(method, result) {
         if (method !== "tools/list") return result;
-        const tools = result.tools;
-        if (!Array.isArray(tools) || !tools.some((t) => toolNeedsLegacyWrap(t))) return result;
+        const tools2 = result.tools;
+        if (!Array.isArray(tools2) || !tools2.some((t) => toolNeedsLegacyWrap(t))) return result;
         return {
           ...result,
-          tools: tools.map((t) => toolNeedsLegacyWrap(t) ? {
+          tools: tools2.map((t) => toolNeedsLegacyWrap(t) ? {
             ...t,
             outputSchema: wrapOutputSchemaForLegacy(t.outputSchema)
           } : t)
@@ -177809,6 +177894,7 @@ var init_sources2 = __esm({
       options: SourceOptionsSchema.optional(),
       overrides: repositoryPath.refine((path) => path.endsWith(".json"), { message: "An overrides file is a .json file" }).optional().describe("The overrides file, applied after every import. Left out: the out path with .overrides.json in place of .diagram, or <file>.<fence id>.overrides.json beside a Markdown file."),
       pictures: external_exports.boolean().optional().describe("For a .diagram out: also write its light and dark SVG beside it. On when left out."),
+      schemes: external_exports.enum(PICTURE_FILE_SCHEMES).optional().describe("The pictures this source writes: light-and-dark writes <name>.svg and <name>.dark.svg; auto writes one <name>.svg that follows the reader's light or dark setting. defaults.schemes, then light-and-dark, when left out."),
       publish: SourcePublishSchema.optional()
     }).meta({ id: "Source", description: "One diagram generated from files of the repository and kept in step with them." });
   }
@@ -177834,6 +177920,7 @@ var init_schema4 = __esm({
       numbered: external_exports.enum(SWITCH_VALUES).optional().describe("numbered= on every header that takes it: on numbers every line in the order written."),
       theme: external_exports.enum(PICTURE_SCHEMES).optional().describe("The color scheme the command line and the GitHub Action draw a single picture in."),
       embedSource: external_exports.boolean().optional().describe("Write the source into every SVG the command line, the GitHub Action, and the drawing tools save."),
+      schemes: external_exports.enum(PICTURE_FILE_SCHEMES).optional().describe("The pictures generate and sync write: light-and-dark (the default) writes <name>.svg and <name>.dark.svg; auto writes one <name>.svg that holds both and follows the reader's light or dark setting, so GitHub shows it right in either theme."),
       kinds: external_exports.partialRecord(external_exports.enum(DIAGRAM_KINDS), external_exports.record(optionKey, optionValue)).optional().describe('Header options for one kind, such as { "mindmap": { "layout": "radial" } }. A value the kind refuses is left out with warning S200.')
     }).meta({ id: "SettingsDefaults", description: "Header options a diagram gets when its header does not set them." });
     SettingsBrandSchema = external_exports.strictObject({
@@ -179030,6 +179117,182 @@ var init_tool_settings = __esm({
     init_check_source();
     init_apply_defaults();
     asWarning = (diagnostic) => ({ ...diagnostic, severity: "warning" });
+  }
+});
+
+// ../../packages/diagrams/src/tools/json-schema.ts
+function referencedDefs(node3) {
+  return [...JSON.stringify(node3).matchAll(DEF_REF)].map((match) => match[1] ?? "");
+}
+function reachableDefs(root, defs) {
+  const reached = /* @__PURE__ */ new Set();
+  const pending = referencedDefs(root);
+  for (let name2 = pending.pop(); name2 !== void 0; name2 = pending.pop()) {
+    const def = defs[name2];
+    if (def === void 0 || reached.has(name2)) continue;
+    reached.add(name2);
+    pending.push(...referencedDefs(def));
+  }
+  return Object.fromEntries(Object.entries(defs).filter(([name2]) => reached.has(name2)));
+}
+function inlineRootRef(schema) {
+  const ref = schema["$ref"];
+  const defs = schema["$defs"];
+  if (typeof ref !== "string" || typeof defs !== "object" || defs === null) return schema;
+  const target = defs[ref.replace("#/$defs/", "")];
+  if (target === void 0) return schema;
+  const { $ref: _removed, $defs: _defs, ...header } = schema;
+  const root = { ...header, ...target };
+  const kept2 = reachableDefs(root, defs);
+  return Object.keys(kept2).length === 0 ? root : { ...root, $defs: kept2 };
+}
+function remembered(cache, key, make) {
+  const known3 = cache.get(key);
+  if (known3 !== void 0) return known3;
+  const made = make();
+  cache.set(key, made);
+  return made;
+}
+function inputJsonSchema(tool) {
+  return inputJsonSchemaOf(tool.inputSchema);
+}
+function inputJsonSchemaOf(schema) {
+  return remembered(inputSchemas, schema, () => portable(withoutSafeBounds(inlineRootRef(external_exports.toJSONSchema(schema, { target: TARGET, io: "input" })))));
+}
+function portable(node3) {
+  if (Array.isArray(node3)) return node3.map(portable);
+  if (typeof node3 !== "object" || node3 === null) return node3;
+  return Object.fromEntries(
+    Object.entries(node3).filter(([key, value]) => !(key === "propertyNames" && JSON.stringify(value) === '{"type":"string"}')).map(([key, value]) => [key, key === "additionalProperties" && JSON.stringify(value) === "{}" ? true : portable(value)])
+  );
+}
+function withoutSafeBounds(node3) {
+  if (Array.isArray(node3)) return node3.map(withoutSafeBounds);
+  if (typeof node3 !== "object" || node3 === null) return node3;
+  return Object.fromEntries(
+    Object.entries(node3).filter(([key, value]) => !(key === "minimum" && value === Number.MIN_SAFE_INTEGER || key === "maximum" && value === Number.MAX_SAFE_INTEGER)).map(([key, value]) => [key, withoutSafeBounds(value)])
+  );
+}
+function openObjects(node3) {
+  if (Array.isArray(node3)) return node3.map(openObjects);
+  if (typeof node3 !== "object" || node3 === null) return node3;
+  return Object.fromEntries(
+    Object.entries(node3).filter(([key, value]) => !(key === "additionalProperties" && value === false)).map(([key, value]) => [key, openObjects(value)])
+  );
+}
+function outputJsonSchema(tool) {
+  return remembered(outputSchemas, tool.outputSchema, () => withoutSafeBounds(openObjects(inlineRootRef(external_exports.toJSONSchema(tool.outputSchema, { target: TARGET, io: "output" })))));
+}
+function withoutProse(node3, isProperties = false) {
+  if (Array.isArray(node3)) return node3.map((item) => withoutProse(item));
+  if (typeof node3 !== "object" || node3 === null) return node3;
+  return Object.fromEntries(
+    Object.entries(node3).filter(([key]) => isProperties || !LEFT_OUT.has(key)).map(([key, value]) => [key, withoutProse(value, !isProperties && (key === "properties" || key === "$defs"))])
+  );
+}
+function listedOutputSchema(schema) {
+  return remembered(listedSchemas, schema, () => withoutProse(withoutSafeBounds(schema)));
+}
+function listedOutputJsonSchema(tool) {
+  return listedOutputSchema(outputJsonSchema(tool));
+}
+var TARGET, DEF_REF, inputSchemas, outputSchemas, listedSchemas, LEFT_OUT;
+var init_json_schema2 = __esm({
+  "../../packages/diagrams/src/tools/json-schema.ts"() {
+    "use strict";
+    init_zod();
+    TARGET = "draft-2020-12";
+    DEF_REF = /"\$ref":"#\/\$defs\/([^"]+)"/g;
+    inputSchemas = /* @__PURE__ */ new WeakMap();
+    outputSchemas = /* @__PURE__ */ new WeakMap();
+    listedSchemas = /* @__PURE__ */ new WeakMap();
+    LEFT_OUT = /* @__PURE__ */ new Set(["description", "$schema", "title", "enum"]);
+  }
+});
+
+// ../../packages/diagrams/src/tools/input-hint.ts
+function asObject(value) {
+  return typeof value === "object" && value !== null && !Array.isArray(value) ? value : null;
+}
+function bounds(schema) {
+  const low = schema["minimum"] ?? schema["minLength"] ?? schema["minItems"];
+  const high = schema["maximum"] ?? schema["maxLength"] ?? schema["maxItems"];
+  const unit3 = schema["type"] === "string" ? " characters" : schema["type"] === "array" ? " items" : "";
+  if (typeof high === "number" && low === 1 && unit3 !== "") return `, at most ${high}${unit3}`;
+  if (typeof low === "number" && typeof high === "number") return `, ${low} to ${high}${unit3}`;
+  if (typeof high === "number") return `, at most ${high}${unit3}`;
+  if (typeof low === "number" && low > 0) return `, at least ${low}${unit3}`;
+  return "";
+}
+function fieldType(node3) {
+  const schema = asObject(node3);
+  if (schema === null) return "any value";
+  const values = schema["enum"];
+  if (Array.isArray(values)) {
+    const listed2 = values.slice(0, ENUM_LISTED).map((value) => JSON.stringify(value));
+    return `one of ${listed2.join(", ")}${values.length > ENUM_LISTED ? `, and ${values.length - ENUM_LISTED} more` : ""}`;
+  }
+  if ("const" in schema) return JSON.stringify(schema["const"]);
+  const union2 = schema["anyOf"] ?? schema["oneOf"];
+  if (Array.isArray(union2)) return [...new Set(union2.map(fieldType))].join(" or ");
+  const type = schema["type"];
+  if (Array.isArray(type)) return type.join(" or ");
+  if (type === "array") return `array of ${fieldType(schema["items"])}${bounds(schema)}`;
+  if (type === "object") {
+    const properties = Object.keys(asObject(schema["properties"]) ?? {});
+    return properties.length === 0 ? "object" : `object with ${properties.join(", ")}`;
+  }
+  return typeof type === "string" ? `${type}${bounds(schema)}` : "any value";
+}
+function shortExample(example, required2) {
+  const call = asObject(example);
+  if (call === null) return null;
+  const full = JSON.stringify(call);
+  if (full.length <= EXAMPLE_CHARACTERS) return full;
+  return JSON.stringify(Object.fromEntries(Object.entries(call).filter(([key]) => required2.includes(key))));
+}
+function namedFields(issues) {
+  return [...new Set(issues.map((issue3) => issue3.path[0]).filter((key) => typeof key === "string"))];
+}
+function unknownKeys(issues) {
+  return issues.flatMap((issue3) => issue3.code === "unrecognized_keys" && issue3.path.length === 0 ? issue3.keys : []);
+}
+function wrapperOf(args, properties) {
+  const call = asObject(args);
+  if (call === null) return null;
+  const keys = Object.keys(call);
+  const only = keys.length === 1 ? keys[0] : void 0;
+  if (only === void 0 || !WRAPPER_KEYS.includes(only) || Object.hasOwn(properties, only)) return null;
+  const inner = call[only];
+  if (typeof inner === "string") return only;
+  const wrapped2 = asObject(inner);
+  return wrapped2 !== null && (Object.keys(wrapped2).length === 0 || Object.keys(wrapped2).some((key) => Object.hasOwn(properties, key))) ? only : null;
+}
+function inputHint(tool, args, issues) {
+  const schema = inputJsonSchemaOf(tool.inputSchema);
+  const properties = asObject(schema["properties"]) ?? {};
+  const required2 = Array.isArray(schema["required"]) ? schema["required"] : [];
+  const sentences = [];
+  const wrapper = wrapperOf(args, properties);
+  if (asObject(args) === null) sentences.push(`Pass the arguments as a JSON object, not ${args === null || args === void 0 ? "nothing" : typeof args}.`);
+  if (wrapper !== null) sentences.push(`Put the fields at the top level of the arguments, not inside "${wrapper}".`);
+  if (required2.length > 0) sentences.push(`${tool.name} needs ${required2.map((key) => `${key} (${fieldType(properties[key])})`).join(", ")}.`);
+  const wrong = namedFields(issues).filter((key) => !required2.includes(key) && Object.hasOwn(properties, key));
+  if (wrong.length > 0) sentences.push(`${wrong.map((key) => `${key} takes ${fieldType(properties[key])}`).join("; ")}.`);
+  const unknown2 = unknownKeys(issues).filter((key) => key !== wrapper);
+  if (unknown2.length > 0) sentences.push(`It does not take ${unknown2.join(", ")}; its fields are ${Object.keys(properties).join(", ")}.`);
+  const example = shortExample(tool.callExample, required2);
+  if (example !== null) sentences.push(`Example call: ${tool.name} ${example}`);
+  return sentences.join(" ");
+}
+var WRAPPER_KEYS, ENUM_LISTED, EXAMPLE_CHARACTERS;
+var init_input_hint = __esm({
+  "../../packages/diagrams/src/tools/input-hint.ts"() {
+    "use strict";
+    init_json_schema2();
+    WRAPPER_KEYS = ["arguments", "args", "input", "params", "parameters", "kwargs"];
+    ENUM_LISTED = 8;
+    EXAMPLE_CHARACTERS = 320;
   }
 });
 
@@ -191566,7 +191829,7 @@ function readColumn(text3) {
   const chain2 = readChain(value, close2 + 1);
   const has = (method) => chain2.some((entry2) => entry2.name === method);
   const references2 = chain2.find((entry2) => entry2.name === "references");
-  const target = references2 === void 0 ? null : TARGET.exec(references2.args);
+  const target = references2 === void 0 ? null : TARGET2.exec(references2.args);
   return {
     key,
     name: name2 ?? key,
@@ -191594,13 +191857,13 @@ function callsOf(text3, name2) {
   }
   return calls;
 }
-var BUILDER, TARGET, SERIALS;
+var BUILDER, TARGET2, SERIALS;
 var init_columns2 = __esm({
   "../../packages/diagrams/src/importers/drizzle/columns.ts"() {
     "use strict";
     init_scan3();
     BUILDER = /^([A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*)\s*\(/;
-    TARGET = /=>\s*([A-Za-z_$][\w$]*)\.([A-Za-z_$][\w$]*)/;
+    TARGET2 = /=>\s*([A-Za-z_$][\w$]*)\.([A-Za-z_$][\w$]*)/;
     SERIALS = /* @__PURE__ */ new Set(["serial", "bigserial", "smallserial"]);
   }
 });
@@ -196727,17 +196990,22 @@ var init_ops = __esm({
 function settingsOf(input2) {
   return input2?.settings;
 }
-function invalidInput(issues) {
+function invalidInput(tool, args, issues) {
   return {
     kind: "invalid-input",
-    message: "The arguments did not match the input schema.",
-    issues: issues.map((issue3) => ({ path: issue3.path.join("."), message: issue3.message }))
+    message: `The arguments did not match the input schema of ${tool.name}.`,
+    issues: issues.map((issue3) => ({ path: issue3.path.join("."), message: issue3.message })),
+    hint: inputHint({ name: tool.name, inputSchema: tool.input, callExample: tool.callExample }, args, issues)
   };
+}
+function checkToolInput(tool, args) {
+  const parsed = tool.inputSchema.safeParse(args);
+  return parsed.success ? null : invalidInput({ name: tool.name, input: tool.inputSchema, callExample: tool.callExample }, args, parsed.error.issues);
 }
 function defineTool(spec) {
   const runWith = async (args, ops) => {
     const parsed = spec.input.safeParse(args);
-    if (!parsed.success) return err(invalidInput(parsed.error.issues));
+    if (!parsed.success) return err(invalidInput({ ...spec, callExample: spec.callExample ?? null }, args, parsed.error.issues));
     const settled = settleToolInput(parsed.data);
     const answer = await spec.execute(settled.input, defaultedOps(ops, settingsOf(parsed.data)?.defaults));
     return answer.ok ? ok(settled.finish(answer.value)) : answer;
@@ -196754,6 +197022,8 @@ function defineTool(spec) {
     maxCalls: 1,
     example: null,
     prompts: [],
+    callExample: spec.callExample ?? null,
+    compact: spec.compact ?? null,
     run: (args) => runWith(args, ENGINE_OPS),
     runWith
   };
@@ -196761,7 +197031,7 @@ function defineTool(spec) {
 function defineWorkflow(spec) {
   const runWith = async (args, ops) => {
     const parsed = spec.input.safeParse(args);
-    if (!parsed.success) return err(invalidInput(parsed.error.issues));
+    if (!parsed.success) return err(invalidInput({ ...spec, callExample: spec.callExample ?? spec.example }, args, parsed.error.issues));
     const settled = settleToolInput(parsed.data, { rewriteSource: false });
     return ok(settled.finish(await spec.execute(settled.input, defaultedOps(ops, settingsOf(parsed.data)?.defaults))));
   };
@@ -196777,6 +197047,8 @@ function defineWorkflow(spec) {
     maxCalls: spec.maxCalls,
     example: spec.example,
     prompts: spec.prompts,
+    callExample: spec.callExample ?? spec.example,
+    compact: spec.compact ?? null,
     run: (args) => runWith(args, ENGINE_OPS),
     runWith
   };
@@ -196787,6 +197059,7 @@ var init_define_tool = __esm({
     "use strict";
     init_core();
     init_tool_settings();
+    init_input_hint();
     init_settings_ops();
     init_ops();
     READ_ONLY_ANNOTATIONS = {
@@ -196819,6 +197092,7 @@ var init_definitions = __esm({
       name: "validate_diagram",
       title: "Validate diagram",
       description: "Check diagram source without drawing it: every error in one pass, each with line, column, and a fix hint, plus quality warnings. An icon a label names for certain is drawn already; W204 gives the exact icon=provider:name for a node whose label names a product it does not draw (a brand whose name is also an everyday word, or every match under icons=off), W205 the type= for a group whose name matches a group type, and W206 flags an overlay framing a node that is not its member. These suggestions are not applied for you: add one, or icon=none to keep a node plain, and validate again. Prefer draw_diagram, which checks, describes, and draws in one call.",
+      callExample: { source: 'flow\nnode api service "API"\nnode db database "DB"\napi -> db : "reads"' },
       input: DiagramSourceInputSchema,
       output: ValidateResponseSchema,
       execute: async (input2) => ok(await validateDiagramSource(input2.source))
@@ -196827,6 +197101,7 @@ var init_definitions = __esm({
       name: "render_diagram",
       title: "Render diagram",
       description: "Render valid source to a self-contained, accessible SVG in the light or dark theme, with its pixel size and quality warnings. Source with errors fails with its diagnostics. Set embedSource true to save the SVG in a repository, so read_diagram can give the source back. Prefer draw_diagram, which validates, outlines, and renders in one call.",
+      callExample: { source: 'flow\nnode api service "API"\nnode db database "DB"\napi -> db : "reads"' },
       input: RenderInputSchema,
       output: RenderResponseSchema,
       execute: async (input2, ops) => {
@@ -196838,6 +197113,7 @@ var init_definitions = __esm({
       name: "outline_diagram",
       title: "Outline diagram",
       description: "Describe valid diagram source as plain text: participants, steps, tables, and connections in reading order, to check the diagram says what you meant or to use as alt text. Source with errors fails with diagnostics. Does not render. Prefer draw_diagram, which returns the outline with the check and the pictures.",
+      callExample: { source: 'flow\nnode api service "API"\nnode db database "DB"\napi -> db : "reads"' },
       input: DiagramSourceInputSchema,
       output: OutlineResponseSchema,
       execute: async (input2) => {
@@ -196849,6 +197125,7 @@ var init_definitions = __esm({
       name: "search_icons",
       title: "Search icons",
       description: 'Find bundled icon names by keyword, idea, product, or abbreviation ("postgres", "token exchange", "s3", "cosmos db"). Returns set:name references, best first, at most 100, such as lucide:database, simple:postgresql, aws:lambda. Cloud products are in one set per provider (aws, gcp, azure, alibaba, oci, ibm, cloudflare, digitalocean, vercel), with every official aws, azure, and gcp icon; <provider>:cloud is the provider, for a group. Use it before setting icon= or a name in stack=. Search with the product name exactly as the user wrote it and take the first result; never invent a name, because an unknown icon is an error. For several names prefer map_icons: up to 40 in one call, and it never guesses. Hosted calls also find the organisation icons, as org:name.',
+      callExample: { q: "postgres" },
       input: IconSearchQuerySchema,
       output: IconSearchResponseSchema,
       execute: async (input2) => ok(searchIconNames(input2))
@@ -196857,6 +197134,11 @@ var init_definitions = __esm({
       name: "get_diagram_syntax",
       title: "Get diagram syntax",
       description: "Read the diagram language as data. Call it once with no kind before your first diagram: the overview, the tables every kind shares (node types, arrows including dotted ..> for asynchronous calls, animated and numbered lines, icon sets, size limits, how to edit an existing SVG), and one line about each kind. For one kind in full, call it again with kind set to it: its statements, limits, and a tested example. kind flow adds the group types (type=), overlays, stack= marks, and a complete cloud architecture example; build the group tree top-down with type=, one node per service, and icons from map_icons or search_icons. For a common architecture, find_pattern gives a checked diagram to adapt. topic import-formats lists what import_source reads.",
+      callExample: { kind: "sequence" },
+      compact: {
+        description: "Returns the diagram language as data. Call it with kind set to the kind you draw (such as sequence or flow): its statements, limits, and a tested example to copy. With no kind it returns the shared overview, which is long.",
+        inputs: { kind: "The kind to read in full, such as sequence or flow." }
+      },
       input: SyntaxInputSchema,
       output: SyntaxResponseSchema,
       execute: async (input2) => ok(buildSyntax(input2.kind, input2.topic))
@@ -196865,6 +197147,7 @@ var init_definitions = __esm({
       name: "read_diagram",
       title: "Read diagram",
       description: "Read the source of an existing Plotwork SVG so you can edit the diagram. Send the text of an .svg file as svg, or a hosted link (https://cdn.plotwork.dev/d/<22 characters>.svg) as url. Returns the exact source, its kind, the stored diagram id if it was published, and a parse check. Call it first when asked to change a diagram that already exists, then edit the source and call draw_diagram (or edit_diagram); next says how to save or publish it again. Only a picture saved with embedSource true (or by sync_markdown) carries its source; otherwise status is no-source, with the title, outline, and labels to rebuild it from. A text that is not an SVG and a refused or unreachable link come back as data. Only cdn.plotwork.dev and cdn-preview.plotwork.dev are fetched (https, no redirects, 5 seconds, 1 MB); svg reads nothing from the network.",
+      callExample: { svg: '<svg xmlns="http://www.w3.org/2000/svg">...</svg>' },
       input: ReadDiagramInputSchema,
       output: ReadDiagramResponseSchema,
       annotations: { openWorldHint: true },
@@ -197397,6 +197680,7 @@ var init_compare_diagrams3 = __esm({
       name: "compare_diagrams",
       title: "Compare diagrams",
       description: "Compare two versions of a diagram by meaning, for a pull request review. Send before and after, each as source, the text of a Plotwork SVG that carries its source, or a cdn.plotwork.dev link. Returns every statement added, removed, renamed (by id or label), moved to another block, or changed (options, type, edge arrow or label), with counts and a plain-language summary; markdown true adds a block ready to paste as a comment. Reordered or reformatted lines are no change. A side with no source is reported, not an error. Lays nothing out; fetches only a link.",
+      callExample: { before: 'flow\nnode a service "API"', after: 'flow\nnode a service "API"\nnode b database "DB"\na -> b' },
       input: CompareDiagramsInputSchema,
       output: CompareDiagramsResponseSchema,
       annotations: { openWorldHint: true },
@@ -197495,6 +197779,10 @@ var init_convert_mermaid2 = __esm({
       name: "convert_mermaid",
       title: "Convert Mermaid",
       description: "Workflow. Converts one Mermaid diagram (" + mermaidTypesList() + ") to Plotwork source. Returns the source, a diagnostic with a hint for everything dropped or changed (styling, links, activations), the check of the result with its icon and group-type suggestions, and an outline; render true also draws it, with picturesOmitted, viewUrl, pngUrl, and saveCommand as in draw_diagram. A Mermaid type Plotwork does not draw comes back as one diagnostic saying what to do instead. Deterministic: never throws on bad input, does not fetch URLs or read files. For a whole Markdown document use sync_markdown with convertMermaid true. Replaces the convert, validate_diagram, outline_diagram and render_diagram calls.",
+      compact: {
+        description: "Converts one Mermaid diagram (flowchart, sequenceDiagram, erDiagram, and more) to Plotwork source and checks it. When ok is true its source is valid: save it as it is, and check any change you make with draw_diagram before saving.",
+        inputs: { lenient: "true skips a line it cannot read, with a warning.", render: "Also draw the converted diagram." }
+      },
       input: ConvertMermaidInputSchema,
       output: ConvertMermaidResponseSchema,
       steps: [{ call: "convertMermaid" }, { call: "validate", optional: true }, { call: "outline", optional: true }, { call: "render", optional: true }],
@@ -197570,6 +197858,10 @@ var init_draw_diagram2 = __esm({
       name: "draw_diagram",
       title: "Draw diagram",
       description: 'Workflow. Checks, describes, and draws a diagram. With errors it returns each one with line, column, and a fix hint and draws nothing: fix the source and call again. When valid it returns the quality warnings (take the icon and group-type suggestions), an outline to check the meaning, the size, and the SVG for light, dark, or both. The pictures are most of an answer and you cannot see them: pass svg "never" to check, and draw only to save, show, or publish. Give viewUrl to the person, even after svg "never"; pngUrl and svgUrl download it; saveCommand, when given, saves it in a repository. A big drawing (about 30 nodes) loses its SVGs, dark first, and picturesOmitted says so; svg "always" forces them. Set embedSource true to save an SVG in a repository or publish one to edit later, so read_diagram gives the source back (anyone with the file can read it). detail "full" adds the whole outline. To change an existing diagram use edit_diagram, or read_diagram for a picture. Saves no file; never throws on bad source. Replaces the validate_diagram, outline_diagram and render_diagram calls.',
+      compact: {
+        description: 'Checks diagram source and draws it in one call. Returns every error with line, column, and hint, and draws nothing until the source is valid, so fix each error and call again. svg "never" only checks and keeps the answer small; "always" returns the light and dark SVG to save.',
+        inputs: { svg: "never: check only. always: return the SVGs.", themes: "", embedSource: "Write the source into the SVG, for a file saved in a repository." }
+      },
       input: DrawDiagramInputSchema,
       output: DrawDiagramResponseSchema,
       steps: [{ call: "validate" }, { call: "outline", optional: true }, { call: "render", optional: true }],
@@ -197731,6 +198023,10 @@ var init_edit_diagram2 = __esm({
       name: "edit_diagram",
       title: "Edit diagram",
       description: 'Workflow. Changes diagram source with typed operations, on every kind, and checks the result. Each op and its fields: rename (target, to: an id everywhere it is used, or a label), set (target, or from and to for an edge, or target "header"; option, value, null removes it), add_node (id, label, type, options; into a block or after a statement; statement for a whole line), remove (target, with its block and edges), add_edge (from, to, label, arrow, options), remove_edge (from, to, label), move (target, into: a block, or null for the top level), replace_text (find, replace, all). Untouched lines keep their comments and layout. Each op reports applied, or why not with a hint, and a failed one is skipped. svg "never" (the default) lays nothing out; auto or always draws as draw_diagram does, with viewUrl and saveCommand. Replaces rewriting the source by hand and the draw_diagram check.',
+      compact: {
+        description: "Changes diagram source with typed operations and checks the result, without rewriting it by hand. Each operation is an object with op and its own fields: rename (target, to), set (target, option, value), add_node (id, type, label), remove (target), add_edge (from, to, label), remove_edge (from, to), move (target, into), replace_text (find, replace).",
+        inputs: { svg: "never (default) draws nothing; auto or always draws." }
+      },
       input: EditDiagramInputSchema,
       output: EditDiagramResponseSchema,
       steps: [{ call: "parse", optional: true }, { call: "outline", optional: true }, { call: "validate", optional: true }, { call: "render", optional: true }],
@@ -197744,6 +198040,7 @@ var init_edit_diagram2 = __esm({
           { op: "add_edge", from: "gateway", to: "cache", label: "store session" }
         ]
       },
+      callExample: { source: 'flow\nnode api service "API"', operations: [{ op: "rename", target: "api", to: "gateway" }] },
       prompts: ["Rename the Auth API node to gateway and add a session cache it writes to.", "Move the database into the data group and remove the old queue."],
       execute: editDiagram
     });
@@ -197958,6 +198255,10 @@ var init_import_source3 = __esm({
       name: "import_source",
       title: "Import source",
       description: "Workflow. Turns a file into a finished diagram in one call: a database schema, an API spec, infrastructure as code, manifests, a software catalog, a CI workflow, CSV or JSON data, a folder listing, or a git log. get_diagram_syntax with topic import-formats says what each format reads, draws, and takes. Prefer it to drawing by hand whenever the person has such a file: send its text, never a path, or every file of a folder in files. Returns the source, diagnostics pointing into the file for anything left out, coverage, parts (every diagram of a split file), the validation, an outline, viewUrl, and saveCommand. It runs no code and reads no file or URL. Replaces validate_diagram and outline_diagram.",
+      compact: {
+        description: "Builds a whole diagram from a file in one call: SQL, Prisma, OpenAPI, Terraform, docker-compose, Kubernetes, GitHub Actions, CSV, a folder listing, a git log, and more. Send the file content as text and its format. When ok is true its source is valid: save it as it is. The diagnostics say what was left out.",
+        inputs: { text: "The file content.", title: "" }
+      },
       input: ImportSourceInputSchema,
       output: ImportSourceResponseSchema,
       steps: [{ call: "importSource" }, { call: "validate", optional: true }, { call: "outline", optional: true }],
@@ -198080,6 +198381,10 @@ var init_map_icons2 = __esm({
       name: "map_icons",
       title: "Map icons",
       description: `Workflow. Finds an icon for each of up to 40 service or product names in one call, such as the services of an architecture. For every name it returns the best provider:name icon with a confidence (exact, strong, or ambiguous) and up to 3 alternatives. It never guesses: a name that could mean several icons (a kind of service several clouds offer, or a match by idea only) comes back with resolved false and candidates to choose from, and a name that matches nothing is listed in gaps with a neutral fallback icon. Set provider to the cloud the architecture runs on, so "queue" finds that cloud's product first. Reads the bundled icons and, when hosted, the organisation icons (org:name). Replaces up to 40 search_icons calls.`,
+      compact: {
+        description: 'Finds the icon for each of up to 40 service or product names in one call ("S3", "Postgres", "load balancer"), for icon= on a node. It never guesses: for an ambiguous name choose from its candidates, and never invent an icon name.',
+        inputs: { provider: "The cloud the names belong to, such as aws." }
+      },
       input: MapIconsInputSchema,
       output: MapIconsResponseSchema,
       steps: [{ call: "searchIcons" }],
@@ -199923,6 +200228,7 @@ var init_plan_document_diagrams = __esm({
       steps: [{ call: "parse", optional: true }],
       maxCalls: WORKFLOW_MAX_CALLS.plan_document_diagrams,
       example: { document: EXAMPLE_DOCUMENT },
+      callExample: { document: "# Refunds\n\n## Process\n\nCustomer: asks for a refund\nSupport: checks the order" },
       prompts: ["Which parts of this design doc need a diagram?", "Add pictures to this Confluence page.", "Plan the diagrams for our onboarding guide."],
       execute: planDocumentDiagrams
     });
@@ -199946,6 +200252,10 @@ var init_suggest_diagram = __esm({
       name: "suggest_diagram",
       title: "Suggest diagram",
       description: 'Workflow. Picks the kind of diagram for a request in plain words, such as "permission matrix for these endpoints and roles" or "where our cloud spend goes", with optional pasted data (a table, a list, numbers by period). Returns up to 3 kinds, best first, each with a one-sentence reason, a confidence, the statements to use, and a short starter source that parses, built from the names and numbers in the request and data. Call it when you are unsure which kind fits, then edit the starter and call draw_diagram. Replaces reading every kind in get_diagram_syntax to choose one.',
+      compact: {
+        description: "Ranks the diagram kinds for a request in plain words, with a starter source for each that already parses. Call it first when unsure which kind fits, then pass the starter to draw_diagram.",
+        inputs: { request: "What the picture is for, in plain words.", data: "Optional table, list, or notes to draw from." }
+      },
       input: SuggestDiagramInputSchema,
       output: SuggestDiagramResponseSchema,
       steps: [{ call: "parse", optional: true }],
@@ -199974,6 +200284,10 @@ var init_sync_markdown3 = __esm({
       name: "sync_markdown",
       title: "Sync Markdown",
       description: `Workflow. Turns the diagram fences of a Markdown document into pictures, as data. Send the whole document and its path. Returns the rewritten document (each fence folded into a "Diagram source" section with the picture and a text description, the rest byte for byte unchanged), the light and dark SVG files to write (paths from the repository root), and a report per fence with errors at lines of your document. convertMermaid true first turns each convertible mermaid fence into a diagram fence; one that cannot convert or has errors is left as it was and reported. Then write markdown to documentPath and each file to its path, and review the diff. mode "check" only reports. The SVGs can be large: files "none" returns each file's path, bytes, sha256, and viewUrl instead, and page with pageSize returns the files a page at a time. Writes no file itself. Limits: ${WORKFLOW_LIMITS.maxMarkdownLength} characters, ${WORKFLOW_LIMITS.maxDiagrams} diagrams, ${WORKFLOW_LIMITS.maxOutputBytes} bytes of output; caps says when one stopped work. Replaces the convert, validate, render and sync steps for every fence in a document.`,
+      compact: {
+        description: "Draws every diagram fence of a Markdown document: returns the rewritten document and the SVG files to write. convertMermaid true also turns mermaid fences into diagram fences first.",
+        inputs: { convertMermaid: "", mode: "sync writes; check only reports stale pictures.", files: "inline returns each SVG; none keeps the answer small." }
+      },
       input: SyncMarkdownInputSchema,
       output: SyncMarkdownResponseSchema,
       steps: [{ call: "convertMermaidFences", optional: true }, { call: "renderPair" }],
@@ -200034,83 +200348,66 @@ var init_workflows2 = __esm({
   }
 });
 
-// ../../packages/diagrams/src/tools/json-schema.ts
-function referencedDefs(node3) {
-  return [...JSON.stringify(node3).matchAll(DEF_REF)].map((match) => match[1] ?? "");
+// ../../packages/diagrams/src/tools/profiles.ts
+function readToolProfile(value) {
+  const name2 = value?.trim().toLowerCase() ?? "";
+  if (name2 === "") return "full";
+  return TOOL_PROFILES.includes(name2) ? name2 : null;
 }
-function reachableDefs(root, defs) {
-  const reached = /* @__PURE__ */ new Set();
-  const pending = referencedDefs(root);
-  for (let name2 = pending.pop(); name2 !== void 0; name2 = pending.pop()) {
-    const def = defs[name2];
-    if (def === void 0 || reached.has(name2)) continue;
-    reached.add(name2);
-    pending.push(...referencedDefs(def));
-  }
-  return Object.fromEntries(Object.entries(defs).filter(([name2]) => reached.has(name2)));
+function toolsForProfile(tools2, profile) {
+  if (profile === "full") return tools2;
+  return CORE_TOOLS.flatMap((name2) => tools2.filter((tool) => tool.name === name2));
 }
-function inlineRootRef(schema) {
-  const ref = schema["$ref"];
-  const defs = schema["$defs"];
-  if (typeof ref !== "string" || typeof defs !== "object" || defs === null) return schema;
-  const target = defs[ref.replace("#/$defs/", "")];
-  if (target === void 0) return schema;
-  const { $ref: _removed, $defs: _defs, ...header } = schema;
-  const root = { ...header, ...target };
-  const kept2 = reachableDefs(root, defs);
-  return Object.keys(kept2).length === 0 ? root : { ...root, $defs: kept2 };
+function withoutProse2(node3, isProperties = false) {
+  if (Array.isArray(node3)) return node3.map((item) => withoutProse2(item));
+  if (typeof node3 !== "object" || node3 === null) return node3;
+  return Object.fromEntries(
+    Object.entries(node3).filter(([key]) => isProperties || !COMPACT_LEFT_OUT.has(key)).map(([key, value]) => [key, withoutProse2(value, !isProperties && (key === "properties" || key === "$defs"))])
+  );
 }
-function remembered(cache, key, make) {
-  const known3 = cache.get(key);
+function compactInputJsonSchema(tool) {
+  const known3 = compactSchemas.get(tool);
   if (known3 !== void 0) return known3;
-  const made = make();
-  cache.set(key, made);
-  return made;
+  const full = inputJsonSchema(tool);
+  const properties = full["properties"] ?? {};
+  const required2 = Array.isArray(full["required"]) ? full["required"] : [];
+  const described2 = tool.compact?.inputs ?? {};
+  const kept2 = Object.keys(properties).filter((key) => required2.includes(key) || Object.hasOwn(described2, key));
+  const schema = {
+    type: "object",
+    properties: Object.fromEntries(
+      kept2.map((key) => {
+        const field = withoutProse2(properties[key]);
+        const text3 = described2[key];
+        return [key, text3 === void 0 || text3 === "" ? field : { ...field, description: text3 }];
+      })
+    ),
+    ...required2.length > 0 ? { required: required2 } : {},
+    ..."additionalProperties" in full ? { additionalProperties: full["additionalProperties"] } : {}
+  };
+  compactSchemas.set(tool, schema);
+  return schema;
 }
-function inputJsonSchema(tool) {
-  return remembered(inputSchemas, tool.inputSchema, () => withoutSafeBounds(inlineRootRef(external_exports.toJSONSchema(tool.inputSchema, { target: TARGET2, io: "input" }))));
+function listedFor(tool, profile) {
+  if (profile === "core" && tool.compact !== null) return { description: tool.compact.description, inputSchema: compactInputJsonSchema(tool), withOutputSchema: false };
+  return { description: tool.description, inputSchema: inputJsonSchema(tool), withOutputSchema: true };
 }
-function withoutSafeBounds(node3) {
-  if (Array.isArray(node3)) return node3.map(withoutSafeBounds);
-  if (typeof node3 !== "object" || node3 === null) return node3;
-  return Object.fromEntries(
-    Object.entries(node3).filter(([key, value]) => !(key === "minimum" && value === Number.MIN_SAFE_INTEGER || key === "maximum" && value === Number.MAX_SAFE_INTEGER)).map(([key, value]) => [key, withoutSafeBounds(value)])
-  );
-}
-function openObjects(node3) {
-  if (Array.isArray(node3)) return node3.map(openObjects);
-  if (typeof node3 !== "object" || node3 === null) return node3;
-  return Object.fromEntries(
-    Object.entries(node3).filter(([key, value]) => !(key === "additionalProperties" && value === false)).map(([key, value]) => [key, openObjects(value)])
-  );
-}
-function outputJsonSchema(tool) {
-  return remembered(outputSchemas, tool.outputSchema, () => withoutSafeBounds(openObjects(inlineRootRef(external_exports.toJSONSchema(tool.outputSchema, { target: TARGET2, io: "output" })))));
-}
-function withoutProse(node3, isProperties = false) {
-  if (Array.isArray(node3)) return node3.map((item) => withoutProse(item));
-  if (typeof node3 !== "object" || node3 === null) return node3;
-  return Object.fromEntries(
-    Object.entries(node3).filter(([key]) => isProperties || !LEFT_OUT.has(key)).map(([key, value]) => [key, withoutProse(value, !isProperties && (key === "properties" || key === "$defs"))])
-  );
-}
-function listedOutputSchema(schema) {
-  return remembered(listedSchemas, schema, () => withoutProse(withoutSafeBounds(schema)));
-}
-function listedOutputJsonSchema(tool) {
-  return listedOutputSchema(outputJsonSchema(tool));
-}
-var TARGET2, DEF_REF, inputSchemas, outputSchemas, listedSchemas, LEFT_OUT;
-var init_json_schema2 = __esm({
-  "../../packages/diagrams/src/tools/json-schema.ts"() {
+var TOOL_PROFILES, CORE_TOOLS, CORE_INSTRUCTIONS, COMPACT_LEFT_OUT, compactSchemas;
+var init_profiles = __esm({
+  "../../packages/diagrams/src/tools/profiles.ts"() {
     "use strict";
-    init_zod();
-    TARGET2 = "draft-2020-12";
-    DEF_REF = /"\$ref":"#\/\$defs\/([^"]+)"/g;
-    inputSchemas = /* @__PURE__ */ new WeakMap();
-    outputSchemas = /* @__PURE__ */ new WeakMap();
-    listedSchemas = /* @__PURE__ */ new WeakMap();
-    LEFT_OUT = /* @__PURE__ */ new Set(["description", "$schema", "title", "enum"]);
+    init_json_schema2();
+    TOOL_PROFILES = ["full", "core"];
+    CORE_TOOLS = ["suggest_diagram", "get_diagram_syntax", "draw_diagram", "edit_diagram", "import_source", "convert_mermaid", "sync_markdown", "map_icons"];
+    CORE_INSTRUCTIONS = [
+      "Draws flow, sequence, schema, state, class, and other diagrams from a small line-oriented text language.",
+      'To draw: if unsure which kind fits, call suggest_diagram; call get_diagram_syntax once with kind set to the kind you draw; write the source and call draw_diagram with svg "never" to check it, fix every error by its line, column, and hint, and call again until it is valid; call draw_diagram with svg "always" only when the SVG will be saved.',
+      "To change a diagram, call edit_diagram. From a file (SQL, OpenAPI, Terraform, docker-compose, Kubernetes, CSV, and more), call import_source; from Mermaid, convert_mermaid; for every diagram fence of a Markdown file, sync_markdown.",
+      "Save or hand over only source that a tool has said is valid, and check it again with draw_diagram after any change.",
+      "Use map_icons for icon names and never invent one. Pass the arguments as one JSON object with the fields at the top level."
+    ].join(" ");
+    COMPACT_LEFT_OUT = /* @__PURE__ */ new Set(["description", "$schema", "title", "default", "examples", "minLength", "maxLength", "minItems", "maxItems", "pattern", "propertyNames"]);
+    compactSchemas = /* @__PURE__ */ new WeakMap();
   }
 });
 
@@ -200290,6 +200587,8 @@ var init_tools = __esm({
     init_compare_diagrams3();
     init_workflows2();
     init_define_tool();
+    init_input_hint();
+    init_profiles();
     init_json_schema2();
     init_fit_answer();
     init_layout_tools();
@@ -200699,7 +200998,8 @@ function failureLines(failure3) {
       (diagnostic) => `${diagnostic.code} at line ${diagnostic.line}, column ${diagnostic.column}: ${diagnostic.message}${diagnostic.hint === null ? "" : ` (${diagnostic.hint})`}`
     );
   }
-  return failure3.issues.map((issue3) => `${issue3.path === "" ? "arguments" : issue3.path}: ${issue3.message}`);
+  const issues = failure3.issues.map((issue3) => `${issue3.path === "" ? "arguments" : issue3.path}: ${issue3.message}`);
+  return failure3.hint === void 0 || failure3.hint === "" ? issues : [...issues, failure3.hint];
 }
 function toCallToolResult(outcome) {
   if (outcome.ok) {
@@ -200958,6 +201258,11 @@ async function callTool(tool, args, log, caller, activity, run3, budget2, answer
   const started = performance.now();
   const inputBytes = inputSize(args);
   try {
+    const refused4 = checkToolInput(tool, args);
+    if (refused4 !== null) {
+      logToolCall({ tool: tool.name, outcome: refused4.kind, durationMs: performance.now() - started, inputBytes, caller }, log);
+      return toCallToolResult({ ok: false, error: refused4 });
+    }
     const ran = await run3(tool, args);
     const linked = !ran.ok ? null : answers2.viewLinks === false ? stripViewLinks(ran.value) : await attachViewUrl(tool.name, args, ran.value, answers2.viewBase);
     const saving = linked === null || answers2.library === void 0 || answers2.library === null ? linked : withSaveStep(tool.name, linked, answers2.library);
@@ -200995,6 +201300,14 @@ async function callHostedTool(tool, args, log, caller) {
     return internalErrorResult();
   }
 }
+function listedInput(schema) {
+  let wrapper = listedInputs.get(schema);
+  if (wrapper === void 0) {
+    wrapper = { "~standard": { version: 1, vendor: "plotwork", jsonSchema: { input: () => schema, output: () => schema }, validate: (value) => ({ value }) } };
+    listedInputs.set(schema, wrapper);
+  }
+  return wrapper;
+}
 function wrapped(schema, validator) {
   const key = validator ?? DEFAULT_VALIDATOR2;
   let bySchema = wrappers2.get(key);
@@ -201009,14 +201322,15 @@ function wrapped(schema, validator) {
   }
   return wrapper;
 }
-function createDiagramsServer(options3 = {}, log = logToConsole, caller, hostedTools = [], activity, run3 = runInPlace, budget2 = ANSWER_BUDGET_CHARACTERS, answers2 = {}) {
+function createDiagramsServer(options3 = {}, log = logToConsole, caller, hostedTools = [], activity, run3 = runInPlace, budget2 = ANSWER_BUDGET_CHARACTERS, answers2 = {}, profile = "full") {
   const finish = { ...answers2, viewBase: answers2.viewBase ?? viewBaseFor() };
   const taken = new Set(TOOLS.map((tool) => tool.name));
   for (const tool of hostedTools) {
     if (taken.has(tool.name)) throw new TypeError(`A tool named ${tool.name} is already registered`);
     taken.add(tool.name);
   }
-  const hosted = hostedTools.length === 0 ? SERVER_INSTRUCTIONS : `${SERVER_INSTRUCTIONS} ${HOSTED_INSTRUCTIONS}`;
+  const base = profile === "core" ? CORE_INSTRUCTIONS : SERVER_INSTRUCTIONS;
+  const hosted = hostedTools.length === 0 ? base : `${base} ${HOSTED_INSTRUCTIONS}`;
   const instructions = hostedTools.length > 0 && answers2.library !== void 0 && answers2.library !== null ? `${hosted} ${libraryInstructions(answers2.library)}` : hosted;
   const server = new McpServer(SERVER_INFO, { instructions, ...options3 });
   for (const tool of hostedTools) {
@@ -201032,14 +201346,15 @@ function createDiagramsServer(options3 = {}, log = logToConsole, caller, hostedT
       (args) => callHostedTool(tool, args, log, caller)
     );
   }
-  for (const tool of TOOLS) {
+  for (const tool of toolsForProfile(TOOLS, profile)) {
+    const listed2 = listedFor(tool, profile);
     server.registerTool(
       tool.name,
       {
         title: tool.title,
-        description: tool.description,
-        inputSchema: wrapped(inputJsonSchema(tool), options3.jsonSchemaValidator),
-        outputSchema: wrapped(listedOutputJsonSchema(tool), options3.jsonSchemaValidator),
+        description: listed2.description,
+        inputSchema: listedInput(listed2.inputSchema),
+        ...listed2.withOutputSchema ? { outputSchema: wrapped(listedOutputJsonSchema(tool), options3.jsonSchemaValidator) } : {},
         annotations: tool.annotations,
         ...VIEWER_APP_TOOLS.includes(tool.name) ? { _meta: VIEWER_APP_TOOL_META } : {}
       },
@@ -201052,7 +201367,7 @@ function createDiagramsServer(options3 = {}, log = logToConsole, caller, hostedT
   registerDiagramPrompts(server, options3.jsonSchemaValidator);
   return server;
 }
-var SAVABLE_TOOLS, DEFAULT_VALIDATOR2, wrappers2;
+var SAVABLE_TOOLS, listedInputs, DEFAULT_VALIDATOR2, wrappers2;
 var init_create_server = __esm({
   "src/create-server.ts"() {
     "use strict";
@@ -201067,6 +201382,7 @@ var init_create_server = __esm({
     init_tool_result();
     init_viewer_app();
     SAVABLE_TOOLS = new Set(VIEW_LINK_TOOLS.filter((name2) => name2 !== "sync_markdown"));
+    listedInputs = /* @__PURE__ */ new WeakMap();
     DEFAULT_VALIDATOR2 = {};
     wrappers2 = /* @__PURE__ */ new WeakMap();
   }
@@ -201507,6 +201823,22 @@ var init_start = __esm({
   }
 });
 
+// src/tool-profile.ts
+function chooseToolProfile(env, argv) {
+  const flagAt = argv.findIndex((arg) => arg === "--tools" || arg.startsWith("--tools="));
+  const flag = flagAt === -1 ? void 0 : argv[flagAt]?.startsWith("--tools=") === true ? argv[flagAt]?.slice("--tools=".length) : argv[flagAt + 1];
+  const asked = flag ?? env["PLOTWORK_TOOLS"];
+  const profile = readToolProfile(asked);
+  if (profile !== null) return { profile, problem: null };
+  return { profile: "full", problem: `Plotwork tool profile "${asked ?? ""}" is not one of ${TOOL_PROFILES.join(", ")}; listing the full set.` };
+}
+var init_tool_profile = __esm({
+  "src/tool-profile.ts"() {
+    "use strict";
+    init_tools();
+  }
+});
+
 // src/viewer-address.ts
 function viewerAddress(env = {}) {
   const raw = env[VIEWER_URL_VARIABLE]?.trim();
@@ -201529,7 +201861,7 @@ var init_viewer_address = __esm({
 
 // src/stdio.ts
 var stdio_exports = {};
-var usage, budget, answers, local;
+var usage, budget, answers, local, tools;
 var init_stdio2 = __esm({
   "src/stdio.ts"() {
     "use strict";
@@ -201543,6 +201875,7 @@ var init_stdio2 = __esm({
     init_local_open();
     init_local_settings();
     init_start();
+    init_tool_profile();
     init_viewer_address();
     useIconArtFolder(iconArtFolder());
     usage = startLocalUsage();
@@ -201551,7 +201884,9 @@ var init_stdio2 = __esm({
     local = readLocalSettings(process.cwd(), process.env);
     if (local.problem !== null) console.error(`Plotwork settings in ${local.path ?? ""} were not applied:
 ${local.problem}`);
-    serveStdio(() => createDiagramsServer({}, logToStderr, void 0, [], usage.sink, withLocalSettings(runLocally, local.settings), budget, answers));
+    tools = chooseToolProfile(process.env, process.argv.slice(2));
+    if (tools.problem !== null) console.error(tools.problem);
+    serveStdio(() => createDiagramsServer({}, logToStderr, void 0, [], usage.sink, withLocalSettings(runLocally, local.settings), budget, answers, tools.profile));
   }
 });
 
@@ -201597,6 +201932,10 @@ Usage
   ${BIN} --version       Print the version and exit.
   ${BIN} --help          Print this text and exit.
 
+Tool profile
+  ${BIN} --tools core    List only the eight workflow tools, with short descriptions, for an open
+                         or self-hosted model with a small context. PLOTWORK_TOOLS=core does the same.
+
 Usage counts (off unless you turn them on)
   PLOTWORK_USAGE=local   Count calls on this device, in one file. Nothing is sent.
   PLOTWORK_USAGE=share   Also send pseudonymous daily totals to Plotwork: tool, diagram kind,
@@ -201627,7 +201966,7 @@ async function main(args) {
     process.stdout.write(HELP);
     return;
   }
-  if (first !== void 0 && first !== "usage") {
+  if (first !== void 0 && first !== "usage" && first !== "--tools" && !first.startsWith("--tools=")) {
     process.stderr.write(`${BIN}: unknown argument "${first}". Run ${BIN} --help.
 `);
     process.exitCode = 2;

@@ -76,6 +76,10 @@ Add this to `claude_desktop_config.json`, then restart Claude Desktop:
 
 Any client that starts an MCP server as a local process takes the same two parts: the command `npx` and the arguments `-y @buun_group/plotwork-mcp`.
 
+### Open and self-hosted models
+
+A model with a small context (an open model on Ollama, LM Studio, vLLM, or llama.cpp) does better with fewer tools. Add `--tools core` to the arguments, or set `PLOTWORK_TOOLS=core`, and the server lists only its eight workflow tools with short descriptions: about 1,700 tokens instead of about 17,500. The tools answer the same. See [Use Plotwork with open and self-hosted models](https://docs.plotwork.dev/mcp/open-models).
+
 ## Check it by hand
 
 ```sh
