@@ -65,7 +65,7 @@ var init_icon_art_folder = __esm({
 var package_default;
 var init_package = __esm({
   "package.json"() {
-    package_default = { version: "0.1.0" };
+    package_default = { version: "0.2.0-beta.1" };
   }
 });
 
@@ -609,7 +609,7 @@ var init_auto_icons = __esm({
       webhook: "lucide:webhook",
       webhooks: "lucide:webhook"
     };
-    BRAND_SUFFIXES = /* @__PURE__ */ new Set(["api", "sdk", "service", "server", "cache", "db", "database", "cluster", "instance"]);
+    BRAND_SUFFIXES = /* @__PURE__ */ new Set(["api", "sdk", "service", "server", "cache", "db", "database", "cluster", "instance", "cmdb", "itsm", "tenant"]);
     ROLE_ICON_MAX_WORDS = 3;
   }
 });
@@ -722,7 +722,7 @@ var init_view_links = __esm({
     };
     CLI_RELEASE = {
       packageName: "@buun_group/plotwork",
-      version: "0.1.0-beta.13",
+      version: "0.1.0",
       onNpm: true
     };
   }
@@ -735,8 +735,8 @@ var init_action_release = __esm({
     "use strict";
     ACTION_REPOSITORY = "plotwork-official/plotwork-action";
     ACTION_RELEASE = {
-      version: "1.0.0-beta.14",
-      sha: "dcec4036897b73bd3ea724b3991f4fd0ac880757"
+      version: "1.0.0",
+      sha: "78d7acaf4b673e10187eb9174a60a3da6949ee8a"
     };
     PINNED_ACTION_LINE = `uses: ${ACTION_REPOSITORY}@${ACTION_RELEASE.sha} # v${ACTION_RELEASE.version}`;
   }
@@ -755,7 +755,7 @@ var init_mcp_release = __esm({
     "use strict";
     MCP_RELEASE = {
       packageName: "@buun_group/plotwork-mcp",
-      version: "0.1.0-beta.10"
+      version: "0.1.0"
     };
   }
 });
@@ -797,6 +797,55 @@ var init_lint_limits = __esm({
       maxNumberedSteps: 25,
       /** A diagram that must shrink below this share of its natural size to fit a column is too wide (12px text becomes 9.6px). */
       minTextScale: 0.8
+    };
+  }
+});
+
+// ../../packages/diagrams/src/constants/secret-scan.ts
+function hostPatternProblem(pattern3) {
+  if (pattern3.length === 0 || pattern3.length > SECRET_SCAN_LIMITS.maxHostPatternLength) return `A hostname pattern is 1 to ${SECRET_SCAN_LIMITS.maxHostPatternLength} characters.`;
+  if (!HOST_PATTERN.test(pattern3)) return "A hostname pattern is a DNS name in lower case, such as corp.example or *.corp.example, with * only as its first label.";
+  return null;
+}
+var SECRET_SCAN_LIMITS, HOST_PATTERN, SECRET_KIND_NAMES;
+var init_secret_scan = __esm({
+  "../../packages/diagrams/src/constants/secret-scan.ts"() {
+    "use strict";
+    SECRET_SCAN_LIMITS = {
+      /** A generic assigned value shorter than this is not reported: too short to be a key, and most short values are words. */
+      minAssignedLength: 10,
+      /** The Shannon entropy, in bits a character, a generic assigned value must reach. Ten different characters reach 3.32. */
+      minAssignedEntropy: 3.2,
+      /** How many characters of a finding a warning shows before the mask; a value shorter than four times this shows a quarter of itself. */
+      shownCharacters: 4,
+      /** What follows the shown characters, whatever the value's length, so the mask says nothing about it. */
+      mask: "********",
+      /** The most internal hostname patterns an organisation may give. */
+      maxHostPatterns: 20,
+      /** The longest internal hostname pattern, the length of a DNS name. */
+      maxHostPatternLength: 253,
+      /** A run of this many ascending characters (`123456`, `abcdef`) marks a made-up example value. */
+      ascendingRun: 6
+    };
+    HOST_PATTERN = /^(?:\*|[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)+$/;
+    SECRET_KIND_NAMES = {
+      "aws-access-key": "an AWS access key id",
+      "aws-secret-key": "an AWS secret access key",
+      "gcp-api-key": "a Google Cloud API key",
+      "gcp-service-account": "a Google Cloud service account key",
+      "azure-storage-key": "an Azure storage account key",
+      "azure-sas-token": "an Azure shared access signature",
+      "github-token": "a GitHub token",
+      "slack-token": "a Slack token",
+      "slack-webhook": "a Slack webhook address",
+      "stripe-key": "a Stripe secret key",
+      jwt: "a JSON Web Token",
+      "private-key": "a private key",
+      "assigned-secret": "a password or secret value",
+      "connection-string": "a connection string with a password",
+      "plotwork-key": "a Plotwork API key",
+      "private-ip": "a private IP address",
+      "internal-host": "an internal hostname"
     };
   }
 });
@@ -3308,6 +3357,9 @@ var init_brand_aliases = __esm({
       // Business, payments, and collaboration
       "simple:googledrive": ["gdrive"],
       "simple:confluence": ["atlassian confluence"],
+      // Jira Service Management is part of Jira and has no mark of its own in the bundled sets.
+      "simple:jira": ["jira service management", "jira service desk", "jsm", "atlassian jira"],
+      "simple:sap": ["sap erp", "sap s4hana"],
       // Analytics
       "simple:googleanalytics": ["ga4"],
       "simple:plausibleanalytics": ["plausible"],
@@ -3333,7 +3385,9 @@ var init_brand_aliases = __esm({
       // Security
       "simple:1password": ["one password"],
       "simple:sonarqubeserver": ["sonarqube"],
+      "simple:okta": ["okta sso", "okta workforce identity"],
       // Developer tools, frameworks, and languages
+      "simple:github": ["github app", "github apps", "github enterprise"],
       "simple:rollupdotjs": ["rollup"],
       "simple:alpinedotjs": ["alpine js", "alpinejs"],
       "simple:reactquery": ["tanstack query"],
@@ -3351,6 +3405,21 @@ var init_brand_aliases = __esm({
       "simple:googlechrome": ["chrome"],
       "simple:macos": ["mac", "mac os"]
     };
+  }
+});
+
+// ../../packages/diagrams/src/constants/brand-stand-ins.ts
+var BRAND_STAND_INS, BRAND_STAND_IN_NAMES;
+var init_brand_stand_ins = __esm({
+  "../../packages/diagrams/src/constants/brand-stand-ins.ts"() {
+    "use strict";
+    BRAND_STAND_INS = [
+      { slug: "servicenow", title: "ServiceNow", glyph: "lucide:ticket", aliases: ["service now", "snow", "cmdb", "servicenow cmdb", "servicenow itsm", "now platform"] },
+      { slug: "workday", title: "Workday", glyph: "lucide:id-card", aliases: ["workday hcm"] },
+      { slug: "zscaler", title: "Zscaler", glyph: "lucide:shield-check", aliases: ["zscaler internet access", "zscaler private access"] },
+      { slug: "crowdstrike", title: "CrowdStrike", glyph: "lucide:shield-alert", aliases: ["crowdstrike falcon", "crowd strike"] }
+    ];
+    BRAND_STAND_IN_NAMES = Object.fromEntries(BRAND_STAND_INS.map((brand) => [`simple:${brand.slug}`, brand.glyph]));
   }
 });
 
@@ -3482,6 +3551,10 @@ function withNameAliases() {
     const words2 = merged[ref] ??= [];
     if (!words2.includes(aliasWords(alias))) words2.push(aliasWords(alias));
   }
+  for (const brand of BRAND_STAND_INS) {
+    const words2 = merged[brand.glyph] ??= [];
+    for (const word2 of [brand.slug, brand.title.toLowerCase(), ...brand.aliases]) if (!words2.includes(word2)) words2.push(word2);
+  }
   return merged;
 }
 var WRITTEN_ALIASES, ICON_ALIASES;
@@ -3489,6 +3562,7 @@ var init_icon_aliases = __esm({
   "../../packages/diagrams/src/constants/icon-aliases.ts"() {
     "use strict";
     init_brand_aliases();
+    init_brand_stand_ins();
     init_icon_name_aliases();
     WRITTEN_ALIASES = {
       ...BRAND_ALIASES,
@@ -3511,7 +3585,11 @@ var init_icon_aliases = __esm({
       "simple:elasticsearch": ["elk", "elastic search"],
       "lucide:mail": ["email", "e mail"],
       "lucide:database": ["db", "datastore"],
-      "lucide:key-round": ["api key"]
+      "lucide:key-round": ["api key"],
+      // Microsoft's own names for the Azure pack's security and device products, which the pack files under shorter titles.
+      "azure:defender-for-cloud": ["microsoft defender", "defender", "microsoft defender for cloud"],
+      "azure:sentinel": ["microsoft sentinel"],
+      "azure:intune": ["microsoft intune"]
     };
     ICON_ALIASES = withNameAliases();
   }
@@ -3884,6 +3962,7 @@ var init_constants = __esm({
     init_mcp_release();
     init_layout_limits();
     init_lint_limits();
+    init_secret_scan();
     init_style_rules();
     init_generate();
     init_workflow_limits();
@@ -3891,6 +3970,7 @@ var init_constants = __esm({
     init_vendor_icons();
     init_icon_catalog();
     init_brand_aliases();
+    init_brand_stand_ins();
     init_icon_aliases();
     init_icon_name_aliases();
     init_icon_concepts();
@@ -3942,6 +4022,185 @@ var init_ids = __esm({
   }
 });
 
+// ../../packages/diagrams/src/secrets/placeholders.ts
+function hasAscendingRun(value) {
+  let run3 = 1;
+  for (let index2 = 1; index2 < value.length; index2 += 1) {
+    run3 = value.charCodeAt(index2) === value.charCodeAt(index2 - 1) + 1 ? run3 + 1 : 1;
+    if (run3 >= SECRET_SCAN_LIMITS.ascendingRun) return true;
+  }
+  return false;
+}
+function distinctCharacters(value) {
+  return new Set(value).size;
+}
+function isPlaceholder(value) {
+  if (PUBLISHED_EXAMPLES.has(value)) return true;
+  const lower = value.toLowerCase();
+  if (PLACEHOLDER_WORDS.some((word2) => lower.includes(word2))) return true;
+  if (REFERENCE_MARKS.some((mark) => value.includes(mark))) return true;
+  if (value.startsWith("$") || value.startsWith("@") || value.startsWith(":")) return true;
+  if (distinctCharacters(value) <= Math.max(3, Math.floor(value.length / 8))) return true;
+  return hasAscendingRun(lower);
+}
+function entropyOf(value) {
+  const counts = /* @__PURE__ */ new Map();
+  for (const char of value) counts.set(char, (counts.get(char) ?? 0) + 1);
+  let bits = 0;
+  for (const count3 of counts.values()) {
+    const share = count3 / value.length;
+    bits -= share * Math.log2(share);
+  }
+  return bits;
+}
+var PLACEHOLDER_WORDS, REFERENCE_MARKS, PUBLISHED_EXAMPLES;
+var init_placeholders = __esm({
+  "../../packages/diagrams/src/secrets/placeholders.ts"() {
+    "use strict";
+    init_constants();
+    PLACEHOLDER_WORDS = [
+      "example",
+      "sample",
+      "placeholder",
+      "dummy",
+      "fake",
+      "redacted",
+      "changeme",
+      "change_me",
+      "change-me",
+      "replace",
+      "insert",
+      "your_",
+      "your-",
+      "yourkey",
+      "yourtoken",
+      "yoursecret",
+      "mysecret",
+      "secret_here",
+      "key_here",
+      "token_here",
+      "todo",
+      "notreal",
+      "not_real"
+    ];
+    REFERENCE_MARKS = ["${", "$(", "{{", "<", ">", "%", "***", "...", "\u2026", "[", "]"];
+    PUBLISHED_EXAMPLES = /* @__PURE__ */ new Set(["SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"]);
+  }
+});
+
+// ../../packages/diagrams/src/secrets/detectors.ts
+function realAfter(prefixLength) {
+  return (value) => !isPlaceholder(value.slice(prefixLength));
+}
+function isJwtHeader(segment) {
+  try {
+    const base643 = segment.replace(/-/g, "+").replace(/_/g, "/");
+    const decoded = atob(base643 + "=".repeat((4 - base643.length % 4) % 4));
+    const header = JSON.parse(decoded);
+    return typeof header === "object" && header !== null && "alg" in header;
+  } catch {
+    return false;
+  }
+}
+function isRealJwt(value) {
+  const [header = "", , signature = ""] = value.split(".");
+  return isJwtHeader(header) && !isPlaceholder(signature);
+}
+function isRealSas(value, line3) {
+  if (!/[?&]sv=\d{4}-\d{2}-\d{2}/.test(line3)) return false;
+  try {
+    return !isPlaceholder(decodeURIComponent(value));
+  } catch {
+    return false;
+  }
+}
+function isRealPassword(value) {
+  return !STAND_IN_PASSWORDS.has(value.toLowerCase()) && !isPlaceholder(value);
+}
+function isRandomAssigned(value) {
+  if (value.length < SECRET_SCAN_LIMITS.minAssignedLength) return false;
+  if (!/[A-Za-z]/.test(value) || !/\d/.test(value)) return false;
+  if (value.includes("://")) return false;
+  return entropyOf(value) >= SECRET_SCAN_LIMITS.minAssignedEntropy && !isPlaceholder(value);
+}
+function isAddress(value) {
+  return value.split(".").every((part) => Number(part) <= 255);
+}
+function internalHostDetector(patterns) {
+  const usable = patterns.filter((pattern3) => hostPatternProblem(pattern3) === null).slice(0, SECRET_SCAN_LIMITS.maxHostPatterns);
+  if (usable.length === 0) return null;
+  const parts = usable.map((pattern3) => pattern3.split(".").map((label) => label === "*" ? "[a-z0-9-]{1,63}(?:\\.[a-z0-9-]{1,63}){0,8}" : label.replace(/-/g, "\\-")).join("\\."));
+  return { kind: "internal-host", pattern: new RegExp(`()(?<![A-Za-z0-9.-])((?:${parts.join("|")}))(?![A-Za-z0-9-]|\\.[A-Za-z0-9])`, "gi") };
+}
+var STAND_IN_PASSWORDS, DETECTORS, PRIVATE_IP_DETECTOR;
+var init_detectors = __esm({
+  "../../packages/diagrams/src/secrets/detectors.ts"() {
+    "use strict";
+    init_constants();
+    init_placeholders();
+    STAND_IN_PASSWORDS = /* @__PURE__ */ new Set(["password", "passwd", "pass", "pwd", "secret", "user", "username", "root", "admin"]);
+    DETECTORS = [
+      { kind: "plotwork-key", pattern: /()\b(pw_[0-9a-f]{64})(?![0-9a-z])/g },
+      { kind: "aws-access-key", pattern: /()\b((?:AKIA|ASIA|ABIA|ACCA)[A-Z0-9]{16})(?![A-Z0-9])/g, accept: realAfter(4) },
+      { kind: "aws-secret-key", pattern: /(\baws_?secret_?(?:access_?)?key\\?["']?\s{0,4}[:=]\s{0,4}\\?["']?)([A-Za-z0-9/+]{40})(?![A-Za-z0-9/+])/gi, accept: realAfter(0) },
+      { kind: "gcp-api-key", pattern: /()\b(AIza[0-9A-Za-z_-]{35})(?![0-9A-Za-z_-])/g, accept: realAfter(4) },
+      { kind: "gcp-service-account", pattern: /(\\?"private_key_id\\?"\s{0,4}:\s{0,4}\\?")([0-9a-f]{40})(?![0-9a-f])/g, accept: realAfter(0) },
+      { kind: "azure-storage-key", pattern: /(\b(?:AccountKey|SharedAccessKey)=)([A-Za-z0-9+/]{40,120}={0,2})/g, accept: realAfter(0) },
+      { kind: "azure-sas-token", pattern: /([?&]sig=)([A-Za-z0-9%+/]{30,200})/g, accept: isRealSas },
+      { kind: "github-token", pattern: /()\b(gh[pousr]_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9]{22}_[A-Za-z0-9]{59})(?![A-Za-z0-9_])/g, accept: (value) => realAfter(value.startsWith("github_pat_") ? 11 : 4)(value) },
+      { kind: "slack-token", pattern: /()\b(xox[abposr]-[0-9A-Za-z-]{10,250}|xapp-\d-[0-9A-Za-z-]{10,250})/g, accept: realAfter(5) },
+      { kind: "slack-webhook", pattern: /()(https:\/\/hooks\.slack\.com\/(?:services|workflows|triggers)\/[A-Za-z0-9_/-]{20,200})/g, accept: realAfter(30) },
+      { kind: "stripe-key", pattern: /()\b((?:sk|rk)_live_[0-9A-Za-z]{20,250}|whsec_[0-9A-Za-z]{24,250})(?![0-9A-Za-z])/g, accept: (value) => realAfter(value.indexOf("_", 3) + 1)(value) },
+      { kind: "jwt", pattern: /()\b(eyJ[A-Za-z0-9_-]{8,2000}\.eyJ[A-Za-z0-9_-]{8,4000}\.[A-Za-z0-9_-]{16,1000})(?![A-Za-z0-9_-])/g, accept: isRealJwt },
+      { kind: "private-key", pattern: /()(-----BEGIN (?:RSA |EC |DSA |OPENSSH |ENCRYPTED |PGP )?PRIVATE KEY(?: BLOCK)?-----)/g },
+      {
+        kind: "connection-string",
+        pattern: /(\b[a-zA-Z][a-zA-Z0-9+.-]{1,30}:\/\/[^\s:/@"'<>]{1,100}:)([^\s@/"'<>]{1,200})(?=@[^\s"'@])/g,
+        accept: isRealPassword
+      },
+      {
+        kind: "assigned-secret",
+        pattern: /((?<![A-Za-z0-9_.-])[A-Za-z0-9_.-]{0,40}(?:password|passwd|pwd|pass|secret(?:[_-]?key)?|client[_-]?secret|token|api[_-]?key|apikey|access[_-]?key|private[_-]?key|auth[_-]?key)\b\\?["']?\s{0,4}[:=]\s{0,4}\\?["']?)([^\s"'\\,;&]{1,500})/gi,
+        accept: isRandomAssigned
+      }
+    ];
+    PRIVATE_IP_DETECTOR = {
+      kind: "private-ip",
+      pattern: /()(?<![0-9.])((?:10\.\d{1,3}|172\.(?:1[6-9]|2\d|3[01])|192\.168)\.\d{1,3}\.\d{1,3})(?![0-9]|\.\d)/g,
+      accept: isAddress
+    };
+  }
+});
+
+// ../../packages/diagrams/src/secrets/find-spans.ts
+function secretSpans(text3, detectors = DETECTORS) {
+  const found = [];
+  for (const detector of detectors) {
+    const pattern3 = new RegExp(detector.pattern.source, detector.pattern.flags);
+    for (let match = pattern3.exec(text3); match !== null; match = pattern3.exec(text3)) {
+      const value = match[2] ?? "";
+      if (value === "") continue;
+      const start2 = match.index + (match[1] ?? "").length;
+      const end = start2 + value.length;
+      if (found.some((other) => start2 < other.end && other.start < end)) continue;
+      if (detector.accept !== void 0 && !detector.accept(value, text3)) continue;
+      found.push({ kind: detector.kind, start: start2, end, value });
+    }
+  }
+  return found.sort((a, b) => a.start - b.start);
+}
+function maskSecretSpans(text3) {
+  let out = text3;
+  for (const span of secretSpans(text3)) out = out.slice(0, span.start) + "*".repeat(span.end - span.start) + out.slice(span.end);
+  return out;
+}
+var init_find_spans = __esm({
+  "../../packages/diagrams/src/secrets/find-spans.ts"() {
+    "use strict";
+    init_detectors();
+  }
+});
+
 // ../../packages/diagrams/src/core/diagnostics.ts
 function severityOfCode(code) {
   return code.startsWith("W") || code.startsWith("M2") || code.startsWith("I2") || code.startsWith("S2") ? "warning" : "error";
@@ -3954,7 +4213,8 @@ function warningAt(code, message2, position, hint2 = null) {
 }
 function formatDiagnostic(diagnostic, source) {
   const lines = source.split("\n");
-  const sourceLine = lines[diagnostic.line - 1] ?? "";
+  const shown = maskSecretSpans(lines[diagnostic.line - 1] ?? "");
+  const sourceLine = diagnostic.code.startsWith("W7") ? shown.slice(0, diagnostic.column - 1) + "*".repeat(diagnostic.length) + shown.slice(diagnostic.column - 1 + diagnostic.length) : shown;
   const gutter = String(diagnostic.line).padStart(4, " ");
   const caret = `${" ".repeat(diagnostic.column - 1)}${"^".repeat(Math.max(1, diagnostic.length))}`;
   const parts = [
@@ -3969,6 +4229,7 @@ var DIAGNOSTIC_CODES, STYLE_HINT_CODES;
 var init_diagnostics = __esm({
   "../../packages/diagrams/src/core/diagnostics.ts"() {
     "use strict";
+    init_find_spans();
     DIAGNOSTIC_CODES = {
       syntax: "E100",
       unterminatedString: "E101",
@@ -3976,7 +4237,6 @@ var init_diagnostics = __esm({
       missingHeader: "E111",
       unknownNodeType: "E120",
       unknownTone: "E121",
-      unknownIcon: "E122",
       unknownDirection: "E123",
       unknownGroupType: "E124",
       unknownProvider: "E125",
@@ -3999,9 +4259,32 @@ var init_diagnostics = __esm({
       suggestGroupType: "W205",
       overlayCovers: "W206",
       iconArtMissing: "W207",
+      // An icon= name that is not bundled. A warning since 2026-10-20 (it was error E122): the item draws its default icon, so a missing
+      // brand never stops a drawing, and the hint names the closest icons.
+      unknownIcon: "W208",
       // Style suggestions. W5xx says how a valid diagram would look more finished; like W204 and W205 it is a suggestion, not a problem
       // (`isStyleHint`), so a check that fails on warnings passes it.
       suggestLineRole: "W500",
+      // Hosted service. W6xx comes from the hosted service, never from the engine: W600 says an organisation's "Agents publish every
+      // diagram they draw" could not keep this drawing (the library is at its limit, the diagram of that title is locked), which never
+      // stops the drawing. W601 says the organisation's "Publishing needs approval" held the diagram until an approver decides: it is
+      // stored, and only its publisher and the approvers can see it.
+      notPublished: "W600",
+      heldForApproval: "W601",
+      // Secrets (src/secrets). W7xx says the source holds something that looks like a credential. It is a warning everywhere, so a
+      // drawing is never stopped, and not a style hint, so a check that fails on warnings fails on it. An organisation may refuse a
+      // publish that has one. W709 and W710 run only when asked for, because private addresses and internal names are often meant.
+      secretCloudKey: "W700",
+      secretSourceToken: "W701",
+      secretChatToken: "W702",
+      secretPaymentKey: "W703",
+      secretJwt: "W704",
+      secretPrivateKey: "W705",
+      secretAssigned: "W706",
+      secretConnectionString: "W707",
+      secretPlotworkKey: "W708",
+      secretPrivateIp: "W709",
+      secretInternalHost: "W710",
       // Mermaid import. M1xx stops a conversion; M2xx reports something dropped or changed and never stops it.
       // They point into the Mermaid source that was submitted, not into the Plotwork source.
       mermaidNotDiagram: "M100",
@@ -4801,6 +5084,7 @@ var init_simple_catalog_generated = __esm({
       "xero": { viewBox: "0 0 24 24", brandHex: "13B5EA" },
       "hubspot": { viewBox: "0 0 24 24", brandHex: "FF7A59" },
       "zendesk": { viewBox: "0 0 24 24", brandHex: "03363D" },
+      "sap": { viewBox: "0 0 24 24", brandHex: "0FAAFF" },
       "intercom": { viewBox: "0 0 24 24", brandHex: "6AFDEF" },
       "atlassian": { viewBox: "0 0 24 24", brandHex: "0052CC" },
       "confluence": { viewBox: "0 0 24 24", brandHex: "172B4D" },
@@ -4986,6 +5270,7 @@ var init_simple_catalog_generated = __esm({
       "springboot": '<path d="m23.693 10.7058-4.73-8.1844c-.4094-.7106-1.4166-1.2942-2.2402-1.2942H7.2725c-.819 0-1.8308.5836-2.2402 1.2942L.307 10.7058c-.4095.7106-.4095 1.873 0 2.5837l4.7252 8.189c.4094.7107 1.4166 1.2943 2.2402 1.2943h9.455c.819 0 1.826-.5836 2.2402-1.2942l4.7252-8.189c.4095-.7107.4095-1.8732 0-2.5838zM10.9763 5.7547c0-.5365.4377-.9742.9742-.9742s.9742.4377.9742.9742v5.8217c0 .5366-.4377.9742-.9742.9742s-.9742-.4376-.9742-.9742zm.9742 12.4294c-3.6427 0-6.6077-2.965-6.6077-6.6077.0047-2.0896.993-4.0521 2.6685-5.304a.8657.8657 0 0 1 1.2142.1788.8657.8657 0 0 1-.1788 1.2143c-2.1602 1.6048-2.612 4.6592-1.0072 6.8194 1.6049 2.1603 4.6593 2.612 6.8195 1.0072 1.2378-.9177 1.9673-2.372 1.9673-3.9157a4.8972 4.8972 0 0 0-1.9861-3.925c-.386-.2824-.466-.8284-.1836-1.2143.2824-.386.8283-.466 1.2143-.1835 1.6895 1.2471 2.6826 3.2238 2.6873 5.3228 0 3.6474-2.965 6.6077-6.6077 6.6077z"/>',
       "php": '<path d="M7.01 10.207h-.944l-.515 2.648h.838c.556 0 .97-.105 1.242-.314.272-.21.455-.559.55-1.049.092-.47.05-.802-.124-.995-.175-.193-.523-.29-1.047-.29zM12 5.688C5.373 5.688 0 8.514 0 12s5.373 6.313 12 6.313S24 15.486 24 12c0-3.486-5.373-6.312-12-6.312zm-3.26 7.451c-.261.25-.575.438-.917.551-.336.108-.765.164-1.285.164H5.357l-.327 1.681H3.652l1.23-6.326h2.65c.797 0 1.378.209 1.744.628.366.418.476 1.002.33 1.752a2.836 2.836 0 0 1-.305.847c-.143.255-.33.49-.561.703zm4.024.715l.543-2.799c.063-.318.039-.536-.068-.651-.107-.116-.336-.174-.687-.174H11.46l-.704 3.625H9.388l1.23-6.327h1.367l-.327 1.682h1.218c.767 0 1.295.134 1.586.401s.378.7.263 1.299l-.572 2.944h-1.389zm7.597-2.265a2.782 2.782 0 0 1-.305.847c-.143.255-.33.49-.561.703a2.44 2.44 0 0 1-.917.551c-.336.108-.765.164-1.286.164h-1.18l-.327 1.682h-1.378l1.23-6.326h2.649c.797 0 1.378.209 1.744.628.366.417.477 1.001.331 1.751zM17.766 10.207h-.943l-.516 2.648h.838c.557 0 .971-.105 1.242-.314.272-.21.455-.559.551-1.049.092-.47.049-.802-.125-.995s-.524-.29-1.047-.29z"/>',
       "opentelemetry": '<path d="M12.6974 13.1173c-1.0224 1.0224-1.0224 2.68 0 3.7024 1.0224 1.0224 2.68 1.0224 3.7024 0 1.0224-1.0223 1.0224-2.68 0-3.7024-1.0223-1.0223-2.68-1.0223-3.7024 0zm2.7677 2.7701c-.5063.5063-1.3267.5063-1.833 0s-.5063-1.3266 0-1.833c.5063-.5062 1.3267-.5062 1.833 0 .5063.504.5063 1.3267 0 1.833zM16.356.2355l-1.6041 1.6042c-.314.314-.314.83 0 1.144L21.015 9.247c.314.314.83.314 1.144 0l1.6042-1.6041c.314-.314.314-.83 0-1.144L17.4976.2354c-.314-.314-.8276-.314-1.1416 0zM5.1173 20.734c.2848-.2848.2848-.7497 0-1.0345l-.8155-.8155c-.2848-.2848-.7497-.2848-1.0345 0l-1.6845 1.6845-.0024.0024-.4625-.4625c-.2556-.2556-.6718-.2556-.925 0-.2556.2556-.2556.6718 0 .925l2.775 2.775c.2556.2556.6718.2556.925 0 .2532-.2556.2556-.6718 0-.925l-.4625-.4625.0024-.0024zm8.4856-15.893-3.5637 3.5637c-.3164.3164-.3164.8374 0 1.1538l2.2006 2.2005c1.5554-1.1197 3.7365-.981 5.1361.4187l1.7819-1.7818c.3164-.3165.3164-.8374 0-1.1538l-4.401-4.401c-.3165-.319-.8374-.319-1.1539 0zm-2.2881 7.8455-1.2999-1.2999c-.3043-.3043-.8033-.3043-1.1076 0l-4.5836 4.586c-.3042.3043-.3042.8033 0 1.1076l2.5973 2.5973c.3043.3043.8033.3043 1.1076 0l2.9478-2.9527c-.6231-1.2877-.5112-2.8431.3384-4.0383z"/>',
+      "jira": '<path d="M11.571 11.513H0a5.218 5.218 0 0 0 5.232 5.215h2.13v2.057A5.215 5.215 0 0 0 12.575 24V12.518a1.005 1.005 0 0 0-1.005-1.005zm5.723-5.756H5.736a5.215 5.215 0 0 0 5.215 5.214h2.129v2.058a5.218 5.218 0 0 0 5.215 5.214V6.758a1.001 1.001 0 0 0-1.001-1.001zM23.013 0H11.455a5.215 5.215 0 0 0 5.215 5.215h2.129v2.057A5.215 5.215 0 0 0 24 12.483V1.005A1.001 1.001 0 0 0 23.013 0Z"/>',
       "googlebigquery": '<path d="M5.676 10.595h2.052v5.244a5.892 5.892 0 0 1-2.052-2.088v-3.156zm18.179 10.836a.504.504 0 0 1 0 .708l-1.716 1.716a.504.504 0 0 1-.708 0l-4.248-4.248a.206.206 0 0 1-.007-.007c-.02-.02-.028-.045-.043-.066a10.736 10.736 0 0 1-6.334 2.065C4.835 21.599 0 16.764 0 10.799S4.835 0 10.8 0s10.799 4.835 10.799 10.8c0 2.369-.772 4.553-2.066 6.333.025.017.052.028.074.05l4.248 4.248zm-5.028-10.632a8.015 8.015 0 1 0-8.028 8.028h.024a8.016 8.016 0 0 0 8.004-8.028zm-4.86 4.98a6.002 6.002 0 0 0 2.04-2.184v-1.764h-2.04v3.948zm-4.5.948c.442.057.887.08 1.332.072.4.025.8.025 1.2 0V7.692H9.468v9.035z"/>',
       "googlebigtable": '<path d="M10.511.278s0-.4.456-.24c.267.094 3.728 2.243 5.88 3.533l.006.003.364.217c.004.003.007.009.011.011.322.2.656.42 1.006.673.27.165.43.463.42.78l-.06 7.566a.42.42 0 0 1-.192.396l-1.2.815V5.436c-.042-.034-.083-.07-.131-.098l-5.06-3.01c-.744-.466-1.5-1.642-1.5-2.05zm-2.89 12.171 4.39 2.614 4.388-2.566v-1.079L12.25 13.84a.78.78 0 0 1-.24.072.43.43 0 0 1-.24-.072l-4.149-2.47v1.08zm0 1.943c0 .17.086.327.228.42l3.933 2.398c.123.06.162.07.228.064.088-.003.173-.074.252-.112l3.933-2.398a.468.468 0 0 0 .228-.42v-.791L12.25 16.07a.432.432 0 0 1-.48 0L7.621 13.6v.79zm8.778-4.137v-.516a.467.467 0 0 0-.228-.408l-3.933-2.398a.444.444 0 0 0-.456 0L7.85 9.331a.492.492 0 0 0-.228.408v.516l4.39 2.614 4.388-2.614zm-4.473 11.332L6.95 18.625c-.041-.025-.06-.07-.096-.1v-8.63l-1.2.708a.491.491 0 0 0-.227.395v7.867a.9.9 0 0 0 .407.72l1.272.79c-.002 0-.003-.003-.005-.004l6.024 3.59a.216.216 0 0 0 .336-.216 3.262 3.262 0 0 0-1.535-2.158zM8.891 4.097a.845.845 0 0 1 .859.009L16.41 8.06V6.645a.444.444 0 0 0-.24-.371l-6.38-3.778a.81.81 0 0 0-.85-.012l-1.433.856C5.56 4.498 1.525 6.893 1.36 6.975a.276.276 0 0 0 0 .48 3.154 3.154 0 0 0 2.495-.312L8.89 4.097zM22.635 16.49a3.154 3.154 0 0 0-2.519.3l-5.036 2.986a.875.875 0 0 1-.887 0l-.018-.006-6.554-3.867v1.39c.021.152.093.292.204.397l6.356 3.765a.84.84 0 0 0 .887 0l1.415-.863h-.004l6.156-3.646a.252.252 0 0 0 0-.456zM10.967 6.13l-1.2-.708a.407.407 0 0 0-.431 0L3.688 8.756a.863.863 0 0 0-.456.767v8.862a.216.216 0 0 0 .36.156 3.297 3.297 0 0 0 1.043-2.398v-5.996a.9.9 0 0 1 .098-.367l6.234-3.65zm2.11 11.728 1.2.683a.42.42 0 0 0 .443 0l5.684-3.418c.335-.207.442-.408.442-.706l.002-.001V12.665c0 .006-.004.01-.004.017-.006-2.494-.013-6.831.004-7.104.024-.384-.372-.252-.372-.252a3.37 3.37 0 0 0-1.007 2.399v5.995a.97.97 0 0 1-.191.413l-6.2 3.725z"/>',
       "googlecloudspanner": '<path d="M12 9.06 7.944 6.864V2.388L10.38.924v3.66l1.62.744 1.62-.744V.924l2.436 1.464v4.476L12 9.06zm-8.124 4.752L0 16.056v2.988l3.228-1.86 1.404.912.096 1.632-3.24 1.872 2.616 1.476 3.828-2.268-.132-4.596-3.924-2.4zm9.732-.9V8.758l-1.37.742-.238.129-.238-.13-1.37-.741v4.154l-3.613 2.09 1.282.783.231.142.008.27.046 1.612L12 15.696l3.595 2.079.045-1.59.008-.27.231-.142 1.301-.795-3.572-2.066zm7.164 4.272L24 19.044v-2.988L20.064 13.8l-3.924 2.4-.132 4.596 3.888 2.244 2.616-1.44-3.24-1.836.096-1.668 1.404-.912z"/>',
@@ -5013,6 +5298,7 @@ var init_simple_catalog_generated = __esm({
       "flydotio": '<path d="M11.987 0c-2.45-.01-5.002.925-6.541 2.897-1.17 1.502-1.664 3.474-1.49 5.356.29 2.112 1.476 3.96 2.676 5.672a41.5 41.5 0 0 0 4.216 4.831c-1.063.832-1.943 2.286-1.357 3.644.821 2.32 4.665 2.05 5.122-.372.39-1.288-.694-2.533-1.428-3.309 2.388-2.431 4.706-5.036 6.17-8.145.595-1.32.902-2.802.614-4.24-.28-2.341-1.823-4.473-3.967-5.46C14.76.266 13.364.016 11.987 0m-.236 1.577v15.534C9.881 13.483 7.724 9.266 8.73 5.069c.35-1.539 1.253-3.309 3.02-3.492m1.996.04c1.534.357 3.031 1.096 3.906 2.48 1.3 1.93 1.318 4.55.1 6.521-1.268 2.395-3.06 4.463-4.916 6.415 1.472-2.974 3.074-6.106 3.182-9.5-.043-2.08-.438-4.612-2.272-5.916M11.97 20.103c.848.342 1.597 1.983.153 2.173-.664.15-1.367-.599-.995-1.222.213-.355.488-.73.842-.95"/>',
       "openstack": '<path d="M18.575 9.29h5.418v5.42h-5.418zM0 9.29h5.419v5.42H0zm18.575 7.827a1.207 1.207 0 0 1-1.206 1.206H6.623a1.207 1.207 0 0 1-1.205-1.206v-.858H0v5.252a2.236 2.236 0 0 0 2.229 2.23h19.53A2.237 2.237 0 0 0 24 21.512V16.26h-5.425zM21.763.258H2.233a2.236 2.236 0 0 0-2.23 2.23V7.74h5.419v-.858a1.206 1.206 0 0 1 1.205-1.206h10.746a1.206 1.206 0 0 1 1.205 1.206v.858H24V2.487A2.237 2.237 0 0 0 21.763.258Z"/>',
       "wordpress": '<path d="M21.469 6.825c.84 1.537 1.318 3.3 1.318 5.175 0 3.979-2.156 7.456-5.363 9.325l3.295-9.527c.615-1.54.82-2.771.82-3.864 0-.405-.026-.78-.07-1.11m-7.981.105c.647-.03 1.232-.105 1.232-.105.582-.075.514-.93-.067-.899 0 0-1.755.135-2.88.135-1.064 0-2.85-.15-2.85-.15-.585-.03-.661.855-.075.885 0 0 .54.061 1.125.09l1.68 4.605-2.37 7.08L5.354 6.9c.649-.03 1.234-.1 1.234-.1.585-.075.516-.93-.065-.896 0 0-1.746.138-2.874.138-.2 0-.438-.008-.69-.015C4.911 3.15 8.235 1.215 12 1.215c2.809 0 5.365 1.072 7.286 2.833-.046-.003-.091-.009-.141-.009-1.06 0-1.812.923-1.812 1.914 0 .89.513 1.643 1.06 2.531.411.72.89 1.643.89 2.977 0 .915-.354 1.994-.821 3.479l-1.075 3.585-3.9-11.61.001.014zM12 22.784c-1.059 0-2.081-.153-3.048-.437l3.237-9.406 3.315 9.087c.024.053.05.101.078.149-1.12.393-2.325.609-3.582.609M1.211 12c0-1.564.336-3.05.935-4.39L7.29 21.709C3.694 19.96 1.212 16.271 1.211 12M12 0C5.385 0 0 5.385 0 12s5.385 12 12 12 12-5.385 12-12S18.615 0 12 0"/>',
+      "sap": '<path d="M0 6.064v11.872h12.13L24 6.064zm3.264 2.208h.005c.863.001 1.915.245 2.676.633l-.82 1.43c-.835-.404-1.255-.442-1.73-.467-.708-.038-1.064.215-1.069.488-.007.332.669.633 1.305.838.964.306 2.19.715 2.377 1.9L7.77 8.437h2.046l2.064 5.576-.007-5.575h2.37c2.257 0 3.318.764 3.318 2.519 0 1.575-1.09 2.514-2.936 2.514h-.763l-.01 2.094-3.588-.003-.25-.908c-.37.122-.787.189-1.23.189-.456 0-.885-.071-1.263-.2l-.358.919-2 .006.09-.462c-.029.025-.057.05-.087.074-.535.43-1.208.629-2.037.644l-.213.002a5.075 5.075 0 0 1-2.581-.675l.73-1.448c.79.467 1.286.572 1.956.558.347-.007.598-.07.761-.239a.557.557 0 0 0 .156-.369c.007-.376-.53-.553-1.185-.756-.531-.164-1.135-.389-1.606-.735-.559-.41-.825-.924-.812-1.65a1.99 1.99 0 0 1 .566-1.377c.519-.537 1.357-.863 2.363-.863zm10.597 1.67v1.904h.521c.694 0 1.247-.23 1.248-.964 0-.709-.554-.94-1.248-.94zm-5.087.767l-.748 2.362c.223.085.481.133.757.133.268 0 .52-.047.742-.126l-.736-2.37z"/>',
       "confluence": '<path d="M.87 18.257c-.248.382-.53.875-.763 1.245a.764.764 0 0 0 .255 1.04l4.965 3.054a.764.764 0 0 0 1.058-.26c.199-.332.454-.763.733-1.221 1.967-3.247 3.945-2.853 7.508-1.146l4.957 2.337a.764.764 0 0 0 1.028-.382l2.364-5.346a.764.764 0 0 0-.382-1 599.851 599.851 0 0 1-4.965-2.361C10.911 10.97 5.224 11.185.87 18.257zM23.131 5.743c.249-.405.531-.875.764-1.25a.764.764 0 0 0-.256-1.034L18.675.404a.764.764 0 0 0-1.058.26c-.195.335-.451.763-.734 1.225-1.966 3.246-3.945 2.85-7.508 1.146L4.437.694a.764.764 0 0 0-1.027.382L1.046 6.422a.764.764 0 0 0 .382 1c1.039.49 3.105 1.467 4.965 2.361 6.698 3.246 12.392 3.029 16.738-4.04z"/>',
       "zapier": '<path d="M4.157 0A4.151 4.151 0 0 0 0 4.161v15.678A4.151 4.151 0 0 0 4.157 24h15.682A4.152 4.152 0 0 0 24 19.839V4.161A4.152 4.152 0 0 0 19.839 0H4.157Zm10.61 8.761h.03a.577.577 0 0 1 .23.038.585.585 0 0 1 .201.124.63.63 0 0 1 .162.431.612.612 0 0 1-.162.435.58.58 0 0 1-.201.128.58.58 0 0 1-.23.042.529.529 0 0 1-.235-.042.585.585 0 0 1-.332-.328.559.559 0 0 1-.038-.235.613.613 0 0 1 .17-.431.59.59 0 0 1 .405-.162Zm2.853 1.572c.03.004.061.004.095.004.325-.011.646.064.937.219.238.144.431.355.552.609.128.279.189.582.185.888v.193a2 2 0 0 1 0 .219h-2.498c.003.227.075.45.204.642a.78.78 0 0 0 .646.265.714.714 0 0 0 .484-.136.642.642 0 0 0 .23-.318l.915.257a1.398 1.398 0 0 1-.28.537c-.14.159-.321.284-.521.355a2.234 2.234 0 0 1-.836.136 1.923 1.923 0 0 1-1.001-.245 1.618 1.618 0 0 1-.665-.703 2.221 2.221 0 0 1-.227-1.036 1.95 1.95 0 0 1 .48-1.398 1.9 1.9 0 0 1 1.3-.488Zm-9.607.023c.162.004.325.026.48.079.207.065.4.174.563.314.26.302.393.692.366 1.088v2.276H8.53l-.109-.711h-.065c-.064.163-.155.31-.272.439a1.122 1.122 0 0 1-.374.264 1.023 1.023 0 0 1-.453.083 1.334 1.334 0 0 1-.866-.264.965.965 0 0 1-.329-.801.993.993 0 0 1 .076-.431 1.02 1.02 0 0 1 .242-.363 1.478 1.478 0 0 1 1.043-.303h.952v-.181a.696.696 0 0 0-.136-.454.553.553 0 0 0-.438-.154.695.695 0 0 0-.378.086.48.48 0 0 0-.193.254l-.99-.144a1.26 1.26 0 0 1 .257-.563c.14-.174.321-.302.533-.378.261-.091.54-.136.82-.129.053-.003.106-.007.163-.007Zm4.384.007c.174 0 .347.038.506.114.182.083.34.211.458.374.257.423.377.911.351 1.406a2.53 2.53 0 0 1-.355 1.448 1.148 1.148 0 0 1-1.009.517c-.204 0-.401-.045-.582-.136a1.052 1.052 0 0 1-.48-.457 1.298 1.298 0 0 1-.114-.234h-.045l.004 1.784h-1.059v-4.713h.904l.117.805h.057c.068-.208.177-.401.328-.56a1.129 1.129 0 0 1 .843-.344h.076v-.004Zm7.559.084h.903l.113.805h.053a1.37 1.37 0 0 1 .235-.484.813.813 0 0 1 .313-.242.82.82 0 0 1 .39-.076h.234v1.051h-.401a.662.662 0 0 0-.313.008.623.623 0 0 0-.272.155.663.663 0 0 0-.174.26.683.683 0 0 0-.027.314v1.875h-1.054v-3.666Zm-17.515.003h3.262v.896L3.73 13.104l.034.113h1.973l.042.9H2.4v-.9l1.931-1.754-.045-.117H2.441v-.896Zm11.815 0h1.055v3.659h-1.055V10.45Zm3.443.684.019.016a.69.69 0 0 0-.351.045.756.756 0 0 0-.287.204c-.11.155-.174.336-.189.522h1.545c-.034-.526-.257-.787-.74-.787h.003Zm-5.718.163c-.026 0-.057 0-.083.004a.78.78 0 0 0-.31.053.746.746 0 0 0-.257.189 1.016 1.016 0 0 0-.204.695v.064c-.015.257.057.507.204.711a.634.634 0 0 0 .253.196.638.638 0 0 0 .314.061.644.644 0 0 0 .578-.265c.14-.223.204-.48.189-.74a1.216 1.216 0 0 0-.181-.711.677.677 0 0 0-.503-.257Zm-4.509 1.266a.464.464 0 0 0-.268.102.373.373 0 0 0-.114.276c0 .053.008.106.027.155a.375.375 0 0 0 .087.132.576.576 0 0 0 .397.11v.004a.863.863 0 0 0 .563-.182.573.573 0 0 0 .211-.457v-.14h-.903Z"/>',
       "googledrive": '<path d="M12.01 1.485c-2.082 0-3.754.02-3.743.047.01.02 1.708 3.001 3.774 6.62l3.76 6.574h3.76c2.081 0 3.753-.02 3.742-.047-.005-.02-1.708-3.001-3.775-6.62l-3.76-6.574zm-4.76 1.73a789.828 789.861 0 0 0-3.63 6.319L0 15.868l1.89 3.298 1.885 3.297 3.62-6.335 3.618-6.33-1.88-3.287C8.1 4.704 7.255 3.22 7.25 3.214zm2.259 12.653-.203.348c-.114.198-.96 1.672-1.88 3.287a423.93 423.948 0 0 1-1.698 2.97c-.01.026 3.24.042 7.222.042h7.244l1.796-3.157c.992-1.734 1.85-3.23 1.906-3.323l.104-.167h-7.249z"/>',
@@ -5203,6 +5489,7 @@ var init_core_art_generated = __esm({
         "712b426f54f0fc50d0816dc79df709daa7ac5f93ccaf4e9b3527f627f6e9ad97": '<svg id="bc93169a-24c4-4686-9f37-c7e4f53b3d34" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><radialGradient id="fb114c93-7c16-4540-899a-0796041629e6" cx="9" cy="9" r="8.5" gradientUnits="userSpaceOnUse"><stop offset="0.18" stop-color="#5ea0ef" /><stop offset="0.56" stop-color="#5c9fee" /><stop offset="0.69" stop-color="#559ced" /><stop offset="0.78" stop-color="#4a97e9" /><stop offset="0.86" stop-color="#3990e4" /><stop offset="0.93" stop-color="#2387de" /><stop offset="0.99" stop-color="#087bd6" /><stop offset="1" stop-color="#0078d4" /></radialGradient><radialGradient id="ec478bd3-5b38-4e7f-b661-11f355578bff" cx="38.95" cy="182.07" r="9.88" gradientTransform="translate(-28.71 -163.24) scale(0.94 0.94)" gradientUnits="userSpaceOnUse"><stop offset="0.27" stop-color="#ffd70f" /><stop offset="0.49" stop-color="#ffcb12" /><stop offset="0.88" stop-color="#feac19" /><stop offset="1" stop-color="#fea11b" /></radialGradient></defs><title>Icon-security-245</title><path id="aacf8311-a317-400f-b613-74bd00da5ce3" d="M9,.5A8.5,8.5,0,1,0,17.5,9,8.51,8.51,0,0,0,9,.5ZM9,16.34A7.34,7.34,0,1,1,16.34,9,7.34,7.34,0,0,1,9,16.34Z" fill="url(#fb114c93-7c16-4540-899a-0796041629e6)" /><circle cx="9" cy="9" r="7.34" fill="#fff" /><g><path id="bd983c41-db73-40ec-a4f4-da1213fc9924" d="M13.44,7.33a1.84,1.84,0,0,0,0-2.59h0L10.29,1.58a1.83,1.83,0,0,0-2.58,0h0L4.56,4.74a1.84,1.84,0,0,0,0,2.59L7.18,10a.51.51,0,0,1,.15.36v4.88a.63.63,0,0,0,.18.44l1.2,1.2a.41.41,0,0,0,.58,0l1.16-1.16h0l.68-.68a.25.25,0,0,0,0-.34l-.49-.49a.27.27,0,0,1,0-.37l.49-.49a.25.25,0,0,0,0-.34l-.49-.49a.27.27,0,0,1,0-.37l.49-.49a.25.25,0,0,0,0-.34l-.68-.69v-.25ZM9,2.35A1,1,0,0,1,9,4.42,1,1,0,1,1,9,2.35Z" fill="url(#ec478bd3-5b38-4e7f-b661-11f355578bff)" /><path id="ad2e7e44-9bfd-4775-8bf4-8ef26a544921" d="M8.18,15.3h0a.23.23,0,0,0,.38-.17v-4a.24.24,0,0,0-.11-.2h0a.22.22,0,0,0-.34.2v4A.28.28,0,0,0,8.18,15.3Z" fill="#ff9300" opacity="0.75" /><rect id="a996fbff-3936-4b24-b407-369336c143ba" x="6.48" y="5.79" width="5.17" height="0.61" rx="0.28" fill="#ff9300" opacity="0.75" /><rect id="bb12d31c-3352-4a18-87dd-a169a4a8721d" x="6.48" y="6.78" width="5.17" height="0.61" rx="0.28" fill="#ff9300" opacity="0.75" /></g></svg>',
         "7190d3bb14ce30ce74bd0af873915830fe821e8c5f6ef6f3149e6f7cfb2aa4f7": '<svg id="f2f04349-8aee-4413-84c9-a9053611b319" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="ad4c4f96-09aa-4f91-ba10-5cb8ad530f74" x1="9" y1="15.83" x2="9" y2="5.79" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#b3b3b3" /><stop offset="0.26" stop-color="#c1c1c1" /><stop offset="1" stop-color="#e6e6e6" /></linearGradient></defs><title>Icon-storage-86</title><path d="M.5,5.79h17a0,0,0,0,1,0,0v9.48a.57.57,0,0,1-.57.57H1.07a.57.57,0,0,1-.57-.57V5.79A0,0,0,0,1,.5,5.79Z" fill="url(#ad4c4f96-09aa-4f91-ba10-5cb8ad530f74)" /><path d="M1.07,2.17H16.93a.57.57,0,0,1,.57.57V5.79a0,0,0,0,1,0,0H.5a0,0,0,0,1,0,0V2.73A.57.57,0,0,1,1.07,2.17Z" fill="#37c2b1" /><path d="M2.81,6.89H15.18a.27.27,0,0,1,.26.27v1.4a.27.27,0,0,1-.26.27H2.81a.27.27,0,0,1-.26-.27V7.16A.27.27,0,0,1,2.81,6.89Z" fill="#fff" /><path d="M2.82,9.68H15.19a.27.27,0,0,1,.26.27v1.41a.27.27,0,0,1-.26.27H2.82a.27.27,0,0,1-.26-.27V10A.27.27,0,0,1,2.82,9.68Z" fill="#37c2b1" /><path d="M2.82,12.5H15.19a.27.27,0,0,1,.26.27v1.41a.27.27,0,0,1-.26.27H2.82a.27.27,0,0,1-.26-.27V12.77A.27.27,0,0,1,2.82,12.5Z" fill="#258277" /></svg>',
         "72c6104c5f2199f6eaebbc215c5cb78dea9c1d571b95f470341ca7f83eee5be8": '<svg id="b1cfe86c-f00b-4507-bce2-50d07e45fe96" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="b39dcf83-187e-4c64-98df-431bb60809d2" x1="0.5" y1="10.04" x2="13.18" y2="10.04" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#005ba1" /><stop offset="0.07" stop-color="#0060a9" /><stop offset="0.36" stop-color="#0071c8" /><stop offset="0.52" stop-color="#0078d4" /><stop offset="0.64" stop-color="#0074cd" /><stop offset="0.82" stop-color="#006abb" /><stop offset="1" stop-color="#005ba1" /></linearGradient></defs><title>Icon-databases-132</title><path d="M6.84,5.09c-3.5,0-6.34-1-6.34-2.3V15c0,1.26,2.79,2.28,6.25,2.3h.09c3.5,0,6.34-1,6.34-2.3V2.79C13.18,4.06,10.34,5.09,6.84,5.09Z" fill="url(#b39dcf83-187e-4c64-98df-431bb60809d2)" /><path d="M13.18,2.79c0,1.27-2.84,2.3-6.34,2.3S.5,4.06.5,2.79,3.34.49,6.84.49s6.34,1,6.34,2.3" fill="#e8e8e8" /><path d="M11.7,2.6c0,.81-2.18,1.46-4.86,1.46S2,3.41,2,2.6,4.16,1.14,6.84,1.14,11.7,1.8,11.7,2.6" fill="#50e6ff" /><path d="M6.84,2.94A12,12,0,0,0,3,3.49a11.25,11.25,0,0,0,3.85.57,11.25,11.25,0,0,0,3.85-.57A12,12,0,0,0,6.84,2.94Z" fill="#198ab3" /><path d="M10.74,11.1V7.72H9.81v4.14h2.46V11.1ZM3.59,9.43a1.92,1.92,0,0,1-.51-.31A.44.44,0,0,1,3,8.8a.38.38,0,0,1,.16-.31.72.72,0,0,1,.42-.11,1.67,1.67,0,0,1,1,.29V7.81a2.67,2.67,0,0,0-1-.16A1.74,1.74,0,0,0,2.38,8a1.13,1.13,0,0,0-.41.9c0,.51.32.91,1,1.21a2.9,2.9,0,0,1,.61.36.4.4,0,0,1,.16.32.38.38,0,0,1-.16.31.75.75,0,0,1-.45.12A1.6,1.6,0,0,1,2,10.77v.93a2.29,2.29,0,0,0,1.07.23,2,2,0,0,0,1.18-.32,1.1,1.1,0,0,0,.43-.92,1,1,0,0,0-.25-.7A2.42,2.42,0,0,0,3.59,9.43ZM8.79,11a2.4,2.4,0,0,0,.33-1.27,2.32,2.32,0,0,0-.25-1.1,1.81,1.81,0,0,0-.7-.75,2,2,0,0,0-1-.26,2.18,2.18,0,0,0-1.09.27,1.87,1.87,0,0,0-.73.77,2.41,2.41,0,0,0-.26,1.15,2.26,2.26,0,0,0,.24,1.05,1.83,1.83,0,0,0,.68.75,2,2,0,0,0,1,.29l.85,1H9.05l-1.2-1.11A1.81,1.81,0,0,0,8.79,11Zm-.93-.26a1,1,0,0,1-1.53,0,1.51,1.51,0,0,1-.28-1,1.48,1.48,0,0,1,.29-1,.92.92,0,0,1,.78-.37.89.89,0,0,1,.75.37,1.62,1.62,0,0,1,.27,1A1.46,1.46,0,0,1,7.86,10.77Z" fill="#f2f2f2" /><path d="M14.81,17.49l.24-.79.47-.27.81.36.52-.53V16.2l-.37-.71.22-.5.81-.29.09,0v-.73l-.1,0-.8-.24-.26-.46.35-.82-.53-.51H16.2l-.71.36L15,12l-.32-.89h-.74l0,.11-.24.79-.51.22-.87-.4-.51.53.05.1.38.74-.2.51L11.1,14v.74l.11,0,.79.24.22.51-.39.86.53.52.09-.05.74-.38.51.2.34.89h.73Zm-1.2-2.36a1.06,1.06,0,1,1,1.49-1.52,1.06,1.06,0,0,1-1.49,1.52Z" fill="#949494" /></svg>',
+        "754537541da48fd4957180d452bd64dfc4a9bbe4de4cbfdfa833ef8af556d16f": '<svg id="a75e3f3a-2661-410b-82fb-d300d37dea2d" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="aff60ddf-eec1-40bf-8bf5-f3e3b50e8818" x1="9" y1="16.21" x2="9" y2="0.62" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#1b93eb" /><stop offset="0.21" stop-color="#2095eb" /><stop offset="0.44" stop-color="#2e9ced" /><stop offset="0.69" stop-color="#45a7ef" /><stop offset="0.95" stop-color="#64b6f1" /><stop offset="1" stop-color="#6bb9f2" /></linearGradient></defs><title>Icon-security-248</title><path d="M16,8.44c0,4.57-5.53,8.25-6.73,9a.43.43,0,0,1-.46,0C7.57,16.69,2,13,2,8.44V2.94a.44.44,0,0,1,.43-.44C6.77,2.39,5.78.5,9,.5s2.23,1.89,6.53,2a.44.44,0,0,1,.43.44Z" fill="#1b93eb" /><path d="M15.38,8.48c0,4.2-5.07,7.57-6.17,8.25a.4.4,0,0,1-.42,0c-1.1-.68-6.17-4.05-6.17-8.25v-5A.41.41,0,0,1,3,3c3.94-.11,3-1.83,6-1.83S11.05,2.93,15,3a.41.41,0,0,1,.39.4Z" fill="url(#aff60ddf-eec1-40bf-8bf5-f3e3b50e8818)" /><path d="M9,6.53A2.88,2.88,0,0,1,11.84,9a.49.49,0,0,0,.49.4h1.4a.49.49,0,0,0,.5-.53,5.26,5.26,0,0,0-10.46,0,.49.49,0,0,0,.5.53h1.4A.49.49,0,0,0,6.16,9,2.88,2.88,0,0,1,9,6.53Z" fill="#c3f1ff" /><circle cx="9" cy="9.4" r="1.91" fill="#fff" /></svg>',
         "7602c24ecbcefe06bc16605f9ae2ba37aa1bca534cc2f1752a5b2926a1695d0a": '<svg id="b7c2a418-e983-45bb-8b22-a3ab53d9ffdb" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="ecfac9f9-2ace-451a-aef4-4aae90523bfb" x1="9" y1="15.83" x2="9" y2="5.79" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#32bedd" /><stop offset="0.18" stop-color="#32caea" /><stop offset="0.41" stop-color="#32d2f2" /><stop offset="0.78" stop-color="#32d4f5" /></linearGradient></defs><title>Icon-storage-96</title><path d="M.5,5.79h17a0,0,0,0,1,0,0v9.48a.57.57,0,0,1-.57.57H1.07a.57.57,0,0,1-.57-.57V5.79A0,0,0,0,1,.5,5.79Z" fill="url(#ecfac9f9-2ace-451a-aef4-4aae90523bfb)" /><path d="M1.07,2.17H16.93a.57.57,0,0,1,.57.57V5.79a0,0,0,0,1,0,0H.5a0,0,0,0,1,0,0V2.73A.57.57,0,0,1,1.07,2.17Z" fill="#198ab3" /><path d="M2.81,6.89H15.17a.27.27,0,0,1,.27.27v1.4a.27.27,0,0,1-.27.27H2.81a.27.27,0,0,1-.26-.27V7.16A.27.27,0,0,1,2.81,6.89Z" fill="#fff" /><path d="M2.82,9.68H15.18a.27.27,0,0,1,.27.27v1.41a.27.27,0,0,1-.27.27H2.82a.26.26,0,0,1-.26-.27V10A.26.26,0,0,1,2.82,9.68Z" fill="#9cebff" /><path d="M2.82,12.5H15.18a.27.27,0,0,1,.27.27v1.41a.27.27,0,0,1-.27.27H2.82a.26.26,0,0,1-.26-.27V12.77A.26.26,0,0,1,2.82,12.5Z" fill="#9cebff" /><path id="ae090ab3-6849-4f1b-8ada-ca4d90aafe4f" d="M5.11,7.86v5.59a.28.28,0,0,0,.28.28H7.74A.28.28,0,0,0,8,13.45V10.13a.27.27,0,0,1,.28-.28H9.69a.27.27,0,0,1,.28.28v3.32a.28.28,0,0,0,.29.28h2.35a.28.28,0,0,0,.28-.28V7.86a.28.28,0,0,0-.28-.28H5.39A.28.28,0,0,0,5.11,7.86Z" fill="#0078d4" /></svg>',
         "76763e2d29dc7315305c578af6f7ca19310670805749ca3b332a1e8cfe45ddd3": '<svg id="fca2105f-c039-4f34-bd65-8ab95d4ecdb9" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="a773af38-43e4-4fd2-9485-f8aac63ca91b" x1="5.57" y1="17.5" x2="5.57" y2="0.5" gradientUnits="userSpaceOnUse"><stop offset="0.05" stop-color="#949494" /><stop offset="0.36" stop-color="#979797" /><stop offset="0.54" stop-color="#9f9f9f" /><stop offset="0.69" stop-color="#adadad" /><stop offset="0.73" stop-color="#b3b3b3" /></linearGradient><linearGradient id="b4779ae6-74a5-486d-8aad-cd011859785a" x1="10.56" y1="6.02" x2="10.56" y2="19.71" gradientUnits="userSpaceOnUse"><stop offset="0.18" stop-color="#5ea0ef" /><stop offset="1" stop-color="#0078d4" /></linearGradient></defs><title>Icon-web-46</title><path d="M10.56,16.93a.56.56,0,0,1-.57.57H1.14a.56.56,0,0,1-.56-.57V1.07A.56.56,0,0,1,1.14.5H10a.56.56,0,0,1,.57.57Z" fill="url(#a773af38-43e4-4fd2-9485-f8aac63ca91b)" /><path d="M2,6.46A1.08,1.08,0,0,1,3.13,5.38h5A1.08,1.08,0,0,1,9.18,6.46h0A1.08,1.08,0,0,1,8.1,7.55h-5A1.09,1.09,0,0,1,2,6.46Z" fill="#003067" /><path d="M2,3.24A1.09,1.09,0,0,1,3.13,2.15h5A1.08,1.08,0,0,1,9.18,3.24h0A1.08,1.08,0,0,1,8.1,4.32h-5A1.08,1.08,0,0,1,2,3.24Z" fill="#003067" /><circle cx="3.17" cy="3.24" r="0.73" fill="#50e6ff" /><circle cx="3.17" cy="6.46" r="0.73" fill="#50e6ff" /><path d="M17.42,14.38a3.12,3.12,0,0,0-2.67-3,3.93,3.93,0,0,0-4-3.8,4,4,0,0,0-3.83,2.66A3.7,3.7,0,0,0,3.7,13.83,3.77,3.77,0,0,0,7.56,17.5l.34,0h6.26l.17,0A3.15,3.15,0,0,0,17.42,14.38Z" fill="url(#b4779ae6-74a5-486d-8aad-cd011859785a)" /><rect width="18" height="18" fill="none" /></svg>',
         "7a244a8d7260e84be5c904185db7b04994fe6ed345e2b224163bc5f7e3d97ce0": '<svg id="b388e944-5509-49c9-84d7-f38bffa995b2" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="a997e203-1d7d-4cb9-b131-5dc44e029b46" x1="5.23" y1="17.45" x2="5.23" y2="8.09" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#1988d9" /><stop offset="0.9" stop-color="#54aef0" /></linearGradient><linearGradient id="e122e9d8-aee5-4f1a-a60e-b1eae355daa5" x1="11.5" y1="12.45" x2="11.5" y2="0.55" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#198ab3" /><stop offset="0.01" stop-color="#198bb4" /><stop offset="0.44" stop-color="#27b2d7" /><stop offset="0.79" stop-color="#2fcbed" /><stop offset="1" stop-color="#32d4f5" /></linearGradient></defs><title>Icon-manage-307</title><path d="M5.59,13.13H9.91v4.32H5.59ZM1.15,17.45H4.87V13.13H.55v3.72A.6.6,0,0,0,1.15,17.45Zm-.6-5H4.87V8.09H.55Z" fill="url(#a997e203-1d7d-4cb9-b131-5dc44e029b46)" /><path d="M11.5.55a5.89,5.89,0,0,1,5.95,6,5.89,5.89,0,0,1-5.95,5.95H5.55V6.5A5.89,5.89,0,0,1,11.5.55Z" fill-rule="evenodd" fill="url(#e122e9d8-aee5-4f1a-a60e-b1eae355daa5)" /><rect x="7.59" y="5.65" width="1.36" height="4.08" fill="#fff" /><rect x="10.31" y="7.01" width="1.36" height="2.72" fill="#fff" /><rect x="13.03" y="4.29" width="1.36" height="5.44" fill="#fff" /></svg>',
@@ -5226,6 +5513,7 @@ var init_core_art_generated = __esm({
         "a26124a2b188ccf910520c935c726f7364e0f5935d7a4319ebcab9c80a40e475": '<svg id="a96792b7-ce28-4ca3-9767-4e065ef4820f" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="ef16bf9d-a8b6-4181-b6cd-66fc5203f956" x1="2.59" y1="10.16" x2="15.41" y2="10.16" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#005ba1" /><stop offset="0.07" stop-color="#0060a9" /><stop offset="0.36" stop-color="#0071c8" /><stop offset="0.52" stop-color="#0078d4" /><stop offset="0.64" stop-color="#0074cd" /><stop offset="0.82" stop-color="#006abb" /><stop offset="1" stop-color="#005ba1" /></linearGradient><radialGradient id="bf3846c3-4d74-4743-ab9a-f334c248bd92" cx="9.36" cy="10.57" r="7.07" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f2f2f2" /><stop offset="0.58" stop-color="#eee" /><stop offset="1" stop-color="#e6e6e6" /></radialGradient></defs><title>Icon-databases-130</title><path d="M9,5.14c-3.54,0-6.41-1-6.41-2.32V15.18c0,1.27,2.82,2.3,6.32,2.32H9c3.54,0,6.41-1,6.41-2.32V2.82C15.41,4.11,12.54,5.14,9,5.14Z" fill="url(#ef16bf9d-a8b6-4181-b6cd-66fc5203f956)" /><path d="M15.41,2.82c0,1.29-2.87,2.32-6.41,2.32s-6.41-1-6.41-2.32S5.46.5,9,.5s6.41,1,6.41,2.32" fill="#e8e8e8" /><path d="M13.92,2.63c0,.82-2.21,1.48-4.92,1.48S4.08,3.45,4.08,2.63,6.29,1.16,9,1.16s4.92.66,4.92,1.47" fill="#50e6ff" /><path d="M9,3a11.55,11.55,0,0,0-3.89.57A11.42,11.42,0,0,0,9,4.11a11.15,11.15,0,0,0,3.89-.58A11.84,11.84,0,0,0,9,3Z" fill="#198ab3" /><path d="M12.9,11.4V8H12v4.13h2.46V11.4ZM5.76,9.73a1.83,1.83,0,0,1-.51-.31.44.44,0,0,1-.12-.32.34.34,0,0,1,.15-.3.68.68,0,0,1,.42-.12,1.62,1.62,0,0,1,1,.29V8.11a2.58,2.58,0,0,0-1-.16,1.64,1.64,0,0,0-1.09.34,1.08,1.08,0,0,0-.42.89c0,.51.32.91,1,1.21a2.88,2.88,0,0,1,.62.36.42.42,0,0,1,.15.32.38.38,0,0,1-.16.31.81.81,0,0,1-.45.11,1.66,1.66,0,0,1-1.09-.42V12a2.17,2.17,0,0,0,1.07.24,1.88,1.88,0,0,0,1.18-.33A1.08,1.08,0,0,0,6.84,11a1.05,1.05,0,0,0-.25-.7A2.42,2.42,0,0,0,5.76,9.73ZM11,11.32a2.34,2.34,0,0,0,.33-1.26A2.32,2.32,0,0,0,11,9a1.81,1.81,0,0,0-.7-.75,2,2,0,0,0-1-.26,2.11,2.11,0,0,0-1.08.27A1.86,1.86,0,0,0,7.49,9a2.46,2.46,0,0,0-.26,1.14,2.26,2.26,0,0,0,.24,1,1.76,1.76,0,0,0,.69.74,2.06,2.06,0,0,0,1,.3l.86,1h1.21L10,12.08A1.79,1.79,0,0,0,11,11.32ZM10,11.07a.94.94,0,0,1-.76.35.92.92,0,0,1-.76-.36,1.52,1.52,0,0,1-.29-1,1.53,1.53,0,0,1,.29-1,1,1,0,0,1,.78-.37.87.87,0,0,1,.75.37,1.62,1.62,0,0,1,.27,1A1.46,1.46,0,0,1,10,11.07Z" fill="url(#bf3846c3-4d74-4743-ab9a-f334c248bd92)" /></svg>',
         "a2b134ba1ea7e774a0e493b3e4e4a8d4b72e5dfc6e1b350960360e1f0c26243a": '<svg id="a12d75ea-cbb6-44fa-832a-e54cce009101" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="e2b13d81-97e0-465a-b9ed-b7f57e1b3f8c" x1="9" y1="16.79" x2="9" y2="1.21" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0078d4" /><stop offset="0.06" stop-color="#0a7cd7" /><stop offset="0.34" stop-color="#2e8ce1" /><stop offset="0.59" stop-color="#4897e9" /><stop offset="0.82" stop-color="#589eed" /><stop offset="1" stop-color="#5ea0ef" /></linearGradient></defs><title>Icon-identity-233</title><path d="M16.08,8.44c0,4.57-5.62,8.25-6.85,9a.43.43,0,0,1-.46,0c-1.23-.74-6.85-4.42-6.85-9V2.94a.44.44,0,0,1,.43-.44C6.73,2.39,5.72.5,9,.5s2.27,1.89,6.65,2a.44.44,0,0,1,.43.44Z" fill="#0078d4" /><path d="M15.5,8.48c0,4.2-5.16,7.57-6.29,8.25a.4.4,0,0,1-.42,0C7.66,16.05,2.5,12.68,2.5,8.48v-5A.41.41,0,0,1,2.9,3C6.92,2.93,6,1.21,9,1.21S11.08,2.93,15.1,3a.41.41,0,0,1,.4.4Z" fill="url(#e2b13d81-97e0-465a-b9ed-b7f57e1b3f8c)" /><path d="M11.85,7.66h-.4V6.24a2.62,2.62,0,0,0-.7-1.81,2.37,2.37,0,0,0-3.48,0,2.61,2.61,0,0,0-.7,1.81V7.66h-.4A.32.32,0,0,0,5.82,8v3.68a.32.32,0,0,0,.33.32h5.7a.32.32,0,0,0,.33-.32V8A.32.32,0,0,0,11.85,7.66Zm-1.55,0H7.7V6.22a1.43,1.43,0,0,1,.41-1,1.19,1.19,0,0,1,1.78,0,1.56,1.56,0,0,1,.16.2h0a1.4,1.4,0,0,1,.25.79Z" fill="#ffbd02" /><path d="M6.15,7.66h5.7a.32.32,0,0,1,.21.08L5.94,11.9a.33.33,0,0,1-.12-.24V8A.32.32,0,0,1,6.15,7.66Z" fill="#ffe452" /><path d="M11.85,7.66H6.15a.32.32,0,0,0-.21.08l6.12,4.16a.3.3,0,0,0,.12-.24V8A.32.32,0,0,0,11.85,7.66Z" fill="#ffd400" opacity="0.5" /></svg>',
         "a53772c07fe89cdbb876ce77e22dba0863c1459173b77a1eec73fbdd2048637f": '<svg id="a2157f88-f641-4f7d-abc7-f40ccf5cf69a" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="b816c8ea-05a2-41fb-ba99-96d84599c9f4" x1="12.74" y1="15.28" x2="12.74" y2="8.52" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0078d4" /><stop offset="0.82" stop-color="#5ea0ef" /></linearGradient><linearGradient id="ab373d88-41af-4fc3-b172-d4489f9107a0" x1="12.74" y1="17.89" x2="12.74" y2="15.28" gradientUnits="userSpaceOnUse"><stop offset="0.15" stop-color="#ccc" /><stop offset="1" stop-color="#707070" /></linearGradient></defs><title>Icon-compute-34</title><rect x="0.79" y="0.89" width="10.11" height="6.75" rx="0.34" fill="#005ba1" /><polygon points="7.53 3.28 7.53 5.25 5.85 6.23 5.85 4.27 7.53 3.28" fill="#50e6ff" /><polygon points="7.53 3.28 5.85 4.27 4.16 3.28 5.85 2.29 7.53 3.28" fill="#c3f1ff" /><polygon points="5.85 4.27 5.85 6.23 4.16 5.25 4.16 3.28 5.85 4.27" fill="#9cebff" /><rect x="4.76" y="4.76" width="10.11" height="6.75" rx="0.34" fill="#0078d4" /><polygon points="11.5 7.16 11.5 9.12 9.82 10.11 9.82 8.14 11.5 7.16" fill="#50e6ff" /><polygon points="11.5 7.16 9.82 8.14 8.13 7.16 9.82 6.17 11.5 7.16" fill="#c3f1ff" /><polygon points="9.82 8.14 9.82 10.11 8.13 9.12 8.13 7.16 9.82 8.14" fill="#9cebff" /><rect x="7.68" y="8.52" width="10.11" height="6.75" rx="0.34" fill="url(#b816c8ea-05a2-41fb-ba99-96d84599c9f4)" /><polygon points="14.42 10.92 14.42 12.88 12.74 13.87 12.74 11.9 14.42 10.92" fill="#50e6ff" /><polygon points="14.42 10.92 12.74 11.91 11.05 10.92 12.74 9.93 14.42 10.92" fill="#c3f1ff" /><polygon points="12.74 11.91 12.74 13.87 11.05 12.88 11.05 10.92 12.74 11.91" fill="#9cebff" /><polygon points="11.05 12.88 12.74 11.9 12.74 13.87 11.05 12.88" fill="#c3f1ff" /><polygon points="14.42 12.88 12.74 11.9 12.74 13.87 14.42 12.88" fill="#9cebff" /><path d="M14.76,17.32c-1-.16-1-.88-1-2h-2c0,1.16,0,1.88-1,2a.59.59,0,0,0-.5.57h5A.59.59,0,0,0,14.76,17.32Z" fill="url(#ab373d88-41af-4fc3-b172-d4489f9107a0)" /></svg>',
+        "a90c553f57031340c6ef44e3773c0a49249f9783eb26d83a6590b95c5370fb04": '<svg id="a9ed4d43-c916-4b9a-b9ca-be76fbdc694c" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="aaede26b-698f-4a65-b6db-859d207e2da6" x1="8.05" y1="11.32" x2="8.05" y2="1.26" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0078d4" /><stop offset="0.82" stop-color="#5ea0ef" /></linearGradient><linearGradient id="bc54987f-34ba-4701-8ce4-6eca10aff9e9" x1="8.05" y1="15.21" x2="8.05" y2="11.32" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#1490df" /><stop offset="0.98" stop-color="#1f56a3" /></linearGradient><linearGradient id="a5434fd8-c18c-472c-be91-f2aa070858b7" x1="8.05" y1="7.87" x2="8.05" y2="4.94" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#d2ebff" /><stop offset="1" stop-color="#f0fffd" /></linearGradient></defs><title>Icon-intune-329</title><rect x="0.5" y="1.26" width="15.1" height="10.06" rx="0.5" fill="url(#aaede26b-698f-4a65-b6db-859d207e2da6)" /><rect x="1.34" y="2.1" width="13.42" height="8.39" rx="0.28" fill="#fff" /><path d="M11.08,14.37c-1.5-.23-1.56-1.31-1.55-3h-3c0,1.74-.06,2.82-1.55,3a.87.87,0,0,0-.74.84h7.54A.88.88,0,0,0,11.08,14.37Z" fill="url(#bc54987f-34ba-4701-8ce4-6eca10aff9e9)" /><path d="M17.17,5.91H10.29a2.31,2.31,0,1,0,0,.92H11v9.58a.33.33,0,0,0,.33.33h5.83a.33.33,0,0,0,.33-.33V6.24A.33.33,0,0,0,17.17,5.91Z" fill="#32bedd" /><rect x="11.62" y="6.82" width="5.27" height="8.7" rx="0.12" fill="#fff" /><circle cx="8.05" cy="6.41" r="1.46" opacity="0.9" fill="url(#a5434fd8-c18c-472c-be91-f2aa070858b7)" /><path d="M14.88,10.82,13.76,9.7a.06.06,0,0,0-.1.05v.68a.06.06,0,0,1-.06.06H11v.83H13.6a.06.06,0,0,1,.06.06v.69a.06.06,0,0,0,.1,0L14.88,11A.12.12,0,0,0,14.88,10.82Z" fill="#0078d4" /></svg>',
         "ab242068f3af6c01d88fcaeac7e029bcda39e9b062a415048c6f02f779052b57": '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="fc9e0ce2-d7de-4412-bda8-f01e2cc4e66a" x1="9" y1="12.48" x2="9" y2="1.147" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#003067" /><stop offset="0.037" stop-color="#00346c" /><stop offset="0.239" stop-color="#004583" /><stop offset="0.456" stop-color="#005194" /><stop offset="0.695" stop-color="#00599e" /><stop offset="1" stop-color="#005ba1" /></linearGradient><linearGradient id="e9e87259-0875-41e6-886b-2024b496a772" x1="9" y1="684.663" x2="9" y2="689.036" gradientTransform="matrix(1, 0, 0, -1, 0, 701.516)" gradientUnits="userSpaceOnUse"><stop offset="0.15" stop-color="#ccc" /><stop offset="1" stop-color="#707070" /></linearGradient><linearGradient id="bf7ae98c-3eed-4cf6-9bb1-28dc4026a25b" x1="0.003" y1="-27.428" x2="0.003" y2="-28.757" gradientTransform="matrix(5, 0, 0, -5, 9.126, -133.758)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#00aeef" /><stop offset="0.212" stop-color="#0097dc" /><stop offset="0.519" stop-color="#007cc5" /><stop offset="0.792" stop-color="#006cb8" /><stop offset="1" stop-color="#0066b3" /></linearGradient></defs><g id="bc45d939-cf3c-4c56-98de-8197264505ae"><g><rect x="0.5" y="1.147" width="17" height="11.333" rx="0.567" fill="url(#fc9e0ce2-d7de-4412-bda8-f01e2cc4e66a)" /><path d="M12.409,15.909c-1.681-.265-1.747-1.474-1.747-3.429H7.328c0,1.955-.056,3.164-1.737,3.429a.944.944,0,0,0-.841.944h8.5A.944.944,0,0,0,12.409,15.909Z" fill="url(#e9e87259-0875-41e6-886b-2024b496a772)" /><g><path d="M2.427,10.028H9.215l6.643-6.644H2.427v6.644" fill-rule="evenodd" fill="url(#bf7ae98c-3eed-4cf6-9bb1-28dc4026a25b)" /><path d="M10.4,4.713H9.071l.005,3.119L7.921,4.711H6.775L5.79,7.318C5.685,6.654,5,6.426,4.46,6.254c-.357-.114-.735-.283-.731-.469,0-.152.2-.294.6-.273a2.171,2.171,0,0,1,.968.262l.459-.8a3.589,3.589,0,0,0-1.5-.354h0A1.822,1.822,0,0,0,2.931,5.1a1.119,1.119,0,0,0-.316.771,1.036,1.036,0,0,0,.454.923,3.107,3.107,0,0,0,.9.412c.367.113.667.212.663.423a.314.314,0,0,1-.087.206.581.581,0,0,1-.426.134,1.825,1.825,0,0,1-1.1-.313l-.408.811a2.842,2.842,0,0,0,1.444.377h.12a1.8,1.8,0,0,0,1.139-.36l.049-.041L5.316,8.7l1.12,0,.2-.514a2.287,2.287,0,0,0,1.4.006l.14.508,2.008,0,0-1.172h.427c1.033,0,1.644-.526,1.644-1.407,0-.982-.594-1.41-1.857-1.41ZM7.342,7.379a1.2,1.2,0,0,1-.423-.074l.419-1.322h.008l.412,1.326a1.251,1.251,0,0,1-.416.07Zm3.133-.759h-.291V5.554h.291c.389,0,.7.129.7.526s-.31.54-.7.54" fill="#fff" fill-rule="evenodd" /></g></g></g></svg>',
         "b1bdd74c980623b7524b6ef43f9c2f8704ec0ad84bb1ea35b235ee4aadf5c61e": '<svg id="e628f514-cf24-48e8-9bd9-b0847bc224d0" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="b01f2302-385e-4b49-a7e9-dac023c15293" x1="9" y1="11.84" x2="9" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0078d4" /><stop offset="0.16" stop-color="#1380da" /><stop offset="0.53" stop-color="#3c91e5" /><stop offset="0.82" stop-color="#559cec" /><stop offset="1" stop-color="#5ea0ef" /></linearGradient><linearGradient id="f7246c3f-62d1-41c6-a3d3-d69183d80ba0" x1="4.62" y1="13.54" x2="13.47" y2="13.54" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#32bedd" /><stop offset="0.06" stop-color="#37c5e3" /><stop offset="0.3" stop-color="#49ddf7" /><stop offset="0.45" stop-color="#50e6ff" /><stop offset="0.55" stop-color="#50e6ff" /><stop offset="0.7" stop-color="#49ddf7" /><stop offset="0.94" stop-color="#37c5e3" /><stop offset="1" stop-color="#32bedd" /></linearGradient></defs><title>Icon-databases-133</title><path d="M17.35,8.13a3.74,3.74,0,0,0-3.25-3.6A4.74,4.74,0,0,0,9.22,0,4.87,4.87,0,0,0,4.58,3.16,4.48,4.48,0,0,0,.65,7.47a4.54,4.54,0,0,0,4.7,4.37h8a1.2,1.2,0,0,0,.2,0A3.81,3.81,0,0,0,17.35,8.13Z" fill="url(#b01f2302-385e-4b49-a7e9-dac023c15293)" /><path d="M9.05,10.49c-2.45,0-4.43-.63-4.43-1.41v7.51c0,.77,2,1.4,4.37,1.41h.06c2.44,0,4.42-.63,4.42-1.41V9.08C13.47,9.86,11.49,10.49,9.05,10.49Z" fill="url(#f7246c3f-62d1-41c6-a3d3-d69183d80ba0)" /><path d="M13.47,9.08c0,.78-2,1.41-4.42,1.41S4.62,9.86,4.62,9.08s2-1.41,4.43-1.41,4.42.63,4.42,1.41" fill="#e8e8e8" /><path d="M12.44,9c0,.49-1.52.9-3.39.9s-3.4-.41-3.4-.9,1.52-.9,3.4-.9,3.39.4,3.39.9" fill="#50e6ff" /><path d="M9.05,9.18a9.13,9.13,0,0,0-2.69.34,9,9,0,0,0,2.69.35,9.09,9.09,0,0,0,2.69-.35A9.23,9.23,0,0,0,9.05,9.18Z" fill="#32bedd" /><path d="M6.29,5,8.88,2.38a.3.3,0,0,1,.43,0L11.9,5a.13.13,0,0,1-.1.23H10.21a.14.14,0,0,0-.14.14V8.58a.1.1,0,0,1-.11.11H8.22a.11.11,0,0,1-.11-.11V5.34A.13.13,0,0,0,8,5.2H6.38A.13.13,0,0,1,6.29,5Z" fill="#f2f2f2" /></svg>',
         "b2e9c9a8b091a0694532257354dea94bb8c65b33876826e44dbc9b2aae01cf17": '<svg id="b9c24df5-e0dd-4838-a385-7c11c2d34304" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="aa2ee697-e8d1-4da1-a8c5-64c8ebbb74cf" x1="9" y1="13.83" x2="9" y2="1.07" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0078d4" /><stop offset="0.82" stop-color="#5ea0ef" /></linearGradient></defs><title>Icon-networking-73</title><path d="M18,9.83A4,4,0,0,0,14.49,6,5.1,5.1,0,0,0,9.24,1.07a5.23,5.23,0,0,0-5,3.41A4.83,4.83,0,0,0,0,9.12a4.9,4.9,0,0,0,5.07,4.71l.44,0h8.21a.78.78,0,0,0,.22,0A4.09,4.09,0,0,0,18,9.83Z" fill="url(#aa2ee697-e8d1-4da1-a8c5-64c8ebbb74cf)" /><path id="f0276135-0079-4897-a518-21eb63472c16" d="M6.63,6.82h5.06v7H6.63Z" fill="#f2f2f2" /><path id="e528878d-2ed7-4392-94e6-99c6fc971bcb" d="M12.61,6.37l-3.49-2a.25.25,0,0,0-.31.15s0,.06,0,.08V16.68a.25.25,0,0,0,.24.25h.08l3.49-2.06a.25.25,0,0,0,.17-.23v-8A.26.26,0,0,0,12.61,6.37Z" fill="#50e6ff" /></svg>',
@@ -5310,7 +5598,7 @@ var init_manifest_generated = __esm({
       aws: ["69da81b985927d64", "5282404e5c2d99f3", "173849580e0137b7", "401a550dc39d50cf", "32dd530bf1b2ffda", "9970bc0e154f7fa6", "fd381aeadf455c41", "b2fe0d79a4e5c5b3", "6cc34b07d2641648", "fef6457d55700680", "f492bb7f146528a5"],
       azure: ["57ba8eac0bfb7533", "856438a822c39df9", "2d8d2317e80dc9bd", "c39bff2b4ff90c6e", "f7d2aab6a79e32bf", "37258764cc0b855f", "d83610362ccf5cd7", "22e285c6f3a73de1"],
       gcp: ["a2cb5378fdc60c38"],
-      simple: ["942feade1a617706", "064605c4cd54fe1f", "599e4f55f34773c6", "eb01a5aab17c87e3"]
+      simple: ["942feade1a617706", "064605c4cd54fe1f", "599e4f55f34773c6", "89462c0e565c9125"]
     };
   }
 });
@@ -5950,7 +6238,7 @@ function isColorIcon(ref) {
 }
 function iconAliasTarget(ref) {
   if (findIcon(ref) !== null) return null;
-  const target = ICON_NAME_ALIASES[ref];
+  const target = ICON_NAME_ALIASES[ref] ?? BRAND_STAND_IN_NAMES[ref];
   return target !== void 0 && findIcon(target) !== null ? target : null;
 }
 function isKnownIcon(ref) {
@@ -26580,8 +26868,13 @@ function brandPhrases() {
     return [...phrases2].map((phrase2) => ({ phrase: phrase2, words: phrase2.split(" ").length, ref, set: "simple", isGeneric: false, isBrand: true }));
   });
 }
+function standInPhrases() {
+  return BRAND_STAND_INS.flatMap(
+    (brand) => [.../* @__PURE__ */ new Set([brand.slug, ...[brand.title, ...brand.aliases].map(normalizePhrase)])].map((phrase2) => ({ phrase: phrase2, words: phrase2.split(" ").length, ref: brand.glyph, set: "lucide", isGeneric: false, isBrand: true }))
+  );
+}
 function listProductPhrases() {
-  cached2 ??= [...cloudPhrases(genericPhrases()), ...brandPhrases()];
+  cached2 ??= [...cloudPhrases(genericPhrases()), ...brandPhrases(), ...standInPhrases()];
   return cached2;
 }
 function providerOf(ref) {
@@ -124777,6 +125070,235 @@ var init_suggest = __esm({
   }
 });
 
+// ../../packages/diagrams/src/parse/statement-helpers.ts
+function rejectTrailing(cursor, ctx, hint2) {
+  const span = cursor.remainingSpan();
+  if (span === null) return;
+  ctx.report.push(errorAt(DIAGNOSTIC_CODES.syntax, "Unexpected text after the end of the statement", span, hint2));
+}
+function declareId(cursor, ctx, kind, line3) {
+  const token = cursor.next();
+  if (token?.kind !== "word") {
+    ctx.report.push(
+      errorAt(DIAGNOSTIC_CODES.syntax, `Expected an id after "${kind}"`, token ?? cursor.endPosition(line3), `Write: ${kind} my-id ...`)
+    );
+    return null;
+  }
+  if (!isValidId(token.text)) {
+    ctx.report.push(
+      errorAt(DIAGNOSTIC_CODES.syntax, `"${token.text}" is not a valid id`, token, 'Ids start with a letter or "_" and use letters, digits, "_" and "-".')
+    );
+    return null;
+  }
+  const previous = ctx.declared.get(token.text);
+  if (previous !== void 0) {
+    ctx.report.push(
+      errorAt(DIAGNOSTIC_CODES.duplicateId, `Id "${token.text}" is already used by a ${previous.kind} on line ${previous.line}`, token, "Pick a different id.")
+    );
+    return null;
+  }
+  ctx.declared.set(token.text, { kind, line: line3 });
+  return token;
+}
+function readLabel(cursor, ctx, line3, what, form) {
+  const token = cursor.peek();
+  if (token?.kind === "string") {
+    cursor.next();
+    return token.text;
+  }
+  if (!(token?.kind === "word" && cursor.peek(1)?.kind === "equals") && !(token?.kind === "lbrace")) cursor.next();
+  const hint2 = `Labels are always in double quotes, for example "Auth server".${form === void 0 ? "" : ` The statement is: ${form}`}`;
+  ctx.report.push(errorAt(DIAGNOSTIC_CODES.syntax, `Expected a quoted ${what}`, token ?? cursor.endPosition(line3), hint2));
+  return null;
+}
+function resolveTone(option, fallback, ctx) {
+  if (option === void 0) return fallback;
+  const tone = TONES.find((candidate2) => candidate2 === option.value);
+  if (tone !== void 0) return tone;
+  ctx.report.push(errorAt(DIAGNOSTIC_CODES.unknownTone, `Unknown tone "${option.value}"`, option.valueToken, didYouMean(option.value, TONES)));
+  return fallback;
+}
+function resolveIcon(option, fallback, _ctx) {
+  if (option === void 0) return fallback;
+  if (option.value === "none") return null;
+  if (isKnownIcon(option.value)) return option.value;
+  return iconAliasTarget(option.value) ?? fallback;
+}
+var init_statement_helpers = __esm({
+  "../../packages/diagrams/src/parse/statement-helpers.ts"() {
+    "use strict";
+    init_constants();
+    init_core();
+    init_icons();
+    init_suggest();
+  }
+});
+
+// ../../packages/diagrams/src/parse/lexer.ts
+function readWord(text3, start2) {
+  let end = start2;
+  while (end < text3.length) {
+    const char = text3.charAt(end);
+    const next = text3.charAt(end + 1);
+    if (isWordPart(char)) end += 1;
+    else if (char === "-" && isWordPart(next)) end += 1;
+    else if (char === "." && isWordPart(next)) end += 1;
+    else if (char === ":" && /[A-Za-z_]/.test(next)) end += 1;
+    else break;
+  }
+  return text3.slice(start2, end);
+}
+function readString(text3, start2) {
+  let value = "";
+  let index2 = start2 + 1;
+  while (index2 < text3.length) {
+    const char = text3.charAt(index2);
+    if (char === '"') return { value, end: index2 + 1 };
+    if (char === "\\") {
+      const escaped = STRING_ESCAPES[text3.charAt(index2 + 1)];
+      value += escaped ?? text3.charAt(index2 + 1);
+      index2 += 2;
+    } else {
+      value += char;
+      index2 += 1;
+    }
+  }
+  return null;
+}
+function matchArrow(text3, index2) {
+  return ARROW_TOKENS.find((arrow) => text3.startsWith(arrow, index2)) ?? null;
+}
+function lexLine(text3, line3, diagnostics) {
+  const tokens = [];
+  let index2 = 0;
+  while (index2 < text3.length) {
+    const char = text3.charAt(index2);
+    const column = index2 + 1;
+    if (char === " " || char === "	" || char === "\r") {
+      index2 += 1;
+    } else if (char === "#") {
+      break;
+    } else if (char === '"') {
+      const read = readString(text3, index2);
+      if (read === null) {
+        diagnostics.push(
+          errorAt(
+            DIAGNOSTIC_CODES.unterminatedString,
+            "String is missing its closing quote",
+            { line: line3, column, length: text3.length - index2 },
+            "Close the label with a double quote on the same line."
+          )
+        );
+        break;
+      }
+      tokens.push({ kind: "string", text: read.value, line: line3, column, length: read.end - index2 });
+      index2 = read.end;
+    } else if (matchArrow(text3, index2) !== null) {
+      const arrow = matchArrow(text3, index2);
+      tokens.push({ kind: "arrow", text: arrow, line: line3, column, length: arrow.length });
+      index2 += arrow.length;
+    } else if (char === ":") {
+      tokens.push({ kind: "colon", line: line3, column, length: 1 });
+      index2 += 1;
+    } else if (char === "=") {
+      tokens.push({ kind: "equals", line: line3, column, length: 1 });
+      index2 += 1;
+    } else if (char === ",") {
+      tokens.push({ kind: "comma", line: line3, column, length: 1 });
+      index2 += 1;
+    } else if (char === "{") {
+      tokens.push({ kind: "lbrace", line: line3, column, length: 1 });
+      index2 += 1;
+    } else if (char === "}") {
+      tokens.push({ kind: "rbrace", line: line3, column, length: 1 });
+      index2 += 1;
+    } else if (isWordStart(char)) {
+      const word2 = readWord(text3, index2);
+      tokens.push({ kind: "word", text: word2, line: line3, column, length: word2.length });
+      index2 += word2.length;
+    } else {
+      diagnostics.push(errorAt(DIAGNOSTIC_CODES.syntax, `Unexpected character "${char}"`, { line: line3, column, length: 1 }, unexpectedCharacterHint(char, tokens[tokens.length - 1], text3[index2 + 1])));
+      index2 += 1;
+    }
+  }
+  return tokens;
+}
+function unexpectedCharacterHint(char, previous, following) {
+  if (char === "\\" && following === '"') return 'The source has \\" where a plain " belongs: a label is written "Label" in the source. In JSON, escape that quote once, as \\", never as \\\\\\".';
+  if (char === "\\" && following === "u" || char === "-" && following === "\\") return "The source has a JSON escape written out, such as \\u003e: write the character it stands for instead (\\u003e is >, \\u003c is <, \\u0026 is &), so an arrow is -> and not -\\u003e.";
+  if (char === "\\" && following === "n") return "The source has a written \\n where a line should end: each statement goes on its own line. In JSON, write a line break inside the string as \\n, not \\\\n.";
+  if (previous?.kind === "arrow" || char === ">" || char === "<") return ARROW_HINT;
+  return 'Labels go in double quotes; ids use letters, digits, "_" and "-".';
+}
+function lex(source) {
+  const diagnostics = [];
+  const lines = [];
+  source.split("\n").forEach((text3, offset) => {
+    const line3 = offset + 1;
+    const tokens = lexLine(text3, line3, diagnostics);
+    if (tokens.length > 0) lines.push({ line: line3, tokens });
+  });
+  return { lines, diagnostics };
+}
+var STRING_ESCAPES, isWordStart, isWordPart, ARROW_HINT;
+var init_lexer = __esm({
+  "../../packages/diagrams/src/parse/lexer.ts"() {
+    "use strict";
+    init_constants();
+    init_core();
+    STRING_ESCAPES = { '"': '"', "\\": "\\", n: "\n", t: "	" };
+    isWordStart = (char) => /[A-Za-z0-9_]/.test(char);
+    isWordPart = (char) => /[A-Za-z0-9_]/.test(char);
+    ARROW_HINT = "An arrow is one of ->, -->, ..>, <->, <-->, or --, written from the sender to the receiver (a -> b). Mermaid's ->> and -->> are -> and --> here, and a reply is b --> a, never a <-- b.";
+  }
+});
+
+// ../../packages/diagrams/src/parse/icon-alias-notes.ts
+function iconValues(tokens) {
+  const values = [];
+  for (let index2 = 0; index2 + 2 < tokens.length; index2 += 1) {
+    const key = tokens[index2];
+    if (key?.kind !== "word" || key.text !== "icon" && key.text !== "stack" || tokens[index2 + 1]?.kind !== "equals") continue;
+    const option = key.text;
+    let at3 = index2 + 2;
+    for (let value = tokens[at3]; isValue(value); value = tokens[at3]) {
+      values.push({ ...value, option });
+      if (key.text !== "stack" || tokens[at3 + 1]?.kind !== "comma") break;
+      at3 += 2;
+    }
+  }
+  return values;
+}
+function iconAliasNotes(source) {
+  const notes = [];
+  for (const line3 of lex(source).lines) {
+    for (const value of iconValues(line3.tokens)) {
+      const target = iconAliasTarget(value.text);
+      if (target === null) continue;
+      notes.push({
+        code: ICON_ALIAS_NOTE,
+        severity: "info",
+        message: `"${value.text}" is not a bundled icon name, so ${target} was drawn`,
+        line: value.line,
+        column: value.column,
+        length: value.length,
+        hint: `Write ${target} to say so in the source.`
+      });
+    }
+  }
+  return notes;
+}
+var ICON_ALIAS_NOTE, isValue;
+var init_icon_alias_notes = __esm({
+  "../../packages/diagrams/src/parse/icon-alias-notes.ts"() {
+    "use strict";
+    init_icons();
+    init_lexer();
+    ICON_ALIAS_NOTE = "I122";
+    isValue = (token) => token?.kind === "word" || token?.kind === "string";
+  }
+});
+
 // ../../packages/diagrams/src/parse/icon-hint.ts
 function providerSetFor(guess) {
   const lowered = guess.toLowerCase();
@@ -124845,73 +125367,47 @@ var init_icon_hint = __esm({
   }
 });
 
-// ../../packages/diagrams/src/parse/statement-helpers.ts
-function rejectTrailing(cursor, ctx, hint2) {
-  const span = cursor.remainingSpan();
-  if (span === null) return;
-  ctx.report.push(errorAt(DIAGNOSTIC_CODES.syntax, "Unexpected text after the end of the statement", span, hint2));
+// ../../packages/diagrams/src/parse/unknown-icons.ts
+function isUnknownIcon(value) {
+  return value !== "none" && !isKnownIcon(value) && iconAliasTarget(value) === null;
 }
-function declareId(cursor, ctx, kind, line3) {
-  const token = cursor.next();
-  if (token?.kind !== "word") {
-    ctx.report.push(
-      errorAt(DIAGNOSTIC_CODES.syntax, `Expected an id after "${kind}"`, token ?? cursor.endPosition(line3), `Write: ${kind} my-id ...`)
-    );
-    return null;
+function closestIcons(value) {
+  const words2 = value.replace(/[:\-_]+/g, " ");
+  const name2 = value.includes(":") ? value.slice(value.indexOf(":") + 1).replace(/[-_]+/g, " ") : words2;
+  const found = [...searchIcons(name2, CLOSEST_SHOWN), ...searchIcons(words2, CLOSEST_SHOWN)];
+  return [...new Set(found)].slice(0, CLOSEST_SHOWN);
+}
+function unknownIconHint(value, option = "icon") {
+  const near3 = iconHint(value);
+  const others = closestIcons(value).filter((ref) => !near3.includes(`"${ref}"`));
+  const closest = others.length === 0 ? "" : ` Closest icons: ${others.join(", ")}.`;
+  return `${near3}${closest} ${DRAWN_INSTEAD[option].hint}`;
+}
+function unknownIconWarnings(source) {
+  const warnings = [];
+  for (const line3 of lex(source).lines) {
+    for (const value of iconValues(line3.tokens)) {
+      if (!isUnknownIcon(value.text)) continue;
+      const at3 = { line: value.line, column: value.column, length: value.length };
+      warnings.push(warningAt(DIAGNOSTIC_CODES.unknownIcon, `Unknown icon "${value.text}", ${DRAWN_INSTEAD[value.option].message}`, at3, unknownIconHint(value.text, value.option)));
+    }
   }
-  if (!isValidId(token.text)) {
-    ctx.report.push(
-      errorAt(DIAGNOSTIC_CODES.syntax, `"${token.text}" is not a valid id`, token, 'Ids start with a letter or "_" and use letters, digits, "_" and "-".')
-    );
-    return null;
-  }
-  const previous = ctx.declared.get(token.text);
-  if (previous !== void 0) {
-    ctx.report.push(
-      errorAt(DIAGNOSTIC_CODES.duplicateId, `Id "${token.text}" is already used by a ${previous.kind} on line ${previous.line}`, token, "Pick a different id.")
-    );
-    return null;
-  }
-  ctx.declared.set(token.text, { kind, line: line3 });
-  return token;
+  return warnings;
 }
-function readLabel(cursor, ctx, line3, what, form) {
-  const token = cursor.peek();
-  if (token?.kind === "string") {
-    cursor.next();
-    return token.text;
-  }
-  if (!(token?.kind === "word" && cursor.peek(1)?.kind === "equals") && !(token?.kind === "lbrace")) cursor.next();
-  const hint2 = `Labels are always in double quotes, for example "Auth server".${form === void 0 ? "" : ` The statement is: ${form}`}`;
-  ctx.report.push(errorAt(DIAGNOSTIC_CODES.syntax, `Expected a quoted ${what}`, token ?? cursor.endPosition(line3), hint2));
-  return null;
-}
-function resolveTone(option, fallback, ctx) {
-  if (option === void 0) return fallback;
-  const tone = TONES.find((candidate2) => candidate2 === option.value);
-  if (tone !== void 0) return tone;
-  ctx.report.push(errorAt(DIAGNOSTIC_CODES.unknownTone, `Unknown tone "${option.value}"`, option.valueToken, didYouMean(option.value, TONES)));
-  return fallback;
-}
-function resolveIcon(option, fallback, ctx) {
-  if (option === void 0) return fallback;
-  if (option.value === "none") return null;
-  if (isKnownIcon(option.value)) return option.value;
-  const alias = iconAliasTarget(option.value);
-  if (alias !== null) return alias;
-  ctx.report.push(
-    errorAt(DIAGNOSTIC_CODES.unknownIcon, `Unknown icon "${option.value}"`, option.valueToken, iconHint(option.value))
-  );
-  return fallback;
-}
-var init_statement_helpers = __esm({
-  "../../packages/diagrams/src/parse/statement-helpers.ts"() {
+var CLOSEST_SHOWN, DRAWN_INSTEAD;
+var init_unknown_icons = __esm({
+  "../../packages/diagrams/src/parse/unknown-icons.ts"() {
     "use strict";
-    init_constants();
     init_core();
     init_icons();
+    init_icon_alias_notes();
     init_icon_hint();
-    init_suggest();
+    init_lexer();
+    CLOSEST_SHOWN = 3;
+    DRAWN_INSTEAD = {
+      icon: { message: "so the item draws its default icon", hint: "Meanwhile the item draws its default icon (the one its label names, else its type's); icon=none keeps it plain." },
+      stack: { message: "so the mark is left out", hint: "Meanwhile the mark is left out and the node draws without it." }
+    };
   }
 });
 
@@ -124948,7 +125444,7 @@ function brandBeforeSuffix(normalized) {
   const name2 = words2.slice(0, -1).join(" ");
   if (PLAIN_WORD_NAMES.has(name2)) return null;
   const brand = iconNamedBy(name2, null);
-  return brand !== null && brand.startsWith("simple:") ? brand : null;
+  return brand !== null && (brand.startsWith("simple:") || brand.startsWith("lucide:")) ? brand : null;
 }
 function roleIconFor(text3) {
   const words2 = normalizePhrase(text3).split(" ");
@@ -124982,8 +125478,9 @@ function iconsAreOff(ctx) {
   return (ctx.iconMode ?? DEFAULT_ICON_MODE) === "off";
 }
 function resolveAutoIcon(option, fallback, ctx, ask) {
-  if (option !== void 0 || iconsAreOff(ctx)) return resolveIcon(option, fallback, ctx);
-  return autoIconFor(ask) ?? fallback;
+  if (iconsAreOff(ctx)) return resolveIcon(option, fallback, ctx);
+  if (option === void 0 || isUnknownIcon(option.value)) return autoIconFor(ask) ?? fallback;
+  return resolveIcon(option, fallback, ctx);
 }
 var doubtful;
 var init_auto_icon = __esm({
@@ -124994,6 +125491,7 @@ var init_auto_icon = __esm({
     init_icons();
     init_suggest_icons();
     init_statement_helpers();
+    init_unknown_icons();
   }
 });
 
@@ -130349,9 +130847,8 @@ function resolveStack(option, ctx, canCarry) {
   const marks = [];
   for (const { text: written3, token } of optionValues(option)) {
     const text3 = iconAliasTarget(written3) ?? written3;
-    if (!isKnownIcon(text3)) {
-      ctx.report.push(errorAt(DIAGNOSTIC_CODES.unknownIcon, `Unknown icon "${text3}"`, token, iconHint(text3)));
-    } else if (marks.includes(text3)) {
+    if (!isKnownIcon(text3)) continue;
+    if (marks.includes(text3)) {
       ctx.report.push(errorAt(DIAGNOSTIC_CODES.badOptionValue, `The mark "${text3}" is listed twice`, token, "List each technology once."));
     } else if (marks.length >= STACK_LIMIT) {
       ctx.report.push(errorAt(DIAGNOSTIC_CODES.badOptionValue, `A node carries at most ${STACK_LIMIT} marks in stack=`, token, `Keep the ${STACK_LIMIT} that matter, or name the others in sub=.`));
@@ -130367,7 +130864,6 @@ var init_stack_option = __esm({
     init_constants();
     init_core();
     init_icons();
-    init_icon_hint();
     init_options();
   }
 });
@@ -131204,16 +131700,26 @@ function shortenedIds3(diagram) {
   const groups = diagram.groups.filter((group2) => sizeGroupTab(group2).isShortened).map((group2) => group2.id);
   return [...nodes, ...groups];
 }
+function widthHint(diagram) {
+  const counts = /* @__PURE__ */ new Map();
+  for (const node3 of diagram.nodes) if (node3.group !== null) counts.set(node3.group, (counts.get(node3.group) ?? 0) + 1);
+  const [biggest] = [...counts].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  const split = biggest !== void 0 && biggest[1] >= SPLIT_GROUP_NODES ? `split group ${biggest[0]} (${biggest[1]} nodes) into its own diagram` : "split the diagram in two along a group";
+  const sideways = diagram.direction === "right" || diagram.direction === "left";
+  const fix = sideways ? `Add direction=down to the header line so the diagram grows downwards, ${split}, or shorten labels.` : `It is already as narrow as the layout can draw it, so ${split}, or shorten the longest labels.`;
+  return `${fix} On a page wider than ${CANVAS_METRICS.targetWidth}px it draws at full size, so its text stays 12px there.`;
+}
 function lintFlow(diagram, measure) {
   const general = present([
     densityWarning3(diagram),
     numberedWarning(diagram),
     orphanWarning3(diagram),
     shortenedWarning(shortenedIds3(diagram)),
-    widthWarning(measure.size, "Use direction=down, shorten labels, or split the diagram.")
+    widthWarning(measure.size, widthHint(diagram))
   ]);
   return [...general, ...overlayWarnings(diagram, measure.overlayCovers), ...suggestGroupTypes(diagram), ...suggestIcons(diagram), ...suggestLineRoles(diagram)];
 }
+var SPLIT_GROUP_NODES;
 var init_lint3 = __esm({
   "../../packages/diagrams/src/kinds/flow/lint.ts"() {
     "use strict";
@@ -131227,6 +131733,8 @@ var init_lint3 = __esm({
     init_suggest_group_types();
     init_suggest_icons();
     init_suggest_line_roles();
+    init_theme();
+    SPLIT_GROUP_NODES = 4;
   }
 });
 
@@ -135904,14 +136412,14 @@ function cutNames(diagram) {
 }
 function lintGit(diagram, measure) {
   const history = buildHistory(diagram);
-  const widthHint = diagram.direction === "down" ? "Shorten the commit messages and branch names, or split the history into parts." : "Set direction=down, which grows downward instead of sideways, shorten the commit messages, or split the history into parts.";
+  const widthHint2 = diagram.direction === "down" ? "Shorten the commit messages and branch names, or split the history into parts." : "Set direction=down, which grows downward instead of sideways, shorten the commit messages, or split the history into parts.";
   return [
     ...redundantMerges(diagram),
     ...emptyBranches(diagram, history.commitsByBranch),
     ...repeatedTags(diagram),
     ...longLinks(diagram),
     ...densityWarnings(diagram),
-    ...present([shortenedWarning(cutNames(diagram)), widthWarning(measure.size, widthHint)])
+    ...present([shortenedWarning(cutNames(diagram)), widthWarning(measure.size, widthHint2)])
   ];
 }
 var init_lint5 = __esm({
@@ -153623,7 +154131,7 @@ function cutText(diagram) {
   return cut.length <= MAX_LISTED ? cut : [...cut.slice(0, MAX_LISTED), `and ${cut.length - MAX_LISTED} more`];
 }
 function lintTimeline(diagram, measure) {
-  const widthHint = diagram.direction === "right" ? "Set direction=down, shorten the event labels, or split the timeline by era." : "Shorten the event labels, or split the timeline by era.";
+  const widthHint2 = diagram.direction === "right" ? "Set direction=down, shorten the event labels, or split the timeline by era." : "Shorten the event labels, or split the timeline by era.";
   return [
     ...present([periodsWarning(diagram), eventsWarning(diagram)]),
     ...crowdedWarnings(diagram),
@@ -153631,7 +154139,7 @@ function lintTimeline(diagram, measure) {
     ...emptyWarnings(diagram),
     ...orderWarnings(diagram),
     ...duplicateWarnings2(diagram),
-    ...present([shortenedWarning(cutText(diagram)), widthWarning(measure.size, widthHint)])
+    ...present([shortenedWarning(cutText(diagram)), widthWarning(measure.size, widthHint2)])
   ];
 }
 var MAX_LISTED, SPLIT_HINT4;
@@ -155164,11 +155672,11 @@ function duplicateWarnings3(flat3) {
 function lintTree(diagram, measure) {
   const flat3 = flattenTree(diagram);
   const { facts } = placeTree(diagram);
-  const widthHint = diagram.style === "org" && diagram.direction === "down" ? "Set direction=right, which grows the chart down the page instead of across it, or split the chart by branch." : "Shorten the names and notes, or split the tree by branch.";
+  const widthHint2 = diagram.style === "org" && diagram.direction === "down" ? "Set direction=right, which grows the chart down the page instead of across it, or split the chart by branch." : "Shorten the names and notes, or split the tree by branch.";
   return [
     ...present([depthWarning2(depthOf3(flat3)), rowsWarning(facts.rows, diagram.style)]),
     ...diagram.style === "files" ? duplicateWarnings3(flat3) : [],
-    ...present([shortenedWarning(facts.cut), widthWarning(measure.size, widthHint)])
+    ...present([shortenedWarning(facts.cut), widthWarning(measure.size, widthHint2)])
   ];
 }
 var init_lint18 = __esm({
@@ -159287,125 +159795,6 @@ var init_prose = __esm({
   }
 });
 
-// ../../packages/diagrams/src/parse/lexer.ts
-function readWord(text3, start2) {
-  let end = start2;
-  while (end < text3.length) {
-    const char = text3.charAt(end);
-    const next = text3.charAt(end + 1);
-    if (isWordPart(char)) end += 1;
-    else if (char === "-" && isWordPart(next)) end += 1;
-    else if (char === "." && isWordPart(next)) end += 1;
-    else if (char === ":" && /[A-Za-z_]/.test(next)) end += 1;
-    else break;
-  }
-  return text3.slice(start2, end);
-}
-function readString(text3, start2) {
-  let value = "";
-  let index2 = start2 + 1;
-  while (index2 < text3.length) {
-    const char = text3.charAt(index2);
-    if (char === '"') return { value, end: index2 + 1 };
-    if (char === "\\") {
-      const escaped = STRING_ESCAPES[text3.charAt(index2 + 1)];
-      value += escaped ?? text3.charAt(index2 + 1);
-      index2 += 2;
-    } else {
-      value += char;
-      index2 += 1;
-    }
-  }
-  return null;
-}
-function matchArrow(text3, index2) {
-  return ARROW_TOKENS.find((arrow) => text3.startsWith(arrow, index2)) ?? null;
-}
-function lexLine(text3, line3, diagnostics) {
-  const tokens = [];
-  let index2 = 0;
-  while (index2 < text3.length) {
-    const char = text3.charAt(index2);
-    const column = index2 + 1;
-    if (char === " " || char === "	" || char === "\r") {
-      index2 += 1;
-    } else if (char === "#") {
-      break;
-    } else if (char === '"') {
-      const read = readString(text3, index2);
-      if (read === null) {
-        diagnostics.push(
-          errorAt(
-            DIAGNOSTIC_CODES.unterminatedString,
-            "String is missing its closing quote",
-            { line: line3, column, length: text3.length - index2 },
-            "Close the label with a double quote on the same line."
-          )
-        );
-        break;
-      }
-      tokens.push({ kind: "string", text: read.value, line: line3, column, length: read.end - index2 });
-      index2 = read.end;
-    } else if (matchArrow(text3, index2) !== null) {
-      const arrow = matchArrow(text3, index2);
-      tokens.push({ kind: "arrow", text: arrow, line: line3, column, length: arrow.length });
-      index2 += arrow.length;
-    } else if (char === ":") {
-      tokens.push({ kind: "colon", line: line3, column, length: 1 });
-      index2 += 1;
-    } else if (char === "=") {
-      tokens.push({ kind: "equals", line: line3, column, length: 1 });
-      index2 += 1;
-    } else if (char === ",") {
-      tokens.push({ kind: "comma", line: line3, column, length: 1 });
-      index2 += 1;
-    } else if (char === "{") {
-      tokens.push({ kind: "lbrace", line: line3, column, length: 1 });
-      index2 += 1;
-    } else if (char === "}") {
-      tokens.push({ kind: "rbrace", line: line3, column, length: 1 });
-      index2 += 1;
-    } else if (isWordStart(char)) {
-      const word2 = readWord(text3, index2);
-      tokens.push({ kind: "word", text: word2, line: line3, column, length: word2.length });
-      index2 += word2.length;
-    } else {
-      diagnostics.push(errorAt(DIAGNOSTIC_CODES.syntax, `Unexpected character "${char}"`, { line: line3, column, length: 1 }, unexpectedCharacterHint(char, tokens[tokens.length - 1], text3[index2 + 1])));
-      index2 += 1;
-    }
-  }
-  return tokens;
-}
-function unexpectedCharacterHint(char, previous, following) {
-  if (char === "\\" && following === '"') return 'The source has \\" where a plain " belongs: a label is written "Label" in the source. In JSON, escape that quote once, as \\", never as \\\\\\".';
-  if (char === "\\" && following === "u" || char === "-" && following === "\\") return "The source has a JSON escape written out, such as \\u003e: write the character it stands for instead (\\u003e is >, \\u003c is <, \\u0026 is &), so an arrow is -> and not -\\u003e.";
-  if (char === "\\" && following === "n") return "The source has a written \\n where a line should end: each statement goes on its own line. In JSON, write a line break inside the string as \\n, not \\\\n.";
-  if (previous?.kind === "arrow" || char === ">" || char === "<") return ARROW_HINT;
-  return 'Labels go in double quotes; ids use letters, digits, "_" and "-".';
-}
-function lex(source) {
-  const diagnostics = [];
-  const lines = [];
-  source.split("\n").forEach((text3, offset) => {
-    const line3 = offset + 1;
-    const tokens = lexLine(text3, line3, diagnostics);
-    if (tokens.length > 0) lines.push({ line: line3, tokens });
-  });
-  return { lines, diagnostics };
-}
-var STRING_ESCAPES, isWordStart, isWordPart, ARROW_HINT;
-var init_lexer = __esm({
-  "../../packages/diagrams/src/parse/lexer.ts"() {
-    "use strict";
-    init_constants();
-    init_core();
-    STRING_ESCAPES = { '"': '"', "\\": "\\", n: "\n", t: "	" };
-    isWordStart = (char) => /[A-Za-z0-9_]/.test(char);
-    isWordPart = (char) => /[A-Za-z0-9_]/.test(char);
-    ARROW_HINT = "An arrow is one of ->, -->, ..>, <->, <-->, or --, written from the sender to the receiver (a -> b). Mermaid's ->> and -->> are -> and --> here, and a reply is b --> a, never a <-- b.";
-  }
-});
-
 // ../../packages/diagrams/src/parse/parse-diagram.ts
 function parseDiagram(source) {
   const lexed = lex(source);
@@ -159451,6 +159840,7 @@ var init_parse20 = __esm({
   "../../packages/diagrams/src/parse/index.ts"() {
     "use strict";
     init_parse_diagram();
+    init_unknown_icons();
     init_lexer();
   }
 });
@@ -160225,6 +160615,16 @@ var init_compare_diagrams2 = __esm({
   }
 });
 
+// ../../packages/diagrams/src/services/classification-stamp.ts
+var CLASSIFICATION_ATTRIBUTE, ELEMENT_PATTERN;
+var init_classification_stamp = __esm({
+  "../../packages/diagrams/src/services/classification-stamp.ts"() {
+    "use strict";
+    CLASSIFICATION_ATTRIBUTE = "data-classification";
+    ELEMENT_PATTERN = new RegExp(`<metadata ${CLASSIFICATION_ATTRIBUTE}="[^"]*"/>`, "g");
+  }
+});
+
 // ../../packages/diagrams/src/services/outline-diagram-source.ts
 function outlineDiagramSource(source) {
   const parsed = parseDiagram(source);
@@ -160447,6 +160847,84 @@ var init_render15 = __esm({
   }
 });
 
+// ../../packages/diagrams/src/secrets/scan-secrets.ts
+function maskSecret(value) {
+  const shown = Math.min(SECRET_SCAN_LIMITS.shownCharacters, Math.floor(value.length / 4));
+  return value.slice(0, shown) + SECRET_SCAN_LIMITS.mask;
+}
+function detectorsFor(options3) {
+  const hosts = internalHostDetector(options3.internalHosts ?? []);
+  return [...DETECTORS, ...options3.privateIps === true ? [PRIVATE_IP_DETECTOR] : [], ...hosts === null ? [] : [hosts]];
+}
+function scanLine(text3, line3, detectors) {
+  return secretSpans(text3, detectors).map((span) => ({
+    code: CODE_OF_KIND[span.kind],
+    kind: span.kind,
+    line: line3,
+    column: span.start + 1,
+    length: span.end - span.start,
+    masked: maskSecret(span.value)
+  }));
+}
+function scanSecrets(source, options3 = {}) {
+  const detectors = detectorsFor(options3);
+  return source.split("\n").flatMap((text3, index2) => scanLine(text3.endsWith("\r") ? text3.slice(0, -1) : text3, index2 + 1, detectors)).sort((a, b) => a.line - b.line || a.column - b.column);
+}
+function hintFor(kind) {
+  if (kind === "private-ip" || kind === "internal-host") {
+    return "Your organisation asked for these to be found. Name the part by its role (the database, the internal API) instead. The scan matches patterns, so it can miss one or name one that is fine.";
+  }
+  return `Put a placeholder such as <${kind}> or a reference such as \${NAME} in its place, and rotate the value if it was ever shared. The scan matches patterns, so it can miss a secret or name a value that is not one.`;
+}
+function secretWarning(finding2) {
+  const at3 = { line: finding2.line, column: finding2.column, length: finding2.length };
+  return warningAt(finding2.code, `This looks like ${SECRET_KIND_NAMES[finding2.kind]} (${finding2.masked}); remove it before you publish or commit.`, at3, hintFor(finding2.kind));
+}
+function secretWarnings(source, options3 = {}) {
+  return scanSecrets(source, options3).map(secretWarning);
+}
+var CODE_OF_KIND, SECRET_CODES;
+var init_scan_secrets = __esm({
+  "../../packages/diagrams/src/secrets/scan-secrets.ts"() {
+    "use strict";
+    init_constants();
+    init_core();
+    init_detectors();
+    init_find_spans();
+    CODE_OF_KIND = {
+      "aws-access-key": DIAGNOSTIC_CODES.secretCloudKey,
+      "aws-secret-key": DIAGNOSTIC_CODES.secretCloudKey,
+      "gcp-api-key": DIAGNOSTIC_CODES.secretCloudKey,
+      "gcp-service-account": DIAGNOSTIC_CODES.secretCloudKey,
+      "azure-storage-key": DIAGNOSTIC_CODES.secretCloudKey,
+      "azure-sas-token": DIAGNOSTIC_CODES.secretCloudKey,
+      "github-token": DIAGNOSTIC_CODES.secretSourceToken,
+      "slack-token": DIAGNOSTIC_CODES.secretChatToken,
+      "slack-webhook": DIAGNOSTIC_CODES.secretChatToken,
+      "stripe-key": DIAGNOSTIC_CODES.secretPaymentKey,
+      jwt: DIAGNOSTIC_CODES.secretJwt,
+      "private-key": DIAGNOSTIC_CODES.secretPrivateKey,
+      "assigned-secret": DIAGNOSTIC_CODES.secretAssigned,
+      "connection-string": DIAGNOSTIC_CODES.secretConnectionString,
+      "plotwork-key": DIAGNOSTIC_CODES.secretPlotworkKey,
+      "private-ip": DIAGNOSTIC_CODES.secretPrivateIp,
+      "internal-host": DIAGNOSTIC_CODES.secretInternalHost
+    };
+    SECRET_CODES = new Set(Object.values(CODE_OF_KIND));
+  }
+});
+
+// ../../packages/diagrams/src/secrets/index.ts
+var init_secrets = __esm({
+  "../../packages/diagrams/src/secrets/index.ts"() {
+    "use strict";
+    init_detectors();
+    init_find_spans();
+    init_placeholders();
+    init_scan_secrets();
+  }
+});
+
 // ../../packages/diagrams/src/services/render-pair.ts
 async function renderPairDetailed(source, idPrefix, brand = null) {
   const parsed = parseDiagram(source);
@@ -160466,7 +160944,12 @@ async function renderPairDetailed(source, idPrefix, brand = null) {
       }
     },
     kind: parsed.value.kind,
-    warnings: [...lintDiagram(parsed.value, light.size, light.overlayCovers), ...iconArtWarnings([.../* @__PURE__ */ new Set([...light.missingIcons, ...dark.missingIcons])].sort(), source)]
+    warnings: [
+      ...unknownIconWarnings(source),
+      ...secretWarnings(source),
+      ...lintDiagram(parsed.value, light.size, light.overlayCovers),
+      ...iconArtWarnings([.../* @__PURE__ */ new Set([...light.missingIcons, ...dark.missingIcons])].sort(), source)
+    ]
   };
 }
 var init_render_pair = __esm({
@@ -160476,6 +160959,7 @@ var init_render_pair = __esm({
     init_outline18();
     init_parse20();
     init_render15();
+    init_secrets();
   }
 });
 
@@ -160496,7 +160980,7 @@ async function renderDiagramSource(input2, brand = null) {
     ...input2.idPrefix === void 0 ? {} : { idPrefix: input2.idPrefix },
     ...input2.embedSource ? { source: input2.source } : {}
   });
-  return ok({ svg, theme: input2.theme, size, warnings: [...lintDiagram(parsed.value, size, overlayCovers), ...iconArtWarnings(missingIcons, input2.source)].map(diagnosticToDto) });
+  return ok({ svg, theme: input2.theme, size, warnings: [...unknownIconWarnings(input2.source), ...secretWarnings(input2.source), ...lintDiagram(parsed.value, size, overlayCovers), ...iconArtWarnings(missingIcons, input2.source)].map(diagnosticToDto) });
 }
 var init_render_diagram_svg = __esm({
   "../../packages/diagrams/src/services/render-diagram-svg.ts"() {
@@ -160505,6 +160989,7 @@ var init_render_diagram_svg = __esm({
     init_lint21();
     init_parse20();
     init_render15();
+    init_secrets();
     init_to_dto();
   }
 });
@@ -161563,68 +162048,40 @@ var init_layout18 = __esm({
   }
 });
 
-// ../../packages/diagrams/src/parse/icon-alias-notes.ts
-function iconValues(tokens) {
-  const values = [];
-  for (let index2 = 0; index2 + 2 < tokens.length; index2 += 1) {
-    const key = tokens[index2];
-    if (key?.kind !== "word" || key.text !== "icon" && key.text !== "stack" || tokens[index2 + 1]?.kind !== "equals") continue;
-    let at3 = index2 + 2;
-    for (let value = tokens[at3]; isValue(value); value = tokens[at3]) {
-      values.push(value);
-      if (key.text !== "stack" || tokens[at3 + 1]?.kind !== "comma") break;
-      at3 += 2;
-    }
-  }
-  return values;
-}
-function iconAliasNotes(source) {
-  const notes = [];
-  for (const line3 of lex(source).lines) {
-    for (const value of iconValues(line3.tokens)) {
-      const target = iconAliasTarget(value.text);
-      if (target === null) continue;
-      notes.push({
-        code: ICON_ALIAS_NOTE,
-        severity: "info",
-        message: `"${value.text}" is not a bundled icon name, so ${target} was drawn`,
-        line: value.line,
-        column: value.column,
-        length: value.length,
-        hint: `Write ${target} to say so in the source.`
-      });
-    }
-  }
-  return notes;
-}
-var ICON_ALIAS_NOTE, isValue;
-var init_icon_alias_notes = __esm({
-  "../../packages/diagrams/src/parse/icon-alias-notes.ts"() {
-    "use strict";
-    init_icons();
-    init_lexer();
-    ICON_ALIAS_NOTE = "I122";
-    isValue = (token) => token?.kind === "word" || token?.kind === "string";
-  }
-});
-
 // ../../packages/diagrams/src/quality/findings.ts
-function turnHint(direction, wantsTaller) {
+function turnOption(direction, wantsTaller) {
   if (direction === null) return null;
   const isAcross = direction === "right" || direction === "left";
   const isDown = direction === "down" || direction === "up";
-  if (wantsTaller && !isDown) return "add direction=down to the header line";
-  if (!wantsTaller && !isAcross) return "add direction=right to the header line";
+  if (wantsTaller && !isDown) return "direction=down";
+  if (!wantsTaller && !isAcross) return "direction=right";
   return null;
+}
+function turnHint(direction, wantsTaller) {
+  const option = turnOption(direction, wantsTaller);
+  return option === null ? null : `add ${option} to the header line`;
 }
 function quote2(text3) {
   return text3.length > 32 ? `"${text3.slice(0, 30)}.."` : `"${text3}"`;
 }
+function namedCrossing(pair2) {
+  if (pair2 === null) return { lines: null, ends: null };
+  const [a, b] = pair2;
+  const named = (line3) => line3.from !== null && line3.from !== "" && line3.to !== null && line3.to !== "" ? `${line3.from} -> ${line3.to}` : null;
+  const first = named(a);
+  const second = named(b);
+  const lines = first === null || second === null ? null : `${first} and ${second}`;
+  const ends = a.to !== null && b.to !== null && a.to !== "" && b.to !== "" && a.to !== b.to ? [a.to, b.to] : null;
+  return { lines, ends };
+}
 function crossingFinding(m, context) {
   if (m.crossings === 0) return null;
-  const turn = turnHint(context.direction, true) ?? turnHint(context.direction, false);
-  const fix = turn === null ? "declare the nodes of each path next to each other so the layout keeps them in order" : `${turn}, or declare connected nodes next to each other`;
-  return { measure: "crossings", penalty: cap(m.crossings * 5, 30), hint: `${m.crossings === 1 ? "Two lines cross" : `Lines cross ${m.crossings} times`}: ${fix}.` };
+  const turn = turnOption(context.direction, true) ?? turnOption(context.direction, false);
+  const { lines, ends } = namedCrossing(context.measured.crossingPair);
+  const group2 = ends === null ? "declare connected nodes next to each other" : `put ${ends[0]} and ${ends[1]} in one group so they sit side by side`;
+  const fix = turn === null ? ends === null ? "declare the nodes of each path next to each other so the layout keeps them in order" : group2 : `try ${turn} on the header line, or ${group2}`;
+  const count3 = m.crossings === 1 ? "Two lines cross" : `Lines cross ${m.crossings} times`;
+  return { measure: "crossings", penalty: cap(m.crossings * 5, 30), hint: `${count3}${lines === null ? "" : ` (first ${lines})`}: ${fix}.` };
 }
 function detourFinding(m, context) {
   if (m.detour <= DETOUR_LIMIT) return null;
@@ -161810,6 +162267,7 @@ function countCrossings(lines) {
   const bounds2 = lines.map((line3) => boundsOf2(line3.points));
   const segments = lines.map(segmentsOf2);
   let crossings2 = 0;
+  let first = null;
   for (let i = 0; i < lines.length; i += 1) {
     for (let j = i + 1; j < lines.length; j += 1) {
       if (shareAnEnd(lines[i], lines[j])) continue;
@@ -161818,12 +162276,14 @@ function countCrossings(lines) {
       for (const [a, b] of segments[i]) {
         for (const [c, d] of segments[j]) {
           const at3 = segmentCrossing(a, b, c, d);
-          if (at3 !== null && !ends.some((end) => near2(end, at3, END_CLEARANCE_PX))) crossings2 += 1;
+          if (at3 === null || ends.some((end) => near2(end, at3, END_CLEARANCE_PX))) continue;
+          crossings2 += 1;
+          first ??= [lines[i], lines[j]];
         }
       }
     }
   }
-  return crossings2;
+  return { count: crossings2, first };
 }
 function solidBoxes(boxes2) {
   return boxes2.filter((box) => !boxes2.some((other) => other !== box && encloses(box.rect, other.rect)));
@@ -161915,10 +162375,11 @@ function measureScene(scene) {
   const boxes2 = solidBoxes(scene.boxes);
   const over = linesOverBoxes(scene.lines, boxes2);
   const overlaps8 = overlappingLabels(scene.labels, boxes2);
+  const crossings2 = countCrossings(scene.lines);
   const biggest = [...scene.groups].sort((a, b) => b.boxes - a.boxes || a.id.localeCompare(b.id))[0];
   return {
     measures: {
-      crossings: countCrossings(scene.lines),
+      crossings: crossings2.count,
       lineOverBox: over.count,
       labelOverlaps: overlaps8.count,
       smallestTextPx: round(smallestText(scene), 1),
@@ -161933,6 +162394,7 @@ function measureScene(scene) {
       slices: scene.slices
     },
     lineOverBox: over.first,
+    crossingPair: crossings2.first,
     labelPair: overlaps8.first,
     biggestGroup: biggest === void 0 || biggest.boxes === 0 ? null : { id: biggest.id, boxes: biggest.boxes }
   };
@@ -162347,16 +162809,17 @@ function toQualityDto(report3) {
 async function validateDiagramSource(source) {
   const notes = iconAliasNotes(source);
   const withNotes = notes.length === 0 ? {} : { notices: notes.map((note) => ({ ...note })) };
+  const unknownIcons = [...unknownIconWarnings(source), ...secretWarnings(source)].map(diagnosticToDto);
   const parsed = parseDiagram(source);
   if (!parsed.ok) {
-    return { valid: false, kind: guessKind(source), errors: parsed.error.map(diagnosticToDto), warnings: [], summary: null, size: null, ...withNotes };
+    return { valid: false, kind: guessKind(source), errors: parsed.error.map(diagnosticToDto), warnings: unknownIcons, summary: null, size: null, ...withNotes };
   }
   const { size, overlayCovers } = await diagramMeasure(parsed.value);
   return {
     valid: true,
     kind: parsed.value.kind,
     errors: [],
-    warnings: lintDiagram(parsed.value, size, overlayCovers).map(diagnosticToDto),
+    warnings: [...unknownIcons, ...lintDiagram(parsed.value, size, overlayCovers).map(diagnosticToDto)],
     summary: summarizeDiagram(parsed.value),
     size,
     quality: toQualityDto(await assessQuality(parsed.value)),
@@ -162373,6 +162836,7 @@ var init_validate_diagram = __esm({
     init_guess_kind();
     init_icon_alias_notes();
     init_quality();
+    init_secrets();
     init_to_dto();
   }
 });
@@ -162384,6 +162848,7 @@ var init_services = __esm({
     init_build_vocabulary();
     init_compare_diagrams2();
     init_diagram_id();
+    init_classification_stamp();
     init_to_dto();
     init_prose();
     init_registry2();
@@ -162398,6 +162863,7 @@ var init_services = __esm({
     init_search_icon_names();
     init_sync_document();
     init_validate_diagram();
+    init_secrets();
   }
 });
 
@@ -178055,7 +178521,7 @@ var init_workflows = __esm({
       why: external_exports.string().describe("Why they were left out, and what to do.")
     }).describe("Present only when pictures were left out because the answer would have been too big for an AI client to read in one piece.");
     ViewUrlSchema = external_exports.string().describe(
-      "A link that shows a valid diagram in a browser; give it to the person who wants to look. The source is in the part after #, never sent to a server, but anyone with the link can read it. Absent when too long; next says so."
+      "A link that shows a valid diagram in a browser; give it to the person who wants to look. It holds the drawing itself: the source is in the part after #, never sent to a server, so nothing is saved on Plotwork and it appears in no Diagrams list; anyone with the link can read it. Absent when too long; next says so."
     );
     PngUrlSchema = external_exports.string().describe(
       "The viewUrl with &download=png: opening it in a browser saves the diagram as a PNG for Slack, email, or a wiki. The PNG is drawn in the person's browser, not on a server, so it is a link to open, not an image address to embed. Absent when too long."
@@ -178811,7 +179277,9 @@ var init_patterns2 = __esm({
       kind: KindNameSchema,
       tags: external_exports.array(external_exports.string()),
       providers: external_exports.array(FlavourSchema).describe("The flavours the pattern comes in."),
-      score: external_exports.number().describe("How well it matches; only the order of the results is meaningful.")
+      score: external_exports.number().describe("How well it matches; only the order of the results is meaningful."),
+      origin: external_exports.literal("organisation").optional().describe("Present on a pattern of your organisation's own, which it approved and which comes first. Absent on the built-in patterns."),
+      label: external_exports.literal("Your organisation's pattern").optional().describe("Present, with origin, on a pattern of your organisation: the words to show beside it.")
     });
     FindPatternResponseSchema = external_exports.object({
       query: external_exports.string().describe("The query that was searched."),
@@ -180958,11 +181426,14 @@ function scoreOf(pattern3, query, phrase2) {
   return score;
 }
 function findPatterns(query, filters = {}) {
+  return findPatternsIn(listPatterns(), query, filters);
+}
+function findPatternsIn(patterns, query, filters = {}) {
   const wanted2 = words(query);
   const phrase2 = wanted2.join(" ");
   const tags = (filters.tags ?? []).map((tag) => tag.toLowerCase());
   const limit = Math.max(1, Math.min(filters.limit ?? PATTERN_RESULT_LIMIT, 20));
-  return listPatterns().filter((pattern3) => filters.provider === void 0 || flavoursOf(pattern3).includes(filters.provider)).filter((pattern3) => filters.kind === void 0 || pattern3.kind === filters.kind).filter((pattern3) => tags.every((tag) => pattern3.tags.some((candidate2) => candidate2.toLowerCase() === tag))).map((pattern3, index2) => ({ pattern: pattern3, index: index2, score: scoreOf(pattern3, wanted2, phrase2) })).filter((entry2) => wanted2.length === 0 || entry2.score > 0).sort((a, b) => b.score - a.score || a.index - b.index).slice(0, limit).map(({ pattern: pattern3, score }) => ({
+  return patterns.filter((pattern3) => filters.provider === void 0 || flavoursOf(pattern3).includes(filters.provider)).filter((pattern3) => filters.kind === void 0 || pattern3.kind === filters.kind).filter((pattern3) => tags.every((tag) => pattern3.tags.some((candidate2) => candidate2.toLowerCase() === tag))).map((pattern3, index2) => ({ pattern: pattern3, index: index2, score: scoreOf(pattern3, wanted2, phrase2) })).filter((entry2) => wanted2.length === 0 || entry2.score > 0).sort((a, b) => b.score - a.score || a.index - b.index).slice(0, limit).map(({ pattern: pattern3, score }) => ({
     id: pattern3.id,
     title: pattern3.title,
     summary: pattern3.summary,
@@ -181021,9 +181492,14 @@ var init_slots = __esm({
 // ../../packages/diagrams/src/patterns/fill-pattern.ts
 function fillPattern(id, flavour, values = {}) {
   const pattern3 = getPattern(id);
-  if (pattern3 === void 0) {
-    return err([{ code: "unknown-pattern", message: `Unknown pattern "${id}"`, hint: `${didYouMean(id, listPatternIds())} Search with find_pattern.` }]);
-  }
+  if (pattern3 === void 0) return unknownPattern(id, listPatternIds());
+  return fillPatternFrom(pattern3, flavour, values);
+}
+function unknownPattern(id, known3) {
+  return err([{ code: "unknown-pattern", message: `Unknown pattern "${id}"`, hint: `${didYouMean(id, known3)} Search with find_pattern.` }]);
+}
+function fillPatternFrom(pattern3, flavour, values = {}) {
+  const id = pattern3.id;
   const chosen = PATTERN_FLAVOURS.find((candidate2) => candidate2 === flavour);
   const template = chosen === void 0 ? void 0 : pattern3.templates[chosen];
   if (chosen === void 0 || template === void 0) {
@@ -181077,12 +181553,27 @@ var init_fill_pattern = __esm({
   }
 });
 
+// ../../packages/diagrams/src/patterns/org-patterns.ts
+var init_org_patterns = __esm({
+  "../../packages/diagrams/src/patterns/org-patterns.ts"() {
+    "use strict";
+    init_core();
+    init_parse20();
+    init_fill_pattern();
+    init_find_patterns();
+    init_registry3();
+    init_slots();
+    init_types4();
+  }
+});
+
 // ../../packages/diagrams/src/patterns/index.ts
 var init_patterns3 = __esm({
   "../../packages/diagrams/src/patterns/index.ts"() {
     "use strict";
     init_find_patterns();
     init_fill_pattern();
+    init_org_patterns();
     init_pattern_tree();
     init_registry3();
     init_slots();
@@ -197857,7 +198348,7 @@ var init_draw_diagram2 = __esm({
     drawDiagramWorkflow = defineWorkflow({
       name: "draw_diagram",
       title: "Draw diagram",
-      description: 'Workflow. Checks, describes, and draws a diagram. With errors it returns each one with line, column, and a fix hint and draws nothing: fix the source and call again. When valid it returns the quality warnings (take the icon and group-type suggestions), an outline to check the meaning, the size, and the SVG for light, dark, or both. The pictures are most of an answer and you cannot see them: pass svg "never" to check, and draw only to save, show, or publish. Give viewUrl to the person, even after svg "never"; pngUrl and svgUrl download it; saveCommand, when given, saves it in a repository. A big drawing (about 30 nodes) loses its SVGs, dark first, and picturesOmitted says so; svg "always" forces them. Set embedSource true to save an SVG in a repository or publish one to edit later, so read_diagram gives the source back (anyone with the file can read it). detail "full" adds the whole outline. To change an existing diagram use edit_diagram, or read_diagram for a picture. Saves no file; never throws on bad source. Replaces the validate_diagram, outline_diagram and render_diagram calls.',
+      description: 'Workflow. Checks, describes, and draws a diagram. With errors it returns each one with line, column, and a fix hint and draws nothing: fix the source and call again. When valid it returns the quality warnings (take the icon and group-type suggestions), an outline to check the meaning, the size, and the SVG for light, dark, or both. The pictures are most of an answer and you cannot see them: pass svg "never" to check, and draw only to save, show, or publish. Give viewUrl to the person, even after svg "never": the drawing lives in the link and nothing is saved on Plotwork; pngUrl and svgUrl download it; saveCommand, when given, saves it in a repository. A big drawing (about 30 nodes) loses its SVGs, dark first, and picturesOmitted says so; svg "always" forces them. Set embedSource true to save an SVG in a repository or publish one to edit later, so read_diagram gives the source back (anyone with the file can read it). detail "full" adds the whole outline. To change an existing diagram use edit_diagram, or read_diagram for a picture. Saves no file; never throws on bad source. Replaces the validate_diagram, outline_diagram and render_diagram calls.',
       compact: {
         description: 'Checks diagram source and draws it in one call. Returns every error with line, column, and hint, and draws nothing until the source is valid, so fix each error and call again. svg "never" only checks and keeps the answer small; "always" returns the light and dark SVG to save.',
         inputs: { svg: "never: check only. always: return the SVGs.", themes: "", embedSource: "Write the source into the SVG, for a file saved in a repository." }
@@ -198048,11 +198539,12 @@ var init_edit_diagram2 = __esm({
 });
 
 // ../../packages/diagrams/src/tools/workflows/find-pattern.ts
-function nextFor(count3, firstId) {
+function nextFor(count3, firstId, own2) {
   if (count3 === 0 || firstId === void 0) {
     return "Nothing fits. Try fewer or more general words, drop the provider or tag filter, or draw the diagram from nothing with get_diagram_syntax and draw_diagram.";
   }
-  return `Read the summaries and choose one. Call get_pattern with its id (the best match is ${firstId}) to see its source, slots, and advice, or draw_from_pattern to check and draw it in one call.`;
+  const prefer = own2 === 0 ? "" : " The matches with origin organisation are your organisation's own approved patterns: prefer them.";
+  return `Read the summaries and choose one. Call get_pattern with its id (the best match is ${firstId}) to see its source, slots, and advice, or draw_from_pattern to check and draw it in one call.${prefer}`;
 }
 async function findPattern(input2, ops = ENGINE_OPS) {
   const matches3 = ops.findPatterns(input2.query, {
@@ -198061,7 +198553,8 @@ async function findPattern(input2, ops = ENGINE_OPS) {
     ...input2.kind === void 0 ? {} : { kind: input2.kind },
     limit: input2.limit
   });
-  return { query: input2.query, matches: matches3.map((match) => ({ ...match, tags: [...match.tags], providers: [...match.providers] })), next: nextFor(matches3.length, matches3[0]?.id) };
+  const own2 = matches3.filter((match) => match.origin === "organisation").length;
+  return { query: input2.query, matches: matches3.map((match) => ({ ...match, tags: [...match.tags], providers: [...match.providers] })), next: nextFor(matches3.length, matches3[0]?.id, own2) };
 }
 var findPatternWorkflow;
 var init_find_pattern = __esm({
@@ -200403,7 +200896,7 @@ var init_profiles = __esm({
       "Draws flow, sequence, schema, state, class, and other diagrams from a small line-oriented text language.",
       'To draw: if unsure which kind fits, call suggest_diagram; call get_diagram_syntax once with kind set to the kind you draw; write the source and call draw_diagram with svg "never" to check it, fix every error by its line, column, and hint, and call again until it is valid; call draw_diagram with svg "always" only when the SVG will be saved.',
       "To change a diagram, call edit_diagram. From a file (SQL, OpenAPI, Terraform, docker-compose, Kubernetes, CSV, and more), call import_source; from Mermaid, convert_mermaid; for every diagram fence of a Markdown file, sync_markdown.",
-      "Save or hand over only source that a tool has said is valid, and check it again with draw_diagram after any change.",
+      "Save or hand over only source that a tool has said is valid, and check it again with draw_diagram after any change. A viewUrl holds the drawing in the link: nothing is saved on Plotwork.",
       "Use map_icons for icon names and never invent one. Pass the arguments as one JSON object with the fields at the top level."
     ].join(" ");
     COMPACT_LEFT_OUT = /* @__PURE__ */ new Set(["description", "$schema", "title", "default", "examples", "minLength", "maxLength", "minItems", "maxItems", "pattern", "propertyNames"]);
@@ -200494,9 +200987,19 @@ var init_view2 = __esm({
 function isRecord6(value) {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
-function pictureFileName(source) {
+function drawnSourceOf(tool, args, answer) {
+  const pick3 = SOURCE_OF[tool];
+  if (pick3 === void 0 || !isRecord6(args) || !isRecord6(answer)) return null;
+  const picked = pick3(args, answer);
+  return typeof picked === "string" && picked.length > 0 ? picked : null;
+}
+function sourceTitle(source) {
   const header = source.split("\n").find((line3) => line3.trim() !== "" && !line3.trim().startsWith("#")) ?? "";
-  const title = /^\s*[a-z][\w-]*\s+"([^"]*)"/i.exec(header)?.[1] ?? "";
+  const title = (/^\s*[a-z][\w-]*\s+"([^"]*)"/i.exec(header)?.[1] ?? "").trim();
+  return title === "" ? null : title;
+}
+function pictureFileName(source) {
+  const title = sourceTitle(source) ?? "";
   const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 60).replace(/-+$/, "");
   return `${slug === "" ? "diagram" : slug}.svg`;
 }
@@ -200514,10 +201017,8 @@ function savingSentence(hasCommand, release = CLI_RELEASE) {
 }
 async function attachViewUrl(tool, args, value, base, release = CLI_RELEASE) {
   if (tool === "sync_markdown") return rebaseFileLinks(value, base);
-  const pick3 = SOURCE_OF[tool];
-  if (pick3 === void 0 || !isRecord6(value) || !isRecord6(args)) return value;
-  const picked = pick3(args, value);
-  if (typeof picked !== "string" || picked.length === 0) return value;
+  const picked = drawnSourceOf(tool, args, value);
+  if (picked === null || !isRecord6(value) || !isRecord6(args)) return value;
   const settings = SettingsSchema.safeParse(args["settings"]);
   const source = settings.success ? applyDefaults(picked, settings.data.defaults).source : picked;
   const link2 = await viewLinkFor(source, base);
@@ -200532,7 +201033,7 @@ async function attachViewUrl(tool, args, value, base, release = CLI_RELEASE) {
       ...pngUrl.length <= VIEW_LINKS.maxLength ? { pngUrl } : {},
       ...svgUrl.length <= VIEW_LINKS.maxLength ? { svgUrl } : {},
       ...saveCommand === null ? {} : { saveCommand },
-      next: `${next}${savingSentence(saveCommand !== null, release)}`
+      next: `${next}${VIEW_LINK_NOT_SAVED} ${savingSentence(saveCommand !== null, release)}`
     };
   }
   return { ...value, next: `${next}There is no viewUrl: the link would be ${link2.length} characters, over the ${VIEW_LINKS.maxLength} a link may have. ${savingSentence(false, release)}` };
@@ -200558,7 +201059,7 @@ function stripViewLinks(value) {
   }
   return kept2;
 }
-var SOURCE_OF, VIEW_LINK_TOOLS, VIEW_LINK_FIELDS;
+var SOURCE_OF, VIEW_LINK_TOOLS, VIEW_LINK_NOT_SAVED, VIEW_LINK_FIELDS;
 var init_view_link = __esm({
   "../../packages/diagrams/src/tools/view-link.ts"() {
     "use strict";
@@ -200574,6 +201075,7 @@ var init_view_link = __esm({
       import_source: (_args, answer) => answer["validation"]?.["valid"] === true ? answer["source"] : null
     };
     VIEW_LINK_TOOLS = Object.keys(SOURCE_OF);
+    VIEW_LINK_NOT_SAVED = "viewUrl holds the drawing itself in the link: nothing is saved on Plotwork, and it will not appear in any Diagrams list.";
     VIEW_LINK_FIELDS = ["viewUrl", "pngUrl", "svgUrl", "saveCommand"];
   }
 });
@@ -200785,6 +201287,33 @@ var init_icon_scope = __esm({
   }
 });
 
+// src/constants.ts
+var MAX_BODY_BYTES2;
+var init_constants15 = __esm({
+  "src/constants.ts"() {
+    "use strict";
+    MAX_BODY_BYTES2 = 10 * 1024 * 1024;
+  }
+});
+
+// src/org-patterns.ts
+function patternInstructions(library) {
+  if (library.only) {
+    return "This connection's organisation asks its agents to start from its approved patterns: call find_pattern first for every diagram a pattern could fit, and start from the one it returns with draw_from_pattern or get_pattern. find_pattern answers with the organisation's own patterns only. When none fits, draw the diagram from nothing with draw_diagram: that is allowed.";
+  }
+  return "This connection's organisation has its own approved patterns: find_pattern lists them first, each with origin organisation, and you should prefer them over the built-in ones.";
+}
+function findPatternNote(library) {
+  return library.only ? " Through this connection it searches only your organisation's approved patterns (ids start with org:), which your organisation asks you to start from; when none fits, draw from nothing." : " Through this connection it lists your organisation's own patterns first (ids start with org:, origin organisation); prefer them.";
+}
+var init_org_patterns2 = __esm({
+  "src/org-patterns.ts"() {
+    "use strict";
+    init_patterns3();
+    init_constants15();
+  }
+});
+
 // src/engine-runner.ts
 var runInPlace, runLocally;
 var init_engine_runner = __esm({
@@ -200793,6 +201322,7 @@ var init_engine_runner = __esm({
     init_icons();
     init_tools();
     init_icon_scope();
+    init_org_patterns2();
     runInPlace = (tool, args) => tool.run(args);
     runLocally = (tool, args) => tool.kind === "workflow" && "runWith" in tool ? tool.runWith(args, LOCAL_ENGINE_OPS) : tool.run(args);
   }
@@ -200955,7 +201485,7 @@ function libraryInstructions(library) {
 function librarySaveStep(library) {
   return `When the diagram is finished, save it to the private library of ${JSON.stringify(library.name)} with publish_diagram (no need to ask: only members can open it).`;
 }
-var SERVER_INFO, SAVING_INSTRUCTIONS, SERVER_INSTRUCTIONS, HOSTED_INSTRUCTIONS;
+var SERVER_INFO, SAVING_INSTRUCTIONS, SERVER_INSTRUCTIONS, KEEP_IN_LIBRARY_STEP, HOSTED_INSTRUCTIONS;
 var init_server_info = __esm({
   "src/server-info.ts"() {
     "use strict";
@@ -200987,7 +201517,8 @@ var init_server_info = __esm({
       "Use validate_diagram, outline_diagram, render_diagram, and search_icons only for one fine-grained step.",
       "Choose node types and tones for meaning; colors are chosen by the theme and cannot be set."
     ].join(" ");
-    HOSTED_INSTRUCTIONS = "When the person asks to share a finished diagram or wants a link to it, call publish_diagram with the valid source: it returns a public link and a Markdown image to paste, and publishing the same diagram again returns the same link. Publish only when asked, because anyone with the link can see the picture. After you edit a published diagram, call publish_diagram again: an edited diagram is a new picture with a new link, so replace the old link wherever it is used. Set embedSource true on publish_diagram when someone may want to edit the diagram later, and tell the person that the source is then part of the public picture. A drawing too big to return in an answer is also the case for publish_diagram: it gives a link in place of the picture. To keep a diagram inside a team instead, pass organization with the slug or id of an organisation, but only when the person names an organisation or asks for a team diagram: it is stored in that organisation's private library and the answer has a viewUrl for members in place of a public link, so there is no Markdown image. Never guess an organisation, and if it is not found, ask the person which one they mean. An organisation can also send its members' diagrams to its library when organization is left out: the answer then names it and says why, and the person must be told the diagram is in that library, not at a public link. Pass personal true only when the person asks for a public link anyway; an organisation that requires its library refuses it, and then tell the person. An owner may restrict a folder, and a reader may not publish: when the answer says the folder is restricted or the role does not allow it, ask the person which folder they may use instead of trying others or publishing elsewhere. Call list_diagrams when the person asks what they have published or to get a diagram id; it changes nothing. Call delete_diagram only after the person has said which diagram to delete, by name, and tell them what you deleted; never delete on a guess, in bulk, or to make room for a publish unless they asked, and a locked diagram cannot be deleted until the owner unlocks it.";
+    KEEP_IN_LIBRARY_STEP = "To keep it in an organisation's library, or in the person's own Diagrams, call publish_diagram when they ask.";
+    HOSTED_INSTRUCTIONS = "A viewUrl from a drawing tool holds the drawing itself in the link: nothing is saved on Plotwork, and it will not appear in any Diagrams list; when the person wants a diagram kept in an organisation's library or their own Diagrams, call publish_diagram. When the person asks to share a finished diagram or wants a link to it, call publish_diagram with the valid source: it returns a public link and a Markdown image to paste, and publishing the same diagram again returns the same link. Publish only when asked, because anyone with the link can see the picture. After you edit a published diagram, call publish_diagram again: an edited diagram is a new picture with a new link, so replace the old link wherever it is used. Set embedSource true on publish_diagram when someone may want to edit the diagram later, and tell the person that the source is then part of the public picture. A drawing too big to return in an answer is also the case for publish_diagram: it gives a link in place of the picture. To keep a diagram inside a team instead, pass organization with the slug or id of an organisation, but only when the person names an organisation or asks for a team diagram: it is stored in that organisation's private library and the answer has a viewUrl for members in place of a public link, so there is no Markdown image. Never guess an organisation, and if it is not found, ask the person which one they mean. An organisation can also send its members' diagrams to its library when organization is left out: the answer then names it and says why, and the person must be told the diagram is in that library, not at a public link. Pass personal true only when the person asks for a public link anyway; an organisation that requires its library refuses it, and then tell the person. An organisation can also keep every diagram its agents draw: a drawing's answer then has autoPublished, and its next names the library; tell the person where the diagram is, and do not publish it again. An organisation can also hold a publish for approval: the answer then has approval and warning W601, held for approval by your organisation; tell the person it is stored and waits for an approver, and do not publish it again. An owner may restrict a folder, and a reader may not publish: when the answer says the folder is restricted or the role does not allow it, ask the person which folder they may use instead of trying others or publishing elsewhere. Call list_diagrams when the person asks what they have published or to get a diagram id; it changes nothing. Call delete_diagram only after the person has said which diagram to delete, by name, and tell them what you deleted; never delete on a guess, in bulk, or to make room for a publish unless they asked, and a locked diagram cannot be deleted until the owner unlocks it.";
   }
 });
 
@@ -201265,7 +201796,7 @@ async function callTool(tool, args, log, caller, activity, run3, budget2, answer
     }
     const ran = await run3(tool, args);
     const linked = !ran.ok ? null : answers2.viewLinks === false ? stripViewLinks(ran.value) : await attachViewUrl(tool.name, args, ran.value, answers2.viewBase);
-    const saving = linked === null || answers2.library === void 0 || answers2.library === null ? linked : withSaveStep(tool.name, linked, answers2.library);
+    const saving = linked === null ? null : answers2.library !== void 0 && answers2.library !== null ? withSaveStep(tool.name, linked, answers2.library) : answers2.canPublish ? withKeepStep(tool.name, linked) : linked;
     const fitted = saving === null ? null : fitAnswer(saving, args, budget2);
     const shown = fitted === null || answers2.open === void 0 ? fitted : await answers2.open(tool.name, fitted);
     const outcome = ran.ok ? { ok: true, value: shown } : ran;
@@ -201280,12 +201811,23 @@ async function callTool(tool, args, log, caller, activity, run3, budget2, answer
     return internalErrorResult();
   }
 }
+function keptByPolicy(answer) {
+  const kept2 = answer["autoPublished"];
+  return typeof kept2 === "object" && kept2 !== null && kept2["published"] === true;
+}
 function withSaveStep(tool, value, library) {
   if (!SAVABLE_TOOLS.has(tool) || typeof value !== "object" || value === null) return value;
   const answer = value;
-  if (answer["valid"] === false) return value;
+  if (answer["valid"] === false || keptByPolicy(answer)) return value;
   const next = typeof answer["next"] === "string" && answer["next"] !== "" ? `${answer["next"]} ` : "";
   return { ...answer, next: `${next}${librarySaveStep(library)}` };
+}
+function withKeepStep(tool, value) {
+  if (!SAVABLE_TOOLS.has(tool) || typeof value !== "object" || value === null) return value;
+  const answer = value;
+  if (typeof answer["viewUrl"] !== "string" || keptByPolicy(answer)) return value;
+  const next = typeof answer["next"] === "string" && answer["next"] !== "" ? `${answer["next"]} ` : "";
+  return { ...answer, next: `${next}${KEEP_IN_LIBRARY_STEP}` };
 }
 async function callHostedTool(tool, args, log, caller) {
   const started = performance.now();
@@ -201323,7 +201865,7 @@ function wrapped(schema, validator) {
   return wrapper;
 }
 function createDiagramsServer(options3 = {}, log = logToConsole, caller, hostedTools = [], activity, run3 = runInPlace, budget2 = ANSWER_BUDGET_CHARACTERS, answers2 = {}, profile = "full") {
-  const finish = { ...answers2, viewBase: answers2.viewBase ?? viewBaseFor() };
+  const finish = { ...answers2, viewBase: answers2.viewBase ?? viewBaseFor(), canPublish: hostedTools.some((tool) => tool.name === "publish_diagram") };
   const taken = new Set(TOOLS.map((tool) => tool.name));
   for (const tool of hostedTools) {
     if (taken.has(tool.name)) throw new TypeError(`A tool named ${tool.name} is already registered`);
@@ -201331,7 +201873,9 @@ function createDiagramsServer(options3 = {}, log = logToConsole, caller, hostedT
   }
   const base = profile === "core" ? CORE_INSTRUCTIONS : SERVER_INSTRUCTIONS;
   const hosted = hostedTools.length === 0 ? base : `${base} ${HOSTED_INSTRUCTIONS}`;
-  const instructions = hostedTools.length > 0 && answers2.library !== void 0 && answers2.library !== null ? `${hosted} ${libraryInstructions(answers2.library)}` : hosted;
+  const saved = hostedTools.length > 0 && answers2.library !== void 0 && answers2.library !== null ? `${hosted} ${libraryInstructions(answers2.library)}` : hosted;
+  const patterns = answers2.patterns ?? null;
+  const instructions = patterns === null ? saved : `${saved} ${patternInstructions(patterns)}`;
   const server = new McpServer(SERVER_INFO, { instructions, ...options3 });
   for (const tool of hostedTools) {
     server.registerTool(
@@ -201352,7 +201896,7 @@ function createDiagramsServer(options3 = {}, log = logToConsole, caller, hostedT
       tool.name,
       {
         title: tool.title,
-        description: listed2.description,
+        description: patterns !== null && tool.name === "find_pattern" ? `${listed2.description}${findPatternNote(patterns)}` : listed2.description,
         inputSchema: listedInput(listed2.inputSchema),
         ...listed2.withOutputSchema ? { outputSchema: wrapped(listedOutputJsonSchema(tool), options3.jsonSchemaValidator) } : {},
         annotations: tool.annotations,
@@ -201377,6 +201921,7 @@ var init_create_server = __esm({
     init_activity();
     init_audit();
     init_engine_runner();
+    init_org_patterns2();
     init_prompts();
     init_server_info();
     init_tool_result();
