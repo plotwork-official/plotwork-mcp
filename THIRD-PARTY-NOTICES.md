@@ -1,6 +1,6 @@
 # Third-party notices
 
-@buun_group/plotwork-mcp 0.2.0-beta.1 is licensed under the MIT licence, in the file LICENSE. The single file plotwork-mcp.mjs also contains code and data from other people. This file lists them, with the licence each is used under and the full licence text. Those licences apply to that material. The MIT licence of @buun_group/plotwork-mcp does not replace them, and it does not cover the vendor artwork described under "Trademarks and official icons".
+@buun_group/plotwork-mcp 0.2.0-beta.2 is licensed under the MIT licence, in the file LICENSE. The single file plotwork-mcp.mjs also contains code and data from other people. This file lists them, with the licence each is used under and the full licence text. Those licences apply to that material. The MIT licence of @buun_group/plotwork-mcp does not replace them, and it does not cover the vendor artwork described under "Trademarks and official icons".
 
 The build writes this file from the contents of the bundle. Do not edit it.
 
@@ -9,7 +9,7 @@ The build writes this file from the contents of the bundle. Do not edit it.
 | Question | Answer |
 |---|---|
 | Which licence covers the Plotwork code? | MIT, in the file LICENSE. |
-| Which third-party code is in the bundle? | 4 npm packages: @modelcontextprotocol/core 2.2.0, @modelcontextprotocol/server 2.2.0, elkjs 0.12.0, zod 4.6.5. |
+| Which third-party code is in the bundle? | 4 npm packages: @modelcontextprotocol/core 2.3.1, @modelcontextprotocol/server 2.3.1, elkjs 0.12.0, zod 4.6.5. |
 | Which third-party data is in the bundle? | Lucide icons; Simple Icons; SVG Logos, through @iconify-json/logos; IBM Carbon icons, through @iconify-json/carbon; Inter font metrics; JetBrains Mono font metrics. |
 | Are official vendor icons in the bundle? | Yes: AWS, Microsoft Azure, Google Cloud. They are not covered by the MIT licence. |
 | Where is the full text of each licence? | Under "Licence texts" at the end of this file. |
@@ -18,8 +18,8 @@ The build writes this file from the contents of the bundle. Do not edit it.
 
 | Component | Version | Kind | Used under | Licence text |
 |---|---|---|---|---|
-| @modelcontextprotocol/core | 2.2.0 | Code | MIT AND Apache-2.0 | [text 1](#licence-text-1) |
-| @modelcontextprotocol/server | 2.2.0 | Code | MIT AND Apache-2.0 | [text 1](#licence-text-1) |
+| @modelcontextprotocol/core | 2.3.1 | Code | MIT AND Apache-2.0 | [text 1](#licence-text-1) |
+| @modelcontextprotocol/server | 2.3.1 | Code | MIT AND Apache-2.0 | [text 1](#licence-text-1) |
 | elkjs | 0.12.0 | Code | EPL-2.0 | [text 2](#licence-text-2), [text 3](#licence-text-3) |
 | zod | 4.6.5 | Code | MIT | [text 4](#licence-text-4) |
 | Lucide icons | 1.49.0 | Data | ISC | [text 5](#licence-text-5) |
@@ -31,9 +31,9 @@ The build writes this file from the contents of the bundle. Do not edit it.
 
 ## Software in the bundle
 
-### @modelcontextprotocol/core 2.2.0
+### @modelcontextprotocol/core 2.3.1
 
-- Licence declared: MIT
+- Licence declared: Apache-2.0
 - Used under: MIT AND Apache-2.0
 - Repository: https://github.com/modelcontextprotocol/typescript-sdk
 - Copyright: Copyright (c) 2024-2025 Model Context Protocol a Series of LF Projects, LLC.
@@ -42,9 +42,9 @@ The build writes this file from the contents of the bundle. Do not edit it.
 - The package.json says MIT. The licence file says the project is moving from MIT to Apache-2.0: new code is Apache-2.0, and code whose authors have not agreed to relicense stays MIT. Both licences are reproduced and both apply.
 - The same file licenses the project's documentation under CC-BY-4.0. No documentation is part of the bundle.
 
-### @modelcontextprotocol/server 2.2.0
+### @modelcontextprotocol/server 2.3.1
 
-- Licence declared: MIT
+- Licence declared: Apache-2.0
 - Used under: MIT AND Apache-2.0
 - Repository: https://github.com/modelcontextprotocol/typescript-sdk
 - Copyright: Copyright (c) 2024-2025 Model Context Protocol a Series of LF Projects, LLC.
@@ -201,7 +201,7 @@ The vendor artwork below is NOT covered by the MIT licence of @buun_group/plotwo
 
 ### Licence text 1
 
-Licences in this text: Apache-2.0, MIT. Used by: @modelcontextprotocol/core 2.2.0, @modelcontextprotocol/server 2.2.0.
+Licences in this text: Apache-2.0, MIT. Used by: @modelcontextprotocol/core 2.3.1, @modelcontextprotocol/server 2.3.1.
 
 ```text
 The MCP project is undergoing a licensing transition from the MIT License to the Apache License, Version 2.0 ("Apache-2.0"). All new code and specification contributions to the project are licensed under Apache-2.0. Documentation contributions (excluding specifications) are licensed under CC-BY-4.0.

@@ -65,7 +65,7 @@ var init_icon_art_folder = __esm({
 var package_default;
 var init_package = __esm({
   "package.json"() {
-    package_default = { version: "0.2.0-beta.1" };
+    package_default = { version: "0.2.0-beta.2" };
   }
 });
 
@@ -722,7 +722,7 @@ var init_view_links = __esm({
     };
     CLI_RELEASE = {
       packageName: "@buun_group/plotwork",
-      version: "0.1.0",
+      version: "0.2.0-beta.1",
       onNpm: true
     };
   }
@@ -735,8 +735,8 @@ var init_action_release = __esm({
     "use strict";
     ACTION_REPOSITORY = "plotwork-official/plotwork-action";
     ACTION_RELEASE = {
-      version: "1.0.0",
-      sha: "78d7acaf4b673e10187eb9174a60a3da6949ee8a"
+      version: "1.1.0-beta.1",
+      sha: "062b0e14394df19772d7fdac44a384ff5d349d2c"
     };
     PINNED_ACTION_LINE = `uses: ${ACTION_REPOSITORY}@${ACTION_RELEASE.sha} # v${ACTION_RELEASE.version}`;
   }
@@ -755,7 +755,7 @@ var init_mcp_release = __esm({
     "use strict";
     MCP_RELEASE = {
       packageName: "@buun_group/plotwork-mcp",
-      version: "0.1.0"
+      version: "0.2.0-beta.1"
     };
   }
 });
@@ -163399,10 +163399,10 @@ var init_files = __esm({
   }
 });
 
-// ../../node_modules/.pnpm/@modelcontextprotocol+server@2.2.0/node_modules/@modelcontextprotocol/server/dist/chunk-Br0eD_fh.mjs
+// ../../node_modules/.pnpm/@modelcontextprotocol+server@2.3.1/node_modules/@modelcontextprotocol/server/dist/chunk-Br0eD_fh.mjs
 var __create2, __defProp2, __getOwnPropDesc2, __getOwnPropNames2, __getProtoOf2, __hasOwnProp2, __commonJSMin, __exportAll, __copyProps2, __toESM2;
 var init_chunk_Br0eD_fh = __esm({
-  "../../node_modules/.pnpm/@modelcontextprotocol+server@2.2.0/node_modules/@modelcontextprotocol/server/dist/chunk-Br0eD_fh.mjs"() {
+  "../../node_modules/.pnpm/@modelcontextprotocol+server@2.3.1/node_modules/@modelcontextprotocol/server/dist/chunk-Br0eD_fh.mjs"() {
     __create2 = Object.create;
     __defProp2 = Object.defineProperty;
     __getOwnPropDesc2 = Object.getOwnPropertyDescriptor;
@@ -163444,7 +163444,7 @@ var init_chunk_Br0eD_fh = __esm({
   }
 });
 
-// ../../node_modules/.pnpm/@modelcontextprotocol+server@2.2.0/node_modules/@modelcontextprotocol/server/dist/dialects-DoSzNhcb.mjs
+// ../../node_modules/.pnpm/@modelcontextprotocol+server@2.3.1/node_modules/@modelcontextprotocol/server/dist/dialects-DoSzNhcb.mjs
 function declares2019Dialect($schema) {
   return typeof $schema === "string" && DRAFT_2019_09_URIS.has($schema.replace(/#$/, ""));
 }
@@ -163458,7 +163458,7 @@ function declaredDialect(schema, remedy) {
 }
 var DRAFT_2020_12_URIS, DRAFT_2019_09_URIS, DRAFT_07_URIS, DRAFT_06_URIS;
 var init_dialects_DoSzNhcb = __esm({
-  "../../node_modules/.pnpm/@modelcontextprotocol+server@2.2.0/node_modules/@modelcontextprotocol/server/dist/dialects-DoSzNhcb.mjs"() {
+  "../../node_modules/.pnpm/@modelcontextprotocol+server@2.3.1/node_modules/@modelcontextprotocol/server/dist/dialects-DoSzNhcb.mjs"() {
     DRAFT_2020_12_URIS = /* @__PURE__ */ new Set(["https://json-schema.org/draft/2020-12/schema", "http://json-schema.org/draft/2020-12/schema"]);
     DRAFT_2019_09_URIS = /* @__PURE__ */ new Set(["https://json-schema.org/draft/2019-09/schema", "http://json-schema.org/draft/2019-09/schema"]);
     DRAFT_07_URIS = /* @__PURE__ */ new Set(["https://json-schema.org/draft-07/schema", "http://json-schema.org/draft-07/schema"]);
@@ -163480,10 +163480,10 @@ var init_v4 = __esm({
   }
 });
 
-// ../../node_modules/.pnpm/@modelcontextprotocol+core@2.2.0/node_modules/@modelcontextprotocol/core/dist/auth-BNDyLTqp.mjs
+// ../../node_modules/.pnpm/@modelcontextprotocol+core@2.3.1/node_modules/@modelcontextprotocol/core/dist/auth-BNDyLTqp.mjs
 var LATEST_PROTOCOL_VERSION, SUPPORTED_PROTOCOL_VERSIONS, RELATED_TASK_META_KEY, PROTOCOL_VERSION_META_KEY, CLIENT_INFO_META_KEY, SERVER_INFO_META_KEY, CLIENT_CAPABILITIES_META_KEY, SUBSCRIPTION_ID_META_KEY, LOG_LEVEL_META_KEY, JSONRPC_VERSION, JSONValueSchema, JSONObjectSchema, JSONArraySchema, ProgressTokenSchema, CursorSchema, TaskMetadataSchema, RelatedTaskMetadataSchema, RequestMetaSchema, BaseRequestParamsSchema, TaskAugmentedRequestParamsSchema, RequestSchema, NotificationsParamsSchema, NotificationSchema, ResultMetaObjectSchema, ResultSchema, RequestIdSchema, JSONRPCRequestSchema, JSONRPCNotificationSchema, JSONRPCResultResponseSchema, JSONRPCErrorResponseSchema, JSONRPCMessageSchema, JSONRPCResponseSchema, EmptyResultSchema, CancelledNotificationParamsSchema, CancelledNotificationSchema, IconSchema, IconsSchema, BaseMetadataSchema, ImplementationSchema, FormElicitationCapabilitySchema, ElicitationCapabilitySchema, ClientTasksCapabilitySchema, ServerTasksCapabilitySchema, ClientCapabilitiesSchema, InitializeRequestParamsSchema, InitializeRequestSchema, ServerCapabilitiesSchema, InitializeResultSchema, InitializedNotificationSchema, DiscoverRequestSchema, DiscoverResultSchema, PingRequestSchema, ProgressSchema, ProgressNotificationParamsSchema, ProgressNotificationSchema, PaginatedRequestParamsSchema, PaginatedRequestSchema, PaginatedResultSchema, ResourceContentsSchema, TextResourceContentsSchema, Base64Schema, BlobResourceContentsSchema, RoleSchema, AnnotationsSchema, ResourceSchema, ResourceTemplateSchema, ListResourcesRequestSchema, ListResourcesResultSchema, ListResourceTemplatesRequestSchema, ListResourceTemplatesResultSchema, ResourceRequestParamsSchema, ReadResourceRequestParamsSchema, ReadResourceRequestSchema, ReadResourceResultSchema, ResourceListChangedNotificationSchema, SubscribeRequestParamsSchema, SubscribeRequestSchema, UnsubscribeRequestParamsSchema, UnsubscribeRequestSchema, SubscriptionFilterSchema, SubscriptionsListenRequestParamsSchema, SubscriptionsListenRequestSchema, SubscriptionsAcknowledgedNotificationParamsSchema, SubscriptionsAcknowledgedNotificationSchema, SubscriptionsListenResultMetaSchema, SubscriptionsListenResultSchema, ResourceUpdatedNotificationParamsSchema, ResourceUpdatedNotificationSchema, PromptArgumentSchema, PromptSchema, ListPromptsRequestSchema, ListPromptsResultSchema, GetPromptRequestParamsSchema, GetPromptRequestSchema, TextContentSchema, ImageContentSchema, AudioContentSchema, ToolUseContentSchema, EmbeddedResourceSchema, ResourceLinkSchema, ContentBlockSchema, PromptMessageSchema, GetPromptResultSchema, PromptListChangedNotificationSchema, ToolAnnotationsSchema, ToolExecutionSchema, ToolSchema, ListToolsRequestSchema, ListToolsResultSchema, CallToolResultSchema, CompatibilityCallToolResultSchema, CallToolRequestParamsSchema, CallToolRequestSchema, ToolListChangedNotificationSchema, ListChangedOptionsBaseSchema, LoggingLevelSchema, SetLevelRequestParamsSchema, SetLevelRequestSchema, LoggingMessageNotificationParamsSchema, LoggingMessageNotificationSchema, ModelHintSchema, ModelPreferencesSchema, ToolChoiceSchema, ToolResultContentSchema, SamplingContentSchema, SamplingMessageContentBlockSchema, SamplingMessageSchema, CreateMessageRequestParamsSchema, CreateMessageRequestSchema, CreateMessageResultSchema, CreateMessageResultWithToolsSchema, BooleanSchemaSchema, StringSchemaSchema, NumberSchemaSchema, UntitledSingleSelectEnumSchemaSchema, TitledSingleSelectEnumSchemaSchema, LegacyTitledEnumSchemaSchema, SingleSelectEnumSchemaSchema, UntitledMultiSelectEnumSchemaSchema, TitledMultiSelectEnumSchemaSchema, MultiSelectEnumSchemaSchema, EnumSchemaSchema, PrimitiveSchemaDefinitionSchema, ElicitRequestFormParamsSchema, ElicitRequestURLParamsSchema, ElicitRequestParamsSchema, ElicitRequestSchema, ElicitationCompleteNotificationParamsSchema, ElicitationCompleteNotificationSchema, ElicitResultSchema, ResourceTemplateReferenceSchema, PromptReferenceSchema, CompleteRequestParamsSchema, CompleteRequestSchema, CompleteResultSchema, RootSchema, ListRootsRequestSchema, ListRootsResultSchema, RootsListChangedNotificationSchema, TaskCreationParamsSchema, TaskStatusSchema, TaskSchema, CreateTaskResultSchema, TaskStatusNotificationParamsSchema, TaskStatusNotificationSchema, GetTaskRequestSchema, GetTaskResultSchema, GetTaskPayloadRequestSchema, GetTaskPayloadResultSchema, ListTasksRequestSchema, ListTasksResultSchema, CancelTaskRequestSchema, CancelTaskResultSchema, ClientRequestSchema, ClientNotificationSchema, ClientResultSchema, ServerRequestSchema, ServerNotificationSchema, ServerResultSchema, SafeUrlSchema, OAuthProtectedResourceMetadataSchema, OAuthMetadataSchema, OpenIdProviderMetadataSchema, OpenIdProviderDiscoveryMetadataSchema, OAuthTokensSchema, IdJagTokenExchangeResponseSchema, OAuthErrorResponseSchema, OptionalSafeUrlSchema, OAuthClientMetadataSchema, OAuthClientInformationSchema, OAuthClientInformationFullSchema, OAuthClientRegistrationErrorSchema, OAuthTokenRevocationRequestSchema;
 var init_auth_BNDyLTqp = __esm({
-  "../../node_modules/.pnpm/@modelcontextprotocol+core@2.2.0/node_modules/@modelcontextprotocol/core/dist/auth-BNDyLTqp.mjs"() {
+  "../../node_modules/.pnpm/@modelcontextprotocol+core@2.3.1/node_modules/@modelcontextprotocol/core/dist/auth-BNDyLTqp.mjs"() {
     init_v4();
     LATEST_PROTOCOL_VERSION = "2025-11-25";
     SUPPORTED_PROTOCOL_VERSIONS = [
@@ -164427,14 +164427,14 @@ var init_auth_BNDyLTqp = __esm({
   }
 });
 
-// ../../node_modules/.pnpm/@modelcontextprotocol+core@2.2.0/node_modules/@modelcontextprotocol/core/dist/internal.mjs
+// ../../node_modules/.pnpm/@modelcontextprotocol+core@2.3.1/node_modules/@modelcontextprotocol/core/dist/internal.mjs
 var init_internal = __esm({
-  "../../node_modules/.pnpm/@modelcontextprotocol+core@2.2.0/node_modules/@modelcontextprotocol/core/dist/internal.mjs"() {
+  "../../node_modules/.pnpm/@modelcontextprotocol+core@2.3.1/node_modules/@modelcontextprotocol/core/dist/internal.mjs"() {
     init_auth_BNDyLTqp();
   }
 });
 
-// ../../node_modules/.pnpm/@modelcontextprotocol+server@2.2.0/node_modules/@modelcontextprotocol/server/dist/src-BHSMhZ_W.mjs
+// ../../node_modules/.pnpm/@modelcontextprotocol+server@2.3.1/node_modules/@modelcontextprotocol/server/dist/src-Cqbh3MYc.mjs
 function stampErrorBrands(instance, ctor) {
   const brands = /* @__PURE__ */ new Set();
   let current = ctor;
@@ -166414,7 +166414,8 @@ function build() {
     ListResourceTemplatesResultResponseSchema: wireResultResponse(ListResourceTemplatesResultSchema$1),
     ReadResourceResultResponseSchema: wireResultResponse(union([ReadResourceResultSchema$1, InputRequiredResultSchema])),
     CompleteResultResponseSchema: wireResultResponse(CompleteResultSchema$1),
-    DiscoverResultResponseSchema: wireResultResponse(DiscoverResultSchema$1)
+    DiscoverResultResponseSchema: wireResultResponse(DiscoverResultSchema$1),
+    SubscriptionsListenResultResponseSchema: wireResultResponse(SubscriptionsListenResultSchema$1)
   };
 }
 function buildSchemas2026() {
@@ -166632,6 +166633,9 @@ function isSpecRequestMethod(method) {
 }
 function isSpecNotificationMethod(method) {
   return ALL_CODECS.some((codec2) => codec2.hasNotificationMethod(method));
+}
+function isExtensionReusedRequestMethod(method) {
+  return method === "tasks/get" || method === "tasks/cancel";
 }
 function isPlainObject$3(value) {
   return value !== null && typeof value === "object" && !Array.isArray(value);
@@ -167191,8 +167195,8 @@ function fromJsonSchema(schema, validator) {
   } };
 }
 var BRANDS, OAuthError, SdkErrorCode, SdkError, SdkHttpError, FIRST_MODERN_PROTOCOL_VERSION, SUPPORTED_MODERN_PROTOCOL_VERSIONS, TOOL_RESULT_FOREIGN_FAMILY_KEYS, memo$1, REF_REWRITE_DATA_POSITION_KEYS, REF_REWRITE_NAME_MAP_KEYS, requestMethodKeys$1, notificationMethodKeys$1, resultMethodKeys, maps$1, rev2025RequestMethods, rev2025NotificationMethods, NOT_IN_ERA$1, rev2025Codec, memo2, CACHEABLE_RESULT_METHODS, RESULT_CACHE_HINT_FALLBACK, ProtocolErrorCode, ProtocolError, ResourceNotFoundError, UrlElicitationRequiredError, UnsupportedProtocolVersionError, MissingRequiredClientCapabilityError, DEFAULT_CACHE_TTL_MS, DEFAULT_CACHE_SCOPE, EXTENDED_RESULT_TYPE_METHODS, INPUT_REQUEST_METHODS_2026, maps, requestMethodKeys, notificationMethodKeys, rev2026RequestMethods, rev2026NotificationMethods, NOT_IN_ERA, REQUIRED_ENVELOPE_KEYS, rev2026Codec, wireResultSchemasMemo, MODERN_WIRE_REVISION, ALL_CODECS, schemas_exports3, isJSONRPCRequest, isJSONRPCNotification, isJSONRPCResultResponse, isJSONRPCErrorResponse, isInputRequiredResult, X_MCP_HEADER_KEY, RFC9110_TOKEN, PERMITTED_X_MCP_HEADER_TYPES, NON_REACHABLE_SUBSCHEMA_KEYWORDS, OBJECT_VALUED_SUBSCHEMA_KEYWORDS, HEADER_MISMATCH_ERROR_CODE, INBOUND_VALIDATION_LADDER, LADDER_ERROR_HTTP_STATUS, warnedZodFallback, JSON_SCHEMA_CONVERSION_TARGET, DATETIME_FRACTION_DIGITS, ANNOTATION_ONLY_JSON_SCHEMA_KEYWORDS, ROOT_KEYS, PROPERTY_KEYS_BY_TYPE, SUPPORTED_STRING_FORMATS, inputRequired, REQUEST_STATE_ONLY_LEG_PACING_MS, SPEC_SCHEMA_KEYS, authSchemas, _specTypeSchemas, _isSpecType, specTypeSchemas, isSpecType, DEFAULT_REQUEST_TIMEOUT_MSEC, RESERVED_ENVELOPE_META_KEYS, RETRY_PARAMS_KEYS, NO_REQUEST_STATE, writeNegotiatedProtocolVersion, Protocol, require_content_type, import_content_type, STDIO_DEFAULT_MAX_BUFFER_SIZE, ReadBuffer, TOOL_NAME_REGEX;
-var init_src_BHSMhZ_W = __esm({
-  "../../node_modules/.pnpm/@modelcontextprotocol+server@2.2.0/node_modules/@modelcontextprotocol/server/dist/src-BHSMhZ_W.mjs"() {
+var init_src_Cqbh3MYc = __esm({
+  "../../node_modules/.pnpm/@modelcontextprotocol+server@2.3.1/node_modules/@modelcontextprotocol/server/dist/src-Cqbh3MYc.mjs"() {
     init_chunk_Br0eD_fh();
     init_dialects_DoSzNhcb();
     init_internal();
@@ -168292,6 +168296,8 @@ var init_src_BHSMhZ_W = __esm({
       _transport;
       _requestMessageId = 0;
       _requestHandlers = /* @__PURE__ */ new Map();
+      /** Methods registered with an explicit schema; the era gate in `_onrequest` reads it for the Tasks extension names. */
+      _customSchemaRequestMethods = /* @__PURE__ */ new Set();
       _requestHandlerAbortControllers = /* @__PURE__ */ new Map();
       _notificationHandlers = /* @__PURE__ */ new Map();
       _responseHandlers = /* @__PURE__ */ new Map();
@@ -168575,7 +168581,7 @@ var init_src_BHSMhZ_W = __esm({
             return;
           }
         }
-        if (isSpecRequestMethod(request.method) && !codec2.hasRequestMethod(request.method)) {
+        if (isSpecRequestMethod(request.method) && !codec2.hasRequestMethod(request.method) && !(isExtensionReusedRequestMethod(request.method) && this._customSchemaRequestMethods.has(request.method))) {
           sendErrorResponse(ProtocolErrorCode.MethodNotFound, "Method not found");
           return;
         }
@@ -168708,8 +168714,11 @@ var init_src_BHSMhZ_W = __esm({
       }
       request(request, schemaOrOptions, maybeOptions) {
         const codec2 = this._resolveOutboundCodec(request.method);
+        if (isStandardSchema(schemaOrOptions)) {
+          if (!isExtensionReusedRequestMethod(request.method)) this._assertOutboundRequestInEra(codec2, request.method);
+          return this._requestWithSchemaViaCodec(codec2, request, schemaOrOptions, maybeOptions);
+        }
         this._assertOutboundRequestInEra(codec2, request.method);
-        if (isStandardSchema(schemaOrOptions)) return this._requestWithSchemaViaCodec(codec2, request, schemaOrOptions, maybeOptions);
         const validate2 = codecResultValidator(codec2, request.method);
         if (validate2 === void 0) throw new TypeError(`'${request.method}' is not a spec method; pass a result schema as the second argument to request().`);
         return this._requestWithSchemaViaCodec(codec2, request, validate2, schemaOrOptions);
@@ -168953,6 +168962,8 @@ var init_src_BHSMhZ_W = __esm({
           return maybeHandler(parsed.data, ctx);
         };
         else throw new TypeError("setRequestHandler: handler is required");
+        if (typeof schemasOrHandler === "function") this._customSchemaRequestMethods.delete(method);
+        else this._customSchemaRequestMethods.add(method);
         this._requestHandlers.set(method, this._wrapHandler(method, stored));
       }
       /**
@@ -168982,6 +168993,7 @@ var init_src_BHSMhZ_W = __esm({
       */
       removeRequestHandler(method) {
         this._requestHandlers.delete(method);
+        this._customSchemaRequestMethods.delete(method);
       }
       /**
       * Asserts that a request handler has not already been set for the given method, in preparation for a new one being automatically installed.
@@ -169099,7 +169111,7 @@ var init_src_BHSMhZ_W = __esm({
   }
 });
 
-// ../../node_modules/.pnpm/@modelcontextprotocol+server@2.2.0/node_modules/@modelcontextprotocol/server/dist/ajvProvider-CEoC__sr.mjs
+// ../../node_modules/.pnpm/@modelcontextprotocol+server@2.3.1/node_modules/@modelcontextprotocol/server/dist/ajvProvider-CEoC__sr.mjs
 function createDefaultAjvInstance(engineClass) {
   const ajv = new engineClass({
     strict: false,
@@ -169112,7 +169124,7 @@ function createDefaultAjvInstance(engineClass) {
 }
 var require_code$1, require_scope, require_codegen, require_util, require_names, require_errors, require_boolSchema, require_rules, require_applicability, require_dataType, require_defaults, require_code, require_keyword, require_subschema, require_fast_deep_equal, require_json_schema_traverse, require_resolve, require_validate, require_validation_error, require_ref_error, require_compile, require_data, require_utils, require_schemes, require_fast_uri, require_uri, require_core$3, require_id, require_ref, require_core$2, require_limitNumber, require_multipleOf, require_ucs2length, require_limitLength, require_pattern, require_limitProperties, require_required, require_limitItems, require_equal, require_uniqueItems, require_const, require_enum, require_validation$2, require_additionalItems, require_items, require_prefixItems, require_items2020, require_contains, require_dependencies, require_propertyNames, require_additionalProperties, require_properties, require_patternProperties, require_not, require_anyOf, require_oneOf, require_allOf, require_if, require_thenElse, require_applicator$2, require_format$2, require_format$1, require_metadata, require_draft7, require_types, require_discriminator, require_json_schema_draft_07, require_ajv, require_dynamicAnchor, require_dynamicRef, require_recursiveAnchor, require_recursiveRef, require_dynamic, require_dependentRequired, require_dependentSchemas, require_limitContains, require_next, require_unevaluatedProperties, require_unevaluatedItems, require_unevaluated$1, require_schema$1, require_applicator$1, require_content$1, require_core$1, require_format, require_meta_data$1, require_validation$1, require_json_schema_2019_09, require__2019, require_draft2020, require_schema, require_applicator, require_unevaluated, require_content, require_core, require_format_annotation, require_meta_data, require_validation, require_json_schema_2020_12, require__2020, require_formats, require_limit, require_dist, import_ajv, import__2019, import__2020, import_dist, addFormats, AjvJsonSchemaValidator, Ajv;
 var init_ajvProvider_CEoC_sr = __esm({
-  "../../node_modules/.pnpm/@modelcontextprotocol+server@2.2.0/node_modules/@modelcontextprotocol/server/dist/ajvProvider-CEoC__sr.mjs"() {
+  "../../node_modules/.pnpm/@modelcontextprotocol+server@2.3.1/node_modules/@modelcontextprotocol/server/dist/ajvProvider-CEoC__sr.mjs"() {
     init_chunk_Br0eD_fh();
     init_dialects_DoSzNhcb();
     require_code$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
@@ -176116,15 +176128,15 @@ var init_ajvProvider_CEoC_sr = __esm({
   }
 });
 
-// ../../node_modules/.pnpm/@modelcontextprotocol+server@2.2.0/node_modules/@modelcontextprotocol/server/dist/shimsNode.mjs
+// ../../node_modules/.pnpm/@modelcontextprotocol+server@2.3.1/node_modules/@modelcontextprotocol/server/dist/shimsNode.mjs
 import process2 from "node:process";
 var init_shimsNode = __esm({
-  "../../node_modules/.pnpm/@modelcontextprotocol+server@2.2.0/node_modules/@modelcontextprotocol/server/dist/shimsNode.mjs"() {
+  "../../node_modules/.pnpm/@modelcontextprotocol+server@2.3.1/node_modules/@modelcontextprotocol/server/dist/shimsNode.mjs"() {
     init_ajvProvider_CEoC_sr();
   }
 });
 
-// ../../node_modules/.pnpm/@modelcontextprotocol+server@2.2.0/node_modules/@modelcontextprotocol/server/dist/mcp-DYuW2ZSs.mjs
+// ../../node_modules/.pnpm/@modelcontextprotocol+server@2.3.1/node_modules/@modelcontextprotocol/server/dist/mcp-DIH4cS6P.mjs
 function isCompletable(schema) {
   return !!schema && typeof schema === "object" && COMPLETABLE_SYMBOL in schema;
 }
@@ -176234,6 +176246,30 @@ function serverIdentityOf(server) {
 function discoverAdvertisedCapabilities(capabilities) {
   return { ...capabilities };
 }
+function toolInputElementCount(value, max) {
+  let count3 = 0;
+  const stack = [value];
+  while (stack.length > 0) {
+    const node3 = stack.pop();
+    if (node3 === null || typeof node3 !== "object") continue;
+    if (Array.isArray(node3)) for (const child of node3) {
+      if (++count3 > max) return count3;
+      if (child !== null && typeof child === "object") stack.push(child);
+    }
+    else for (const key in node3) {
+      if (!Object.prototype.hasOwnProperty.call(node3, key)) continue;
+      if (++count3 > max) return count3;
+      const child = node3[key];
+      if (child !== null && typeof child === "object") stack.push(child);
+    }
+  }
+  return count3;
+}
+function resolveMaxToolInputElements(value) {
+  if (value === void 0 || value === Infinity) return void 0;
+  if (typeof value !== "number" || Number.isNaN(value) || value < 1) throw new RangeError(`maxToolInputElements must be a number of at least 1, or Infinity, got ${String(value)}`);
+  return value;
+}
 function createToolExecutor(inputSchema, handler) {
   if (inputSchema) {
     const callback$1 = handler;
@@ -176241,6 +176277,12 @@ function createToolExecutor(inputSchema, handler) {
   }
   const callback = handler;
   return async (_args, ctx) => callback(ctx);
+}
+function convertListedInputSchema(name2, inputSchema) {
+  const json2 = standardSchemaToJsonSchema(inputSchema, "input");
+  const scan = scanXMcpHeaderDeclarations(json2);
+  if (!scan.valid) console.warn(`[mcp-sdk] tool '${name2}' carries an invalid x-mcp-header declaration and will be excluded by conforming Streamable HTTP clients: ${scan.reason}`);
+  return json2;
 }
 function convertOutputSchemaJson(outputSchema) {
   if (outputSchema === void 0) return void 0;
@@ -176254,7 +176296,7 @@ function createPromptHandler(name2, argsSchema, callback) {
   if (argsSchema) {
     const typedCallback = callback;
     return async (args, ctx) => {
-      const parseResult = await validateStandardSchema(argsSchema, args);
+      const parseResult = await validateStandardSchema(argsSchema, args ?? {});
       if (!parseResult.success) throw new ProtocolError(ProtocolErrorCode.InvalidParams, `Invalid arguments for prompt ${name2}: ${parseResult.error}`);
       return typedCallback(parseResult.data, ctx);
     };
@@ -176284,9 +176326,9 @@ function unwrapOptionalSchema(schema) {
   return schema.def?.innerType ?? schema;
 }
 var COMPLETABLE_SYMBOL, MAX_TIMER_DELAY_MS, DEFAULT_MAX_SUBSCRIPTIONS, CHANGE_NOTIFICATION_METHODS, StdioListenRouter, DEFAULT_LEGACY_SHIM_MAX_ROUNDS, DEFAULT_LEGACY_SHIM_ROUND_TIMEOUT_MS, LegacyInputRequiredShim, INPUT_REQUIRED_CAPABLE_METHODS, writeClientIdentity, installDiscoverHandler, readServerIdentity, Server, McpServer, EMPTY_OBJECT_JSON_SCHEMA, EMPTY_COMPLETION_RESULT;
-var init_mcp_DYuW2ZSs = __esm({
-  "../../node_modules/.pnpm/@modelcontextprotocol+server@2.2.0/node_modules/@modelcontextprotocol/server/dist/mcp-DYuW2ZSs.mjs"() {
-    init_src_BHSMhZ_W();
+var init_mcp_DIH4cS6P = __esm({
+  "../../node_modules/.pnpm/@modelcontextprotocol+server@2.3.1/node_modules/@modelcontextprotocol/server/dist/mcp-DIH4cS6P.mjs"() {
+    init_src_Cqbh3MYc();
     init_shimsNode();
     COMPLETABLE_SYMBOL = /* @__PURE__ */ Symbol.for("mcp.completable");
     MAX_TIMER_DELAY_MS = 2 ** 31 - 1;
@@ -176309,7 +176351,7 @@ var init_mcp_DYuW2ZSs = __esm({
       _serverCapabilities;
       /**
       * The serving instance's identity, stamped onto the graceful-close
-      * results' `_meta` (the spec's `SubscriptionsListenResultMeta` extends
+      * results' `_meta` (the spec's `SubscriptionsListenResultMetaObject` extends
       * `ResultMetaObject`). Handed over together with the capabilities.
       */
       _serverInfo;
@@ -176574,6 +176616,11 @@ var init_mcp_DYuW2ZSs = __esm({
         this.setNotificationHandler("notifications/initialized", () => this.oninitialized?.());
         if (modernProtocolVersions(this._supportedProtocolVersions).length > 0) this.setRequestHandler("server/discover", () => this._ondiscover());
         if (this._capabilities.logging) this._registerLoggingHandler();
+      }
+      /** Attaches to the given transport; rejects while this instance is connected to another one. */
+      async connect(transport) {
+        if (this.transport !== void 0) throw new SdkError(SdkErrorCode.AlreadyConnected, "Use a separate Server instance per connection: this instance is already connected to a transport. To connect it to a new transport, call close() first.");
+        await super.connect(transport);
       }
       /**
       * Registers the built-in `logging/setLevel` request handler.
@@ -177130,16 +177177,12 @@ var init_mcp_DYuW2ZSs = __esm({
       * The underlying {@linkcode Server} instance, useful for advanced operations like sending notifications.
       */
       server;
+      _maxToolInputElements;
       _registeredResources = {};
       _registeredResourceTemplates = {};
       _registeredTools = {};
       _registeredPrompts = {};
-      /**
-      * Per-tool JSON-converted `inputSchema`, memoized so the SEP-2243
-      * registration-time scan and the pre-dispatch validation step share one
-      * conversion instead of paying it twice per request under the
-      * per-request-factory `createMcpHandler` model.
-      */
+      /** Per-tool JSON-converted `inputSchema`, filled on first use by `toolInputSchemaJson()`. */
       _toolInputSchemaJson = {};
       /**
       * The JSON-serialized `inputSchema` of a registered tool, or `undefined`
@@ -177164,6 +177207,7 @@ var init_mcp_DYuW2ZSs = __esm({
       }
       constructor(serverInfo, options3) {
         this.server = new Server(serverInfo, options3);
+        this._maxToolInputElements = resolveMaxToolInputElements(options3?.maxToolInputElements);
         if (options3?.capabilities?.tools) this.setToolRequestHandlers();
         if (options3?.capabilities?.resources) this.setResourceRequestHandlers();
         if (options3?.capabilities?.prompts) this.setPromptRequestHandlers();
@@ -177236,7 +177280,7 @@ var init_mcp_DYuW2ZSs = __esm({
             name: name2,
             title: tool.title,
             description: tool.description,
-            inputSchema: tool.inputSchema ? standardSchemaToJsonSchema(tool.inputSchema, "input") : EMPTY_OBJECT_JSON_SCHEMA,
+            inputSchema: tool.inputSchema ? convertListedInputSchema(name2, tool.inputSchema) : EMPTY_OBJECT_JSON_SCHEMA,
             annotations: tool.annotations,
             icons: tool.icons,
             execution: tool.execution,
@@ -177281,6 +177325,7 @@ var init_mcp_DYuW2ZSs = __esm({
       * Validates tool input arguments against the tool's input schema.
       */
       async validateToolInput(tool, args, toolName) {
+        if (this._maxToolInputElements !== void 0 && toolInputElementCount(args, this._maxToolInputElements) > this._maxToolInputElements) throw new ProtocolError(ProtocolErrorCode.InvalidParams, `Invalid arguments for tool ${toolName}: arguments contain more than the maximum of ${this._maxToolInputElements} elements`);
         if (!tool.inputSchema) return;
         const parseResult = await validateStandardSchema(tool.inputSchema, args ?? {});
         if (!parseResult.success) throw new ProtocolError(ProtocolErrorCode.InvalidParams, `Input validation error: Invalid arguments for tool ${toolName}: ${parseResult.error}`);
@@ -177555,20 +177600,19 @@ var init_mcp_DYuW2ZSs = __esm({
       }
       _createRegisteredTool(name2, title, description, inputSchema, outputSchema, annotations, icons, execution, scopeChallenge, _meta, handler) {
         validateAndWarnToolName(name2);
-        if (inputSchema !== void 0) try {
-          const json2 = standardSchemaToJsonSchema(inputSchema, "input");
-          this._toolInputSchemaJson[name2] = json2;
-          const scan = scanXMcpHeaderDeclarations(json2);
-          if (!scan.valid) console.warn(`[mcp-sdk] tool '${name2}' carries an invalid x-mcp-header declaration and will be excluded by conforming Streamable HTTP clients: ${scan.reason}`);
-        } catch {
-        }
         let currentHandler = handler;
+        let outputSchemaJson;
         const registeredTool = {
           title,
           description,
           inputSchema,
           outputSchema,
-          outputSchemaJson: convertOutputSchemaJson(outputSchema),
+          get outputSchemaJson() {
+            return outputSchemaJson ??= convertOutputSchemaJson(registeredTool.outputSchema);
+          },
+          set outputSchemaJson(value) {
+            outputSchemaJson = value;
+          },
           annotations,
           icons,
           execution,
@@ -177694,7 +177738,7 @@ var init_mcp_DYuW2ZSs = __esm({
   }
 });
 
-// ../../node_modules/.pnpm/@modelcontextprotocol+server@2.2.0/node_modules/@modelcontextprotocol/server/dist/stdio.mjs
+// ../../node_modules/.pnpm/@modelcontextprotocol+server@2.3.1/node_modules/@modelcontextprotocol/server/dist/stdio.mjs
 function classifyOpeningMessage(message2) {
   const params = message2.params;
   if (message2.method === "initialize" && !carriesValidModernEnvelopeClaim(params)) {
@@ -178011,9 +178055,9 @@ function toError(value) {
 }
 var swallowsErrorsAfterClose, StdioServerTransport, DISCARD_ANSWER_TIMEOUT_MS, StdioConnectionChannel;
 var init_stdio = __esm({
-  "../../node_modules/.pnpm/@modelcontextprotocol+server@2.2.0/node_modules/@modelcontextprotocol/server/dist/stdio.mjs"() {
-    init_mcp_DYuW2ZSs();
-    init_src_BHSMhZ_W();
+  "../../node_modules/.pnpm/@modelcontextprotocol+server@2.3.1/node_modules/@modelcontextprotocol/server/dist/stdio.mjs"() {
+    init_mcp_DIH4cS6P();
+    init_src_Cqbh3MYc();
     init_shimsNode();
     swallowsErrorsAfterClose = /* @__PURE__ */ Symbol("swallowsErrorsAfterClose");
     StdioServerTransport = class {
@@ -201147,15 +201191,15 @@ var init_audit = __esm({
   }
 });
 
-// ../../node_modules/.pnpm/@modelcontextprotocol+server@2.2.0/node_modules/@modelcontextprotocol/server/dist/index.mjs
+// ../../node_modules/.pnpm/@modelcontextprotocol+server@2.3.1/node_modules/@modelcontextprotocol/server/dist/index.mjs
 function fromJsonSchema2(schema, validator) {
   return fromJsonSchema(schema, validator ?? (_defaultValidator ??= new AjvJsonSchemaValidator()));
 }
 var DEFAULT_MAX_REQUEST_BODY_SIZE, _defaultValidator;
 var init_dist = __esm({
-  "../../node_modules/.pnpm/@modelcontextprotocol+server@2.2.0/node_modules/@modelcontextprotocol/server/dist/index.mjs"() {
-    init_mcp_DYuW2ZSs();
-    init_src_BHSMhZ_W();
+  "../../node_modules/.pnpm/@modelcontextprotocol+server@2.3.1/node_modules/@modelcontextprotocol/server/dist/index.mjs"() {
+    init_mcp_DIH4cS6P();
+    init_src_Cqbh3MYc();
     init_shimsNode();
     DEFAULT_MAX_REQUEST_BODY_SIZE = 4 * 1024 * 1024;
   }
@@ -202544,7 +202588,7 @@ async function main(args) {
 await main(process.argv.slice(2));
 /*! Bundled license information:
 
-@modelcontextprotocol/server/dist/src-BHSMhZ_W.mjs:
+@modelcontextprotocol/server/dist/src-Cqbh3MYc.mjs:
   (*!
   * content-type
   * Copyright(c) 2015 Douglas Christopher Wilson
