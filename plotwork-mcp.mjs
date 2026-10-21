@@ -65,7 +65,7 @@ var init_icon_art_folder = __esm({
 var package_default;
 var init_package = __esm({
   "package.json"() {
-    package_default = { version: "0.2.0-beta.2" };
+    package_default = { version: "0.2.0" };
   }
 });
 
@@ -722,7 +722,7 @@ var init_view_links = __esm({
     };
     CLI_RELEASE = {
       packageName: "@buun_group/plotwork",
-      version: "0.2.0-beta.1",
+      version: "0.1.0",
       onNpm: true
     };
   }
@@ -735,8 +735,8 @@ var init_action_release = __esm({
     "use strict";
     ACTION_REPOSITORY = "plotwork-official/plotwork-action";
     ACTION_RELEASE = {
-      version: "1.1.0-beta.1",
-      sha: "062b0e14394df19772d7fdac44a384ff5d349d2c"
+      version: "1.0.0",
+      sha: "78d7acaf4b673e10187eb9174a60a3da6949ee8a"
     };
     PINNED_ACTION_LINE = `uses: ${ACTION_REPOSITORY}@${ACTION_RELEASE.sha} # v${ACTION_RELEASE.version}`;
   }
@@ -755,7 +755,7 @@ var init_mcp_release = __esm({
     "use strict";
     MCP_RELEASE = {
       packageName: "@buun_group/plotwork-mcp",
-      version: "0.2.0-beta.1"
+      version: "0.1.0"
     };
   }
 });
