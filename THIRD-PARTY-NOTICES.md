@@ -1,6 +1,6 @@
 # Third-party notices
 
-@buun_group/plotwork-mcp 0.3.0 is licensed under the MIT licence, in the file LICENSE. The single file plotwork-mcp.mjs also contains code and data from other people. This file lists them, with the licence each is used under and the full licence text. Those licences apply to that material. The MIT licence of @buun_group/plotwork-mcp does not replace them, and it does not cover the vendor artwork described under "Trademarks and official icons".
+@buun_group/plotwork-mcp 0.4.0-beta.1 is licensed under the MIT licence, in the file LICENSE. The single file plotwork-mcp.mjs also contains code and data from other people. This file lists them, with the licence each is used under and the full licence text. Those licences apply to that material. The MIT licence of @buun_group/plotwork-mcp does not replace them, and it does not cover the vendor artwork described under "Trademarks and official icons".
 
 The build writes this file from the contents of the bundle. Do not edit it.
 
@@ -10,7 +10,7 @@ The build writes this file from the contents of the bundle. Do not edit it.
 |---|---|
 | Which licence covers the Plotwork code? | MIT, in the file LICENSE. |
 | Which third-party code is in the bundle? | 4 npm packages: @modelcontextprotocol/core 2.3.1, @modelcontextprotocol/server 2.3.1, elkjs 0.12.0, zod 4.6.5. |
-| Which third-party data is in the bundle? | Lucide icons; Simple Icons; SVG Logos, through @iconify-json/logos; IBM Carbon icons, through @iconify-json/carbon; Inter font metrics; JetBrains Mono font metrics. |
+| Which third-party data is in the bundle? | Lucide icons; Simple Icons; SVG Logos, through @iconify-json/logos; Devicon, through @iconify-json/devicon; IBM Carbon icons, through @iconify-json/carbon; Inter font metrics; JetBrains Mono font metrics. |
 | Are official vendor icons in the bundle? | Yes: AWS, Microsoft Azure, Google Cloud. They are not covered by the MIT licence. |
 | Where is the full text of each licence? | Under "Licence texts" at the end of this file. |
 
@@ -25,9 +25,10 @@ The build writes this file from the contents of the bundle. Do not edit it.
 | Lucide icons | 1.49.0 | Data | ISC | [text 5](#licence-text-5) |
 | Simple Icons | 16.33.0 | Data | CC0-1.0 | [text 6](#licence-text-6) |
 | SVG Logos, through @iconify-json/logos | 1.2.15 | Data | CC0-1.0 | [text 7](#licence-text-7) |
-| IBM Carbon icons, through @iconify-json/carbon | 1.2.28 | Data | Apache-2.0 | [text 8](#licence-text-8) |
-| Inter font metrics | 5.3.0 | Data | OFL-1.1 | [text 9](#licence-text-9) |
-| JetBrains Mono font metrics | 5.3.0 | Data | OFL-1.1 | [text 10](#licence-text-10) |
+| Devicon, through @iconify-json/devicon | 1.2.71 | Data | MIT | [text 8](#licence-text-8) |
+| IBM Carbon icons, through @iconify-json/carbon | 1.2.28 | Data | Apache-2.0 | [text 9](#licence-text-9) |
+| Inter font metrics | 5.3.0 | Data | OFL-1.1 | [text 10](#licence-text-10) |
+| JetBrains Mono font metrics | 5.3.0 | Data | OFL-1.1 | [text 11](#licence-text-11) |
 
 ## Software in the bundle
 
@@ -117,6 +118,20 @@ The build writes this file from the contents of the bundle. Do not edit it.
 - The package info.json names Gil Barbara as the author and CC0 1.0 as the licence, and the package ships no licence file, so the licence text its authors publish is used.
 - Brand logos remain trademarks of their owners, and a CC0 dedication does not license a trademark. The marks are used only to refer to the technologies and services they name. Their inclusion does not imply endorsement by, or affiliation with, their owners.
 
+### Devicon, through @iconify-json/devicon (@iconify-json/devicon 1.2.71)
+
+- Licence declared: MIT
+- Used under: MIT
+- Repository: https://github.com/devicons/devicon
+- What is in the bundle: The full colour file of each of a few brand marks that neither Simple Icons nor SVG Logos publishes, such as HAProxy and Teleport, copied by gen:icons into the same generated module as the SVG Logos marks, as the text of a standalone SVG, and drawn unmodified, as an image, on a light tile. gen:icon-art keeps the files most diagrams draw in the bundle and every file in the shards in icons/simple/ beside it.
+- Copyright: Copyright (c) 2015 konpa
+- Licence file: the package ships none, so the licence text its authors publish is used, from https://github.com/devicons/devicon/blob/master/LICENSE
+- NOTICE file: none shipped
+- Licence text: [text 8](#licence-text-8)
+- The package info.json names konpa as the author and MIT as the licence, and the package ships no licence file, so the licence file of the Devicon project, from the devicon package on npm, is used.
+- Only a few marks that neither Simple Icons nor SVG Logos publishes are taken from Devicon; scripts/logos-manifest.ts names each one with pack devicon.
+- Brand logos remain trademarks of their owners, and the MIT licence of the collection does not license a trademark. The marks are used only to refer to the technologies they name. Their inclusion does not imply endorsement by, or affiliation with, their owners.
+
 ### IBM Carbon icons, through @iconify-json/carbon (@iconify-json/carbon 1.2.28)
 
 - Licence declared: Apache-2.0
@@ -126,7 +141,7 @@ The build writes this file from the contents of the bundle. Do not edit it.
 - Copyright: Copyright 2015 IBM Corp.
 - Licence file: the package ships none, so the licence text its authors publish is used, from https://github.com/carbon-design-system/carbon/blob/main/LICENSE
 - NOTICE file: none shipped
-- Licence text: [text 8](#licence-text-8)
+- Licence text: [text 9](#licence-text-9)
 - The package info.json names IBM as the author and Apache-2.0 as the licence. IBM trademark rules for the IBM logo still apply.
 
 ### Inter font metrics (@fontsource/inter 5.3.0)
@@ -137,7 +152,7 @@ The build writes this file from the contents of the bundle. Do not edit it.
 - What is in the bundle: Advance widths of Inter at weights 400, 500, and 600 for the code points 32 to 255 and 18 further symbols, measured by gen:metrics and stored as numbers. No font file is included.
 - Copyright: Copyright 2016 The Inter Project Authors (https://github.com/rsms/inter) Inter-Italic[opsz,wght].ttf: Copyright 2016 The Inter Project Authors (https://github.com/rsms/inter)
 - NOTICE file: none shipped
-- Licence text: [text 9](#licence-text-9)
+- Licence text: [text 10](#licence-text-10)
 - The numbers are derived from the font, so the SIL Open Font License 1.1 of the font is applied to them. This is the only use of a font licence in the package, and it covers data, not code.
 
 ### JetBrains Mono font metrics (@fontsource/jetbrains-mono 5.3.0)
@@ -148,7 +163,7 @@ The build writes this file from the contents of the bundle. Do not edit it.
 - What is in the bundle: One advance width, the width of the letter m as a fraction of the em, measured by gen:metrics and stored as a number. No font file is included.
 - Copyright: Copyright 2020 The JetBrains Mono Project Authors (https://github.com/JetBrains/JetBrainsMono) JetBrainsMono-Italic[wght].ttf: Copyright 2020 The JetBrains Mono Project Authors (https://github.com/JetBrains/JetBrainsMono)
 - NOTICE file: none shipped
-- Licence text: [text 10](#licence-text-10)
+- Licence text: [text 11](#licence-text-11)
 - The number is derived from the font, so the SIL Open Font License 1.1 of the font is applied to it.
 
 ## Trademarks and official icons
@@ -1115,6 +1130,33 @@ For more information, please see
 
 ### Licence text 8
 
+Licences in this text: MIT. Used by: @iconify-json/devicon 1.2.71.
+
+```text
+The MIT License (MIT)
+
+Copyright (c) 2015 konpa
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
+
+### Licence text 9
+
 Licences in this text: Apache-2.0. Used by: @iconify-json/carbon 1.2.28.
 
 ```text
@@ -1321,7 +1363,7 @@ Apache License
    limitations under the License.
 ```
 
-### Licence text 9
+### Licence text 10
 
 Licences in this text: OFL-1.1. Used by: @fontsource/inter 5.3.0.
 
@@ -1421,7 +1463,7 @@ FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
 OTHER DEALINGS IN THE FONT SOFTWARE.
 ```
 
-### Licence text 10
+### Licence text 11
 
 Licences in this text: OFL-1.1. Used by: @fontsource/jetbrains-mono 5.3.0.
 
