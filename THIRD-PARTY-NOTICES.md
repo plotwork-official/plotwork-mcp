@@ -1,6 +1,6 @@
 # Third-party notices
 
-@buun_group/plotwork-mcp 0.4.0-beta.3 is licensed under the MIT licence, in the file LICENSE. The single file plotwork-mcp.mjs also contains code and data from other people. This file lists them, with the licence each is used under and the full licence text. Those licences apply to that material. The MIT licence of @buun_group/plotwork-mcp does not replace them, and it does not cover the vendor artwork described under "Trademarks and official icons".
+@buun_group/plotwork-mcp 0.4.0-beta.4 is licensed under the MIT licence, in the file LICENSE. The single file plotwork-mcp.mjs also contains code and data from other people. This file lists them, with the licence each is used under and the full licence text. Those licences apply to that material. The MIT licence of @buun_group/plotwork-mcp does not replace them, and it does not cover the vendor artwork described under "Trademarks and official icons".
 
 The build writes this file from the contents of the bundle. Do not edit it.
 
