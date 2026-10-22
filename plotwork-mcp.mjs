@@ -65,7 +65,7 @@ var init_icon_art_folder = __esm({
 var package_default;
 var init_package = __esm({
   "package.json"() {
-    package_default = { version: "0.4.0-beta.4" };
+    package_default = { version: "0.4.0-beta.5" };
   }
 });
 
@@ -454,6 +454,17 @@ var init_line_options = __esm({
   }
 });
 
+// ../../packages/diagrams/src/constants/color-themes.ts
+var COLOR_THEMES, DEFAULT_COLOR_THEME, COLOR_THEME_OPTION;
+var init_color_themes = __esm({
+  "../../packages/diagrams/src/constants/color-themes.ts"() {
+    "use strict";
+    COLOR_THEMES = ["plotwork", "slate", "ocean", "forest", "sunset", "mono", "contrast"];
+    DEFAULT_COLOR_THEME = "plotwork";
+    COLOR_THEME_OPTION = "theme";
+  }
+});
+
 // ../../packages/diagrams/src/constants/auto-icons.ts
 var ICON_MODES, DEFAULT_ICON_MODE, AUTO_ICON_KINDS, ICON_MODE_SPEC, PLAIN_WORD_NAMES, ROLE_ICONS, BRAND_SUFFIXES, ROLE_ICON_MAX_WORDS;
 var init_auto_icons = __esm({
@@ -689,14 +700,41 @@ var init_diagram_links = __esm({
   }
 });
 
+// ../../packages/diagrams/src/constants/action-release.ts
+function versionAtLeast(version2, since) {
+  const parts = (text3) => text3.split(".").map((part) => Number.parseInt(part, 10) || 0);
+  const [a, b] = [parts(version2), parts(since)];
+  for (let index2 = 0; index2 < 3; index2 += 1) {
+    const difference = (a[index2] ?? 0) - (b[index2] ?? 0);
+    if (difference !== 0) return difference > 0;
+  }
+  return true;
+}
+var ACTION_REPOSITORY, ACTION_RELEASE, PINNED_ACTION_LINE;
+var init_action_release = __esm({
+  "../../packages/diagrams/src/constants/action-release.ts"() {
+    "use strict";
+    ACTION_REPOSITORY = "plotwork-official/plotwork-action";
+    ACTION_RELEASE = {
+      version: "1.1.0",
+      sha: "86ae8278fa771a422d9df60185182f14b8be4db9"
+    };
+    PINNED_ACTION_LINE = `uses: ${ACTION_REPOSITORY}@${ACTION_RELEASE.sha} # v${ACTION_RELEASE.version}`;
+  }
+});
+
 // ../../packages/diagrams/src/constants/view-links.ts
+function schemeFlag(release = CLI_RELEASE) {
+  return versionAtLeast(release.version, CLI_SCHEME_FLAG_SINCE) ? "--scheme" : "--theme";
+}
 function cliCommand(release = CLI_RELEASE) {
   return `npx -y ${release.packageName}@${release.version}`;
 }
-var VIEW_LINKS, CLI_RELEASE;
+var VIEW_LINKS, CLI_RELEASE, CLI_SCHEME_FLAG_SINCE;
 var init_view_links = __esm({
   "../../packages/diagrams/src/constants/view-links.ts"() {
     "use strict";
+    init_action_release();
     VIEW_LINKS = {
       /** The path of the viewer page in the portal. */
       path: "/view",
@@ -725,20 +763,7 @@ var init_view_links = __esm({
       version: "0.2.0",
       onNpm: true
     };
-  }
-});
-
-// ../../packages/diagrams/src/constants/action-release.ts
-var ACTION_REPOSITORY, ACTION_RELEASE, PINNED_ACTION_LINE;
-var init_action_release = __esm({
-  "../../packages/diagrams/src/constants/action-release.ts"() {
-    "use strict";
-    ACTION_REPOSITORY = "plotwork-official/plotwork-action";
-    ACTION_RELEASE = {
-      version: "1.1.0",
-      sha: "86ae8278fa771a422d9df60185182f14b8be4db9"
-    };
-    PINNED_ACTION_LINE = `uses: ${ACTION_REPOSITORY}@${ACTION_RELEASE.sha} # v${ACTION_RELEASE.version}`;
+    CLI_SCHEME_FLAG_SINCE = "0.3.0";
   }
 });
 
@@ -817,7 +842,7 @@ function ciSetupSteps() {
   const cli = cliCommand();
   return [
     `1. **Look before you write.** Find the files Plotwork draws from: Terraform, OpenAPI documents, Compose files, Kubernetes manifests, SQL, Prisma or Drizzle schemas, GitHub Actions workflows and CSV data. Skip installed dependencies, build output and any file that holds secrets, such as \`.env\`. If \`${SETTINGS_FILE.names[0]}\` or \`${SETTINGS_FILE.names[1]}\` already exists, add to it instead of replacing it.`,
-    `2. **Name the sources.** Write \`${SETTINGS_FILE.names[0]}\` at the repository root with \`"$schema": "${SETTINGS_FILE.schemaUrl}"\`, \`"defaults": { "schemes": "auto" }\`, and one entry in \`sources\` for each diagram: \`name\`, \`from\` (a path or a glob), \`format\`, and \`out\` (\`docs/diagrams/<name>.diagram\`, or a \`diagram\` fence of a Markdown page the repository already has, written \`docs/architecture.md#<name>\`). \`${cli} import-source --help\` lists the formats. Draw one diagram for each stack, service map or schema; three diagrams people read beat a dozen they do not.`,
+    `2. **Name the sources.** Write \`${SETTINGS_FILE.names[0]}\` at the repository root with \`"$schema": "${SETTINGS_FILE.schemaUrl}"\`, \`"defaults": { "scheme": "auto" }\`, and one entry in \`sources\` for each diagram: \`name\`, \`from\` (a path or a glob), \`format\`, and \`out\` (\`docs/diagrams/<name>.diagram\`, or a \`diagram\` fence of a Markdown page the repository already has, written \`docs/architecture.md#<name>\`). \`${cli} import-source --help\` lists the formats. Draw one diagram for each stack, service map or schema; three diagrams people read beat a dozen they do not.`,
     `3. **Draw them.** Run \`${cli} generate\`. Fix each problem it prints (a code such as S103 names the line of the settings file), then run \`${cli} generate --check\` until it passes. Read the outline of each diagram with \`${cli} outline <file>\` and check it shows what the files say.`,
     `4. **Add the check.** Write \`${CI_SETUP.workflowPath}\` as below. Keep the \`uses:\` line exactly as written: it pins the release by its commit.`,
     "",
@@ -4148,6 +4173,7 @@ var init_constants = __esm({
     init_node_stack();
     init_line_options();
     init_line_roles();
+    init_color_themes();
     init_auto_icons();
     init_schema();
     init_sequence();
@@ -122532,11 +122558,12 @@ var init_palette = __esm({
 // ../../packages/diagrams/src/theme/themes.ts
 function buildToneStyle(accent, input2) {
   const chipFill = mix(accent, input2.surfaces.surface, input2.tint);
+  const floor = input2.graphicContrast ?? GRAPHIC_CONTRAST;
   return {
     accent,
     chipFill,
-    ink: ensureContrast(accent, chipFill, GRAPHIC_CONTRAST, input2.pushToward),
-    outline: ensureContrast(accent, input2.surfaces.surface, GRAPHIC_CONTRAST, input2.pushToward)
+    ink: ensureContrast(accent, chipFill, floor, input2.pushToward),
+    outline: ensureContrast(accent, input2.surfaces.surface, floor, input2.pushToward)
   };
 }
 function buildTheme(input2) {
@@ -122558,7 +122585,7 @@ var init_themes = __esm({
     init_palette();
     THEME_NAMES = ["light", "dark"];
     PICTURE_SCHEMES = [...THEME_NAMES, "auto"];
-    PICTURE_FILE_SCHEMES = ["light-and-dark", "auto"];
+    PICTURE_FILE_SCHEMES = ["auto", "light", "dark", "light-and-dark"];
     GRAPHIC_CONTRAST = 3;
     SCHEME_INPUTS = {
       light: { name: "light", surfaces: LIGHT_SURFACES, tones: LIGHT_TONES, tint: 0.12, pushToward: "#000000" },
@@ -122567,6 +122594,98 @@ var init_themes = __esm({
     LIGHT_THEME = buildTheme(SCHEME_INPUTS.light);
     DARK_THEME = buildTheme(SCHEME_INPUTS.dark);
     BARE_GLYPH_CONTRAST = 4.5;
+  }
+});
+
+// ../../packages/diagrams/src/theme/palettes.ts
+function paletteInput(colorTheme, scheme) {
+  const base = SCHEME_INPUTS[scheme];
+  if (colorTheme === "plotwork") return base;
+  const palette = PALETTES[colorTheme][scheme];
+  const input2 = { ...base, surfaces: palette.surfaces, tones: palette.tones, tint: palette.tint ?? base.tint };
+  return palette.graphicContrast === void 0 ? input2 : { ...input2, graphicContrast: palette.graphicContrast };
+}
+function paletteTheme(colorTheme, scheme) {
+  if (colorTheme === "plotwork") return getTheme(scheme);
+  const key = `${colorTheme}|${scheme}`;
+  const built = BUILT.get(key);
+  if (built !== void 0) return built;
+  const theme = buildTheme(paletteInput(colorTheme, scheme));
+  BUILT.set(key, theme);
+  return theme;
+}
+var PALETTES, BUILT;
+var init_palettes = __esm({
+  "../../packages/diagrams/src/theme/palettes.ts"() {
+    "use strict";
+    init_themes();
+    PALETTES = {
+      slate: {
+        light: {
+          surfaces: { surface: "#ffffff", surfaceGroup: "#f4f6f9", border: "#d5dbe3", borderGroup: "#cad1db", ink: "#0f172a", inkSecondary: "#475569", edge: "#8590a0" },
+          tones: { neutral: "#475569", blue: "#2f6fd0", violet: "#5b4bc4", aqua: "#0f9488", orange: "#d4622e", green: "#1a7f37", amber: "#c98a00", red: "#d03a3a" }
+        },
+        dark: {
+          surfaces: { surface: "#1c2230", surfaceGroup: "#131824", border: "#343d4e", borderGroup: "#3e4859", ink: "#eef2f7", inkSecondary: "#b4bfcd", edge: "#7d899b" },
+          tones: { neutral: "#b4bfcd", blue: "#4b8ff0", violet: "#998cf0", aqua: "#1fa99a", orange: "#e2774a", green: "#2e9e4f", amber: "#cf9a17", red: "#e86a6a" }
+        }
+      },
+      ocean: {
+        light: {
+          surfaces: { surface: "#ffffff", surfaceGroup: "#eff6f8", border: "#cfe0e6", borderGroup: "#c1d5dc", ink: "#0b2533", inkSecondary: "#3e5a68", edge: "#7b97a4" },
+          tones: { neutral: "#3e5a68", blue: "#1666b0", violet: "#4b4fb8", aqua: "#0b8f8c", orange: "#d0673a", green: "#18804a", amber: "#c48a0a", red: "#cc3d4a" }
+        },
+        dark: {
+          surfaces: { surface: "#12232c", surfaceGroup: "#0b1920", border: "#244050", borderGroup: "#2c4b5a", ink: "#e8f3f6", inkSecondary: "#a9c3cc", edge: "#6e8e9b" },
+          tones: { neutral: "#a9c3cc", blue: "#3d8fd9", violet: "#8b8ff0", aqua: "#25aaa6", orange: "#e0835a", green: "#2f9e62", amber: "#d29d2a", red: "#e6707a" }
+        }
+      },
+      forest: {
+        light: {
+          surfaces: { surface: "#ffffff", surfaceGroup: "#f2f5f0", border: "#d5ddd1", borderGroup: "#c9d3c4", ink: "#17211a", inkSecondary: "#4a5a4c", edge: "#879585" },
+          tones: { neutral: "#4a5a4c", blue: "#2d6a8f", violet: "#6b4a8a", aqua: "#24877a", orange: "#bf5d2c", green: "#2f7d32", amber: "#b8860b", red: "#b8423a" }
+        },
+        dark: {
+          surfaces: { surface: "#1a201b", surfaceGroup: "#121713", border: "#343d35", borderGroup: "#3e4840", ink: "#eef2ec", inkSecondary: "#b9c4b6", edge: "#7f8c7d" },
+          tones: { neutral: "#b9c4b6", blue: "#4f94bd", violet: "#a585c7", aqua: "#36a593", orange: "#d47c4c", green: "#45a049", amber: "#cfa02a", red: "#de7168" }
+        }
+      },
+      sunset: {
+        light: {
+          surfaces: { surface: "#ffffff", surfaceGroup: "#fbf5f1", border: "#ebdcd2", borderGroup: "#e2cfc3", ink: "#2a1a17", inkSecondary: "#6b4f47", edge: "#a58a7f" },
+          tones: { neutral: "#6b4f47", blue: "#3f5fb0", violet: "#9b3f8a", aqua: "#1f8a8a", orange: "#e0603a", green: "#3d8a3a", amber: "#d98e04", red: "#c9303e" }
+        },
+        dark: {
+          surfaces: { surface: "#261c1a", surfaceGroup: "#1c1413", border: "#45332f", borderGroup: "#503c38", ink: "#f8eee9", inkSecondary: "#d4bcb3", edge: "#9a8077" },
+          tones: { neutral: "#d4bcb3", blue: "#6b8be0", violet: "#d276bf", aqua: "#30a8a5", orange: "#ec7d58", green: "#55a650", amber: "#e3a43a", red: "#ec6670" }
+        }
+      },
+      mono: {
+        light: {
+          surfaces: { surface: "#ffffff", surfaceGroup: "#f5f5f5", border: "#d9d9d9", borderGroup: "#cecece", ink: "#111111", inkSecondary: "#505050", edge: "#8c8c8c" },
+          tones: { neutral: "#505050", blue: "#52667d", violet: "#655b80", aqua: "#4c7570", orange: "#8a6450", green: "#3f7a45", amber: "#9a7a2a", red: "#b04545" }
+        },
+        dark: {
+          surfaces: { surface: "#1e1e1e", surfaceGroup: "#161616", border: "#383838", borderGroup: "#424242", ink: "#f2f2f2", inkSecondary: "#bdbdbd", edge: "#8a8a8a" },
+          tones: { neutral: "#bdbdbd", blue: "#8aa0b8", violet: "#a49bc0", aqua: "#86aaa4", orange: "#c09a85", green: "#6fae76", amber: "#c9a95a", red: "#e07a7a" }
+        }
+      },
+      contrast: {
+        light: {
+          surfaces: { surface: "#ffffff", surfaceGroup: "#f2f2f2", border: "#6b6b6b", borderGroup: "#595959", ink: "#000000", inkSecondary: "#2e2e2e", edge: "#4d4d4d" },
+          tones: { neutral: "#2e2e2e", blue: "#0050b3", violet: "#4b1fa8", aqua: "#006b5a", orange: "#b03a00", green: "#006400", amber: "#8a5a00", red: "#b00020" },
+          tint: 0.1,
+          graphicContrast: 4.5
+        },
+        dark: {
+          surfaces: { surface: "#0a0a0a", surfaceGroup: "#000000", border: "#a3a3a3", borderGroup: "#bdbdbd", ink: "#ffffff", inkSecondary: "#e0e0e0", edge: "#c2c2c2" },
+          tones: { neutral: "#e0e0e0", blue: "#6cb4ff", violet: "#c4a5ff", aqua: "#3fe0c5", orange: "#ffa463", green: "#6fe07a", amber: "#ffd04d", red: "#ff7a85" },
+          tint: 0.22,
+          graphicContrast: 4.5
+        }
+      }
+    };
+    BUILT = /* @__PURE__ */ new Map();
   }
 });
 
@@ -122662,13 +122781,14 @@ function brandTheme(scheme, brand) {
     }
   });
 }
-function themeFor(scheme, brand) {
-  if (brand === void 0 || brand === null) return getTheme(scheme);
+function themeFor(scheme, brand, colorTheme = DEFAULT_COLOR_THEME) {
+  if (brand === void 0 || brand === null) return paletteTheme(colorTheme, scheme);
   const key = `${scheme}|${brand.primary}|${brand.secondary ?? ""}|${brand.accent ?? ""}`;
   const cached3 = CACHE.get(key);
   if (cached3 !== void 0) return cached3;
   const checked2 = checkBrand(brand);
-  const theme = checked2.brand === null ? getTheme(scheme) : brandTheme(scheme, checked2.brand);
+  if (checked2.brand === null) return paletteTheme(colorTheme, scheme);
+  const theme = brandTheme(scheme, checked2.brand);
   if (CACHE.size >= CACHE_LIMIT) CACHE.delete(CACHE.keys().next().value);
   CACHE.set(key, theme);
   return theme;
@@ -122677,7 +122797,9 @@ var BRAND_ROLES, HUE_STEP, TONE_OF_ROLE, STATUS_HUES, STATUS_HUE_DISTANCE, STATU
 var init_brand = __esm({
   "../../packages/diagrams/src/theme/brand.ts"() {
     "use strict";
+    init_constants();
     init_color();
+    init_palettes();
     init_themes();
     BRAND_ROLES = ["primary", "secondary", "accent"];
     HUE_STEP = { secondary: 40, accent: -40 };
@@ -122707,6 +122829,7 @@ var init_theme = __esm({
     init_group_colors();
     init_vendor_tile();
     init_themes();
+    init_palettes();
     init_brand();
   }
 });
@@ -160077,7 +160200,8 @@ function buildVocabulary() {
     arrows: ARROW_TOKENS.map((token) => ({ token, line: ARROW_SPECS[token].line, heads: ARROW_SPECS[token].heads, meaning: ARROW_SPECS[token].meaning })),
     blockTypes: [...SEQUENCE_BLOCK_TYPES],
     columnFlags: [...COLUMN_FLAGS],
-    themes: [...THEME_NAMES],
+    schemes: [...THEME_NAMES],
+    themes: [...COLOR_THEMES],
     iconSets: [...ICON_SETS],
     iconCount: listIconRefs().length,
     iconProviders: CLOUD_SETS.map((set2) => ({
@@ -160205,6 +160329,7 @@ var init_build_vocabulary = __esm({
       examples: "own",
       tones: "every",
       directions: "every",
+      schemes: "every",
       themes: "every",
       iconSets: "every",
       iconCount: "every",
@@ -160261,6 +160386,54 @@ var init_prose = __esm({
   }
 });
 
+// ../../packages/diagrams/src/parse/color-theme.ts
+function themeHint(value) {
+  if (PICTURE_SCHEMES.includes(value)) {
+    return `${value} is a scheme, not a colour theme: light, dark, or auto is chosen where the picture is drawn (the scheme argument of a tool, --scheme, or the scheme setting). Write theme= with one of: ${COLOR_THEMES.join(", ")}.`;
+  }
+  const close2 = suggest(value, COLOR_THEMES, 3);
+  return `${close2 === null ? "" : `Did you mean "${close2}"? `}The colour themes are: ${COLOR_THEMES.join(", ")}.`;
+}
+function readColorTheme(header, report3) {
+  const kept2 = [];
+  let colorTheme = null;
+  let seen = false;
+  const tokens = header.tokens;
+  for (let index2 = 0; index2 < tokens.length; index2 += 1) {
+    const token = tokens[index2];
+    const isOption = index2 > 0 && token.kind === "word" && token.text === COLOR_THEME_OPTION && tokens[index2 + 1]?.kind === "equals";
+    if (!isOption) {
+      kept2.push(token);
+      continue;
+    }
+    const value = tokens[index2 + 2];
+    if (value === void 0 || value.kind !== "word" && value.kind !== "string") {
+      report3.push(errorAt(DIAGNOSTIC_CODES.badOptionValue, 'Option "theme" needs a value', token, `Write theme=${DEFAULT_COLOR_THEME} or another colour theme: ${COLOR_THEMES.join(", ")}.`));
+      index2 += 1;
+      continue;
+    }
+    index2 += 2;
+    if (seen) {
+      report3.push(errorAt(DIAGNOSTIC_CODES.badOptionValue, "The header names a colour theme twice", token, "Keep one theme= on the header."));
+      continue;
+    }
+    seen = true;
+    const known3 = COLOR_THEMES.find((name2) => name2 === value.text);
+    if (known3 === void 0) report3.push(errorAt(DIAGNOSTIC_CODES.badOptionValue, `Unknown colour theme "${value.text}"`, value, themeHint(value.text)));
+    else colorTheme = known3;
+  }
+  return { header: kept2.length === tokens.length ? header : { ...header, tokens: kept2 }, colorTheme };
+}
+var init_color_theme = __esm({
+  "../../packages/diagrams/src/parse/color-theme.ts"() {
+    "use strict";
+    init_constants();
+    init_core();
+    init_theme();
+    init_suggest();
+  }
+});
+
 // ../../packages/diagrams/src/parse/parse-diagram.ts
 function parseDiagram(source) {
   const lexed = lex(source);
@@ -160285,7 +160458,9 @@ function parseDiagram(source) {
     return err(report3);
   }
   const definition = kindModule(kind);
-  const diagram = definition.parse(lexed.lines, report3);
+  const themed = readColorTheme(lexed.lines[0], report3);
+  const parsed = definition.parse([themed.header, ...lexed.lines.slice(1)], report3);
+  const diagram = themed.colorTheme === null || themed.colorTheme === DEFAULT_COLOR_THEME ? parsed : { ...parsed, meta: { ...parsed.meta, colorTheme: themed.colorTheme } };
   if (!report3.some((diagnostic) => diagnostic.severity === "error")) report3.push(...definition.checkParsed?.(diagram, header) ?? []);
   return report3.some((diagnostic) => diagnostic.severity === "error") ? err(report3) : ok(diagram);
 }
@@ -160296,6 +160471,7 @@ var init_parse_diagram = __esm({
     init_core();
     init_prose();
     init_registry2();
+    init_color_theme();
     init_lexer();
     init_suggest();
   }
@@ -160356,7 +160532,7 @@ function readPicture(svg) {
     summary: summary === void 0 ? null : unescapeXml(summary),
     outline: description === null ? [] : description.split("\n").filter((line3) => line3 !== ""),
     labels: [...new Set(labels2)].slice(0, MAX_LABELS),
-    theme: attributes2.get("data-theme") ?? null,
+    scheme: attributes2.get("data-theme") ?? null,
     size: width === null || height === null ? null : { width, height }
   };
 }
@@ -160516,7 +160692,7 @@ function withoutSource(status, message2, next, from, svg) {
     picture: facts === null ? null : {
       title: facts.title,
       summary: facts.summary,
-      theme: facts.theme,
+      scheme: facts.scheme,
       size: facts.size === null ? null : { width: Math.round(facts.size.width), height: Math.round(facts.size.height) },
       outline: [...facts.outline],
       labels: [...facts.labels]
@@ -160556,7 +160732,7 @@ async function readDiagram(input2, deps = {}) {
     picture: {
       title: facts?.title ?? null,
       summary: facts?.summary ?? null,
-      theme: facts?.theme ?? null,
+      scheme: facts?.scheme ?? null,
       size: facts?.size === void 0 || facts.size === null ? null : { width: Math.round(facts.size.width), height: Math.round(facts.size.height) },
       outline: [],
       labels: []
@@ -161278,10 +161454,10 @@ function iconsOf(diagram) {
 }
 async function paintScheme(diagram, scheme, options3) {
   const document2 = { idPrefix: options3.idPrefix ?? "dg", source: options3.source ?? null };
-  return moduleOf(diagram).render(diagram, themeFor(scheme, options3.brand), document2);
+  return moduleOf(diagram).render(diagram, themeFor(scheme, options3.brand, options3.theme ?? diagram.meta.colorTheme), document2);
 }
 async function paintAsked(diagram, options3) {
-  const scheme = options3.theme ?? "light";
+  const scheme = options3.scheme ?? "light";
   if (scheme !== "auto") return paintScheme(diagram, scheme, options3);
   const [light, dark] = await Promise.all([paintScheme(diagram, "light", options3), paintScheme(diagram, "dark", options3)]);
   const merged = mergeSchemes(light.svg, dark.svg, options3.idPrefix ?? "dg");
@@ -161396,8 +161572,8 @@ async function renderPairDetailed(source, idPrefix, brand = null) {
   const parsed = parseDiagram(source);
   if (!parsed.ok) return { outcome: { diagnostics: parsed.error }, kind: null, warnings: [] };
   const [light, dark] = await Promise.all([
-    renderDiagramDetailed(parsed.value, { theme: "light", idPrefix, source, brand }),
-    renderDiagramDetailed(parsed.value, { theme: "dark", idPrefix, source, brand })
+    renderDiagramDetailed(parsed.value, { scheme: "light", idPrefix, source, brand }),
+    renderDiagramDetailed(parsed.value, { scheme: "dark", idPrefix, source, brand })
   ]);
   return {
     outcome: {
@@ -161441,12 +161617,13 @@ async function renderDiagramSource(input2, brand = null) {
   const parsed = parseDiagram(input2.source);
   if (!parsed.ok) return err(parsed.error);
   const { svg, size, overlayCovers, missingIcons } = await renderDiagramDetailed(parsed.value, {
-    theme: input2.theme,
+    scheme: input2.scheme,
+    ...input2.theme === void 0 ? {} : { theme: input2.theme },
     brand,
     ...input2.idPrefix === void 0 ? {} : { idPrefix: input2.idPrefix },
     ...input2.embedSource ? { source: input2.source } : {}
   });
-  return ok({ svg, theme: input2.theme, size, warnings: [...unknownIconWarnings(input2.source), ...secretWarnings(input2.source), ...lintDiagram(parsed.value, size, overlayCovers), ...iconArtWarnings(missingIcons, input2.source)].map(diagnosticToDto) });
+  return ok({ svg, scheme: input2.scheme, size, warnings: [...unknownIconWarnings(input2.source), ...secretWarnings(input2.source), ...lintDiagram(parsed.value, size, overlayCovers), ...iconArtWarnings(missingIcons, input2.source)].map(diagnosticToDto) });
 }
 var init_render_diagram_svg = __esm({
   "../../packages/diagrams/src/services/render-diagram-svg.ts"() {
@@ -161962,7 +162139,8 @@ function hashBlock(source, pair2, schemes) {
   return createHash("sha256").update(`${BLOCK_FORMAT_VERSION}
 ${source}
 ${pair2.light}
-${pair2.dark}${schemes === "auto" ? "\nauto" : ""}`).digest("hex").slice(0, 12);
+${pair2.dark}${schemes === "light-and-dark" ? "" : `
+${schemes}`}`).digest("hex").slice(0, 12);
 }
 function slugify2(text3) {
   const slug = text3.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
@@ -162005,8 +162183,9 @@ async function syncMarkdown(markdown, stem2, hooks) {
       continue;
     }
     const { pair: pair2 } = outcome;
-    const merged = hooks.schemes === "light-and-dark" ? null : mergeSchemes(pair2.light, pair2.dark, id);
-    const hash2 = hashBlock(fence.source, pair2, merged === null ? "light-and-dark" : "auto");
+    const scheme = hooks.scheme ?? "auto";
+    const merged = scheme === "light" ? pair2.light : scheme === "dark" ? pair2.dark : scheme === "light-and-dark" ? null : mergeSchemes(pair2.light, pair2.dark, id);
+    const hash2 = hashBlock(fence.source, pair2, merged === null ? "light-and-dark" : scheme);
     const isFresh = place2.block !== null && readBlockHash(lines[place2.block.start] ?? "") === hash2;
     if (isFresh && !needsWrap) {
       unchangedCount += 1;
@@ -162128,7 +162307,7 @@ var init_apply_defaults = __esm({
     init_core();
     init_lexer();
     init_parse_diagram();
-    SHARED_OPTIONS = ["icons", "legend", "direction", "animate", "numbered"];
+    SHARED_OPTIONS = ["icons", "legend", "direction", "animate", "numbered", "theme"];
   }
 });
 
@@ -162336,7 +162515,7 @@ async function runSync(document2, settings, ops, cache, limit) {
   const result = await syncMarkdown(document2, settings.stem, {
     render,
     assetDir: settings.assetDir,
-    ...settings.defaults?.schemes === void 0 ? {} : { schemes: settings.defaults.schemes },
+    ...settings.defaults?.scheme === void 0 ? {} : { scheme: settings.defaults.scheme },
     ...settings.prefix === void 0 ? {} : { idPrefix: settings.prefix }
   });
   return { result, calls };
@@ -163241,7 +163420,7 @@ function qualityOf(diagram, svg) {
   return { score, grade, measures: { ...measured.measures, ...own2.measures }, hints, line: lineOf(score, grade, hints) };
 }
 async function assessQuality(diagram) {
-  const rendered = await renderDiagramDetailed(diagram, { theme: "light", idPrefix: "q" });
+  const rendered = await renderDiagramDetailed(diagram, { scheme: "light", idPrefix: "q" });
   return qualityOf(diagram, rendered.svg);
 }
 var QUALITY_GRADES, MAX_HINTS, HINT_PENALTY;
@@ -178711,11 +178890,12 @@ var init_stdio = __esm({
 });
 
 // ../../packages/diagrams/src/schemas/common.ts
-var DIAGNOSTIC_CODE_VALUES, DiagnosticSchema, SizeSchema, ErrorResponseSchema;
+var DIAGNOSTIC_CODE_VALUES, DiagnosticSchema, SizeSchema, ErrorResponseSchema, ColorThemeArgSchema;
 var init_common = __esm({
   "../../packages/diagrams/src/schemas/common.ts"() {
     "use strict";
     init_zod();
+    init_constants();
     init_core();
     DIAGNOSTIC_CODE_VALUES = Object.values(DIAGNOSTIC_CODES);
     DiagnosticSchema = external_exports.object({
@@ -178738,6 +178918,9 @@ var init_common = __esm({
       details: external_exports.unknown().optional().describe("Validation issues or diagnostics, JSON-safe."),
       requestId: external_exports.string().optional().describe("Trace id for correlating with logs.")
     }).meta({ id: "ErrorResponse", description: "Standard error envelope used by every failing response." });
+    ColorThemeArgSchema = external_exports.enum(COLOR_THEMES, {
+      error: (issue3) => typeof issue3.input === "string" && ["light", "dark", "auto", "both"].includes(issue3.input) ? `${issue3.input} is a color scheme: send it as scheme or schemes. theme is the colour theme: ${COLOR_THEMES.join(", ")}.` : void 0
+    }).optional().describe("Colour theme for this drawing, over the header's theme=.");
   }
 });
 
@@ -178828,6 +179011,13 @@ var init_schema3 = __esm({
 });
 
 // ../../packages/diagrams/src/settings/sources.ts
+function movedKeysError(moved3) {
+  return (issue3) => {
+    if (issue3.code !== "unrecognized_keys") return void 0;
+    const notes = (issue3.keys ?? []).flatMap((key) => moved3[key] === void 0 ? [] : [moved3[key]]);
+    return notes.length === 0 ? void 0 : notes.join("; ");
+  };
+}
 var repositoryPath, pattern2, outPath, SourceOptionsSchema, SourcePublishSchema, SourceSchema;
 var init_sources2 = __esm({
   "../../packages/diagrams/src/settings/sources.ts"() {
@@ -178856,10 +179046,10 @@ var init_sources2 = __esm({
       organization: external_exports.string().regex(/^[A-Za-z0-9_-]{1,64}$/, "Write the organisation's slug or id, such as acme").optional().describe("Publish into this organisation's library. Left out, with no alias, the organisation of brand.organization is used."),
       folder: external_exports.string().min(1).max(300).optional().describe("The folder of the library to file it in, such as Platform/Infra."),
       name: external_exports.string().min(1).max(120).optional().describe("Its name in the library; the diagram's title when left out."),
-      theme: external_exports.enum(PICTURE_SCHEMES).optional().describe("light, dark, or auto; defaults.theme, then light, when left out."),
+      scheme: external_exports.enum(PICTURE_SCHEMES).optional().describe("light, dark, or auto; the picture of defaults.scheme, then light, when left out."),
       embedSource: external_exports.boolean().optional().describe("Write the diagram source into the hosted picture. Left out, it is not."),
       required: external_exports.boolean().optional().describe("Fail the run when this source cannot be published, such as with no key. Left out, a skipped publish is a notice.")
-    }).meta({ id: "SourcePublish", description: "Where the GitHub Action publishes a generated diagram when publish is on." });
+    }, { error: movedKeysError({ theme: "publish.theme is now publish.scheme (light, dark, or auto); theme= names a colour theme in the diagram's header" }) }).meta({ id: "SourcePublish", description: "Where the GitHub Action publishes a generated diagram when publish is on." });
     SourceSchema = external_exports.strictObject({
       name: external_exports.string().regex(/^[a-z0-9][a-z0-9._-]{0,63}$/, "A name is lower-case letters, digits, dots, hyphens and underscores, such as infra").optional().describe("A short name for --source and the summary; the out path when left out."),
       from: external_exports.union([pattern2, external_exports.array(pattern2).min(1).max(GENERATE.maxPatterns)]).describe("The files to read: one pattern or a list."),
@@ -178870,14 +179060,18 @@ var init_sources2 = __esm({
       options: SourceOptionsSchema.optional(),
       overrides: repositoryPath.refine((path) => path.endsWith(".json"), { message: "An overrides file is a .json file" }).optional().describe("The overrides file, applied after every import. Left out: the out path with .overrides.json in place of .diagram, or <file>.<fence id>.overrides.json beside a Markdown file."),
       pictures: external_exports.boolean().optional().describe("For a .diagram out: also write its light and dark SVG beside it. On when left out."),
-      schemes: external_exports.enum(PICTURE_FILE_SCHEMES).optional().describe("The pictures this source writes: auto writes one <name>.svg that follows the reader's light or dark setting; light-and-dark writes <name>.svg and <name>.dark.svg. defaults.schemes, then auto, when left out."),
+      scheme: external_exports.enum(PICTURE_FILE_SCHEMES).optional().describe("The pictures this source writes: auto writes one <name>.svg that follows the reader's light or dark setting; light or dark writes one <name>.svg in that scheme; light-and-dark writes <name>.svg and <name>.dark.svg. defaults.scheme, then auto, when left out."),
       publish: SourcePublishSchema.optional()
-    }).meta({ id: "Source", description: "One diagram generated from files of the repository and kept in step with them." });
+    }, { error: movedKeysError({ schemes: "A source's schemes is now scheme, which takes auto, light, dark, or light-and-dark" }) }).meta({ id: "Source", description: "One diagram generated from files of the repository and kept in step with them." });
   }
 });
 
 // ../../packages/diagrams/src/settings/schema.ts
-var optionKey, optionValue, DefaultsSchema, SettingsBrandSchema, SettingsSchema;
+function themeError(issue3) {
+  const value = typeof issue3.input === "string" ? issue3.input : "";
+  return PICTURE_SCHEMES.includes(value) ? `"${value}" is a scheme, not a colour theme (${COLOR_THEMES.join(", ")}); write "scheme": "${value}" for the ${value} picture` : void 0;
+}
+var optionKey, optionValue, MOVED_DEFAULTS, DefaultsSchema, SettingsBrandSchema, SettingsSchema;
 var init_schema4 = __esm({
   "../../packages/diagrams/src/settings/schema.ts"() {
     "use strict";
@@ -178888,17 +179082,21 @@ var init_schema4 = __esm({
     init_sources2();
     optionKey = external_exports.string().regex(/^[a-z][a-z0-9-]*$/, "Write the header option as the header writes it, such as direction or layout").refine((key) => key !== "title", { message: "A title is the diagram's own; it has no default" });
     optionValue = external_exports.union([external_exports.string().min(1).max(SETTINGS_FILE.maxValueLength), external_exports.number(), external_exports.boolean()]);
+    MOVED_DEFAULTS = {
+      schemes: "defaults.schemes is now defaults.scheme, which takes auto, light, dark, or light-and-dark",
+      colorTheme: "defaults.colorTheme is now defaults.theme"
+    };
     DefaultsSchema = external_exports.strictObject({
       icons: external_exports.enum(ICON_MODES).optional().describe("icons= on every header that takes it: auto gives an item the icon its label names, off keeps items plain."),
       legend: external_exports.enum(SWITCH_VALUES).optional().describe("legend= on every header that takes it: off draws no legend of line roles."),
       direction: external_exports.enum(DIRECTIONS).optional().describe("direction= on every header that takes this value."),
       animate: external_exports.enum(SWITCH_VALUES).optional().describe("animate= on every header that takes it: on moves dashes along every line."),
       numbered: external_exports.enum(SWITCH_VALUES).optional().describe("numbered= on every header that takes it: on numbers every line in the order written."),
-      theme: external_exports.enum(PICTURE_SCHEMES).optional().describe("The color scheme the command line and the GitHub Action draw a single picture in."),
+      theme: external_exports.enum(COLOR_THEMES, { error: themeError }).optional().describe("theme= on every header: the colour theme a diagram is drawn in when its header names none, such as ocean or contrast. plotwork is the default."),
+      scheme: external_exports.enum(PICTURE_FILE_SCHEMES).optional().describe("The pictures a diagram gets. auto writes one <name>.svg that holds both schemes and follows the reader's light or dark setting, so GitHub shows it right in either theme. light or dark writes one picture in that scheme. light-and-dark writes <name>.svg and <name>.dark.svg from sync and generate, which a <picture> element shows by GitHub's own theme setting, and the light picture from render and publish. Left out: auto from sync and generate, light from render and publish."),
       embedSource: external_exports.boolean().optional().describe("Write the source into every SVG the command line, the GitHub Action, and the drawing tools save."),
-      schemes: external_exports.enum(PICTURE_FILE_SCHEMES).optional().describe("The pictures generate and sync write. auto, the default, writes one <name>.svg that holds both schemes and follows the reader's light or dark setting, so GitHub shows it right in either theme. light-and-dark writes <name>.svg and <name>.dark.svg, which a <picture> element shows by GitHub's own theme setting."),
       kinds: external_exports.partialRecord(external_exports.enum(DIAGRAM_KINDS), external_exports.record(optionKey, optionValue)).optional().describe('Header options for one kind, such as { "mindmap": { "layout": "radial" } }. A value the kind refuses is left out with warning S200.')
-    }).meta({ id: "SettingsDefaults", description: "Header options a diagram gets when its header does not set them." });
+    }, { error: movedKeysError(MOVED_DEFAULTS) }).meta({ id: "SettingsDefaults", description: "Header options a diagram gets when its header does not set them." });
     SettingsBrandSchema = external_exports.strictObject({
       organization: external_exports.string().regex(/^[A-Za-z0-9_-]{1,64}$/, "Write the organisation's slug or id, such as acme").describe("The organisation's slug or id. Hosted calls by a member use its brand while its owner's plan includes brand themes.")
     }).meta({ id: "SettingsBrand", description: "The organisation whose saved brand hosted calls use." });
@@ -178983,14 +179181,15 @@ var init_diagrams = __esm({
     }).meta({ id: "ValidateResponse", description: "Result of checking diagram source." });
     RenderInputSchema = external_exports.object({
       source: SourceTextSchema,
-      theme: external_exports.enum(PICTURE_SCHEMES).default("light").describe("Color scheme to paint with: light, dark, or auto for one picture that follows the reader's light or dark setting."),
+      scheme: external_exports.enum(PICTURE_SCHEMES).default("light").describe("Color scheme to paint with: light, dark, or auto for one picture that follows the reader's light or dark setting."),
+      theme: ColorThemeArgSchema,
       idPrefix: external_exports.string().max(API_LIMITS.maxIdPrefixLength).regex(ID_PREFIX_PATTERN).optional().describe("Prefix for element ids; set it when inlining several diagrams into one page."),
       embedSource: external_exports.boolean().default(false).describe("Write the source into the SVG metadata so read_diagram can give it back. Set it true when you save the SVG into a repository; anyone with the file can then read the source. Default false."),
       settings: SettingsArgSchema
     }).meta({ id: "RenderInput", description: "Diagram source and rendering options." });
     RenderResponseSchema = external_exports.object({
       svg: external_exports.string().describe("Self-contained SVG markup with an accessible title and description."),
-      theme: external_exports.enum(PICTURE_SCHEMES).describe("The color scheme used."),
+      scheme: external_exports.enum(PICTURE_SCHEMES).describe("The color scheme used."),
       size: SizeSchema,
       warnings: external_exports.array(DiagnosticSchema)
     }).meta({ id: "RenderResponse", description: "A rendered diagram." });
@@ -179007,15 +179206,16 @@ function isRepoRelativePath(path) {
   if (path.startsWith("/") || path.includes("\\") || path.includes("\0")) return false;
   return path.split("/").every((segment) => segment !== "" && segment !== "..");
 }
-var THEME_CHOICES, DETAIL_CHOICES, ThemeChoiceSchema, DetailSchema, SVG_CHOICES, SvgChoiceSchema, EmbedSourceSchema, PicturesOmittedSchema, ViewUrlSchema, PngUrlSchema, SvgUrlSchema, SaveCommandSchema, RepoPathSchema;
+var SCHEME_CHOICES, DETAIL_CHOICES, SchemeChoiceSchema, DetailSchema, SVG_CHOICES, SvgChoiceSchema, EmbedSourceSchema, PicturesOmittedSchema, ViewUrlSchema, PngUrlSchema, SvgUrlSchema, SaveCommandSchema, RepoPathSchema;
 var init_workflows = __esm({
   "../../packages/diagrams/src/schemas/workflows.ts"() {
     "use strict";
     init_zod();
+    init_constants();
     init_theme();
-    THEME_CHOICES = ["light", "dark", "both"];
+    SCHEME_CHOICES = ["light", "dark", "both"];
     DETAIL_CHOICES = ["summary", "full"];
-    ThemeChoiceSchema = external_exports.enum(THEME_CHOICES).default("both").describe("light, dark, or both (the default): the light picture and the dark one a dark page needs.");
+    SchemeChoiceSchema = external_exports.enum(SCHEME_CHOICES).default("both").describe("light, dark, or both (the default): the light picture and the dark one a dark page needs.");
     DetailSchema = external_exports.enum(DETAIL_CHOICES).default("summary").describe("summary (the default), or full: the whole outline, and the source embedded in each SVG.");
     SVG_CHOICES = ["auto", "always", "never"];
     SvgChoiceSchema = external_exports.enum(SVG_CHOICES).default("auto").describe(
@@ -179025,7 +179225,7 @@ var init_workflows = __esm({
       "Write the source into each SVG so read_diagram can give it back. Set it when you save the SVG in a repository or publish it to edit later; anyone with the file or link can then read the source."
     );
     PicturesOmittedSchema = external_exports.object({
-      themes: external_exports.array(external_exports.enum(THEME_NAMES)).describe("The color schemes whose pictures were left out."),
+      schemes: external_exports.array(external_exports.enum(THEME_NAMES)).describe("The color schemes whose pictures were left out."),
       characters: external_exports.number().int().describe("How many characters the pictures left out came to."),
       limit: external_exports.number().int().describe("The most characters one answer may hold before the pictures are left out."),
       why: external_exports.string().describe("Why they were left out, and what to do.")
@@ -179040,7 +179240,7 @@ var init_workflows = __esm({
       "The viewUrl with &download=svg: a person opens it to download the SVG. Not a file address for curl; use saveCommand. Absent when too long."
     );
     SaveCommandSchema = external_exports.string().describe(
-      "Run in a shell to save the SVG into the repository: the CLI decodes the link locally, fetches nothing, and embeds the source. Set --out to the path; add --theme dark for dark. Absent when too long."
+      `Run in a shell to save the SVG into the repository: the CLI decodes the link locally, fetches nothing, and embeds the source. Set --out to the path; add ${schemeFlag()} dark for dark. Absent when too long.`
     );
     RepoPathSchema = external_exports.string().min(1).refine(isRepoRelativePath, 'Use a path relative to the repository root, with forward slashes, no leading slash, and no ".." segment.');
   }
@@ -179085,7 +179285,7 @@ var init_edit_diagram = __esm({
       source: SourceTextSchema,
       operations: external_exports.array(EditOperationSchema).min(1).max(WORKFLOW_LIMITS.maxEditOperations).describe("Applied in order."),
       svg: external_exports.enum(SVG_CHOICES).default("never").describe("never (the default) draws nothing; auto or always draws like draw_diagram."),
-      themes: ThemeChoiceSchema,
+      schemes: SchemeChoiceSchema,
       settings: SettingsArgSchema
     }).meta({ id: "EditDiagramInput", description: "Diagram source and the edits to make to it." });
     OperationResultSchema = external_exports.object({
@@ -179107,7 +179307,7 @@ var init_edit_diagram = __esm({
       outline: external_exports.array(external_exports.string()),
       outlineTruncated: external_exports.boolean(),
       size: SizeSchema.nullable(),
-      renders: external_exports.array(external_exports.object({ theme: external_exports.enum(THEME_NAMES), svg: external_exports.string(), size: SizeSchema })),
+      renders: external_exports.array(external_exports.object({ scheme: external_exports.enum(THEME_NAMES), svg: external_exports.string(), size: SizeSchema })),
       picturesOmitted: PicturesOmittedSchema.optional(),
       viewUrl: ViewUrlSchema.optional(),
       svgUrl: SvgUrlSchema.optional(),
@@ -179139,7 +179339,7 @@ var init_read_diagram2 = __esm({
     PictureSchema = external_exports.object({
       title: external_exports.string().nullable().describe("The diagram title, or null."),
       summary: external_exports.string().nullable().describe("The one-line summary the picture carries, or null."),
-      theme: external_exports.string().nullable().describe("The color scheme it was drawn in, or null."),
+      scheme: external_exports.string().nullable().describe("The color scheme it was drawn in, or null."),
       size: SizeSchema.nullable().describe("Its size in px, or null."),
       outline: external_exports.array(external_exports.string()).describe("The plain-language outline the picture carries, one entry for each line. Empty when the source was read: the source says more."),
       labels: external_exports.array(external_exports.string()).describe("The text painted on the picture, each distinct label once, in painted order. Empty when the source was read.")
@@ -179302,7 +179502,8 @@ var init_vocabulary18 = __esm({
       arrows: external_exports.array(ArrowSchema),
       blockTypes: external_exports.array(external_exports.enum(SEQUENCE_BLOCK_TYPES)).describe("Frames a sequence diagram can wrap around messages."),
       columnFlags: external_exports.array(external_exports.enum(COLUMN_FLAGS)).describe("Flags a schema column row may carry."),
-      themes: external_exports.array(external_exports.enum(THEME_NAMES)),
+      schemes: external_exports.array(external_exports.enum(THEME_NAMES)).describe("The color schemes a picture is drawn in, chosen where it is drawn (a tool's scheme argument), not in the source."),
+      themes: external_exports.array(external_exports.enum(COLOR_THEMES)).describe(`Colour themes: theme=<name> on the header of any kind, such as flow "Title" theme=ocean. ${DEFAULT_COLOR_THEME} is the default; contrast reaches WCAG AAA. Each holds light and dark, and tones keep their meaning. An organisation's brand, on the hosted service, wins over it.`),
       iconSets: external_exports.array(external_exports.enum(ICON_SETS)),
       iconCount: external_exports.number().int().describe("Number of bundled icons; use search_icons to find names."),
       iconProviders: external_exports.array(IconProviderSchema).describe("Cloud and platform providers, each an icon set holding the provider (set:cloud) and its products."),
@@ -179373,8 +179574,8 @@ var init_convert_mermaid = __esm({
     ConvertMermaidInputSchema = external_exports.object({
       source: external_exports.string().min(1).max(API_LIMITS.maxSourceLength).describe(`One Mermaid diagram: ${mermaidTypesChoice()}. Front matter and %%{init}%% directives are allowed and are dropped. Send the text inside a mermaid fence, without the fence.`),
       lenient: external_exports.boolean().default(false).describe("false (the default): a line that cannot be read stops the conversion, so nothing is converted with a line missing. true: such a line is skipped with a warning and the rest is converted."),
-      render: external_exports.boolean().default(false).describe("Also draw the converted diagram, in the color schemes themes names."),
-      themes: ThemeChoiceSchema,
+      render: external_exports.boolean().default(false).describe("Also draw the converted diagram, in the color schemes schemes names."),
+      schemes: SchemeChoiceSchema,
       detail: DetailSchema,
       svg: SvgChoiceSchema,
       embedSource: EmbedSourceSchema,
@@ -179400,7 +179601,7 @@ var init_convert_mermaid = __esm({
       size: SizeSchema.nullable().describe("Natural size of the laid-out diagram.")
     });
     RenderedSchema = external_exports.object({
-      theme: external_exports.enum(THEME_NAMES).describe("The color scheme this picture is drawn in."),
+      scheme: external_exports.enum(THEME_NAMES).describe("The color scheme this picture is drawn in."),
       svg: external_exports.string().describe("Self-contained SVG markup with an accessible title and description."),
       size: SizeSchema
     });
@@ -179533,14 +179734,15 @@ var init_draw_diagram = __esm({
     init_workflows();
     DrawDiagramInputSchema = external_exports.object({
       source: DiagramSourceSchema,
-      themes: ThemeChoiceSchema,
+      schemes: SchemeChoiceSchema,
+      theme: ColorThemeArgSchema,
       detail: DetailSchema,
       svg: SvgChoiceSchema,
       embedSource: EmbedSourceSchema,
       settings: SettingsArgSchema
     }).meta({ id: "DrawDiagramInput", description: "Diagram source and what to return: the color schemes to draw and how much detail." });
     RenderedThemeSchema = external_exports.object({
-      theme: external_exports.enum(THEME_NAMES).describe("The color scheme this picture is drawn in."),
+      scheme: external_exports.enum(THEME_NAMES).describe("The color scheme this picture is drawn in."),
       svg: external_exports.string().describe("Self-contained SVG markup with an accessible title and description."),
       size: SizeSchema
     });
@@ -183075,7 +183277,7 @@ var init_patterns2 = __esm({
       file: PatternFileArgumentSchema.nullable().optional().describe("The whole pattern as a pattern file, when file was true and the pattern was found."),
       next: external_exports.string().describe("The next step in one sentence.")
     }).meta({ id: "GetPatternResponse", description: "A pattern filled for one flavour, with its slots and advice." });
-    DrawFromPatternInputSchema = external_exports.object({ id: PatternIdSchema, provider: FlavourChoiceSchema, slots: SlotValuesSchema, themes: ThemeChoiceSchema, detail: DetailSchema, svg: SvgChoiceSchema, embedSource: EmbedSourceSchema, settings: SettingsArgSchema }).meta({ id: "DrawFromPatternInput", description: "A pattern id, the flavour and slot values to use, and what to return." });
+    DrawFromPatternInputSchema = external_exports.object({ id: PatternIdSchema, provider: FlavourChoiceSchema, slots: SlotValuesSchema, schemes: SchemeChoiceSchema, detail: DetailSchema, svg: SvgChoiceSchema, embedSource: EmbedSourceSchema, settings: SettingsArgSchema }).meta({ id: "DrawFromPatternInput", description: "A pattern id, the flavour and slot values to use, and what to return." });
     DrawFromPatternResponseSchema = external_exports.object({
       ...FilledFields,
       valid: DrawDiagramResponseSchema.shape.valid,
@@ -199570,7 +199772,7 @@ var init_definitions = __esm({
     renderDiagramTool = defineTool({
       name: "render_diagram",
       title: "Render diagram",
-      description: "Render valid source to a self-contained, accessible SVG in the light or dark theme, with its pixel size and quality warnings. Source with errors fails with its diagnostics. Set embedSource true to save the SVG in a repository, so read_diagram can give the source back. Prefer draw_diagram, which validates, outlines, and renders in one call.",
+      description: "Render valid source to a self-contained, accessible SVG in the light, dark, or auto scheme and an optional colour theme, with its pixel size and quality warnings. Source with errors fails with its diagnostics. Set embedSource true to save the SVG in a repository, so read_diagram can give the source back. Prefer draw_diagram, which validates, outlines, and renders in one call.",
       callExample: { source: 'flow\nnode api service "API"\nnode db database "DB"\napi -> db : "reads"' },
       input: RenderInputSchema,
       output: RenderResponseSchema,
@@ -200217,7 +200419,7 @@ var init_compare_diagrams3 = __esm({
 });
 
 // ../../packages/diagrams/src/tools/workflows/shared.ts
-function themesFor(choice) {
+function schemesFor(choice) {
   return choice === "both" ? ["light", "dark"] : [choice];
 }
 function lookFields(checked2) {
@@ -200270,9 +200472,9 @@ async function convertMermaidDiagram(input2, ops = ENGINE_OPS) {
   const outline2 = input2.detail === "full" ? lines : lines.slice(0, WORKFLOW_LIMITS.maxSummaryOutlineLines);
   const renders = [];
   if (input2.render && input2.svg !== "never" && checked2.valid) {
-    for (const theme of themesFor(input2.themes)) {
-      const drawn = await ops.render({ source: conversion.source, theme, embedSource: input2.detail === "full" || input2.embedSource });
-      if (drawn.ok) renders.push({ theme, svg: drawn.value.svg, size: drawn.value.size });
+    for (const scheme of schemesFor(input2.schemes)) {
+      const drawn = await ops.render({ source: conversion.source, scheme, embedSource: input2.detail === "full" || input2.embedSource });
+      if (drawn.ok) renders.push({ scheme, svg: drawn.value.svg, size: drawn.value.size });
     }
   }
   return {
@@ -200353,10 +200555,10 @@ async function drawDiagram(input2, ops = ENGINE_OPS) {
   const lines = outlined.ok ? outlined.value.outline : [];
   const outline2 = isFull ? lines : lines.slice(0, WORKFLOW_LIMITS.maxSummaryOutlineLines);
   const renders = [];
-  for (const theme of input2.svg === "never" ? [] : themesFor(input2.themes)) {
-    const drawn = await ops.render({ source: input2.source, theme, embedSource: isFull || input2.embedSource });
+  for (const scheme of input2.svg === "never" ? [] : schemesFor(input2.schemes)) {
+    const drawn = await ops.render({ source: input2.source, scheme, ...input2.theme === void 0 ? {} : { theme: input2.theme }, embedSource: isFull || input2.embedSource });
     if (!drawn.ok) return rejected(checked2.kind, drawn.error.map((diagnostic) => ({ ...diagnostic })));
-    renders.push({ theme, svg: drawn.value.svg, size: drawn.value.size });
+    renders.push({ scheme, svg: drawn.value.svg, size: drawn.value.size });
   }
   return {
     valid: true,
@@ -200384,10 +200586,10 @@ var init_draw_diagram2 = __esm({
     drawDiagramWorkflow = defineWorkflow({
       name: "draw_diagram",
       title: "Draw diagram",
-      description: 'Workflow. Checks, describes, and draws a diagram. With errors it returns each one with line, column, and a fix hint and draws nothing: fix the source and call again. When valid it returns the quality warnings (take the icon and group-type suggestions), an outline to check the meaning, the size, and the SVG for light, dark, or both. The pictures are most of an answer and you cannot see them: pass svg "never" to check, and draw only to save, show, or publish. Give viewUrl to the person, even after svg "never": the drawing lives in the link and nothing is saved on Plotwork; pngUrl and svgUrl download it; saveCommand, when given, saves it in a repository. A big drawing (about 30 nodes) loses its SVGs, dark first, and picturesOmitted says so; svg "always" forces them. Set embedSource true to save an SVG in a repository or publish one to edit later, so read_diagram gives the source back (anyone with the file can read it). detail "full" adds the whole outline. To change an existing diagram use edit_diagram, or read_diagram for a picture. Saves no file; never throws on bad source. Replaces the validate_diagram, outline_diagram and render_diagram calls.',
+      description: 'Workflow. Checks, describes, and draws a diagram. With errors it returns each one with line, column, and a fix hint and draws nothing: fix the source and call again. When valid it returns the quality warnings (take the icon and group-type suggestions), an outline to check the meaning, the size, and the SVG for light, dark, or both (theme= on the header picks the colour theme). The pictures are most of an answer and you cannot see them: pass svg "never" to check, and draw only to save, show, or publish. Give viewUrl to the person, even after svg "never": the drawing lives in the link and nothing is saved on Plotwork; pngUrl and svgUrl download it; saveCommand, when given, saves it in a repository. A big drawing (about 30 nodes) loses its SVGs, dark first, and picturesOmitted says so; svg "always" forces them. Set embedSource true to save an SVG in a repository or publish one to edit later, so read_diagram gives the source back (anyone with the file can read it). detail "full" adds the whole outline. To change an existing diagram use edit_diagram, or read_diagram for a picture. Saves no file; never throws on bad source. Replaces the validate_diagram, outline_diagram and render_diagram calls.',
       compact: {
         description: 'Checks diagram source and draws it in one call. Returns every error with line, column, and hint, and draws nothing until the source is valid, so fix each error and call again. svg "never" only checks and keeps the answer small; "always" returns the light and dark SVG to save.',
-        inputs: { svg: "never: check only. always: return the SVGs.", themes: "", embedSource: "Write the source into the SVG, for a file saved in a repository." }
+        inputs: { svg: "never: check only. always: return the SVGs.", schemes: "", embedSource: "Write the source into the SVG, for a file saved in a repository." }
       },
       input: DrawDiagramInputSchema,
       output: DrawDiagramResponseSchema,
@@ -200395,7 +200597,7 @@ var init_draw_diagram2 = __esm({
       maxCalls: WORKFLOW_MAX_CALLS.draw_diagram,
       example: {
         source: 'flow "Login" direction=right\nnode user person "User"\nnode api service "Auth API"\nnode db database "Users DB"\nuser -> api : "POST /login"\napi -> db : "look up user"',
-        themes: "both"
+        schemes: "both"
       },
       prompts: ["Draw a diagram of how a user signs in through an API that checks a database.", "Check this diagram and draw it in light and dark."],
       execute: drawDiagram
@@ -200448,10 +200650,10 @@ async function drawFromPattern(input2, ops = ENGINE_OPS) {
   const lines = outlined.ok ? outlined.value.outline : [];
   const outline2 = isFull ? lines : lines.slice(0, WORKFLOW_LIMITS.maxSummaryOutlineLines);
   const renders = [];
-  for (const theme of input2.svg === "never" ? [] : themesFor(input2.themes)) {
-    const drawn = await ops.render({ source: pattern3.source, theme, embedSource: isFull || input2.embedSource });
+  for (const scheme of input2.svg === "never" ? [] : schemesFor(input2.schemes)) {
+    const drawn = await ops.render({ source: pattern3.source, scheme, embedSource: isFull || input2.embedSource });
     if (!drawn.ok) return { ...common, ...notDrawn(drawn.error.map((diagnostic) => ({ ...diagnostic }))), next: "The pattern could not be drawn; call draw_diagram with its source for the details." };
-    renders.push({ theme, svg: drawn.value.svg, size: drawn.value.size });
+    renders.push({ scheme, svg: drawn.value.svg, size: drawn.value.size });
   }
   const review = checked2.warnings.length === 0 ? "" : ` Review the ${countOf3(checked2.warnings.length, "warning")} first.`;
   return {
@@ -200481,12 +200683,12 @@ var init_draw_from_pattern = __esm({
     drawFromPatternWorkflow = defineWorkflow({
       name: "draw_from_pattern",
       title: "Draw from pattern",
-      description: "Workflow. Fills a pattern and draws it in one call. Send the id from find_pattern, a provider (neutral by default, or aws, azure, gcp), optional slot values that rename its parts, and the themes. Returns the source, the slots, the advice on adapting it, the quality warnings, a plain-text outline, and the SVG for light, dark, or both. Use it when a pattern fits with only names changed; use get_pattern to edit the source first. An unknown id, flavour, or slot comes back as a problem with a fix. svg, picturesOmitted, viewUrl, pngUrl, saveCommand, and detail work as in draw_diagram. Replaces the get_pattern, validate_diagram, outline_diagram and render_diagram calls.",
+      description: "Workflow. Fills a pattern and draws it in one call. Send the id from find_pattern, a provider (neutral by default, or aws, azure, gcp), optional slot values that rename its parts, and the schemes. Returns the source, the slots, the advice on adapting it, the quality warnings, a plain-text outline, and the SVG for light, dark, or both. Use it when a pattern fits with only names changed; use get_pattern to edit the source first. An unknown id, flavour, or slot comes back as a problem with a fix. svg, picturesOmitted, viewUrl, pngUrl, saveCommand, and detail work as in draw_diagram. Replaces the get_pattern, validate_diagram, outline_diagram and render_diagram calls.",
       input: DrawFromPatternInputSchema,
       output: DrawFromPatternResponseSchema,
       steps: [{ call: "fillPattern" }, { call: "validate", optional: true }, { call: "outline", optional: true }, { call: "render", optional: true }],
       maxCalls: WORKFLOW_MAX_CALLS.draw_from_pattern,
-      example: { id: "two-zone-network", provider: "aws", themes: "light" },
+      example: { id: "two-zone-network", provider: "aws", schemes: "light" },
       prompts: ["Draw a two-zone network on AWS with a replicated database.", 'Draw the web application pattern for Azure and call the API "Billing API".'],
       execute: drawFromPattern
     });
@@ -200519,7 +200721,7 @@ async function editDiagram(input2, ops = ENGINE_OPS) {
     const check3 = checkOnly(edited.source, ops);
     return { ...head, ...check3, next: nextStep2(failed2, check3, false) };
   }
-  const drawn = await drawDiagram(DrawDiagramInputSchema.parse({ source: edited.source, themes: input2.themes, svg: input2.svg }), ops);
+  const drawn = await drawDiagram(DrawDiagramInputSchema.parse({ source: edited.source, schemes: input2.schemes, svg: input2.svg }), ops);
   const check2 = {
     valid: drawn.valid,
     kind: drawn.kind,
@@ -202957,9 +203159,9 @@ function isPictured(value) {
 function wantsAlways(args) {
   return typeof args === "object" && args !== null && args.svg === "always";
 }
-function omittedNext(themes, characters, kept2, viewable) {
-  const which = themes.length === 1 ? `its ${themes[0]} picture` : "its pictures";
-  const verb = themes.length === 1 ? "was" : "were";
+function omittedNext(schemes, characters, kept2, viewable) {
+  const which = schemes.length === 1 ? `its ${schemes[0]} picture` : "its pictures";
+  const verb = schemes.length === 1 ? "was" : "were";
   const rest = kept2 > 0 ? " The other picture is here." : "";
   const look = viewable ? " Give the person viewUrl to look at it." : "";
   return `The diagram is valid, but ${which} (${characters} characters) ${verb} left out so this answer stays small enough for an AI client to read.${rest}${look} Call publish_diagram with the diagram source for a public link and a Markdown image, call sync_markdown to place it in a document, or call this tool again with svg "always" to get the pictures here.`;
@@ -202972,14 +203174,14 @@ function fitAnswer(value, args, budget2) {
   const dropped = [];
   while (kept2.length > 0 && sizeOf2(kept2) > budget2) dropped.unshift(kept2.pop());
   const characters = dropped.reduce((total, picture2) => total + picture2.svg.length, 0);
-  const themes = dropped.map((picture2) => picture2.theme);
+  const schemes = dropped.map((picture2) => picture2.scheme);
   const picturesOmitted = {
-    themes,
+    schemes,
     characters,
     limit: budget2,
     why: `The answer would have been over ${budget2} characters, which is more than an AI client can be relied on to read in one piece.`
   };
-  return { ...value, renders: kept2, picturesOmitted, next: omittedNext(themes, characters, kept2.length, typeof value.viewUrl === "string") };
+  return { ...value, renders: kept2, picturesOmitted, next: omittedNext(schemes, characters, kept2.length, typeof value.viewUrl === "string") };
 }
 var ANSWER_BUDGET_CHARACTERS;
 var init_fit_answer = __esm({
@@ -203536,7 +203738,7 @@ function savingInstructions(release = CLI_RELEASE) {
   const people = "Give viewUrl to a person to look at the diagram, and svgUrl or pngUrl to download it in their browser; neither is a file address for curl.";
   if (!release.onNpm) return [`To save a valid diagram into the person's repository, draw it with svg "always" and embedSource true and write the returned svg. ${people}`];
   return [
-    `To save a valid diagram into the person's repository, run the saveCommand a drawing tool returns in a shell, changing --out to the path you want (add --theme dark for the dark picture): the Plotwork command line reads the diagram from the link on that machine, fetches nothing, and writes the SVG with its source embedded, so you never copy the SVG yourself. With no shell, draw with svg "always" and embedSource true and write the returned svg. ${people}`
+    `To save a valid diagram into the person's repository, run the saveCommand a drawing tool returns in a shell, changing --out to the path you want (add ${schemeFlag(release)} dark for the dark picture): the Plotwork command line reads the diagram from the link on that machine, fetches nothing, and writes the SVG with its source embedded, so you never copy the SVG yourself. With no shell, draw with svg "always" and embedSource true and write the returned svg. ${people}`
   ];
 }
 function libraryInstructions(library) {
@@ -203576,9 +203778,9 @@ var init_server_info = __esm({
       "To move Mermaid to Plotwork, call convert_mermaid with one diagram, read every diagnostic and its hint, then choose node types and icons; for a whole Markdown file call sync_markdown with the document, its path, and convertMermaid true, write the returned markdown and files, then review the diff.",
       "When the repository has a plotwork.config.json (or .plotwork/config.json) at its root, read it and pass it as settings to every tool that takes settings: its defaults fill the header options the source leaves out, and broken style rules come back as warnings to fix.",
       "Use validate_diagram, outline_diagram, render_diagram, and search_icons only for one fine-grained step.",
-      "Choose node types and tones for meaning; colors are chosen by the theme and cannot be set."
+      `Choose node types and tones for meaning; colors come from the colour theme, theme=<name> on the header (${COLOR_THEMES.join(", ")}), and cannot be set one by one.`
     ].join(" ");
-    BOARD_INSTRUCTIONS = "This connection also reaches its organisation's live whiteboards, which people watch while they change. To work on one: take the board the person names (list_boards finds it by name, or use the id in its address), open_board, read_board_tab, then edit_board_tab with small operations against the version you read; a whole source only for a new or empty tab. During a meeting, call read_board_tab with sinceVersion before every edit, so you build on what people changed, and say in one line what you changed. Use add_board_tab for a separate diagram, and import_to_board to bring in a library diagram, a file, Mermaid or a pattern as a new tab; save a tab to the library with save_board_tab only when the person asks. Never replace a tab to undo someone else's change, and never publish a board's tab unless the person asks.";
+    BOARD_INSTRUCTIONS = "This connection also reaches its organisation's live whiteboards, which people watch while they change. To work on one: take the board the person names (list_boards finds it by name, or use the id in its address), call open_board first, which shows the people watching that you are there, then read_board_tab, then edit_board_tab with small operations against the version you read; a whole source only for a new or empty tab. During a meeting, call read_board_tab with sinceVersion before every edit, so you build on what people changed, and say in one line what you changed. Use add_board_tab for a separate diagram, and import_to_board to bring in a library diagram, a file, Mermaid or a pattern as a new tab; save a tab to the library with save_board_tab only when the person asks. When the person asks for a proposal or a revision, call create_revision, give them its viewUrl so they can watch it change, make every edit with edit_board_tab and that revision, then request_merge with a one-line note; a person merges it, never you. open_board and read_board_tab also return messages your person typed to you on the board. Listening mode, when your person asks you to listen: loop on wait_for_board_messages, which answers as soon as a message arrives or after 25 seconds with none; act on each message in your own revision; reply_board_message with what you did; ask in a reply before request_merge. Never replace a tab to undo someone else's change, and never publish a board's tab unless the person asks.";
     KEEP_IN_LIBRARY_STEP = "To keep it in an organisation's library, or in the person's own Diagrams, call publish_diagram when they ask.";
     HOSTED_INSTRUCTIONS = "A viewUrl from a drawing tool holds the drawing itself in the link: nothing is saved on Plotwork, and it will not appear in any Diagrams list; when the person wants a diagram kept in an organisation's library or their own Diagrams, call publish_diagram. When the person asks to share a finished diagram or wants a link to it, call publish_diagram with the valid source: it returns a public link and a Markdown image to paste, and publishing the same diagram again returns the same link. Publish only when asked, because anyone with the link can see the picture. After you edit a published diagram, call publish_diagram again: an edited diagram is a new picture with a new link, so replace the old link wherever it is used. Set embedSource true on publish_diagram when someone may want to edit the diagram later, and tell the person that the source is then part of the public picture. A drawing too big to return in an answer is also the case for publish_diagram: it gives a link in place of the picture. To keep a diagram inside a team instead, pass organization with the slug or id of an organisation, but only when the person names an organisation or asks for a team diagram: it is stored in that organisation's private library and the answer has a viewUrl for members in place of a public link, so there is no Markdown image. Never guess an organisation, and if it is not found, ask the person which one they mean. An organisation can also send its members' diagrams to its library when organization is left out: the answer then names it and says why, and the person must be told the diagram is in that library, not at a public link. Pass personal true only when the person asks for a public link anyway; an organisation that requires its library refuses it, and then tell the person. An organisation can also keep every diagram its agents draw: a drawing's answer then has autoPublished, and its next names the library; tell the person where the diagram is, and do not publish it again. An organisation can also hold a publish for approval: the answer then has approval and warning W601, held for approval by your organisation; tell the person it is stored and waits for an approver, and do not publish it again. An owner may restrict a folder, and a reader may not publish: when the answer says the folder is restricted or the role does not allow it, ask the person which folder they may use instead of trying others or publishing elsewhere. Call list_diagrams when the person asks what they have published or to get a diagram id; it changes nothing. Call delete_diagram only after the person has said which diagram to delete, by name, and tell them what you deleted; never delete on a guess, in bulk, or to make room for a publish unless they asked, and a locked diagram cannot be deleted until the owner unlocks it. When an owner or admin of an organisation asks to publish a checked pattern file, call publish_pattern with it (and organization unless you are connected through it): its agents then find it first. Set replace true only after the person has said to change the pattern of that name.";
   }
@@ -203775,14 +203977,14 @@ function request(method,params){var id=next++;send({jsonrpc:'2.0',id:id,method:m
 function notify(method,params){send({jsonrpc:'2.0',method:method,params:params})}
 function button(label,title,act){var b=document.createElement('button');b.type='button';b.textContent=label;b.setAttribute('aria-label',title);b.addEventListener('click',act);bar.appendChild(b);return b}
 function renders(){var a=state.answer;return a&&Array.isArray(a.renders)?a.renders.filter(function(r){return r&&typeof r.svg==='string'}):[]}
-function picked(){var all=renders(),want=state.chosen||state.theme;for(var i=0;i<all.length;i++)if(all[i].theme===want)return all[i];return all[0]||null}
+function picked(){var all=renders(),want=state.chosen||state.theme;for(var i=0;i<all.length;i++)if(all[i].scheme===want)return all[i];return all[0]||null}
 function resize(){notify('ui/notifications/size-changed',{width:document.documentElement.scrollWidth,height:document.documentElement.scrollHeight})}
 function draw(){
   while(bar.firstChild)bar.removeChild(bar.firstChild);
   while(stage.firstChild)stage.removeChild(stage.firstChild);
   note.textContent='';
   var pic=picked(),a=state.answer||{};
-  document.documentElement.setAttribute('data-theme',pic?pic.theme:state.theme);
+  document.documentElement.setAttribute('data-theme',pic?pic.scheme:state.theme);
   if(!pic){note.textContent=a.valid===false||(a.validation&&a.validation.valid===false)?'Nothing was drawn: the diagram has errors.':'No picture in this answer.'+(typeof a.viewUrl==='string'?' Open it in the browser to see it.':'')}
   else{
     var holder=document.createElement('div');holder.className='pic';
@@ -203795,7 +203997,7 @@ function draw(){
     img.width=Math.round(w*scale);img.height=Math.round(h*scale);
     holder.style.width=img.width+'px';holder.style.height=img.height+'px';
     holder.appendChild(img);stage.appendChild(holder);overlay(pic,holder);
-    var swap=pic.theme==='dark'?'light':'dark';
+    var swap=pic.scheme==='dark'?'light':'dark';
     button(swap==='light'?'Light':'Dark','Show the '+swap+' picture',function(){state.chosen=swap;draw()}).disabled=renders().length<2;
     button('\\u2212','Zoom out',function(){state.zoom=Math.max(0.1,(state.zoom||fit)/1.25);draw()});
     button(Math.round(scale*100)+'%','Fit to the frame',function(){state.zoom=0;draw()});
@@ -204009,11 +204211,11 @@ function launcher(platform, target) {
 function picturesOf(value) {
   const renders = typeof value === "object" && value !== null ? value.renders : void 0;
   if (!Array.isArray(renders)) return [];
-  return renders.filter((item) => typeof item === "object" && item !== null && typeof item.theme === "string" && typeof item.svg === "string" && /^(light|dark)$/.test(item.theme));
+  return renders.filter((item) => typeof item === "object" && item !== null && typeof item.scheme === "string" && typeof item.svg === "string" && /^(light|dark)$/.test(item.scheme));
 }
-function localPage(themes) {
-  const images2 = themes.map((theme) => `<img src="${theme}.svg" alt="The diagram, ${theme}" data-theme="${theme}">`).join("\n");
-  const swap = themes.length > 1 ? '<button type="button" id="swap">Light or dark</button>' : "";
+function localPage(schemes) {
+  const images2 = schemes.map((scheme) => `<img src="${scheme}.svg" alt="The diagram, ${scheme}" data-scheme="${scheme}">`).join("\n");
+  const swap = schemes.length > 1 ? '<button type="button" id="swap">Light or dark</button>' : "";
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -204036,8 +204238,8 @@ var dark = window.matchMedia('(prefers-color-scheme: dark)').matches
 var pictures = Array.prototype.slice.call(document.querySelectorAll('img'))
 function show() {
   var want = dark ? 'dark' : 'light'
-  var has = pictures.some(function (img) { return img.dataset.theme === want })
-  pictures.forEach(function (img) { img.hidden = has && img.dataset.theme !== want })
+  var has = pictures.some(function (img) { return img.dataset.scheme === want })
+  pictures.forEach(function (img) { img.hidden = has && img.dataset.scheme !== want })
   document.body.className = has ? want : ''
 }
 var button = document.getElementById('swap')
@@ -204057,9 +204259,9 @@ function pictureOpener(env, deps = SYSTEM_OPEN_DEPS) {
     const before = typeof record2.next === "string" ? `${record2.next} ` : "";
     try {
       const dir = await deps.makeDir();
-      for (const picture2 of pictures) await deps.write(join6(dir, `${picture2.theme}.svg`), picture2.svg);
+      for (const picture2 of pictures) await deps.write(join6(dir, `${picture2.scheme}.svg`), picture2.svg);
       const page = join6(dir, "index.html");
-      await deps.write(page, localPage(pictures.map((picture2) => picture2.theme)));
+      await deps.write(page, localPage(pictures.map((picture2) => picture2.scheme)));
       const opened = await deps.launch(page);
       const said = opened ? `The pictures were opened in the browser from ${dir}.` : `The pictures were saved in ${dir}, but the browser could not be opened.`;
       return { ...record2, next: `${before}${said}` };
@@ -204196,6 +204398,7 @@ var init_settings3 = __esm({
     init_json_schema3();
     init_tool_settings();
     init_detect_sources();
+    init_sources2();
   }
 });
 
