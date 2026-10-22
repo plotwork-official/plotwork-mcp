@@ -65,7 +65,7 @@ var init_icon_art_folder = __esm({
 var package_default;
 var init_package = __esm({
   "package.json"() {
-    package_default = { version: "0.4.0-beta.1" };
+    package_default = { version: "0.4.0-beta.2" };
   }
 });
 
@@ -784,17 +784,19 @@ var init_style_rules = __esm({
 });
 
 // ../../packages/diagrams/src/constants/ci-setup.ts
-function ciSetupWorkflow() {
+function ciSetupWorkflow(options3 = {}) {
+  const keyless = options3.keyless === true;
   return [
     "name: diagrams",
     "",
     "on:",
     "  pull_request:",
     "  push:",
-    "    branches: [main]",
+    `    branches: [${options3.branch ?? "main"}]`,
     "",
     "permissions:",
     "  contents: read",
+    ...keyless ? ["  id-token: write"] : [],
     "",
     "jobs:",
     "  drift:",
@@ -808,8 +810,7 @@ function ciSetupWorkflow() {
     "          command: generate",
     "          mode: check",
     "          report-drift: true",
-    "        env:",
-    `          ${KEY_VARIABLE}: \${{ secrets.${KEY_VARIABLE} }}`
+    ...keyless ? [] : ["        env:", `          ${KEY_VARIABLE}: \${{ secrets.${KEY_VARIABLE} }}`]
   ].join("\n");
 }
 function ciSetupSteps() {
@@ -824,7 +825,7 @@ function ciSetupSteps() {
     ...ciSetupWorkflow().split("\n").map((line3) => line3 === "" ? "" : `   ${line3}`),
     "   ```",
     "",
-    `5. **Leave the key to the person.** The report to the organisation's Drift tab needs an organisation API key in the repository secret \`${KEY_VARIABLE}\`; the check itself runs without one. Never ask for the key in the chat and never write it into a file. Ask the person to make the key in the Plotwork portal, under the organisation's Keys, and to set the secret themselves, with \`gh secret set ${KEY_VARIABLE}\` (it asks for the value) or in the repository's Settings, Secrets and variables, Actions. To sign CI in with no key, the organisation can trust the repository instead, under Keys, Trusted publishers (${TRUSTED_PUBLISHERS_DOC}); tell the person it exists, and keep the key in the workflow unless they ask for that.`,
+    `5. **Leave the key to the person.** The report to the organisation's Drift tab needs an organisation API key in the repository secret \`${KEY_VARIABLE}\`; the check itself runs without one. Never ask for the key in the chat and never write it into a file. Ask the person to make the key in the Plotwork portal, under the organisation's Keys and CI, and to set the secret themselves, with \`gh secret set ${KEY_VARIABLE}\` (it asks for the value) or in the repository's Settings, Secrets and variables, Actions. To sign CI in with no key, the organisation can trust the repository instead, under Keys and CI, Trusted publishers (${TRUSTED_PUBLISHERS_DOC}); tell the person it exists, and keep the key in the workflow unless they ask for that.`,
     `6. **Open a pull request.** Commit the settings file, the diagrams and the workflow on a new branch, and open a pull request titled "Add Plotwork diagrams and the drift check" that lists each diagram and the files it is drawn from. Once it merges and runs with the secret set, the repository appears on the organisation's Drift tab.`
   ].join("\n");
 }
@@ -200169,6 +200170,17 @@ var init_apply = __esm({
   }
 });
 
+// ../../packages/diagrams/src/edit/merge.ts
+var init_merge = __esm({
+  "../../packages/diagrams/src/edit/merge.ts"() {
+    "use strict";
+    init_apply();
+    init_compare();
+    init_references3();
+    init_scan2();
+  }
+});
+
 // ../../packages/diagrams/src/edit/index.ts
 var init_edit = __esm({
   "../../packages/diagrams/src/edit/index.ts"() {
@@ -200178,6 +200190,7 @@ var init_edit = __esm({
     init_compare_diagrams2();
     init_compare_report();
     init_scan2();
+    init_merge();
   }
 });
 
@@ -203532,7 +203545,7 @@ function libraryInstructions(library) {
 function librarySaveStep(library) {
   return `When the diagram is finished, save it to the private library of ${JSON.stringify(library.name)} with publish_diagram (no need to ask: only members can open it).`;
 }
-var SERVER_INFO, SAVING_INSTRUCTIONS, SERVER_INSTRUCTIONS, KEEP_IN_LIBRARY_STEP, HOSTED_INSTRUCTIONS;
+var SERVER_INFO, SAVING_INSTRUCTIONS, SERVER_INSTRUCTIONS, BOARD_INSTRUCTIONS, KEEP_IN_LIBRARY_STEP, HOSTED_INSTRUCTIONS;
 var init_server_info = __esm({
   "src/server-info.ts"() {
     "use strict";
@@ -203565,6 +203578,7 @@ var init_server_info = __esm({
       "Use validate_diagram, outline_diagram, render_diagram, and search_icons only for one fine-grained step.",
       "Choose node types and tones for meaning; colors are chosen by the theme and cannot be set."
     ].join(" ");
+    BOARD_INSTRUCTIONS = "This connection also reaches its organisation's live whiteboards, which people watch while they change. To work on one: take the board the person names (list_boards finds it by name, or use the id in its address), open_board, read_board_tab, then edit_board_tab with small operations against the version you read; a whole source only for a new or empty tab. During a meeting, call read_board_tab with sinceVersion before every edit, so you build on what people changed, and say in one line what you changed. Use add_board_tab for a separate diagram. Never replace a tab to undo someone else's change, and never publish a board's tab unless the person asks.";
     KEEP_IN_LIBRARY_STEP = "To keep it in an organisation's library, or in the person's own Diagrams, call publish_diagram when they ask.";
     HOSTED_INSTRUCTIONS = "A viewUrl from a drawing tool holds the drawing itself in the link: nothing is saved on Plotwork, and it will not appear in any Diagrams list; when the person wants a diagram kept in an organisation's library or their own Diagrams, call publish_diagram. When the person asks to share a finished diagram or wants a link to it, call publish_diagram with the valid source: it returns a public link and a Markdown image to paste, and publishing the same diagram again returns the same link. Publish only when asked, because anyone with the link can see the picture. After you edit a published diagram, call publish_diagram again: an edited diagram is a new picture with a new link, so replace the old link wherever it is used. Set embedSource true on publish_diagram when someone may want to edit the diagram later, and tell the person that the source is then part of the public picture. A drawing too big to return in an answer is also the case for publish_diagram: it gives a link in place of the picture. To keep a diagram inside a team instead, pass organization with the slug or id of an organisation, but only when the person names an organisation or asks for a team diagram: it is stored in that organisation's private library and the answer has a viewUrl for members in place of a public link, so there is no Markdown image. Never guess an organisation, and if it is not found, ask the person which one they mean. An organisation can also send its members' diagrams to its library when organization is left out: the answer then names it and says why, and the person must be told the diagram is in that library, not at a public link. Pass personal true only when the person asks for a public link anyway; an organisation that requires its library refuses it, and then tell the person. An organisation can also keep every diagram its agents draw: a drawing's answer then has autoPublished, and its next names the library; tell the person where the diagram is, and do not publish it again. An organisation can also hold a publish for approval: the answer then has approval and warning W601, held for approval by your organisation; tell the person it is stored and waits for an approver, and do not publish it again. An owner may restrict a folder, and a reader may not publish: when the answer says the folder is restricted or the role does not allow it, ask the person which folder they may use instead of trying others or publishing elsewhere. Call list_diagrams when the person asks what they have published or to get a diagram id; it changes nothing. Call delete_diagram only after the person has said which diagram to delete, by name, and tell them what you deleted; never delete on a guess, in bulk, or to make room for a publish unless they asked, and a locked diagram cannot be deleted until the owner unlocks it. When an owner or admin of an organisation asks to publish a checked pattern file, call publish_pattern with it (and organization unless you are connected through it): its agents then find it first. Set replace true only after the person has said to change the pattern of that name.";
   }
@@ -203920,7 +203934,8 @@ function createDiagramsServer(options3 = {}, log = logToConsole, caller, hostedT
     taken.add(tool.name);
   }
   const base = profile === "core" ? CORE_INSTRUCTIONS : SERVER_INSTRUCTIONS;
-  const hosted = hostedTools.length === 0 ? base : `${base} ${HOSTED_INSTRUCTIONS}`;
+  const general = hostedTools.length === 0 ? base : `${base} ${HOSTED_INSTRUCTIONS}`;
+  const hosted = hostedTools.some((tool) => tool.name === "list_boards") ? `${general} ${BOARD_INSTRUCTIONS}` : general;
   const saved = hostedTools.length > 0 && answers2.library !== void 0 && answers2.library !== null ? `${hosted} ${libraryInstructions(answers2.library)}` : hosted;
   const patterns = answers2.patterns ?? null;
   const instructions = patterns === null ? saved : `${saved} ${patternInstructions(patterns)}`;
@@ -204163,6 +204178,14 @@ var init_json_schema3 = __esm({
   }
 });
 
+// ../../packages/diagrams/src/settings/detect-sources.ts
+var init_detect_sources = __esm({
+  "../../packages/diagrams/src/settings/detect-sources.ts"() {
+    "use strict";
+    init_style_rules();
+  }
+});
+
 // ../../packages/diagrams/src/settings/index.ts
 var init_settings3 = __esm({
   "../../packages/diagrams/src/settings/index.ts"() {
@@ -204172,6 +204195,7 @@ var init_settings3 = __esm({
     init_schema4();
     init_json_schema3();
     init_tool_settings();
+    init_detect_sources();
   }
 });
 
