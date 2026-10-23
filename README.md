@@ -1,6 +1,15 @@
+<p align="center">
+  <a href="https://plotwork.dev">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://plotwork.dev/brand/logo/plotwork-lockup-on-dark.svg">
+      <img alt="Plotwork" src="https://plotwork.dev/brand/logo/plotwork-lockup-on-light.svg" width="260">
+    </picture>
+  </a>
+</p>
+
 # Plotwork MCP server
 
-The Plotwork diagram tools as a local MCP (Model Context Protocol) server. An AI agent uses it to read the diagram language, validate source, check an outline, and render twenty kinds of diagram, from flow, sequence, and database to Gantt, state, mind map, and treemap as SVG. It runs on your machine over standard input and output.
+The Plotwork diagram tools as a local MCP (Model Context Protocol) server. An AI agent uses it to read the diagram language, validate source, check an outline, and render twenty-nine kinds of diagram, from flow, sequence, and database to Gantt, state, mind map, and treemap as SVG. It runs on your machine over standard input and output.
 
 ## TL;DR
 

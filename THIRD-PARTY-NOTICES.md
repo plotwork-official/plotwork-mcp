@@ -1,6 +1,6 @@
 # Third-party notices
 
-@buun_group/plotwork-mcp 0.4.0-beta.5 is licensed under the MIT licence, in the file LICENSE. The single file plotwork-mcp.mjs also contains code and data from other people. This file lists them, with the licence each is used under and the full licence text. Those licences apply to that material. The MIT licence of @buun_group/plotwork-mcp does not replace them, and it does not cover the vendor artwork described under "Trademarks and official icons".
+@buun_group/plotwork-mcp 0.4.0-beta.6 is licensed under the MIT licence, in the file LICENSE. The single file plotwork-mcp.mjs also contains code and data from other people. This file lists them, with the licence each is used under and the full licence text. Those licences apply to that material. The MIT licence of @buun_group/plotwork-mcp does not replace them, and it does not cover the vendor artwork described under "Trademarks and official icons".
 
 The build writes this file from the contents of the bundle. Do not edit it.
 
@@ -10,7 +10,7 @@ The build writes this file from the contents of the bundle. Do not edit it.
 |---|---|
 | Which licence covers the Plotwork code? | MIT, in the file LICENSE. |
 | Which third-party code is in the bundle? | 4 npm packages: @modelcontextprotocol/core 2.3.1, @modelcontextprotocol/server 2.3.1, elkjs 0.12.0, zod 4.6.5. |
-| Which third-party data is in the bundle? | Lucide icons; Simple Icons; SVG Logos, through @iconify-json/logos; Devicon, through @iconify-json/devicon; IBM Carbon icons, through @iconify-json/carbon; Inter font metrics; JetBrains Mono font metrics. |
+| Which third-party data is in the bundle? | Lucide icons; Simple Icons; SVG Logos, through @iconify-json/logos; Devicon, through @iconify-json/devicon; Kubernetes community icons, through @iconify-json/k8s; IBM Carbon icons, through @iconify-json/carbon; Inter font metrics and glyphs; JetBrains Mono font metrics and glyphs. |
 | Are official vendor icons in the bundle? | Yes: AWS, Microsoft Azure, Google Cloud. They are not covered by the MIT licence. |
 | Where is the full text of each licence? | Under "Licence texts" at the end of this file. |
 
@@ -23,12 +23,13 @@ The build writes this file from the contents of the bundle. Do not edit it.
 | elkjs | 0.12.0 | Code | EPL-2.0 | [text 2](#licence-text-2), [text 3](#licence-text-3) |
 | zod | 4.6.5 | Code | MIT | [text 4](#licence-text-4) |
 | Lucide icons | 1.49.0 | Data | ISC | [text 5](#licence-text-5) |
-| Simple Icons | 16.33.0 | Data | CC0-1.0 | [text 6](#licence-text-6) |
-| SVG Logos, through @iconify-json/logos | 1.2.15 | Data | CC0-1.0 | [text 7](#licence-text-7) |
+| Simple Icons | 16.35.0 | Data | CC0-1.0 | [text 6](#licence-text-6) |
+| SVG Logos, through @iconify-json/logos | 1.2.17 | Data | CC0-1.0 | [text 7](#licence-text-7) |
 | Devicon, through @iconify-json/devicon | 1.2.71 | Data | MIT | [text 8](#licence-text-8) |
-| IBM Carbon icons, through @iconify-json/carbon | 1.2.28 | Data | Apache-2.0 | [text 9](#licence-text-9) |
-| Inter font metrics | 5.3.0 | Data | OFL-1.1 | [text 10](#licence-text-10) |
-| JetBrains Mono font metrics | 5.3.0 | Data | OFL-1.1 | [text 11](#licence-text-11) |
+| Kubernetes community icons, through @iconify-json/k8s | 1.2.2 | Data | Apache-2.0 | [text 9](#licence-text-9) |
+| IBM Carbon icons, through @iconify-json/carbon | 1.2.28 | Data | Apache-2.0 | [text 10](#licence-text-10) |
+| Inter font metrics and glyphs | 5.3.0 | Data | OFL-1.1 | [text 11](#licence-text-11) |
+| JetBrains Mono font metrics and glyphs | 5.3.0 | Data | OFL-1.1 | [text 12](#licence-text-12) |
 
 ## Software in the bundle
 
@@ -93,7 +94,7 @@ The build writes this file from the contents of the bundle. Do not edit it.
 - Licence text: [text 5](#licence-text-5)
 - The licence file holds ISC for Lucide and MIT for the icons that derive from the Feather project. Both texts are reproduced.
 
-### Simple Icons (simple-icons 16.33.0)
+### Simple Icons (simple-icons 16.35.0)
 
 - Licence declared: CC0-1.0
 - Used under: CC0-1.0
@@ -103,9 +104,105 @@ The build writes this file from the contents of the bundle. Do not edit it.
 - NOTICE file: none shipped
 - Licence text: [text 6](#licence-text-6)
 - Simple Icons is released under CC0 1.0. Its disclaimer states that this does not mean every icon within it is CC0, and that brand logos remain trademarks of their owners. See https://github.com/simple-icons/simple-icons/blob/develop/DISCLAIMER.md.
+- A mark under a non-commercial licence is not bundled: the brand draws a generic glyph instead.
 - The marks are used only to refer to the technologies they name. Their inclusion does not imply endorsement by, or affiliation with, their owners.
 
-### SVG Logos, through @iconify-json/logos (@iconify-json/logos 1.2.15)
+92 of these marks carry a licence of their own, named by its SPDX identifier. Each is credited here with the place its artwork comes from:
+
+- AIOHTTP (`aiohttp`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://github.com/aio-libs/aiohttp/blob/fb5fe72b1bca3b899af579d376f5fe45745410e4/docs/aiohttp-plain.svg
+- Airbrake (`airbrake`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://github.com/airbrake/slate/blob/c116f2968bcf4dfda126511de0a2d0f0dc8b6a8e/source/images/logo.svg
+- Android (`android`): CC-BY-3.0 (https://spdx.org/licenses/CC-BY-3.0). Source: https://partnermarketinghub.withgoogle.com/brands/android/visual-identity/visual-identity/logo-lock-ups
+- Angular (`angular`): CC-BY-4.0 (https://spdx.org/licenses/CC-BY-4.0). Source: https://angular.dev/press-kit
+- Apache (`apache`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://www.apache.org/foundation/press/kit
+- Apache Airflow (`apacheairflow`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Apache Arrow (`apachearrow`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://arrow.apache.org/visual_identity
+- Apache Avro (`apacheavro`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Apache Cassandra (`apachecassandra`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://www.apache.org/logos
+- Apache CloudStack (`apachecloudstack`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Apache CouchDB (`apachecouchdb`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Apache DolphinScheduler (`apachedolphinscheduler`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Apache Doris (`apachedoris`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Apache Druid (`apachedruid`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Apache ECharts (`apacheecharts`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Apache Flink (`apacheflink`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Apache Groovy (`apachegroovy`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Apache Guacamole (`apacheguacamole`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Apache Hadoop (`apachehadoop`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Apache HBase (`apachehbase`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Apache Hive (`apachehive`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Apache JMeter (`apachejmeter`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Apache Kafka (`apachekafka`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Apache Kylin (`apachekylin`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Apache Lucene (`apachelucene`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Apache Maven (`apachemaven`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Apache NiFi (`apachenifi`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Apache Parquet (`apacheparquet`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Apache Pulsar (`apachepulsar`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Apache RocketMQ (`apacherocketmq`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Apache Solr (`apachesolr`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Apache Spark (`apachespark`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Apache Storm (`apachestorm`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Apache Superset (`apachesuperset`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Apache Tomcat (`apachetomcat`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://apache.org/logos
+- Aspire (`aspire`): CC0-1.0 (https://spdx.org/licenses/CC0-1.0). Source: https://github.com/microsoft/aspire-brand/blob/f9eb464dec47870de23d55dd7b3c00d39122813d/logo/developer-tools/aspire-plain.svg
+- Authelia (`authelia`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://github.com/authelia/authelia/blob/8316cd4eb7a6f0778c8f480c61ad76a88416fc3a/docs/static/images/branding/logo.svg
+- Bootstrap (`bootstrap`): MIT (https://spdx.org/licenses/MIT). Source: https://getbootstrap.com/docs/5.3/about/brand
+- Broadcom (`broadcom`): custom (https://logorequest.broadcom.com/Home.aspx). Source: https://www.broadcom.com/support
+- Canonical (`canonical`): CC-BY-SA-3.0 (https://spdx.org/licenses/CC-BY-SA-3.0). Source: https://design.ubuntu.com/resources
+- Codeberg (`codeberg`): CC0-1.0 (https://spdx.org/licenses/CC0-1.0). Source: https://codeberg.org/Codeberg/Design/src/commit/ac514aa9aaa2457d4af3c3e13df3ab136d22a49a/logo/special/codeberg-logo_special_fake-transaprency.svg
+- Contentstack (`contentstack`): custom (https://www.contentstack.com/legal/terms-of-service). Source: https://www.contentstack.com
+- Debian (`debian`): CC-BY-SA-3.0 (https://spdx.org/licenses/CC-BY-SA-3.0). Source: https://www.debian.org/logos
+- Deno (`deno`): MIT (https://spdx.org/licenses/MIT). Source: https://github.com/denoland/docs/blob/5dee713844c7447f80acd4093caa9d350d80bf36/static/img/logo.svg
+- Dify (`dify`): custom (https://dify.ai/end-user-license-agreement). Source: https://github.com/langgenius/dify/blob/48f6b2e885eb40230dfe318fe4d3fb71b50dbc02/web/public/logo/logo.svg
+- .NET (`dotnet`): CC0-1.0 (https://spdx.org/licenses/CC0-1.0). Source: https://github.com/dotnet/brand/blob/c7d0f51b8ec59531332d05fb27a5b758a7a3d689/logo/dotnet-logo.svg
+- Fedora (`fedora`): custom (https://docs.fedoraproject.org/en-US/project/brand/). Source: https://docs.fedoraproject.org/en-US/project/brand/
+- Fluentd (`fluentd`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://docs.fluentd.org/quickstart/logo
+- Flux (`flux`): custom (https://www.linuxfoundation.org/legal/trademark-usage). Source: https://github.com/cncf/artwork/blob/c2e619cdf85e8bac090ceca7c0834c5cfedf9426/projects/flux/icon/black/flux-icon-black.svg
+- Forgejo (`forgejo`): CC-BY-SA-4.0 (https://spdx.org/licenses/CC-BY-SA-4.0). Source: https://codeberg.org/forgejo/meta/raw/branch/readme/branding/logo/forgejo-monochrome.svg
+- Git (`git`): CC-BY-3.0 (https://spdx.org/licenses/CC-BY-3.0). Source: https://git-scm.com/community/logos
+- GitHub Copilot (`githubcopilot`): MIT (https://spdx.org/licenses/MIT). Source: https://primer.style/foundations/icons/copilot-24
+- Gleam (`gleam`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://gleam.run
+- GNU Bash (`gnubash`): MIT (https://spdx.org/licenses/MIT). Source: https://github.com/odb/official-bash-logo/tree/61eff022f2dad3c7468f5deb4f06652d15f2c143
+- GNU Emacs (`gnuemacs`): GPL-2.0-or-later (https://spdx.org/licenses/GPL-2.0-or-later). Source: https://git.savannah.gnu.org/cgit/emacs.git/tree/etc/images/icons/hicolor/scalable/apps/emacs.svg
+- GNU Privacy Guard (`gnuprivacyguard`): GPL-3.0-or-later (https://spdx.org/licenses/GPL-3.0-or-later). Source: https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=tree;f=artwork/icons
+- Harbor (`harbor`): custom (https://www.linuxfoundation.org/legal/trademark-usage). Source: https://github.com/cncf/artwork/blob/ff2b2b5216e22f001ddd444ca580c484dd10302e/projects/harbor/icon/black/harbor-icon-black.svg
+- JavaScript (`javascript`): MIT (https://spdx.org/licenses/MIT). Source: https://github.com/voodootikigod/logo.js/blob/1544bdeed6d618a6cfe4f0650d04ab8d9cfa76d9/js.svg
+- Jenkins (`jenkins`): CC-BY-SA-3.0 (https://spdx.org/licenses/CC-BY-SA-3.0). Source: https://get.jenkins.io/art/
+- JHipster (`jhipster`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://github.com/jhipster/jhipster-artwork/blob/1085d85ab6d819b9ef7f6cc710ec8a4977b95e90/logos/JHipster%20bowtie.svg
+- Kedro (`kedro`): custom (https://www.linuxfoundation.org/trademark-usage). Source: https://github.com/kedro-org/kedro-brand-identity/blob/7f7b380cb1a2951c06ca292f0d2b442db895f804/icon/black/kedro-icon-svgo-black.svg
+- Keycloak (`keycloak`): custom (https://www.linuxfoundation.org/legal/trademark-usage). Source: https://github.com/keycloak/keycloak-misc/blob/dee033f2d6d6b5c3a6ce8eb84e285f7e5626dbf6/logo/icon-black.svg
+- Markdown (`markdown`): CC0-1.0 (https://spdx.org/licenses/CC0-1.0). Source: https://github.com/dcurtis/markdown-mark/tree/360a3657fef7f6ad0b303296a95ad52985caa0d3
+- Mercurial (`mercurial`): GPL-2.0-or-later (https://spdx.org/licenses/GPL-2.0-or-later). Source: https://www.mercurial-scm.org/hg-logo/
+- MiniMax (`minimax`): custom (https://github.com/simple-icons/simple-icons/pull/13982#issuecomment-3531627803). Source: https://github.com/MiniMax-AI/MiniMax-01/blob/57cf223b177e99636c7711a0f179e9fdc9c38e8a/figures/minimax.svg
+- Neovim (`neovim`): CC-BY-SA-3.0 (https://spdx.org/licenses/CC-BY-SA-3.0). Source: https://neovim.io
+- NixOS (`nixos`): CC-BY-4.0 (https://spdx.org/licenses/CC-BY-4.0). Source: https://brand.nixos.org/logos/nixos-logomark-black-flat-minimal.svg
+- OCaml (`ocaml`): Unlicense (https://spdx.org/licenses/Unlicense). Source: https://ocaml.org/logo
+- OpenBao (`openbao`): CC-BY-SA-4.0 (https://spdx.org/licenses/CC-BY-SA-4.0). Source: https://github.com/openbao/artwork/blob/8f75904040f9ca4fcba2b7a46581ecee536315b5/black/openbao-single-black.svg
+- OpenJDK (`openjdk`): BSD-3-Clause (https://spdx.org/licenses/BSD-3-Clause). Source: https://hg.openjdk.java.net/duke/duke/file/ca00f100dafc/vector/Agent.svg
+- OpenTelemetry (`opentelemetry`): CC-BY-4.0 (https://spdx.org/licenses/CC-BY-4.0). Source: https://cncf-branding.netlify.app/projects/opentelemetry/
+- Packagist (`packagist`): MIT (https://spdx.org/licenses/MIT). Source: https://github.com/composer/packagist/issues/1147#issuecomment-747951608
+- PHP (`php`): CC-BY-SA-4.0 (https://spdx.org/licenses/CC-BY-SA-4.0). Source: https://php.net/download-logos.php
+- RocksDB (`rocksdb`): CC-BY-4.0 (https://spdx.org/licenses/CC-BY-4.0). Source: https://github.com/facebook/rocksdb/blob/9ed96703d11a1cf4af0e1c1db0e4a6057a8e5d42/docs/static/logo.svg
+- Rocky Linux (`rockylinux`): CC-BY-SA-4.0 (https://spdx.org/licenses/CC-BY-SA-4.0). Source: https://github.com/rocky-linux/branding/blob/94e97dd30b87d909cc4f6a6838a2926f77f9ac47/logo/src/icon-black.svg
+- Rook (`rook`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://github.com/rook/artwork/blob/d252db9f43753e6abf64db0ce12d38916a5de464/logo/Rook_Icon.svg
+- Ruby (`ruby`): CC-BY-SA-2.5 (https://spdx.org/licenses/CC-BY-SA-2.5). Source: https://www.ruby-lang.org/en/about/logo/
+- Rust (`rust`): CC-BY-SA-4.0 (https://spdx.org/licenses/CC-BY-SA-4.0). Source: https://www.rust-lang.org
+- Salt Project (`saltproject`): Apache-2.0 (https://spdx.org/licenses/Apache-2.0). Source: https://saltproject.io
+- Sanity (`sanity`): MIT (https://spdx.org/licenses/MIT). Source: https://github.com/sanity-io/logos/blob/e298a1ac2757c83910fe08b496a115bc9aef06bd/src/sanityMonogram.tsx
+- Sidekiq (`sidekiq`): CC-BY-SA-4.0 (https://spdx.org/licenses/CC-BY-SA-4.0). Source: https://sidekiq.org/about.html
+- Solidity (`solidity`): CC-BY-4.0 (https://spdx.org/licenses/CC-BY-4.0). Source: https://docs.soliditylang.org/en/v0.8.6/brand-guide.html
+- SourceHut (`sourcehut`): CC0-1.0 (https://spdx.org/licenses/CC0-1.0). Source: https://sourcehut.org/logo/
+- SQLAlchemy (`sqlalchemy`): MIT (https://spdx.org/licenses/MIT). Source: https://commons.wikimedia.org/wiki/File:SQLAlchemy.svg
+- Storybook (`storybook`): MIT (https://spdx.org/licenses/MIT). Source: https://github.com/storybookjs/brand/tree/6f4d67f65f8275c53c310a73a8da6c6e96c8488c
+- TypeORM (`typeorm`): MIT (https://spdx.org/licenses/MIT). Source: https://github.com/typeorm/typeorm/blob/e7649d2746f907ff36b1efb600402dedd5f5a499/resources/logo_big.png
+- Webex (`webex`): custom (https://www.cisco.com/c/en/us/about/legal/trademarks.html). Source: https://github.com/momentum-design/momentum-ui/blob/970c5bec962a3f72e17e0b7ed69f2c38d298c405/icons-rebrand/svg/webex-helix-filled.svg
+- WebGPU (`webgpu`): CC-BY-4.0 (https://spdx.org/licenses/CC-BY-4.0). Source: https://www.w3.org/2023/02/webgpu-logos.html
+- Webpack (`webpack`): custom (https://js.foundation/about/governance/trademark-policy). Source: https://webpack.js.org/branding
+- Yarn (`yarn`): CC-BY-4.0 (https://spdx.org/licenses/CC-BY-4.0). Source: https://github.com/yarnpkg/assets/blob/76d30ca2aebed5b73ea8131d972218fb860bd32d/yarn-kitten-circle.svg
+- Zig (`zig`): CC-BY-SA-4.0 (https://spdx.org/licenses/CC-BY-SA-4.0). Source: https://github.com/ziglang/logo/blob/6446ba8e37a0651da720d8869e1ce9264fa0c0b9/zig-mark.svg
+- Zod (`zod`): MIT (https://spdx.org/licenses/MIT). Source: https://github.com/colinhacks/zod/blob/ff89187172ac6aa4a6264592980d1628ee785242/logo/Logo%20White.ai
+
+### SVG Logos, through @iconify-json/logos (@iconify-json/logos 1.2.17)
 
 - Licence declared: CC0-1.0
 - Used under: CC0-1.0
@@ -132,6 +229,20 @@ The build writes this file from the contents of the bundle. Do not edit it.
 - Only a few marks that neither Simple Icons nor SVG Logos publishes are taken from Devicon; scripts/logos-manifest.ts names each one with pack devicon.
 - Brand logos remain trademarks of their owners, and the MIT licence of the collection does not license a trademark. The marks are used only to refer to the technologies they name. Their inclusion does not imply endorsement by, or affiliation with, their owners.
 
+### Kubernetes community icons, through @iconify-json/k8s (@iconify-json/k8s 1.2.2)
+
+- Licence declared: Apache-2.0
+- Used under: Apache-2.0
+- Repository: https://github.com/kubernetes/community/tree/master/icons
+- What is in the bundle: The full colour file of each Kubernetes resource kind and cluster part in the k8s set, copied by gen:icons into a generated module as the text of a standalone SVG and drawn unmodified, as an image, on a light tile. gen:icon-art keeps the files most diagrams draw in the bundle and every file in the shards in icons/k8s/ beside it.
+- Copyright: No copyright line in the licence file.
+- Licence file: the package ships none, so the licence text its authors publish is used, from https://github.com/kubernetes/community/blob/master/LICENSE
+- NOTICE file: none shipped
+- Licence text: [text 9](#licence-text-9)
+- The package info.json names The Kubernetes Authors as the author and Apache-2.0 as the licence, and the package ships no licence file, so the licence file of the kubernetes/community repository the icons come from is used.
+- The Kubernetes Icons Set is offered under Apache-2.0 or CC-BY-4.0, at the user's choice. Plotwork relies on the Apache-2.0 option.
+- The Kubernetes logo is a registered trademark of The Linux Foundation, and the licence of the icons does not license a trademark. The icons are used only to refer to the Kubernetes objects they name.
+
 ### IBM Carbon icons, through @iconify-json/carbon (@iconify-json/carbon 1.2.28)
 
 - Licence declared: Apache-2.0
@@ -141,30 +252,30 @@ The build writes this file from the contents of the bundle. Do not edit it.
 - Copyright: Copyright 2015 IBM Corp.
 - Licence file: the package ships none, so the licence text its authors publish is used, from https://github.com/carbon-design-system/carbon/blob/main/LICENSE
 - NOTICE file: none shipped
-- Licence text: [text 9](#licence-text-9)
+- Licence text: [text 10](#licence-text-10)
 - The package info.json names IBM as the author and Apache-2.0 as the licence. IBM trademark rules for the IBM logo still apply.
 
-### Inter font metrics (@fontsource/inter 5.3.0)
+### Inter font metrics and glyphs (@fontsource/inter 5.3.0)
 
 - Licence declared: OFL-1.1
 - Used under: OFL-1.1
 - Repository: https://github.com/fontsource/font-files (directory fonts/google/inter)
-- What is in the bundle: Advance widths of Inter at weights 400, 500, and 600 for the code points 32 to 255 and 18 further symbols, measured by gen:metrics and stored as numbers. No font file is included.
+- What is in the bundle: Advance widths of Inter at weights 400, 500, and 600 for the code points 32 to 255 and 18 further symbols, measured by gen:metrics and stored as numbers; and the font tables and glyph outlines of the latin subset at the same weights, copied by gen:font-glyphs. Each picture embeds a subset of the font holding only the characters it draws, with the copyright line and the licence's name and address in its name table.
 - Copyright: Copyright 2016 The Inter Project Authors (https://github.com/rsms/inter) Inter-Italic[opsz,wght].ttf: Copyright 2016 The Inter Project Authors (https://github.com/rsms/inter)
 - NOTICE file: none shipped
-- Licence text: [text 10](#licence-text-10)
-- The numbers are derived from the font, so the SIL Open Font License 1.1 of the font is applied to them. This is the only use of a font licence in the package, and it covers data, not code.
+- Licence text: [text 11](#licence-text-11)
+- The SIL Open Font License 1.1 allows the font to be subset and embedded. Inter declares no Reserved Font Name. This licence covers the font data and the subsets in pictures, not code.
 
-### JetBrains Mono font metrics (@fontsource/jetbrains-mono 5.3.0)
+### JetBrains Mono font metrics and glyphs (@fontsource/jetbrains-mono 5.3.0)
 
 - Licence declared: OFL-1.1
 - Used under: OFL-1.1
 - Repository: https://github.com/fontsource/font-files (directory fonts/google/jetbrains-mono)
-- What is in the bundle: One advance width, the width of the letter m as a fraction of the em, measured by gen:metrics and stored as a number. No font file is included.
+- What is in the bundle: One advance width, the width of the letter m as a fraction of the em, measured by gen:metrics and stored as a number; and the font tables and glyph outlines of the latin subset at weight 400, copied by gen:font-glyphs. Each picture embeds a subset holding only the characters it draws, with the copyright line and the licence's name and address in its name table.
 - Copyright: Copyright 2020 The JetBrains Mono Project Authors (https://github.com/JetBrains/JetBrainsMono) JetBrainsMono-Italic[wght].ttf: Copyright 2020 The JetBrains Mono Project Authors (https://github.com/JetBrains/JetBrainsMono)
 - NOTICE file: none shipped
-- Licence text: [text 11](#licence-text-11)
-- The number is derived from the font, so the SIL Open Font License 1.1 of the font is applied to it.
+- Licence text: [text 12](#licence-text-12)
+- The SIL Open Font License 1.1 allows the font to be subset and embedded. JetBrains Mono declares no Reserved Font Name.
 
 ## Trademarks and official icons
 
@@ -970,7 +1081,7 @@ SOFTWARE.
 
 ### Licence text 6
 
-Licences in this text: CC0-1.0. Used by: simple-icons 16.33.0.
+Licences in this text: CC0-1.0. Used by: simple-icons 16.35.0.
 
 ```text
 # CC0 1.0 Universal
@@ -1007,7 +1118,7 @@ For more information, please see <https://creativecommons.org/publicdomain/zero/
 
 ### Licence text 7
 
-Licences in this text: CC0-1.0. Used by: @iconify-json/logos 1.2.15.
+Licences in this text: CC0-1.0. Used by: @iconify-json/logos 1.2.17.
 
 ```text
 CC0 1.0 Universal
@@ -1156,6 +1267,214 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
 ### Licence text 9
+
+Licences in this text: Apache-2.0. Used by: @iconify-json/k8s 1.2.2.
+
+```text
+Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+   1. Definitions.
+
+      "License" shall mean the terms and conditions for use, reproduction,
+      and distribution as defined by Sections 1 through 9 of this document.
+
+      "Licensor" shall mean the copyright owner or entity authorized by
+      the copyright owner that is granting the License.
+
+      "Legal Entity" shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      "control" means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or
+      otherwise, or (ii) ownership of fifty percent (50%) or more of the
+      outstanding shares, or (iii) beneficial ownership of such entity.
+
+      "You" (or "Your") shall mean an individual or Legal Entity
+      exercising permissions granted by this License.
+
+      "Source" form shall mean the preferred form for making modifications,
+      including but not limited to software source code, documentation
+      source, and configuration files.
+
+      "Object" form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but
+      not limited to compiled object code, generated documentation,
+      and conversions to other media types.
+
+      "Work" shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a
+      copyright notice that is included in or attached to the work
+      (an example is provided in the Appendix below).
+
+      "Derivative Works" shall mean any work, whether in Source or Object
+      form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes
+      of this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of,
+      the Work and Derivative Works thereof.
+
+      "Contribution" shall mean any work of authorship, including
+      the original version of the Work and any modifications or additions
+      to that Work or Derivative Works thereof, that is intentionally
+      submitted to Licensor for inclusion in the Work by the copyright owner
+      or by an individual or Legal Entity authorized to submit on behalf of
+      the copyright owner. For the purposes of this definition, "submitted"
+      means any form of electronic, verbal, or written communication sent
+      to the Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as "Not a Contribution."
+
+      "Contributor" shall mean Licensor and any individual or Legal Entity
+      on behalf of whom a Contribution has been received by Licensor and
+      subsequently incorporated within the Work.
+
+   2. Grant of Copyright License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      copyright license to reproduce, prepare Derivative Works of,
+      publicly display, publicly perform, sublicense, and distribute the
+      Work and such Derivative Works in Source or Object form.
+
+   3. Grant of Patent License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      (except as stated in this section) patent license to make, have made,
+      use, offer to sell, sell, import, and otherwise transfer the Work,
+      where such license applies only to those patent claims licensable
+      by such Contributor that are necessarily infringed by their
+      Contribution(s) alone or by combination of their Contribution(s)
+      with the Work to which such Contribution(s) was submitted. If You
+      institute patent litigation against any entity (including a
+      cross-claim or counterclaim in a lawsuit) alleging that the Work
+      or a Contribution incorporated within the Work constitutes direct
+      or contributory patent infringement, then any patent licenses
+      granted to You under this License for that Work shall terminate
+      as of the date such litigation is filed.
+
+   4. Redistribution. You may reproduce and distribute copies of the
+      Work or Derivative Works thereof in any medium, with or without
+      modifications, and in Source or Object form, provided that You
+      meet the following conditions:
+
+      (a) You must give any other recipients of the Work or
+          Derivative Works a copy of this License; and
+
+      (b) You must cause any modified files to carry prominent notices
+          stating that You changed the files; and
+
+      (c) You must retain, in the Source form of any Derivative Works
+          that You distribute, all copyright, patent, trademark, and
+          attribution notices from the Source form of the Work,
+          excluding those notices that do not pertain to any part of
+          the Derivative Works; and
+
+      (d) If the Work includes a "NOTICE" text file as part of its
+          distribution, then any Derivative Works that You distribute must
+          include a readable copy of the attribution notices contained
+          within such NOTICE file, excluding those notices that do not
+          pertain to any part of the Derivative Works, in at least one
+          of the following places: within a NOTICE text file distributed
+          as part of the Derivative Works; within the Source form or
+          documentation, if provided along with the Derivative Works; or,
+          within a display generated by the Derivative Works, if and
+          wherever such third-party notices normally appear. The contents
+          of the NOTICE file are for informational purposes only and
+          do not modify the License. You may add Your own attribution
+          notices within Derivative Works that You distribute, alongside
+          or as an addendum to the NOTICE text from the Work, provided
+          that such additional attribution notices cannot be construed
+          as modifying the License.
+
+      You may add Your own copyright statement to Your modifications and
+      may provide additional or different license terms and conditions
+      for use, reproduction, or distribution of Your modifications, or
+      for any such Derivative Works as a whole, provided Your use,
+      reproduction, and distribution of the Work otherwise complies with
+      the conditions stated in this License.
+
+   5. Submission of Contributions. Unless You explicitly state otherwise,
+      any Contribution intentionally submitted for inclusion in the Work
+      by You to the Licensor shall be under the terms and conditions of
+      this License, without any additional terms or conditions.
+      Notwithstanding the above, nothing herein shall supersede or modify
+      the terms of any separate license agreement you may have executed
+      with Licensor regarding such Contributions.
+
+   6. Trademarks. This License does not grant permission to use the trade
+      names, trademarks, service marks, or product names of the Licensor,
+      except as required for reasonable and customary use in describing the
+      origin of the Work and reproducing the content of the NOTICE file.
+
+   7. Disclaimer of Warranty. Unless required by applicable law or
+      agreed to in writing, Licensor provides the Work (and each
+      Contributor provides its Contributions) on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied, including, without limitation, any warranties or conditions
+      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+      PARTICULAR PURPOSE. You are solely responsible for determining the
+      appropriateness of using or redistributing the Work and assume any
+      risks associated with Your exercise of permissions under this License.
+
+   8. Limitation of Liability. In no event and under no legal theory,
+      whether in tort (including negligence), contract, or otherwise,
+      unless required by applicable law (such as deliberate and grossly
+      negligent acts) or agreed to in writing, shall any Contributor be
+      liable to You for damages, including any direct, indirect, special,
+      incidental, or consequential damages of any character arising as a
+      result of this License or out of the use or inability to use the
+      Work (including but not limited to damages for loss of goodwill,
+      work stoppage, computer failure or malfunction, or any and all
+      other commercial damages or losses), even if such Contributor
+      has been advised of the possibility of such damages.
+
+   9. Accepting Warranty or Additional Liability. While redistributing
+      the Work or Derivative Works thereof, You may choose to offer,
+      and charge a fee for, acceptance of support, warranty, indemnity,
+      or other liability obligations and/or rights consistent with this
+      License. However, in accepting such obligations, You may act only
+      on Your own behalf and on Your sole responsibility, not on behalf
+      of any other Contributor, and only if You agree to indemnify,
+      defend, and hold each Contributor harmless for any liability
+      incurred by, or claims asserted against, such Contributor by reason
+      of your accepting any such warranty or additional liability.
+
+   END OF TERMS AND CONDITIONS
+
+   APPENDIX: How to apply the Apache License to your work.
+
+      To apply the Apache License to your work, attach the following
+      boilerplate notice, with the fields enclosed by brackets "{}"
+      replaced with your own identifying information. (Don't include
+      the brackets!)  The text should be enclosed in the appropriate
+      comment syntax for the file format. We also recommend that a
+      file or class name and description of purpose be included on the
+      same "printed page" as the copyright notice for easier
+      identification within third-party archives.
+
+   Copyright {yyyy} {name of copyright owner}
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+```
+
+### Licence text 10
 
 Licences in this text: Apache-2.0. Used by: @iconify-json/carbon 1.2.28.
 
@@ -1363,7 +1682,7 @@ Apache License
    limitations under the License.
 ```
 
-### Licence text 10
+### Licence text 11
 
 Licences in this text: OFL-1.1. Used by: @fontsource/inter 5.3.0.
 
@@ -1463,7 +1782,7 @@ FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
 OTHER DEALINGS IN THE FONT SOFTWARE.
 ```
 
-### Licence text 11
+### Licence text 12
 
 Licences in this text: OFL-1.1. Used by: @fontsource/jetbrains-mono 5.3.0.
 
