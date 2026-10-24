@@ -65,7 +65,7 @@ var init_icon_art_folder = __esm({
 var package_default;
 var init_package = __esm({
   "package.json"() {
-    package_default = { version: "0.5.0" };
+    package_default = { version: "0.6.0-beta.1" };
   }
 });
 
@@ -1094,10 +1094,10 @@ var init_editing = __esm({
       "Call read_diagram with the picture: url for a hosted link (https://cdn.plotwork.dev/d/<22 characters>.svg), or svg with the text of an .svg file in the repository. It returns the exact source the picture was drawn from, and checks it.",
       "Edit the source to make the change the person asked for.",
       "Call draw_diagram with the edited source and embedSource true. Fix every error it returns.",
-      "Write the returned svg over the file, or call publish_diagram with the edited source and embedSource true. A hosted link is one drawing, so the edited diagram has a new link: replace the old link wherever it is used.",
+      "Write the returned svg over the file, or call publish_diagram with the edited source, which keeps the source in the picture by default. A hosted link is one drawing, so the edited diagram has a new link: replace the old link wherever it is used.",
       "If read_diagram says the picture carries no source, look for it in a diagram fence in the Markdown file that shows the picture, or in a .diagram file next to it. If there is none, rebuild the diagram from the title, outline, and labels read_diagram returns."
     ];
-    EMBED_SOURCE_ADVICE = "Set embedSource true whenever you save an SVG into a repository or publish a link someone may want to edit later: it writes the source into the SVG, and read_diagram gives it back. Without it the SVG cannot be edited again. The source is then readable by anyone who has the file or the link.";
+    EMBED_SOURCE_ADVICE = "Set embedSource true whenever you save an SVG into a repository: it writes the source into the SVG, and read_diagram gives it back. Without it the SVG cannot be edited again. The source is then readable by anyone who has the file. publish_diagram writes the source into the picture by default, so anyone who has the link can read it; send embedSource false there to leave it out.";
   }
 });
 
@@ -1133,8 +1133,8 @@ var init_action_release = __esm({
     "use strict";
     ACTION_REPOSITORY = "plotwork-official/plotwork-action";
     ACTION_RELEASE = {
-      version: "1.1.0",
-      sha: "86ae8278fa771a422d9df60185182f14b8be4db9"
+      version: "1.2.0",
+      sha: "35c08022ae999fc36bc881aad0becab4ae1034e0"
     };
     PINNED_ACTION_LINE = `uses: ${ACTION_REPOSITORY}@${ACTION_RELEASE.sha} # v${ACTION_RELEASE.version}`;
   }
@@ -1181,6 +1181,16 @@ var init_view_links = __esm({
       onNpm: true
     };
     CLI_SCHEME_FLAG_SINCE = "0.3.0";
+  }
+});
+
+// ../../packages/diagrams/src/constants/terraform-release.ts
+var TERRAFORM_PROVIDER_SOURCE, TERRAFORM_REGISTRY_URL;
+var init_terraform_release = __esm({
+  "../../packages/diagrams/src/constants/terraform-release.ts"() {
+    "use strict";
+    TERRAFORM_PROVIDER_SOURCE = "plotwork-official/plotwork";
+    TERRAFORM_REGISTRY_URL = `https://registry.terraform.io/providers/${TERRAFORM_PROVIDER_SOURCE}/latest`;
   }
 });
 
@@ -4703,6 +4713,7 @@ var init_constants = __esm({
     init_diagram_links();
     init_view_links();
     init_action_release();
+    init_terraform_release();
     init_ci_setup();
     init_mcp_release();
     init_layout_limits();
@@ -178762,7 +178773,7 @@ var init_read_diagram = __esm({
     init_diagram_id();
     init_fetch_diagram_link();
     init_to_dto();
-    EDIT_NEXT = "Edit the source, call draw_diagram with it to check and draw it, then write the SVG file again or call publish_diagram (the link changes when a diagram is published again, so replace the old link). Set embedSource true when you save or publish, so the next reader gets the source too.";
+    EDIT_NEXT = "Edit the source, call draw_diagram with it to check and draw it, then write the SVG file again or call publish_diagram (the link changes when a diagram is published again, so replace the old link). Set embedSource true when you save an SVG file, so the next reader gets the source too; publish_diagram keeps the source by default.";
     NO_SOURCE_NEXT = "Look for the source where the picture came from: a diagram fence in the Markdown file that shows it, or a .diagram file in the repository. If there is none, rebuild the diagram from picture (its title, outline, and labels), call draw_diagram, and from now on save with embedSource true so the file carries its source.";
   }
 });
@@ -180370,7 +180381,7 @@ var init_sources2 = __esm({
       folder: external_exports.string().min(1).max(300).optional().describe("The folder of the library to file it in, such as Platform/Infra."),
       name: external_exports.string().min(1).max(120).optional().describe("Its name in the library; the diagram's title when left out."),
       scheme: external_exports.enum(PICTURE_SCHEMES).optional().describe("light, dark, or auto; the picture of defaults.scheme, then light, when left out."),
-      embedSource: external_exports.boolean().optional().describe("Write the diagram source into the hosted picture. Left out, it is not."),
+      embedSource: external_exports.boolean().optional().describe("Write the diagram source into the hosted picture. Left out, it is written, unless an organisation turned off Keep diagrams editable; false leaves it out."),
       required: external_exports.boolean().optional().describe("Fail the run when this source cannot be published, such as with no key. Left out, a skipped publish is a notice.")
     }, { error: movedKeysError({ theme: "publish.theme is now publish.scheme (light, dark, or auto); theme= names a colour theme in the diagram's header" }) }).meta({ id: "SourcePublish", description: "Where the GitHub Action publishes a generated diagram when publish is on." });
     SourceSchema = external_exports.strictObject({
@@ -197582,7 +197593,7 @@ var init_vocabulary27 = __esm({
       }).describe("Bounds and quality thresholds."),
       editing: external_exports.object({
         steps: external_exports.array(external_exports.string()).describe("In order: how to change a diagram that already exists as a Plotwork SVG, a hosted link or a file in the repository."),
-        embedSource: external_exports.string().describe("When to set embedSource true on draw_diagram, render_diagram, or publish_diagram, and what it means for who can read the source.")
+        embedSource: external_exports.string().describe("When to set embedSource true on draw_diagram or render_diagram, that publish_diagram embeds the source unless it is false, and what it means for who can read the source.")
       }).describe("How to edit an existing Plotwork SVG: read it back with read_diagram, change the source, draw it, and save or publish it again."),
       diagnosticCodes: external_exports.array(DiagnosticCodeEntrySchema),
       examples: external_exports.array(ExampleSchema)
@@ -223024,7 +223035,7 @@ var init_definitions = __esm({
     readDiagramTool = defineTool({
       name: "read_diagram",
       title: "Read diagram",
-      description: "Read the source of an existing Plotwork SVG so you can edit the diagram. Send the text of an .svg file as svg, or a hosted link (https://cdn.plotwork.dev/d/<22 characters>.svg) as url. Returns the exact source, its kind, the stored diagram id if it was published, and a parse check. Call it first when asked to change a diagram that already exists, then edit the source and call draw_diagram (or edit_diagram); next says how to save or publish it again. Only a picture saved with embedSource true (or by sync_markdown) carries its source; otherwise status is no-source, with the title, outline, and labels to rebuild it from. A text that is not an SVG and a refused or unreachable link come back as data. Only cdn.plotwork.dev and cdn-preview.plotwork.dev are fetched (https, no redirects, 5 seconds, 1 MB); svg reads nothing from the network.",
+      description: "Read the source of an existing Plotwork SVG so you can edit the diagram. Send the text of an .svg file as svg, or a hosted link (https://cdn.plotwork.dev/d/<22 characters>.svg) as url. Returns the exact source, its kind, the stored diagram id if it was published, and a parse check. Call it first when asked to change a diagram that already exists, then edit the source and call draw_diagram (or edit_diagram); next says how to save or publish it again. A picture carries its source when it was saved with embedSource true, written by sync_markdown, or published without embedSource false; otherwise status is no-source, with the title, outline, and labels to rebuild it from. A text that is not an SVG and a refused or unreachable link come back as data. Only cdn.plotwork.dev and cdn-preview.plotwork.dev are fetched (https, no redirects, 5 seconds, 1 MB); svg reads nothing from the network.",
       callExample: { svg: '<svg xmlns="http://www.w3.org/2000/svg">...</svg>' },
       input: ReadDiagramInputSchema,
       output: ReadDiagramResponseSchema,
@@ -223750,7 +223761,7 @@ function rejected(kind, errors) {
 function drawnNext(warnings, isDrawn, isEmbedded) {
   const review = warnings === 0 ? "" : ` Review the ${countOf3(warnings, "warning")} first: icon and group-type suggestions are worth taking.`;
   if (!isDrawn) return `The diagram is valid, and no picture was drawn because svg is never.${review} Call draw_diagram again with svg auto or always to draw it, or call publish_diagram for a link, or put the source in a diagram fence and call sync_markdown to place it in a document.`;
-  const save = isEmbedded ? "Each svg carries its source, so read_diagram gives it back when the diagram needs a change." : "To save an svg into a repository, or to publish one that someone may want to change later, call draw_diagram again with embedSource true: it writes the source into the svg, and read_diagram gives it back.";
+  const save = isEmbedded ? "Each svg carries its source, so read_diagram gives it back when the diagram needs a change." : "To save an svg into a repository, call draw_diagram again with embedSource true: it writes the source into the svg, and read_diagram gives it back. publish_diagram keeps the source in the picture by default.";
   return `The diagram is valid and drawn.${review} ${save} Put the source in a diagram fence and call sync_markdown to place it in a document. To change the diagram, edit the source and check it with svg never; draw again only when it is final.`;
 }
 async function drawDiagram(input2, ops = ENGINE_OPS) {
@@ -227370,7 +227381,7 @@ var init_server_info = __esm({
     ].join(" ");
     BOARD_INSTRUCTIONS = "This connection also reaches its organisation's live whiteboards, which people watch while they change. To work on one: take the board the person names (list_boards finds it by name, or use the id in its address), call open_board first, which shows the people watching that you are there, then read_board_tab, then edit_board_tab with small operations against the version you read; a whole source only for a new or empty tab. During a meeting, call read_board_tab with sinceVersion before every edit, so you build on what people changed, and say in one line what you changed. Use add_board_tab for a separate diagram, and import_to_board to bring in a library diagram, a file, Mermaid or a pattern as a new tab; save a tab to the library with save_board_tab only when the person asks. When the person asks for a proposal or a revision, call create_revision, give them its viewUrl so they can watch it change, make every edit with edit_board_tab and that revision, then request_merge with a one-line note; a person merges it, never you. open_board and read_board_tab also return messages your person typed to you on the board. Listening mode, when your person asks you to listen: if you have the Plotwork plugin's listen_to_board tool, call open_board_listener and pass its streamUrl and ticket to listen_to_board, and each message comes to you as it is written; otherwise loop on wait_for_board_messages, which answers as soon as a message arrives or after 25 seconds with none; act on each message in your own revision; reply_board_message with what you did; ask in a reply before request_merge. Never replace a tab to undo someone else's change, and never publish a board's tab unless the person asks.";
     KEEP_IN_LIBRARY_STEP = "To keep it in an organisation's library, or in the person's own Diagrams, call publish_diagram when they ask.";
-    HOSTED_INSTRUCTIONS = "A viewUrl from a drawing tool holds the drawing itself in the link: nothing is saved on Plotwork, and it will not appear in any Diagrams list; when the person wants a diagram kept in an organisation's library or their own Diagrams, call publish_diagram. When the person asks to share a finished diagram or wants a link to it, call publish_diagram with the valid source: it returns a public link and a Markdown image to paste, and publishing the same diagram again returns the same link. Publish only when asked, because anyone with the link can see the picture. After you edit a published diagram, call publish_diagram again: an edited diagram is a new picture with a new link, so replace the old link wherever it is used. Set embedSource true on publish_diagram when someone may want to edit the diagram later, and tell the person that the source is then part of the public picture. A drawing too big to return in an answer is also the case for publish_diagram: it gives a link in place of the picture. To keep a diagram inside a team instead, pass organization with the slug or id of an organisation, but only when the person names an organisation or asks for a team diagram: it is stored in that organisation's private library and the answer has a viewUrl for members in place of a public link, so there is no Markdown image. Never guess an organisation, and if it is not found, ask the person which one they mean. An organisation can also send its members' diagrams to its library when organization is left out: the answer then names it and says why, and the person must be told the diagram is in that library, not at a public link. Pass personal true only when the person asks for a public link anyway; an organisation that requires its library refuses it, and then tell the person. An organisation can also keep every diagram its agents draw: a drawing's answer then has autoPublished, and its next names the library; tell the person where the diagram is, and do not publish it again. An organisation can also hold a publish for approval: the answer then has approval and warning W601, held for approval by your organisation; tell the person it is stored and waits for an approver, and do not publish it again. An owner may restrict a folder, and a reader may not publish: when the answer says the folder is restricted or the role does not allow it, ask the person which folder they may use instead of trying others or publishing elsewhere. Call list_diagrams when the person asks what they have published or to get a diagram id; it changes nothing. Call delete_diagram only after the person has said which diagram to delete, by name, and tell them what you deleted; never delete on a guess, in bulk, or to make room for a publish unless they asked, and a locked diagram cannot be deleted until the owner unlocks it. When an owner or admin of an organisation asks to publish a checked pattern file, call publish_pattern with it (and organization unless you are connected through it): its agents then find it first. Set replace true only after the person has said to change the pattern of that name.";
+    HOSTED_INSTRUCTIONS = "A viewUrl from a drawing tool holds the drawing itself in the link: nothing is saved on Plotwork, and it will not appear in any Diagrams list; when the person wants a diagram kept in an organisation's library or their own Diagrams, call publish_diagram. When the person asks to share a finished diagram or wants a link to it, call publish_diagram with the valid source: it returns a public link and a Markdown image to paste, and publishing the same diagram again returns the same link. Publish only when asked, because anyone with the link can see the picture. After you edit a published diagram, call publish_diagram again: an edited diagram is a new picture with a new link, so replace the old link wherever it is used. publish_diagram writes the source into the picture by default, so someone can edit the diagram later; tell the person that the source is part of the public picture, and send embedSource false when it must not be, such as labels that name internal systems. A drawing too big to return in an answer is also the case for publish_diagram: it gives a link in place of the picture. To keep a diagram inside a team instead, pass organization with the slug or id of an organisation, but only when the person names an organisation or asks for a team diagram: it is stored in that organisation's private library and the answer has a viewUrl for members in place of a public link, so there is no Markdown image. Never guess an organisation, and if it is not found, ask the person which one they mean. An organisation can also send its members' diagrams to its library when organization is left out: the answer then names it and says why, and the person must be told the diagram is in that library, not at a public link. Pass personal true only when the person asks for a public link anyway; an organisation that requires its library refuses it, and then tell the person. An organisation can also keep every diagram its agents draw: a drawing's answer then has autoPublished, and its next names the library; tell the person where the diagram is, and do not publish it again. An organisation can also hold a publish for approval: the answer then has approval and warning W601, held for approval by your organisation; tell the person it is stored and waits for an approver, and do not publish it again. An owner may restrict a folder, and a reader may not publish: when the answer says the folder is restricted or the role does not allow it, ask the person which folder they may use instead of trying others or publishing elsewhere. Call list_diagrams when the person asks what they have published or to get a diagram id; it changes nothing. Call delete_diagram only after the person has said which diagram to delete, by name, and tell them what you deleted; never delete on a guess, in bulk, or to make room for a publish unless they asked, and a locked diagram cannot be deleted until the owner unlocks it. When an owner or admin of an organisation asks to publish a checked pattern file, call publish_pattern with it (and organization unless you are connected through it): its agents then find it first. Set replace true only after the person has said to change the pattern of that name.";
   }
 });
 
