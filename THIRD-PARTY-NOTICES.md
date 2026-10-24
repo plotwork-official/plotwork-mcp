@@ -1,6 +1,6 @@
 # Third-party notices
 
-@buun_group/plotwork-mcp 0.4.0 is licensed under the MIT licence, in the file LICENSE. The single file plotwork-mcp.mjs also contains code and data from other people. This file lists them, with the licence each is used under and the full licence text. Those licences apply to that material. The MIT licence of @buun_group/plotwork-mcp does not replace them, and it does not cover the vendor artwork described under "Trademarks and official icons".
+@buun_group/plotwork-mcp 0.5.0-beta.1 is licensed under the MIT licence, in the file LICENSE. The single file plotwork-mcp.mjs also contains code and data from other people. This file lists them, with the licence each is used under and the full licence text. Those licences apply to that material. The MIT licence of @buun_group/plotwork-mcp does not replace them, and it does not cover the vendor artwork described under "Trademarks and official icons".
 
 The build writes this file from the contents of the bundle. Do not edit it.
 
@@ -9,7 +9,7 @@ The build writes this file from the contents of the bundle. Do not edit it.
 | Question | Answer |
 |---|---|
 | Which licence covers the Plotwork code? | MIT, in the file LICENSE. |
-| Which third-party code is in the bundle? | 4 npm packages: @modelcontextprotocol/core 2.3.1, @modelcontextprotocol/server 2.3.1, elkjs 0.12.0, zod 4.6.5. |
+| Which third-party code is in the bundle? | 4 npm packages: @modelcontextprotocol/core 2.3.1, @modelcontextprotocol/server 2.3.1, elkjs 0.12.0, zod 4.6.6. |
 | Which third-party data is in the bundle? | Lucide icons; Simple Icons; SVG Logos, through @iconify-json/logos; Devicon, through @iconify-json/devicon; Kubernetes community icons, through @iconify-json/k8s; IBM Carbon icons, through @iconify-json/carbon; Inter font metrics and glyphs; JetBrains Mono font metrics and glyphs. |
 | Are official vendor icons in the bundle? | Yes: AWS, Microsoft Azure, Google Cloud. They are not covered by the MIT licence. |
 | Where is the full text of each licence? | Under "Licence texts" at the end of this file. |
@@ -21,7 +21,7 @@ The build writes this file from the contents of the bundle. Do not edit it.
 | @modelcontextprotocol/core | 2.3.1 | Code | MIT AND Apache-2.0 | [text 1](#licence-text-1) |
 | @modelcontextprotocol/server | 2.3.1 | Code | MIT AND Apache-2.0 | [text 1](#licence-text-1) |
 | elkjs | 0.12.0 | Code | EPL-2.0 | [text 2](#licence-text-2), [text 3](#licence-text-3) |
-| zod | 4.6.5 | Code | MIT | [text 4](#licence-text-4) |
+| zod | 4.6.6 | Code | MIT | [text 4](#licence-text-4) |
 | Lucide icons | 1.49.0 | Data | ISC | [text 5](#licence-text-5) |
 | Simple Icons | 16.35.0 | Data | CC0-1.0 | [text 6](#licence-text-6) |
 | SVG Logos, through @iconify-json/logos | 1.2.17 | Data | CC0-1.0 | [text 7](#licence-text-7) |
@@ -71,7 +71,7 @@ The build writes this file from the contents of the bundle. Do not edit it.
 - Also contains: Google Guava (com.google.common) and the GWT runtime, compiled into elkjs, Apache-2.0, https://github.com/google/guava and https://github.com/gwtproject/gwt
 - Also contains: Eclipse Modeling Framework (org.eclipse.emf) and Xtext Xbase library classes, compiled into elkjs, EPL-2.0, https://eclipse.dev/modeling/emf/ and https://eclipse.dev/Xtext/
 
-### zod 4.6.5
+### zod 4.6.6
 
 - Licence declared: MIT
 - Used under: MIT
@@ -1003,7 +1003,7 @@ Apache License
 
 ### Licence text 4
 
-Licences in this text: MIT. Used by: zod 4.6.5.
+Licences in this text: MIT. Used by: zod 4.6.6.
 
 ```text
 MIT License
