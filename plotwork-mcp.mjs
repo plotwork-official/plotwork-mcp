@@ -65,7 +65,7 @@ var init_icon_art_folder = __esm({
 var package_default;
 var init_package = __esm({
   "package.json"() {
-    package_default = { version: "0.6.0-beta.1" };
+    package_default = { version: "0.6.0-beta.2" };
   }
 });
 
@@ -531,7 +531,7 @@ var init_color_themes = __esm({
 });
 
 // ../../packages/diagrams/src/constants/auto-icons.ts
-var ICON_MODES, DEFAULT_ICON_MODE, AUTO_ICON_KINDS, ICON_MODE_SPEC, PLAIN_WORD_NAMES, ROLE_ICONS, EMBEDDED_PRODUCT_NAMES, EMBEDDED_PRODUCT_BLOCKERS, NOT_EMBEDDED_PHRASES, EMBEDDED_PRODUCT_MAX_WORDS, LAST_WORD_ROLES, BRAND_SUFFIXES, ROLE_ICON_MAX_WORDS;
+var ICON_MODES, DEFAULT_ICON_MODE, AUTO_ICON_KINDS, ICON_MODE_SPEC, AUTO_ICON_INSTRUCTIONS, PLAIN_WORD_NAMES, ROLE_ICONS, EMBEDDED_PRODUCT_NAMES, EMBEDDED_PRODUCT_BLOCKERS, NOT_EMBEDDED_PHRASES, EMBEDDED_PRODUCT_MAX_WORDS, LAST_WORD_ROLES, TYPE_ROLE_ICONS, TYPE_ROLE_SETS, TRAILING_INTERFACE_ROLES, BRAND_SUFFIXES, ROLE_ICON_MAX_WORDS;
 var init_auto_icons = __esm({
   "../../packages/diagrams/src/constants/auto-icons.ts"() {
     "use strict";
@@ -544,6 +544,11 @@ var init_auto_icons = __esm({
       meaning: 'auto (the default): an item with no icon= gets the icon its label, else its sub= or tech=, names for certain: a brand ("Postgres"), a cloud product ("Amazon S3"), or in some kinds a role or generic part ("Email", "Load balancer"). A name that is also an everyday word ("Vault") stays plain. icon=none keeps one item plain; off keeps all plain, with flow edge labels, and stops a flow group taking its type from its name.',
       example: 'flow "Checkout" icons=off'
     };
+    AUTO_ICON_INSTRUCTIONS = [
+      `An item with no icon= gets the icon its label names when the engine is sure, so name each item for what it is and leave icon= out: a product draws its mark ("Postgres", "Kafka", "Databricks"), a cloud product its provider's icon ("Amazon S3"), and a common part or role its plain icon ("Load balancer", "Circuit breaker", "Data lake", "Read replica", "Customers", "CI/CD"), within the node type you chose; icon=none keeps one item plain and icons=off on the header keeps them all plain.`,
+      'For a finished look, label flow arrows with verbs ("reads", "publishes", "replicates", "pushes image", "deploys to") so they draw icons, and an arrow into or out of a queue labelled with a message name draws send or receive; add role= (data, async, identity, private) to the lines that carry those, and give groups a type=; style in get_diagram_syntax says more, and its topic icon-words lists every word that draws an icon.',
+      "Use map_icons to choose icons for many names at once: it answers with the icon a label of that name draws, so its answer and the picture agree; it never guesses, so choose from the candidates for an ambiguous name, and never invent an icon."
+    ];
     PLAIN_WORD_NAMES = /* @__PURE__ */ new Set([
       "access",
       "actions",
@@ -781,6 +786,8 @@ var init_auto_icons = __esm({
       metrics: "lucide:activity",
       alerts: "lucide:siren",
       alerting: "lucide:siren",
+      alarm: "lucide:siren",
+      alarms: "lucide:siren",
       dashboard: "lucide:layout-dashboard",
       dashboards: "lucide:layout-dashboard",
       notification: "lucide:bell",
@@ -870,7 +877,358 @@ var init_auto_icons = __esm({
       user: "lucide:user",
       users: "lucide:users",
       webhook: "lucide:webhook",
-      webhooks: "lucide:webhook"
+      webhooks: "lucide:webhook",
+      // Resilience and traffic
+      "circuit breaker": "lucide:zap-off",
+      "service discovery": "lucide:compass",
+      "config server": "lucide:settings",
+      "configuration service": "lucide:settings",
+      "a b testing": "lucide:flask-conical",
+      experiments: "lucide:flask-conical",
+      ingress: "lucide:log-in",
+      "ingress controller": "lucide:log-in",
+      egress: "lucide:log-out",
+      bastion: "lucide:shield",
+      "bastion host": "lucide:shield",
+      "jump host": "lucide:shield",
+      "jump box": "lucide:shield",
+      // Work in the background
+      "background jobs": "lucide:cog",
+      "background worker": "lucide:cog",
+      "job queue": "lucide:layers",
+      "stream processor": "lucide:waves-horizontal",
+      "stream processing": "lucide:waves-horizontal",
+      "workflow engine": "lucide:workflow",
+      orchestrator: "lucide:workflow",
+      saga: "lucide:workflow",
+      "rules engine": "lucide:list-checks",
+      retry: "lucide:rotate-ccw",
+      retries: "lucide:rotate-ccw",
+      sync: "lucide:refresh-cw",
+      outbox: "lucide:inbox",
+      inbox: "lucide:inbox",
+      // Data
+      "read replica": "lucide:copy",
+      "read replicas": "lucide:copy",
+      replica: "lucide:copy",
+      replicas: "lucide:copy",
+      shard: "lucide:layers",
+      shards: "lucide:layers",
+      "data lake": "lucide:database",
+      lakehouse: "lucide:warehouse",
+      elt: "lucide:workflow",
+      "feature store": "lucide:database",
+      "document store": "lucide:file-text",
+      "document database": "lucide:file-text",
+      "key value store": "lucide:key",
+      "kv store": "lucide:key",
+      "session store": "lucide:cookie",
+      sessions: "lucide:cookie",
+      "disaster recovery": "lucide:life-buoy",
+      ledger: "lucide:receipt-text",
+      reporting: "lucide:chart-column",
+      reports: "lucide:chart-column",
+      bi: "lucide:chart-column",
+      "business intelligence": "lucide:chart-column",
+      spreadsheet: "lucide:sheet",
+      // AI
+      "ml model": "lucide:brain",
+      "machine learning": "lucide:brain",
+      training: "lucide:brain",
+      "model training": "lucide:brain",
+      inference: "lucide:brain-circuit",
+      "model serving": "lucide:brain-circuit",
+      gpu: "lucide:microchip",
+      gpus: "lucide:microchip",
+      rag: "lucide:file-search",
+      retrieval: "lucide:file-search",
+      "knowledge base": "lucide:library",
+      prompt: "lucide:message-square-quote",
+      prompts: "lucide:message-square-quote",
+      recommendations: "lucide:sparkles",
+      "recommendation engine": "lucide:sparkles",
+      personalization: "lucide:sparkles",
+      ocr: "lucide:scan-text",
+      // Security and access
+      siem: "lucide:shield-alert",
+      "fraud detection": "lucide:shield-alert",
+      "risk engine": "lucide:shield-alert",
+      compliance: "lucide:shield-check",
+      mfa: "lucide:shield-check",
+      "2fa": "lucide:shield-check",
+      otp: "lucide:shield-check",
+      consent: "lucide:check-check",
+      hsm: "lucide:key-square",
+      "certificate authority": "lucide:badge-check",
+      pki: "lucide:badge-check",
+      certificates: "lucide:badge-check",
+      oauth: "lucide:key-round",
+      "api key": "lucide:key-round",
+      "api keys": "lucide:key-round",
+      token: "lucide:key-round",
+      tokens: "lucide:key-round",
+      encryption: "lucide:lock",
+      // Delivery
+      "ci cd": "lucide:git-merge",
+      ci: "lucide:git-merge",
+      "build pipeline": "lucide:git-merge",
+      "deploy pipeline": "lucide:git-merge",
+      "build server": "lucide:hammer",
+      // Applications and interfaces
+      api: "lucide:braces",
+      "rest api": "lucide:braces",
+      "public api": "lucide:braces",
+      "internal api": "lucide:braces",
+      sdk: "lucide:package",
+      backend: "lucide:server",
+      "admin panel": "lucide:layout-dashboard",
+      "admin console": "lucide:layout-dashboard",
+      "back office": "lucide:layout-dashboard",
+      realtime: "lucide:radio",
+      "real time": "lucide:radio",
+      microservice: "lucide:boxes",
+      microservices: "lucide:boxes",
+      monolith: "lucide:box",
+      "legacy system": "lucide:server-cog",
+      mainframe: "lucide:server-cog",
+      // Compute and places
+      "edge function": "lucide:zap",
+      "edge functions": "lucide:zap",
+      "serverless function": "lucide:zap",
+      "serverless functions": "lucide:zap",
+      "virtual machine": "lucide:server",
+      "virtual machines": "lucide:server",
+      vm: "lucide:server",
+      vms: "lucide:server",
+      "bare metal": "lucide:server",
+      "data center": "lucide:building",
+      datacenter: "lucide:building",
+      "on premises": "lucide:building",
+      "on prem": "lucide:building",
+      cloud: "lucide:cloud",
+      region: "lucide:map-pin",
+      "availability zone": "lucide:map-pin",
+      // Devices and plants
+      "iot device": "lucide:cpu",
+      "iot devices": "lucide:cpu",
+      sensor: "lucide:thermometer",
+      sensors: "lucide:thermometer",
+      plc: "lucide:factory",
+      scada: "lucide:factory",
+      factory: "lucide:factory",
+      // Business systems and the work around them
+      erp: "lucide:factory",
+      crm: "lucide:handshake",
+      partner: "lucide:handshake",
+      partners: "lucide:handshake",
+      "hr system": "lucide:users-round",
+      hris: "lucide:users-round",
+      ticketing: "lucide:headset",
+      "support desk": "lucide:headset",
+      "help desk": "lucide:headset",
+      "service desk": "lucide:headset",
+      support: "lucide:headset",
+      admin: "lucide:user-cog",
+      administrator: "lucide:user-cog",
+      operator: "lucide:user-cog",
+      operators: "lucide:user-cog",
+      developer: "lucide:code",
+      developers: "lucide:code",
+      inventory: "lucide:package",
+      catalog: "lucide:package-search",
+      "product catalog": "lucide:package-search",
+      marketplace: "lucide:store",
+      shop: "lucide:store",
+      storefront: "lucide:store",
+      pricing: "lucide:badge-dollar-sign",
+      quotes: "lucide:receipt-text",
+      subscription: "lucide:repeat",
+      subscriptions: "lucide:repeat",
+      metering: "lucide:gauge",
+      "usage metering": "lucide:gauge",
+      wallet: "lucide:wallet",
+      blockchain: "lucide:bitcoin",
+      tenant: "lucide:building-complex",
+      tenants: "lucide:building-complex",
+      organization: "lucide:building-complex",
+      organisation: "lucide:building-complex",
+      calendar: "lucide:calendar",
+      booking: "lucide:calendar-check",
+      bookings: "lucide:calendar-check",
+      reservations: "lucide:calendar-check",
+      approval: "lucide:check-check",
+      approvals: "lucide:check-check",
+      // Content and media
+      cms: "lucide:file-text",
+      "content management": "lucide:file-text",
+      documents: "lucide:file-text",
+      pdf: "lucide:file-text",
+      "pdf generation": "lucide:file-text",
+      docs: "lucide:book-open",
+      documentation: "lucide:book-open",
+      wiki: "lucide:book-open",
+      blog: "lucide:newspaper",
+      comments: "lucide:message-circle",
+      images: "lucide:image",
+      "image processing": "lucide:image",
+      thumbnails: "lucide:image",
+      video: "lucide:video",
+      "video streaming": "lucide:video",
+      transcoding: "lucide:clapperboard",
+      upload: "lucide:upload",
+      uploads: "lucide:upload",
+      import: "lucide:upload",
+      download: "lucide:download",
+      downloads: "lucide:download",
+      export: "lucide:download",
+      maps: "lucide:map",
+      geolocation: "lucide:map-pin",
+      translation: "lucide:languages",
+      // Running the service
+      "status page": "lucide:activity",
+      tracing: "lucide:route",
+      traces: "lucide:route",
+      "incident management": "lucide:siren",
+      incidents: "lucide:siren",
+      "on call": "lucide:siren",
+      runbook: "lucide:clipboard-list",
+      runbooks: "lucide:clipboard-list",
+      postmortem: "lucide:clipboard-list",
+      // People, said in the plural: the many of them
+      employees: "lucide:users",
+      workstation: "lucide:monitor",
+      workstations: "lucide:monitor",
+      "client app": "lucide:app-window",
+      "client apps": "lucide:app-window",
+      events: "lucide:radio",
+      warehouse: "lucide:warehouse",
+      staff: "lucide:users",
+      visitors: "lucide:users",
+      shoppers: "lucide:users",
+      members: "lucide:users",
+      analysts: "lucide:users",
+      engineers: "lucide:users",
+      contractors: "lucide:users",
+      teams: "lucide:users",
+      "product teams": "lucide:users",
+      "end users": "lucide:users",
+      citizens: "lucide:users",
+      students: "lucide:graduation-cap",
+      patients: "lucide:heart-pulse",
+      drivers: "lucide:car",
+      admins: "lucide:user-cog",
+      "on call engineer": "lucide:siren",
+      contacts: "lucide:contact",
+      // Code, change and quality
+      repository: "lucide:git-fork",
+      repo: "lucide:git-fork",
+      "git repository": "lucide:git-fork",
+      "source control": "lucide:git-fork",
+      "source code": "lucide:git-fork",
+      qa: "lucide:test-tube",
+      tests: "lucide:test-tube",
+      testing: "lucide:test-tube",
+      "test suite": "lucide:test-tube",
+      "experiment tracking": "lucide:flask-conical",
+      history: "lucide:rotate-ccw-clock",
+      "audit trail": "lucide:rotate-ccw-clock",
+      "version history": "lucide:rotate-ccw-clock",
+      versioning: "lucide:rotate-ccw-clock",
+      rollback: "lucide:undo-2",
+      "design system": "lucide:palette",
+      design: "lucide:pen-tool",
+      kanban: "lucide:kanban",
+      "task board": "lucide:kanban",
+      "project management": "lucide:kanban",
+      tasks: "lucide:list-todo",
+      todo: "lucide:list-todo",
+      goals: "lucide:target",
+      okrs: "lucide:target",
+      leaderboard: "lucide:trophy",
+      // Data shapes
+      "graph database": "lucide:chart-network",
+      "graph db": "lucide:chart-network",
+      "knowledge graph": "lucide:chart-network",
+      "time series database": "lucide:chart-area",
+      "time series": "lucide:chart-area",
+      "trading engine": "lucide:chart-candlestick",
+      "market data": "lucide:chart-candlestick",
+      "model registry": "lucide:boxes",
+      "ml pipeline": "lucide:workflow",
+      mlops: "lucide:workflow",
+      "vector search": "lucide:database-search",
+      "semantic search": "lucide:database-search",
+      "full text search": "lucide:text-search",
+      // Talk, sound and pictures
+      messages: "lucide:messages-square",
+      messaging: "lucide:messages-square",
+      "speech to text": "lucide:audio-lines",
+      transcription: "lucide:audio-lines",
+      "text to speech": "lucide:audio-waveform",
+      voice: "lucide:mic",
+      "voice assistant": "lucide:mic",
+      "call center": "lucide:phone-call",
+      "contact center": "lucide:phone-call",
+      telephony: "lucide:phone-call",
+      newsletter: "lucide:newspaper",
+      feed: "lucide:rss",
+      "news feed": "lucide:rss",
+      "activity feed": "lucide:rss",
+      camera: "lucide:camera",
+      cameras: "lucide:camera",
+      cctv: "lucide:cctv",
+      "video surveillance": "lucide:cctv",
+      "image recognition": "lucide:scan-eye",
+      // Things in the field
+      "iot gateway": "lucide:radio-tower",
+      "edge gateway": "lucide:radio-tower",
+      "cell tower": "lucide:radio-tower",
+      satellite: "lucide:satellite",
+      "ev charging": "lucide:battery-charging",
+      battery: "lucide:battery-charging",
+      solar: "lucide:solar-panel",
+      "solar panels": "lucide:solar-panel",
+      "wind farm": "lucide:wind",
+      "smart meter": "lucide:gauge",
+      vehicles: "lucide:car",
+      tracking: "lucide:map-pinned",
+      "location tracking": "lucide:map-pinned",
+      geofencing: "lucide:map-pinned",
+      // Industries
+      "ehr": "lucide:stethoscope",
+      "emr": "lucide:stethoscope",
+      "electronic health records": "lucide:stethoscope",
+      clinic: "lucide:hospital",
+      hospital: "lucide:hospital",
+      pharmacy: "lucide:pill",
+      "health check": "lucide:heart-pulse",
+      "health checks": "lucide:heart-pulse",
+      genomics: "lucide:dna",
+      research: "lucide:microscope",
+      lab: "lucide:microscope",
+      lms: "lucide:school",
+      "learning platform": "lucide:school",
+      school: "lucide:school",
+      flights: "lucide:plane",
+      airline: "lucide:plane",
+      hotels: "lucide:hotel",
+      restaurant: "lucide:utensils",
+      "food delivery": "lucide:utensils",
+      grocery: "lucide:shopping-basket",
+      payouts: "lucide:hand-coins",
+      "loyalty": "lucide:award",
+      rewards: "lucide:award",
+      crypto: "lucide:bitcoin",
+      "crypto wallet": "lucide:bitcoin",
+      discounts: "lucide:percent",
+      coupons: "lucide:percent",
+      "tax": "lucide:calculator",
+      "tax engine": "lucide:calculator",
+      accounting: "lucide:calculator",
+      "general ledger": "lucide:receipt-text",
+      "barcode scanner": "lucide:scan-barcode",
+      "qr code": "lucide:qr-code",
+      "qr codes": "lucide:qr-code"
     };
     EMBEDDED_PRODUCT_NAMES = /* @__PURE__ */ new Set([
       // Data stores, caches, and search
@@ -1037,6 +1395,107 @@ var init_auto_icons = __esm({
     NOT_EMBEDDED_PHRASES = /* @__PURE__ */ new Set(["container image", "tls certificate", "infrastructure as code"]);
     EMBEDDED_PRODUCT_MAX_WORDS = 4;
     LAST_WORD_ROLES = /* @__PURE__ */ new Set(["internet", "browser"]);
+    TYPE_ROLE_ICONS = {
+      person: ["lucide:user", "lucide:users", "lucide:user-cog", "lucide:headset", "lucide:handshake", "lucide:graduation-cap", "lucide:heart-pulse", "lucide:car", "lucide:siren", "lucide:contact"],
+      agent: ["lucide:bot", "lucide:brain", "lucide:brain-circuit", "lucide:sparkles", "lucide:mic"],
+      client: [
+        "lucide:user",
+        "lucide:users",
+        "lucide:app-window",
+        "lucide:smartphone",
+        "lucide:monitor",
+        "lucide:terminal",
+        "lucide:layout-dashboard",
+        "lucide:store",
+        "lucide:headset",
+        "lucide:earth",
+        "lucide:package",
+        "lucide:mic",
+        "lucide:camera",
+        "lucide:cctv",
+        "lucide:thermometer",
+        "lucide:cpu",
+        "lucide:car",
+        "lucide:scan-barcode",
+        "lucide:user-cog"
+      ],
+      gateway: [
+        "lucide:split",
+        "lucide:router",
+        "lucide:network",
+        "lucide:brick-wall-fire",
+        "lucide:globe",
+        "lucide:globe-lock",
+        "lucide:signpost",
+        "lucide:log-in",
+        "lucide:log-out",
+        "lucide:shield",
+        "lucide:compass",
+        "lucide:gauge",
+        "lucide:braces",
+        "lucide:zap-off",
+        "lucide:radio-tower",
+        "lucide:webhook",
+        "lucide:earth"
+      ],
+      function: [
+        "lucide:zap",
+        "lucide:cog",
+        "lucide:workflow",
+        "lucide:waves-horizontal",
+        "lucide:calendar-clock",
+        "lucide:mail",
+        "lucide:bell",
+        "lucide:brain-circuit",
+        "lucide:image",
+        "lucide:scan-text",
+        "lucide:file-text",
+        "lucide:webhook",
+        "lucide:refresh-cw",
+        "lucide:rotate-ccw",
+        "lucide:languages",
+        "lucide:audio-lines",
+        "lucide:audio-waveform",
+        "lucide:clapperboard",
+        "lucide:search"
+      ],
+      database: [
+        "lucide:database",
+        "lucide:database-search",
+        "lucide:database-backup",
+        "lucide:warehouse",
+        "lucide:file-text",
+        "lucide:key",
+        "lucide:copy",
+        "lucide:layers",
+        "lucide:chart-network",
+        "lucide:chart-area",
+        "lucide:receipt-text",
+        "lucide:rotate-ccw-clock"
+      ],
+      cache: ["lucide:database-zap", "lucide:cookie"],
+      queue: ["lucide:layers", "lucide:radio", "lucide:waves-horizontal", "lucide:workflow", "lucide:calendar-clock", "lucide:inbox", "lucide:messages-square", "lucide:rss"],
+      storage: [
+        "lucide:hard-drive",
+        "lucide:database-backup",
+        "lucide:image",
+        "lucide:upload",
+        "lucide:download",
+        "lucide:file-text",
+        "lucide:archive",
+        "lucide:video",
+        "lucide:boxes",
+        "lucide:git-fork",
+        "lucide:life-buoy",
+        "lucide:sheet"
+      ],
+      identity: ["lucide:id-card", "lucide:key-round", "lucide:shield-check", "lucide:users", "lucide:badge-check", "lucide:user-cog", "lucide:log-in", "lucide:building-complex"],
+      secret: ["lucide:vault", "lucide:key", "lucide:key-round", "lucide:lock", "lucide:lock-keyhole", "lucide:key-square", "lucide:badge-check"]
+    };
+    TYPE_ROLE_SETS = Object.fromEntries(
+      Object.entries(TYPE_ROLE_ICONS).map(([type, icons]) => [type, new Set(icons)])
+    );
+    TRAILING_INTERFACE_ROLES = /* @__PURE__ */ new Set(["api", "rest api", "public api", "internal api", "sdk"]);
     BRAND_SUFFIXES = /* @__PURE__ */ new Set(["api", "sdk", "service", "server", "cache", "db", "database", "cluster", "instance", "cmdb", "itsm", "tenant"]);
     ROLE_ICON_MAX_WORDS = 3;
   }
@@ -1082,6 +1541,20 @@ var init_api_limits = __esm({
       maxIdPrefixLength: 32
     };
     ID_PREFIX_PATTERN = /^[A-Za-z][A-Za-z0-9_-]*$/;
+  }
+});
+
+// ../../packages/diagrams/src/constants/folders.ts
+var FOLDER_MAX_DEPTH, FOLDER_SEGMENT_MAX_LENGTH, FOLDER_PATH_MAX_LENGTH, NAME, FOLDER_NAME_PATTERN, FOLDER_PATH_PATTERN;
+var init_folders = __esm({
+  "../../packages/diagrams/src/constants/folders.ts"() {
+    "use strict";
+    FOLDER_MAX_DEPTH = 5;
+    FOLDER_SEGMENT_MAX_LENGTH = 40;
+    FOLDER_PATH_MAX_LENGTH = FOLDER_MAX_DEPTH * FOLDER_SEGMENT_MAX_LENGTH + (FOLDER_MAX_DEPTH - 1);
+    NAME = "[A-Za-z0-9_-]+(?: [A-Za-z0-9_-]+)*";
+    FOLDER_NAME_PATTERN = new RegExp(`^${NAME}$`);
+    FOLDER_PATH_PATTERN = `^${NAME}(?:/${NAME}){0,${FOLDER_MAX_DEPTH - 1}}$`;
   }
 });
 
@@ -1177,7 +1650,7 @@ var init_view_links = __esm({
     };
     CLI_RELEASE = {
       packageName: "@buun_group/plotwork",
-      version: "0.2.0",
+      version: "0.3.0",
       onNpm: true
     };
     CLI_SCHEME_FLAG_SINCE = "0.3.0";
@@ -3939,8 +4412,27 @@ var init_icon_catalog = __esm({
         "printer",
         "chart-line",
         "chart-bar",
-        "chart-pie"
-      ]
+        "chart-pie",
+        "badge-dollar-sign",
+        "hand-coins",
+        "percent",
+        "bitcoin",
+        "award",
+        "trophy",
+        "shopping-basket",
+        "scan-barcode",
+        "qr-code",
+        "contact",
+        "phone-call",
+        "building-complex",
+        "kanban",
+        "list-todo"
+      ],
+      // What an architecture diagram names beyond the system's own parts: its data's shapes, its media, its field devices, its industry.
+      "data-and-analytics": ["chart-column", "chart-area", "chart-network", "chart-candlestick", "sheet", "rotate-ccw-clock", "library", "package-search", "text-search", "waves-horizontal", "cookie", "git-fork", "hammer", "test-tube", "flask-conical"],
+      "media-and-voice": ["video", "clapperboard", "camera", "cctv", "mic", "audio-lines", "audio-waveform", "messages-square", "message-square-quote", "newspaper", "rss", "languages", "scan-text", "palette", "pen-tool"],
+      "devices-and-field": ["microchip", "radio-tower", "satellite", "thermometer", "battery-charging", "solar-panel", "wind", "car", "map-pinned", "plane"],
+      "industries": ["hospital", "stethoscope", "heart-pulse", "pill", "dna", "microscope", "school", "hotel", "utensils", "calendar-check"]
     };
     LUCIDE_NAMES = [...new Set(Object.values(ICON_CATALOG).flat())].sort();
   }
@@ -3966,12 +4458,15 @@ var init_brand_aliases = __esm({
       "simple:jupyter": ["jupyter notebook"],
       "simple:modelcontextprotocol": ["mcp", "mcp server"],
       "simple:elevenlabs": ["eleven labs"],
-      "simple:openai": ["gpt", "chatgpt"],
+      "simple:openai": ["gpt", "chatgpt", "gpt 4", "gpt 4o", "gpt 4 1", "gpt 5", "openai api", "openai whisper", "dall e"],
+      "simple:metaai": ["meta llama", "llama 3", "llama 4"],
+      "simple:rstudioide": ["rstudio"],
+      "simple:d3": ["d3js", "d3 js"],
       "simple:codex": ["openai codex cli"],
       "simple:togetherai": ["together"],
       "simple:stabilityai": ["stable diffusion"],
       "simple:chroma": ["chromadb", "chroma db"],
-      "simple:pinecone": ["pinecone vector database"],
+      "simple:pinecone": ["pinecone vector database", "pinecone index", "pinecone db"],
       // Email and messaging
       "simple:microsoftteams": ["teams", "ms teams"],
       "simple:sendgrid": ["twilio sendgrid"],
@@ -3982,21 +4477,43 @@ var init_brand_aliases = __esm({
       "simple:linode": ["akamai linode"],
       // Business, payments, and collaboration
       "simple:googledrive": ["gdrive"],
-      "simple:confluence": ["atlassian confluence"],
+      "simple:confluence": ["atlassian confluence", "confluence wiki", "confluence cloud", "confluence space"],
       // Jira Service Management is part of Jira and has no mark of its own in the bundled sets.
       "simple:jira": ["jira service management", "jira service desk", "jsm", "atlassian jira"],
-      "simple:sap": ["sap erp", "sap s4hana"],
+      // SAP, Microsoft, Google, and Adobe products with no free mark of their own draw the company's mark, as Jira Service Management draws Jira's.
+      "simple:sap": ["sap erp", "sap s4hana", "sap hana", "sap btp", "sap successfactors", "successfactors", "sap ariba", "sap concur", "sap fiori", "sap bw"],
+      "simple:microsoft": [
+        "microsoft 365",
+        "office 365",
+        "m365",
+        "o365",
+        "microsoft dynamics",
+        "microsoft dynamics 365",
+        "dynamics 365",
+        "d365",
+        "sharepoint",
+        "sharepoint online",
+        "microsoft exchange",
+        "exchange online",
+        "microsoft outlook"
+      ],
+      "simple:google": ["google workspace", "g suite", "gsuite"],
+      "simple:adobe": ["adobe analytics", "adobe experience manager", "aem", "adobe experience platform", "adobe acrobat sign", "adobe sign", "adobe target", "marketo", "adobe marketo", "marketo engage"],
+      "simple:magento": ["adobe commerce", "magento commerce"],
+      "simple:lookerstudio": ["google data studio", "data studio"],
+      "simple:bmcsoftware": ["bmc", "bmc helix", "bmc remedy", "bmc control m"],
+      "simple:gotomeeting": ["goto meeting"],
       // Analytics
       "simple:googleanalytics": ["ga4"],
       "simple:plausibleanalytics": ["plausible"],
       "simple:apachesuperset": ["superset"],
-      "simple:segment": ["twilio segment"],
+      "simple:segment": ["twilio segment", "segment cdp"],
       // Data stores, streaming, and search
-      "simple:apachecassandra": ["cassandra"],
-      "simple:apachespark": ["spark"],
+      "simple:apachecassandra": ["cassandra", "cassandra cluster", "cassandra db"],
+      "simple:apachespark": ["spark", "spark cluster", "spark job", "spark jobs", "spark streaming"],
       "simple:apacheflink": ["flink"],
-      "simple:apacheairflow": ["airflow"],
-      "simple:apachepulsar": ["pulsar"],
+      "simple:apacheairflow": ["airflow", "airflow dag", "airflow dags", "airflow scheduler"],
+      "simple:apachepulsar": ["pulsar", "pulsar cluster", "pulsar topic"],
       "simple:dbt": ["data build tool"],
       "simple:nats": ["nats io"],
       "simple:valkey": ["valkey cache"],
@@ -4031,21 +4548,47 @@ var init_brand_aliases = __esm({
       "simple:googlechrome": ["chrome"],
       "simple:macos": ["mac", "mac os"],
       // Network and security vendors
-      "simple:paloaltonetworks": ["palo alto", "pan os", "palo alto firewall"],
+      "simple:paloaltonetworks": ["palo alto", "pan os", "palo alto firewall", "prisma cloud", "prisma access", "prisma sase", "globalprotect", "cortex xdr", "cortex xsoar"],
       "simple:junipernetworks": ["juniper", "junos"],
       "simple:fortinet": ["fortigate", "fortinet firewall"],
       "simple:f5": ["f5 networks", "big ip", "f5 big ip"],
-      "simple:cisco": ["cisco ios", "cisco router"],
+      "simple:cisco": ["cisco ios", "cisco router", "meraki", "cisco meraki", "duo security", "cisco duo", "cisco umbrella", "cisco anyconnect", "anyconnect", "cisco asa", "cisco ise"],
+      "simple:googlechronicle": ["chronicle siem", "google secops", "google security operations"],
+      "simple:sonarqubecloud": ["sonarcloud", "sonar cloud"],
       "simple:haproxy": ["ha proxy"],
       // Servers, storage, and virtualisation
       "simple:proxmox": ["proxmox ve"],
       "simple:nutanix": ["nutanix ahv"],
       "simple:vsphere": ["vcenter", "esxi"],
+      "simple:dell": ["dell emc", "dell technologies"],
+      "simple:equinixmetal": ["equinix"],
+      "simple:apache": ["apache http server", "apache httpd", "httpd"],
+      "simple:eclipsejetty": ["jetty"],
+      "simple:eclipsevertdotx": ["vertx", "vert x"],
       // Delivery and data
       "simple:argo": ["argo cd", "argocd", "argo workflows"],
       "simple:flux": ["flux cd", "fluxcd"],
       "simple:elasticstack": ["elk stack"],
-      "simple:cockroachlabs": ["cockroachdb", "cockroach db"]
+      "simple:elastic": ["elastic apm", "elastic security", "elastic siem", "elastic agent"],
+      "simple:jfrog": ["artifactory", "jfrog artifactory"],
+      "simple:sonatype": ["nexus repository", "sonatype nexus", "nexus repository manager", "nexus iq"],
+      "simple:saltproject": ["saltstack", "salt stack"],
+      "simple:openapiinitiative": ["openapi", "open api", "openapi spec", "openapi specification"],
+      "simple:unrealengine": ["unreal"],
+      "simple:arcgis": ["esri arcgis", "arcgis online"],
+      "simple:cockroachlabs": ["cockroachdb", "cockroach db"],
+      // Brands named by an everyday word, said with the word that makes them the product: "Temporal" alone stays plain, "Temporal server" is the mark
+      "simple:consul": ["hashicorp consul", "consul cluster"],
+      "simple:temporal": ["temporal server", "temporal cluster", "temporal workflows", "temporal io"],
+      "simple:celery": ["celery worker", "celery workers"],
+      "simple:discord": ["discord bot", "discord server"],
+      "simple:notion": ["notion api", "notion workspace"],
+      "simple:zoom": ["zoom meetings", "zoom api"],
+      "simple:sanity": ["sanity cms", "sanity studio"],
+      "simple:bun": ["bun runtime"],
+      "simple:dotnet": ["asp net", "asp net core", "net core"],
+      "simple:timescale": ["timescaledb", "timescale db"],
+      "simple:apollographql": ["apollo server", "apollo router", "apollo federation"]
     };
   }
 });
@@ -4314,7 +4857,7 @@ var init_icon_aliases = __esm({
       "simple:enterprisedb": ["edb"],
       // Names a container image or a build tool writes for the platform it runs (alpine:3.20, golang:1.23, eclipse-temurin, cargo, wrangler).
       "simple:alpinelinux": ["alpine", "alpine linux"],
-      "simple:go": ["golang"],
+      "simple:go": ["golang", "go service", "go api"],
       "simple:openjdk": ["temurin", "eclipse temurin", "adoptium"],
       "simple:rust": ["cargo", "rustc"],
       "simple:cloudflare": ["wrangler"],
@@ -4474,7 +5017,31 @@ var init_label_vocabulary = __esm({
       /** Includes a component. */
       includes: { icon: "lucide:package", role: null },
       /** Patches what another file holds. */
-      patches: { icon: "lucide:replace", role: null }
+      patches: { icon: "lucide:replace", role: null },
+      /** Copies its data to another store as it changes: a replica, a mirror, a standby. */
+      replicates: { icon: "lucide:copy", role: "data" },
+      /** Keeps two stores the same, both ways or on a schedule. */
+      syncs: { icon: "lucide:refresh-cw", role: "data" },
+      /** Copies its data somewhere it can be restored from. */
+      "backs-up": { icon: "lucide:database-backup", role: "data" },
+      /** Pushes a built image or artifact to a registry. */
+      "pushes-image": { icon: "lucide:upload", role: null },
+      /** Streams events or changes as they happen: change data capture, a firehose. */
+      streams: { icon: "lucide:waves-horizontal", role: "async" },
+      /** Exports data, a report, or a file out of the system. */
+      exports: { icon: "lucide:download", role: "data" },
+      /** Imports data or a file into the system. */
+      imports: { icon: "lucide:upload", role: "data" },
+      /** Builds code into an artifact. */
+      builds: { icon: "lucide:hammer", role: null },
+      /** Scans for vulnerabilities, secrets, or malware. */
+      scans: { icon: "lucide:scan-search", role: null },
+      /** Encrypts or decrypts with a key. */
+      encrypts: { icon: "lucide:lock", role: "identity" },
+      /** Resolves a name to an address. */
+      resolves: { icon: "lucide:signpost", role: null },
+      /** Approves or reviews a change before it goes on. */
+      approves: { icon: "lucide:check-check", role: null }
     };
     LABEL_VERB_PHRASES = {
       reads: ["reads", "read", "reading", "reads from", "read from", "queries", "query", "querying", "looks up", "look up", "selects", "select from", "loads from", "fetches from", "read by", "queried by", "looked up by", "loaded from", "fetched from"],
@@ -4620,7 +5187,40 @@ var init_label_vocabulary = __esm({
         "reported by",
         "logged to"
       ],
-      pulls: ["pulls image", "pulls images", "pulls images from", "pulls image from", "pulled from"]
+      pulls: ["pulls image", "pulls images", "pulls images from", "pulls image from", "pull image", "pull images", "pulled from"],
+      replicates: [
+        "replicates",
+        "replicate",
+        "replication",
+        "replicates to",
+        "replicate to",
+        "replicates from",
+        "mirrors",
+        "mirrors to",
+        "mirror to",
+        "copies to",
+        "log shipping",
+        "replicated to",
+        "replicated from",
+        "replicated by",
+        "mirrored to",
+        "copied to",
+        "async replication",
+        "sync replication",
+        "geo replication",
+        "streaming replication"
+      ],
+      syncs: ["syncs", "syncs to", "syncs with", "sync to", "sync with", "synchronizes", "synchronises", "synced to", "synced with", "synced by", "synchronized with", "synchronised with"],
+      "backs-up": ["backs up", "backs up to", "back up to", "backup", "backups", "nightly backup", "snapshots", "snapshots to", "backed up to", "backed up by", "snapshotted to"],
+      "pushes-image": ["push image", "push images", "pushes image", "pushes images", "pushes image to", "pushes images to", "push image to", "pushes artifact", "pushes artifacts", "publishes image", "publishes images", "image push", "pushed image to"],
+      streams: ["streams", "stream", "streams to", "stream to", "streams changes", "change data capture", "cdc", "streamed to", "streamed from", "streamed by"],
+      exports: ["exports", "export", "exports to", "export to", "exported to", "exported by"],
+      imports: ["imports", "import", "imports from", "import from", "ingests", "ingest", "ingests from", "imported from", "imported by", "ingested by", "ingested from"],
+      builds: ["builds", "build", "builds image", "builds images", "compiles", "built by", "compiled by"],
+      scans: ["scans", "scan", "scans for", "scanned by", "vulnerability scan", "security scan"],
+      encrypts: ["encrypts", "encrypt", "encrypts with", "decrypts", "decrypt", "encrypted with", "encrypted by", "decrypted by", "wraps key"],
+      resolves: ["resolves", "resolve", "resolves to", "dns lookup", "dns", "resolved by", "resolved to"],
+      approves: ["approves", "approve", "reviews", "review", "approved by", "reviewed by", "signs off"]
     };
     LABEL_VERB_MAX_WORDS = 5;
     NOT_VERB_PHRASES = [
@@ -4709,6 +5309,7 @@ var init_constants = __esm({
     init_schema();
     init_sequence();
     init_api_limits();
+    init_folders();
     init_editing();
     init_diagram_links();
     init_view_links();
@@ -5870,6 +6471,24 @@ var init_logo_catalog_generated = __esm({
       "grails": { title: "Grails", viewBox: "0 0 256 256" },
       "struts": { title: "Apache Struts", viewBox: "0 0 256 290" },
       "feathersjs": { title: "Feathers", viewBox: "0 0 256 256" },
+      "pouchdb": { title: "PouchDB", viewBox: "0 0 256 330" },
+      "vernemq": { title: "VerneMQ", viewBox: "0 0 256 230" },
+      "treasuredata": { title: "Treasure Data", viewBox: "0 0 256 174" },
+      "lookerstudio": { title: "Looker Studio", viewBox: "0 0 256 239" },
+      "incidentio": { title: "incident.io", viewBox: "0 0 256 346" },
+      "bigpanda": { title: "BigPanda", viewBox: "0 0 256 222" },
+      "growthbook": { title: "GrowthBook", viewBox: "0 0 256 272" },
+      "crashlytics": { title: "Firebase Crashlytics", viewBox: "0 0 256 276" },
+      "browserstack": { title: "BrowserStack", viewBox: "0 0 256 256" },
+      "applitools": { title: "Applitools", viewBox: "0 0 256 350" },
+      "katalon": { title: "Katalon", viewBox: "0 0 256 393" },
+      "authy": { title: "Twilio Authy", viewBox: "0 0 256 256" },
+      "balena": { title: "balena", viewBox: "0 0 256 282" },
+      "activecampaign": { title: "ActiveCampaign", viewBox: "0 0 256 391" },
+      "adobe": { title: "Adobe", viewBox: "0 0 256 227" },
+      "magento": { title: "Magento", viewBox: "0 0 256 256" },
+      "bing": { title: "Microsoft Bing", viewBox: "0 0 256 388" },
+      "antigravity": { title: "Google Antigravity", viewBox: "0 0 256 236" },
       "haproxy": { title: "HAProxy", viewBox: "0 0 128 128" },
       "teleport": { title: "Teleport", viewBox: "0 0 128 128" },
       "netbox": { title: "NetBox", viewBox: "0 0 128 128" },
@@ -5896,7 +6515,8 @@ var init_logo_catalog_generated = __esm({
       "entityframeworkcore": { title: "Entity Framework Core", viewBox: "0 0 128 128" },
       "githubcodespaces": { title: "GitHub Codespaces", viewBox: "0 0 128 128" },
       "terramate": { title: "Terramate", viewBox: "0 0 128 128" },
-      "grpc": { title: "gRPC", viewBox: "0 0 128 128" }
+      "grpc": { title: "gRPC", viewBox: "0 0 128 128" },
+      "canva": { title: "Canva", viewBox: "0 0 128 128" }
     };
     LOGO_CORE_ART = {
       "openai": '<svg xmlns="http://www.w3.org/2000/svg" width="256" height="260" viewBox="0 0 256 260"><path d="M239.184 106.203a64.72 64.72 0 0 0-5.576-53.103C219.452 28.459 191 15.784 163.213 21.74A65.586 65.586 0 0 0 52.096 45.22a64.72 64.72 0 0 0-43.23 31.36c-14.31 24.602-11.061 55.634 8.033 76.74a64.67 64.67 0 0 0 5.525 53.102c14.174 24.65 42.644 37.324 70.446 31.36a64.72 64.72 0 0 0 48.754 21.744c28.481.025 53.714-18.361 62.414-45.481a64.77 64.77 0 0 0 43.229-31.36c14.137-24.558 10.875-55.423-8.083-76.483m-97.56 136.338a48.4 48.4 0 0 1-31.105-11.255l1.535-.87l51.67-29.825a8.6 8.6 0 0 0 4.247-7.367v-72.85l21.845 12.636c.218.111.37.32.409.563v60.367c-.056 26.818-21.783 48.545-48.601 48.601M37.158 197.93a48.35 48.35 0 0 1-5.781-32.589l1.534.921l51.722 29.826a8.34 8.34 0 0 0 8.441 0l63.181-36.425v25.221a.87.87 0 0 1-.358.665l-52.335 30.184c-23.257 13.398-52.97 5.431-66.404-17.803M23.549 85.38a48.5 48.5 0 0 1 25.58-21.333v61.39a8.29 8.29 0 0 0 4.195 7.316l62.874 36.272l-21.845 12.636a.82.82 0 0 1-.767 0L41.353 151.53c-23.211-13.454-31.171-43.144-17.804-66.405zm179.466 41.695l-63.08-36.63L161.73 77.86a.82.82 0 0 1 .768 0l52.233 30.184a48.6 48.6 0 0 1-7.316 87.635v-61.391a8.54 8.54 0 0 0-4.4-7.213m21.742-32.69l-1.535-.922l-51.619-30.081a8.39 8.39 0 0 0-8.492 0L99.98 99.808V74.587a.72.72 0 0 1 .307-.665l52.233-30.133a48.652 48.652 0 0 1 72.236 50.391zM88.061 139.097l-21.845-12.585a.87.87 0 0 1-.41-.614V65.685a48.652 48.652 0 0 1 79.757-37.346l-1.535.87l-51.67 29.825a8.6 8.6 0 0 0-4.246 7.367zm11.868-25.58L128.067 97.3l28.188 16.218v32.434l-28.086 16.218l-28.188-16.218z"/></svg>',
@@ -5906,6 +6526,7 @@ var init_logo_catalog_generated = __esm({
       "pinecone": '<svg xmlns="http://www.w3.org/2000/svg" width="256" height="288" viewBox="0 0 256 288"><path fill="#201d1e" d="M108.634 254.436c9.08 0 16.44 7.361 16.44 16.442s-7.36 16.44-16.44 16.44s-16.442-7.36-16.442-16.44s7.361-16.442 16.442-16.442m91.216-29.998l16.247 4.814L203.2 272.78a8.47 8.47 0 0 1-8.7 6.046l-3.983-.273l-.098.08l-41.39-2.904l1.152-16.906l27.808 1.887l-18.205-26.262l13.926-9.656l18.229 26.295zm-176.837-30.09l16.903 1.197l-1.98 27.804L64.15 205.12l9.677 13.91l-26.248 18.248l26.792 7.895l-4.79 16.255l-43.732-12.885a8.47 8.47 0 0 1-6.058-8.726zM132.15 170.67l30.508 36.832l-13.75 11.389l-18.156-21.92l-5.886 33.702l-17.587-3.074l5.892-33.755l-24.442 14.412l-9.063-15.383l41.079-24.2a8.93 8.93 0 0 1 11.405 1.997m85.354-24.71l15.239-8.292l22.2 40.805a8.675 8.675 0 0 1-1.926 10.69l-3.141 2.714l-32.05 27.893l-11.386-13.09l21.548-18.747l-32.095-5.781l3.078-17.074l32.073 5.779zM37.782 103.298l11.48 13.008l-21.251 18.743l32.156 5.614l-2.98 17.091l-32.192-5.618l13.827 24.998l-15.18 8.398l-22.558-40.776a8.675 8.675 0 0 1 1.85-10.703zm108.694-13.42l30.404 36.734l-13.753 11.384l-18.152-21.93l-5.886 33.712l-17.587-3.074l5.872-33.624l-24.349 14.274l-9.027-15.403l37.4-21.929l.038-.142l.165.021l3.485-2.032a8.93 8.93 0 0 1 11.39 2.01m39.18-18.065l6.65-16.024l43.012 17.85a8.675 8.675 0 0 1 5.218 9.517l-.716 3.982l-7.345 41.78l-17.086-3.01l4.924-27.968l-28.537 15.772l-8.386-15.188l28.591-15.784zm-81.939-31.577l.74 17.334l-28.414 1.214l21.43 24.49l-13.056 11.424L62.95 70.173l-5.001 28l-17.078-3.054l8.184-45.759a8.674 8.674 0 0 1 8.17-7.139l4.02-.18l.09-.065zm58.121-36.965l30.267 36.965l-13.814 11.31l-17.964-21.943l-6.059 33.668l-17.57-3.162l6.068-33.743l-24.526 14.34l-9.007-15.415L150.428 1.22a8.93 8.93 0 0 1 11.41 2.052"/></svg>',
       "chroma": '<svg xmlns="http://www.w3.org/2000/svg" width="256" height="164" viewBox="0 0 256 164"><ellipse cx="170.667" cy="81.92" fill="#ffde2d" rx="85.333" ry="81.92"/><ellipse cx="85.333" cy="81.92" fill="#327eff" rx="85.333" ry="81.92"/><path fill="#ff6446" d="M170.667 81.92c0 45.243-38.206 81.92-85.334 81.92V81.92zm-85.334 0C85.333 36.677 123.538 0 170.667 0v81.92z"/></svg>',
       "slack": '<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256"><path fill="#e01e5a" d="M53.841 161.32c0 14.832-11.987 26.82-26.819 26.82S.203 176.152.203 161.32c0-14.831 11.987-26.818 26.82-26.818H53.84zm13.41 0c0-14.831 11.987-26.818 26.819-26.818s26.819 11.987 26.819 26.819v67.047c0 14.832-11.987 26.82-26.82 26.82c-14.83 0-26.818-11.988-26.818-26.82z"/><path fill="#36c5f0" d="M94.07 53.638c-14.832 0-26.82-11.987-26.82-26.819S79.239 0 94.07 0s26.819 11.987 26.819 26.819v26.82zm0 13.613c14.832 0 26.819 11.987 26.819 26.819s-11.987 26.819-26.82 26.819H26.82C11.987 120.889 0 108.902 0 94.069c0-14.83 11.987-26.818 26.819-26.818z"/><path fill="#2eb67d" d="M201.55 94.07c0-14.832 11.987-26.82 26.818-26.82s26.82 11.988 26.82 26.82s-11.988 26.819-26.82 26.819H201.55zm-13.41 0c0 14.832-11.988 26.819-26.82 26.819c-14.831 0-26.818-11.987-26.818-26.82V26.82C134.502 11.987 146.489 0 161.32 0s26.819 11.987 26.819 26.819z"/><path fill="#ecb22e" d="M161.32 201.55c14.832 0 26.82 11.987 26.82 26.818s-11.988 26.82-26.82 26.82c-14.831 0-26.818-11.988-26.818-26.82V201.55zm0-13.41c-14.831 0-26.818-11.988-26.818-26.82c0-14.831 11.987-26.818 26.819-26.818h67.25c14.832 0 26.82 11.987 26.82 26.819s-11.988 26.819-26.82 26.819z"/></svg>',
+      "twilio": '<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256"><path fill="#f12e45" d="M128 0c70.656 0 128 57.344 128 128s-57.344 128-128 128S0 198.656 0 128S57.344 0 128 0m0 33.792c-52.224 0-94.208 41.984-94.208 94.208S75.776 222.208 128 222.208s94.208-41.984 94.208-94.208S180.224 33.792 128 33.792m31.744 99.328c14.704 0 26.624 11.92 26.624 26.624s-11.92 26.624-26.624 26.624s-26.624-11.92-26.624-26.624s11.92-26.624 26.624-26.624m-63.488 0c14.704 0 26.624 11.92 26.624 26.624s-11.92 26.624-26.624 26.624s-26.624-11.92-26.624-26.624s11.92-26.624 26.624-26.624m63.488-63.488c14.704 0 26.624 11.92 26.624 26.624s-11.92 26.624-26.624 26.624s-26.624-11.92-26.624-26.624s11.92-26.624 26.624-26.624m-63.488 0c14.704 0 26.624 11.92 26.624 26.624s-11.92 26.624-26.624 26.624s-26.624-11.92-26.624-26.624s11.92-26.624 26.624-26.624"/></svg>',
       "sendgrid": '<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256"><path fill="#9dd6e3" d="M256 0v170.667h-85.333v85.33H.002v-85.331H0V85.332h85.333V0z"/><path fill="#3f72ab" d="M.002 255.996h85.333v-85.333H.002z"/><path fill="#00a9d1" d="M170.667 170.667H256V85.331h-85.333zM85.333 85.333h85.334V0H85.333z"/><path fill="#2191c4" d="M85.333 170.665h85.334V85.331H85.333z"/><path fill="#3f72ab" d="M170.667 85.333H256V0h-85.333z"/></svg>',
       "microsoftteams": '<svg xmlns="http://www.w3.org/2000/svg" width="256" height="239" viewBox="0 0 256 239"><defs><linearGradient id="SVGCo9xpmZW" x1="17.372%" x2="82.628%" y1="-6.51%" y2="106.51%"><stop offset="0%" stop-color="#5a62c3"/><stop offset="50%" stop-color="#4d55bd"/><stop offset="100%" stop-color="#3940ab"/></linearGradient><path id="SVGhJCUgeMn" d="M136.93 64.476v12.8a32.7 32.7 0 0 1-5.953-.952a38.7 38.7 0 0 1-26.79-22.742h21.848c6.008.022 10.872 4.887 10.895 10.894"/></defs><path fill="#5059c9" d="M178.563 89.302h66.125c6.248 0 11.312 5.065 11.312 11.312v60.231c0 22.96-18.613 41.574-41.573 41.574h-.197c-22.96.003-41.576-18.607-41.579-41.568V95.215a5.91 5.91 0 0 1 5.912-5.913"/><circle cx="223.256" cy="50.605" r="26.791" fill="#5059c9"/><circle cx="139.907" cy="38.698" r="38.698" fill="#7b83eb"/><path fill="#7b83eb" d="M191.506 89.302H82.355c-6.173.153-11.056 5.276-10.913 11.449v68.697c-.862 37.044 28.445 67.785 65.488 68.692c37.043-.907 66.35-31.648 65.489-68.692v-68.697c.143-6.173-4.74-11.296-10.913-11.449"/><path d="M142.884 89.302v96.268a10.96 10.96 0 0 1-6.787 10.062c-1.3.55-2.697.833-4.108.833H76.68c-.774-1.965-1.488-3.93-2.084-5.953a72.5 72.5 0 0 1-3.155-21.076v-68.703c-.143-6.163 4.732-11.278 10.895-11.43z" opacity=".1"/><path d="M136.93 89.302v102.222c0 1.411-.283 2.808-.833 4.108a10.96 10.96 0 0 1-10.062 6.787H79.48c-1.012-1.965-1.965-3.93-2.798-5.954a59 59 0 0 1-2.084-5.953a72.5 72.5 0 0 1-3.155-21.076v-68.703c-.143-6.163 4.732-11.278 10.895-11.43z" opacity=".2"/><path d="M136.93 89.302v90.315c-.045 5.998-4.896 10.85-10.895 10.895H74.597a72.5 72.5 0 0 1-3.155-21.076v-68.703c-.143-6.163 4.732-11.278 10.895-11.43z" opacity=".2"/><path d="M130.977 89.302v90.315c-.046 5.998-4.897 10.85-10.895 10.895H74.597a72.5 72.5 0 0 1-3.155-21.076v-68.703c-.143-6.163 4.732-11.278 10.895-11.43z" opacity=".2"/><path d="M142.884 58.523v18.753c-1.012.06-1.965.12-2.977.12s-1.965-.06-2.977-.12a32.7 32.7 0 0 1-5.953-.952a38.7 38.7 0 0 1-26.791-22.742a33 33 0 0 1-1.905-5.954h29.708c6.007.023 10.872 4.887 10.895 10.895" opacity=".1"/><use href="#SVGhJCUgeMn" opacity=".2"/><use href="#SVGhJCUgeMn" opacity=".2"/><path d="M130.977 64.476v11.848a38.7 38.7 0 0 1-26.791-22.743h15.896c6.008.023 10.872 4.888 10.895 10.895" opacity=".2"/><path fill="url(#SVGCo9xpmZW)" d="M10.913 53.581h109.15c6.028 0 10.914 4.886 10.914 10.913v109.151c0 6.027-4.886 10.913-10.913 10.913H10.913C4.886 184.558 0 179.672 0 173.645V64.495C0 58.466 4.886 53.58 10.913 53.58"/><path fill="#fff" d="M94.208 95.125h-21.82v59.416H58.487V95.125H36.769V83.599h57.439z"/></svg>',
       "salesforce": '<svg xmlns="http://www.w3.org/2000/svg" width="256" height="180" viewBox="0 0 256 180"><path fill="#00a1e0" d="M106.553 19.651c8.248-8.594 19.731-13.924 32.43-13.924c16.883 0 31.612 9.414 39.455 23.389a54.5 54.5 0 0 1 22.3-4.74c30.449 0 55.134 24.9 55.134 55.615c0 30.719-24.685 55.62-55.134 55.62a54.7 54.7 0 0 1-10.86-1.083c-6.908 12.321-20.07 20.645-35.178 20.645a40.1 40.1 0 0 1-17.632-4.058c-7.002 16.47-23.316 28.019-42.33 28.019c-19.8 0-36.674-12.529-43.152-30.1c-2.83.602-5.763.915-8.772.915c-23.574 0-42.686-19.308-42.686-43.13a43.2 43.2 0 0 1 21.345-37.36a49.4 49.4 0 0 1-4.088-19.727C17.385 22.336 39.626.128 67.06.128c16.106 0 30.42 7.658 39.494 19.523"/><path fill="#fff" d="M37.17 92.956c-.16.419.058.506.11.58c.48.349.968.6 1.46.88c2.609 1.385 5.071 1.79 7.647 1.79c5.246 0 8.503-2.79 8.503-7.283v-.087c0-4.153-3.676-5.662-7.126-6.75l-.448-.147c-2.601-.845-4.845-1.573-4.845-3.286v-.09c0-1.465 1.311-2.544 3.344-2.544c2.259 0 4.94.75 6.667 1.705c0 0 .506.328.692-.164c.102-.262.976-2.615 1.068-2.87c.098-.277-.077-.481-.255-.59c-1.971-1.2-4.696-2.019-7.516-2.019l-.525.004c-4.801 0-8.153 2.9-8.153 7.057v.087c0 4.383 3.698 5.803 7.162 6.794l.558.172c2.524.775 4.7 1.442 4.7 3.22v.087c0 1.625-1.414 2.835-3.695 2.835c-.885 0-3.708-.018-6.758-1.946c-.368-.215-.583-.371-.867-.542c-.15-.095-.524-.26-.688.236zm76.8 0c-.16.419.058.506.11.58c.48.349.968.6 1.46.88c2.608 1.385 5.071 1.79 7.647 1.79c5.246 0 8.503-2.79 8.503-7.283v-.087c0-4.153-3.676-5.662-7.126-6.75l-.448-.147c-2.601-.845-4.846-1.573-4.846-3.286v-.09c0-1.465 1.312-2.544 3.345-2.544c2.259 0 4.94.75 6.667 1.705c0 0 .506.328.692-.164c.102-.262.976-2.615 1.067-2.87c.099-.277-.076-.481-.255-.59c-1.97-1.2-4.696-2.019-7.515-2.019l-.525.004c-4.802 0-8.153 2.9-8.153 7.057v.087c0 4.383 3.697 5.803 7.162 6.794l.557.172c2.525.775 4.704 1.442 4.704 3.22v.087c0 1.625-1.418 2.835-3.698 2.835a12.4 12.4 0 0 1-6.758-1.946c-.368-.215-.587-.364-.863-.542c-.095-.062-.54-.234-.693.236zm52.429-8.799c0 2.54-.474 4.54-1.406 5.953c-.922 1.4-2.317 2.08-4.263 2.08c-1.949 0-3.337-.677-4.244-2.08c-.918-1.41-1.384-3.413-1.384-5.953c0-2.535.466-4.532 1.384-5.93c.907-1.385 2.295-2.059 4.244-2.059c1.946 0 3.34.674 4.266 2.058c.93 1.4 1.403 3.396 1.403 5.931m4.379-4.707c-.43-1.453-1.1-2.735-1.993-3.803c-.893-1.071-2.022-1.93-3.363-2.557c-1.337-.623-2.918-.94-4.692-.94c-1.778 0-3.359.317-4.696.94c-1.34.626-2.47 1.486-3.366 2.557c-.889 1.071-1.56 2.354-1.993 3.803c-.426 1.447-.64 3.028-.64 4.707c0 1.68.214 3.265.64 4.707c.434 1.45 1.1 2.732 1.997 3.804a9.4 9.4 0 0 0 3.362 2.535c1.34.609 2.918.918 4.696.918c1.774 0 3.352-.31 4.692-.918a9.4 9.4 0 0 0 3.363-2.535c.893-1.068 1.563-2.35 1.993-3.804c.43-1.446.645-3.03.645-4.707c0-1.675-.215-3.26-.645-4.707m35.959 12.063c-.145-.426-.557-.266-.557-.266c-.637.244-1.315.47-2.036.583a16 16 0 0 1-2.401.171c-2.12 0-3.804-.63-5.01-1.876c-1.209-1.246-1.887-3.26-1.88-5.986c.008-2.48.606-4.346 1.68-5.767c1.068-1.413 2.692-2.138 4.86-2.138c1.807 0 3.184.207 4.627.663c0 0 .346.15.51-.303c.382-1.063.667-1.825 1.075-2.994c.116-.332-.168-.474-.27-.514c-.568-.222-1.909-.583-2.922-.736c-.947-.145-2.054-.222-3.286-.222c-1.84 0-3.479.313-4.882.94c-1.399.623-2.586 1.483-3.526 2.554s-1.654 2.353-2.131 3.803c-.474 1.446-.714 3.035-.714 4.714c0 3.632.98 6.569 2.914 8.718c1.938 2.157 4.85 3.253 8.645 3.253c2.244 0 4.547-.455 6.2-1.107c0 0 .318-.153.18-.521zm7.663-9.788c.207-1.41.597-2.583 1.198-3.497c.907-1.388 2.291-2.15 4.237-2.15c1.945 0 3.231.765 4.153 2.15c.612.914.878 2.138.983 3.497zm14.743-3.1c-.372-1.403-1.294-2.82-1.898-3.468c-.955-1.028-1.887-1.746-2.813-2.146a10.8 10.8 0 0 0-4.248-.86c-1.85 0-3.53.31-4.892.95c-1.366.642-2.514 1.516-3.414 2.606c-.9 1.085-1.577 2.379-2.007 3.847c-.434 1.46-.652 3.053-.652 4.732c0 1.709.226 3.3.674 4.732c.451 1.443 1.173 2.715 2.15 3.767c.972 1.06 2.225 1.891 3.726 2.47c1.49.576 3.3.875 5.38.871c4.281-.015 6.537-.969 7.465-1.483c.164-.09.321-.251.124-.71l-.969-2.714c-.145-.405-.557-.255-.557-.255c-1.06.393-2.568 1.1-6.084 1.093c-2.299-.004-4.004-.682-5.071-1.742c-1.097-1.085-1.632-2.68-1.727-4.932l14.824.014s.39-.007.43-.386c.014-.16.51-3.046-.441-6.386m-133.46 3.1c.211-1.41.597-2.583 1.199-3.497c.907-1.388 2.291-2.15 4.236-2.15c1.946 0 3.232.765 4.157 2.15c.609.914.875 2.138.98 3.497zm14.74-3.1c-.372-1.403-1.29-2.82-1.895-3.468c-.954-1.028-1.887-1.746-2.812-2.146a10.8 10.8 0 0 0-4.248-.86c-1.847 0-3.53.31-4.892.95c-1.367.642-2.514 1.516-3.414 2.606c-.9 1.085-1.577 2.379-2.007 3.847c-.43 1.46-.652 3.053-.652 4.732c0 1.709.225 3.3.674 4.732c.451 1.443 1.173 2.715 2.149 3.767c.973 1.06 2.226 1.891 3.727 2.47c1.49.576 3.3.875 5.38.871c4.281-.015 6.536-.969 7.465-1.483c.164-.09.32-.251.124-.71l-.965-2.714c-.15-.405-.561-.255-.561-.255c-1.06.393-2.565 1.1-6.088 1.093c-2.295-.004-4-.682-5.067-1.742c-1.097-1.085-1.633-2.68-1.727-4.932l14.823.014s.39-.007.43-.386c.015-.16.51-3.046-.444-6.386M63.642 91.431c-.58-.462-.66-.579-.856-.878c-.292-.455-.441-1.104-.441-1.927c0-1.304.43-2.24 1.322-2.87c-.01.003 1.275-1.112 4.3-1.072c2.123.03 4.021.343 4.021.343v6.74h.004s-1.884.404-4.004.531c-3.017.182-4.357-.87-4.346-.867m5.898-10.415c-.601-.044-1.38-.07-2.313-.07c-1.272 0-2.5.16-3.65.47a9.5 9.5 0 0 0-3.097 1.436a7.15 7.15 0 0 0-2.15 2.444c-.524.977-.79 2.128-.79 3.417c0 1.312.225 2.452.677 3.385a6.1 6.1 0 0 0 1.935 2.317c.823.601 1.84 1.042 3.02 1.308c1.162.266 2.48.4 3.923.4c1.52 0 3.035-.123 4.503-.375a94 94 0 0 0 3.734-.721c.492-.117 1.039-.266 1.039-.266c.368-.091.338-.485.338-.485l-.007-13.555c0-2.973-.794-5.177-2.357-6.543c-1.555-1.363-3.847-2.051-6.809-2.051c-1.11 0-2.9.153-3.97.368c0 0-3.24.626-4.573 1.668c0 0-.291.182-.131.59l1.05 2.82c.13.364.484.24.484.24s.113-.043.244-.12c2.852-1.552 6.459-1.504 6.459-1.504c1.603 0 2.834.32 3.665.958c.809.619 1.22 1.555 1.22 3.53v.626c-1.275-.182-2.444-.287-2.444-.287m119.56-7.639a.4.4 0 0 0-.223-.532c-.251-.098-1.512-.364-2.485-.426c-1.861-.113-2.896.2-3.821.616c-.918.415-1.938 1.085-2.507 1.847v-1.804c0-.251-.178-.451-.426-.451h-3.8c-.247 0-.426.2-.426.451v22.11c0 .248.204.452.452.452h3.894a.45.45 0 0 0 .448-.452V84.142c0-1.482.164-2.962.492-3.89c.32-.919.758-1.654 1.297-2.183a4.55 4.55 0 0 1 1.833-1.1c.688-.211 1.45-.28 1.989-.28c.776 0 1.628.2 1.628.2c.284.033.445-.142.54-.4c.254-.678.976-2.708 1.114-3.112"/><path fill="#fff" d="M152.544 63.13a13 13 0 0 0-1.465-.35a11.6 11.6 0 0 0-2.014-.152c-2.682 0-4.795.757-6.277 2.251c-1.476 1.486-2.478 3.749-2.98 6.725l-.183 1.002h-3.366s-.408-.015-.495.43l-.55 3.086c-.04.291.087.477.48.477h3.276l-3.323 18.55c-.258 1.494-.557 2.722-.889 3.654c-.324.918-.64 1.607-1.034 2.11c-.38.48-.736.838-1.356 1.045c-.51.172-1.1.252-1.745.252c-.357 0-.834-.059-1.187-.131a3.5 3.5 0 0 1-.802-.26s-.382-.145-.535.238c-.12.317-.995 2.717-1.1 3.013c-.102.295.043.524.229.593c.437.153.761.255 1.355.397c.824.194 1.52.204 2.172.204c1.362 0 2.608-.193 3.639-.564c1.035-.375 1.938-1.028 2.74-1.91c.863-.954 1.406-1.952 1.923-3.318c.514-1.348.955-3.024 1.304-4.976l3.341-18.897h4.882s.411.014.495-.434l.554-3.082c.036-.295-.087-.477-.485-.477h-4.74c.026-.106.241-1.774.784-3.344c.233-.667.67-1.21 1.038-1.581a3.1 3.1 0 0 1 1.243-.773c.47-.153 1.005-.226 1.592-.226c.444 0 .885.051 1.216.12c.46.099.638.15.758.186c.485.146.55.004.645-.23l1.133-3.11c.117-.335-.171-.478-.273-.518M86.322 95.19c0 .247-.179.448-.426.448h-3.931c-.248 0-.423-.2-.423-.448V63.553c0-.247.175-.448.423-.448h3.93c.248 0 .427.2.427.448z"/></svg>',
@@ -5913,13 +6534,19 @@ var init_logo_catalog_generated = __esm({
       "dbt": '<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256"><path fill="#ff694a" d="M245.121 10.647c6.018 5.787 9.953 13.425 10.879 21.758c0 3.472-.926 5.787-3.01 10.185c-2.082 4.397-27.775 48.839-35.413 61.106c-4.398 7.176-6.713 15.74-6.713 24.072c0 8.565 2.315 16.898 6.713 24.073c7.638 12.268 33.33 56.94 35.414 61.338c2.083 4.398 3.009 6.48 3.009 9.953c-.926 8.333-4.63 15.971-10.647 21.526c-5.787 6.018-13.425 9.953-21.527 10.648c-3.471 0-5.786-.926-9.953-3.01s-49.533-27.08-61.8-34.719c-.927-.463-1.852-1.157-3.01-1.62L88.42 180.08c1.388 11.573 6.48 22.683 14.813 30.784c1.62 1.62 3.24 3.01 5.093 4.398c-1.39.694-3.01 1.39-4.398 2.315c-12.268 7.638-56.94 33.33-61.338 35.414c-4.398 2.083-6.481 3.009-10.185 3.009c-8.333-.926-15.971-4.63-21.526-10.647C4.86 239.566.926 231.928 0 223.595c.231-3.472 1.157-6.944 3.01-9.953c2.082-4.398 27.775-49.07 35.413-61.338c4.398-7.176 6.713-15.508 6.713-24.072s-2.315-16.898-6.713-24.073C30.785 91.429 4.861 46.756 3.009 42.358C1.157 39.348.231 35.877 0 32.405c.926-8.333 4.63-15.971 10.647-21.758C16.434 4.63 24.072.926 32.405 0c3.472.231 6.944 1.157 10.185 3.01c3.703 1.62 36.34 20.6 53.7 30.784l3.934 2.315q2.083 1.388 3.472 2.083l1.852 1.157l61.8 36.571c-1.388-13.888-8.563-26.618-19.674-35.182c1.39-.694 3.01-1.39 4.398-2.315c12.268-7.638 56.94-33.562 61.338-35.414C216.42 1.157 219.891.231 223.595 0a35.43 35.43 0 0 1 21.526 10.647m-113.88 133.787l13.193-13.194c1.852-1.851 1.852-4.629 0-6.48l-13.194-13.194c-1.851-1.852-4.629-1.852-6.48 0l-13.194 13.194c-1.852 1.851-1.852 4.629 0 6.48l13.194 13.194c1.62 1.62 4.629 1.62 6.48 0"/></svg>',
       "valkey": '<svg xmlns="http://www.w3.org/2000/svg" width="256" height="295" viewBox="0 0 256 295"><path fill="#6983ff" d="M53.121 248.653L0 215.311V74.031L129.978 0L256 74.03v148.628l-128.283 72.335l-44.644-27.69v-67.815l-24.3-15.258v-76.857l70.075-40.124l68.38 40.124v80.247l-54.252 30.517v-32.212c16.388-6.216 27.69-22.04 27.69-41.254s-19.213-44.08-42.949-44.08s-42.949 19.78-42.949 44.08s11.868 35.038 27.691 41.254v61.598l15.258 9.607l94.94-53.686V92.114l-93.81-55.381l-96.635 55.382v104.547l20.344 12.998v38.428zm75.162-123.761c10.737 0 19.214 9.042 19.214 20.344s-8.477 20.345-19.214 20.345c-10.738 0-19.215-9.042-19.215-20.345s8.477-20.344 19.215-20.344"/></svg>',
       "memcached": '<svg xmlns="http://www.w3.org/2000/svg" width="254" height="254" viewBox="0 0 254 254"><defs><radialGradient id="SVG6UFCFeCN" cx="41.406%" cy="42.708%" r="50%" fx="41.406%" fy="42.708%"><stop offset="0%" stop-color="#db7c7c"/><stop offset="100%" stop-color="#c83737"/></radialGradient><radialGradient id="SVGCgxlNyXP" cx="44.271%" cy="42.708%" r="50%" fx="44.271%" fy="42.708%"><stop offset="0%" stop-color="#db7c7c"/><stop offset="100%" stop-color="#c83737"/></radialGradient><linearGradient id="SVGdlWcUdVg" x1="50%" x2="50%" y1="100%" y2="0%"><stop offset="0%" stop-color="#574c4a"/><stop offset="100%" stop-color="#80716d"/></linearGradient><linearGradient id="SVGubS1kldG" x1="88.778%" x2="30.149%" y1="98.342%" y2="-8.68%"><stop offset="0%" stop-color="#268d83"/><stop offset="100%" stop-color="#2ea19e"/></linearGradient></defs><path fill="url(#SVGdlWcUdVg)" d="M0 171.19V82.17C0 10.271 10.26 0 82.086 0h89.189C243.1 0 253.36 10.271 253.36 82.171v89.019c0 71.9-10.26 82.17-82.086 82.17H82.086C10.261 253.36 0 243.09 0 171.19"/><path fill="url(#SVGubS1kldG)" d="M8.891.655C-3.562 79.583 2.953 153.48 2.953 153.48h38.928c-3.704-19.704-16.992-109.724-5.938-110.021c5.924.94 32.99 76.371 32.99 76.371s5.96-.742 11.958-.742s11.959.742 11.959.742s27.066-75.43 32.99-76.371c11.053.297-2.235 90.317-5.938 110.02h38.927s6.516-73.896-5.938-152.824H116.85C109.99.736 83.89 46.51 80.891 46.51S51.792.736 44.932.655z" transform="translate(45.79 47.098)"/><path fill="url(#SVG6UFCFeCN)" d="M73.214 144.267a9.213 9.213 0 1 1-18.427 0a9.213 9.213 0 0 1 18.427 0" transform="translate(45.79 47.098)"/><path fill="url(#SVGCgxlNyXP)" d="M106.995 144.267a9.213 9.213 0 1 1-18.426 0a9.213 9.213 0 0 1 18.426 0" transform="translate(45.79 47.098)"/><path d="M196.846 50.362c5.618 38.026 6.936 74.52 6.833 101.705c-.106 27.806-1.699 45.871-1.699 45.871h-32.767l-3.521 2.64h38.927s6.516-73.897-5.938-152.825zm-103.154-.96c10.226 11.376 27.913 41.567 30.35 41.567c-6.484-8.292-22.411-34.748-30.35-41.567M79.094 87.918c-11.054.297 2.234 90.317 5.938 110.02H51.05l-2.307 2.64h38.928c-3.685-19.604-16.856-108.825-6.103-110.021c-1.002-1.504-1.866-2.543-2.474-2.64m89.896 0c-5.923.94-32.99 76.371-32.99 76.371s-5.96-.742-11.958-.742c-3.549 0-6.604.218-8.67.41l-.65 2.971s5.961-.742 11.96-.742c5.997 0 11.958.742 11.958.742s26.862-74.936 32.907-76.371c-.651-1.65-1.456-2.61-2.557-2.64" opacity=".1"/><path fill="#fff" d="M54.681 47.753c-12.453 78.928-5.938 152.825-5.938 152.825L51.035 198c-1.173-17.434-4.306-80.48 6.285-147.609h36.042c.763.01 1.787.635 2.969 1.65c-2.36-2.626-4.322-4.274-5.609-4.29zm107.959 0c-6.86.081-32.96 45.856-35.959 45.856c1.223 1.564 2.216 2.639 2.64 2.639c2.998 0 29.098-45.775 35.958-45.856h31.806l1.596-2.64zM84.207 93.196c8.755 13.148 30.515 73.732 30.515 73.732l.637-2.954c-5.372-14.732-25.844-69.961-30.987-70.778c-.056.002-.11-.006-.165 0m90.062 0c5.872 14.977-5.244 89.649-8.577 107.382l3.53-2.757c4.508-26.446 15.363-104.347 5.047-104.625" opacity=".3"/></svg>',
+      "heroku": '<svg xmlns="http://www.w3.org/2000/svg" width="256" height="285" viewBox="0 0 256 285"><path fill="#430098" d="M230.4 0c13.996 0 25.37 11.232 25.597 25.177l.003.423v233.244c0 13.996-11.235 25.37-25.177 25.597l-.423.003H25.6c-13.996 0-25.37-11.235-25.597-25.176L0 258.844V25.6C0 11.601 11.235.23 25.177.003L25.6 0zm0 14.222H25.6c-6.174 0-11.218 4.948-11.374 11.085l-.004.293v233.244c0 6.174 4.948 11.218 11.085 11.374l.293.004h204.8c6.177 0 11.218-4.947 11.374-11.084l.004-.294V25.6c0-6.272-5.102-11.378-11.378-11.378M64 184.89l32 28.444l-32 28.445zM92.444 42.667v80.75c14.201-4.622 34.052-9.64 53.334-9.64c17.582 0 28.106 6.913 33.838 12.712c12.109 12.25 12.397 27.82 12.381 29.897v.058l.003 85.334h-28.444v-84.942c-.14-6.639-3.34-14.614-17.778-14.614c-28.632 0-60.714 14.257-61.666 14.683l-.02.009L64 166.016V42.666zm99.556 0c-1.92 16.156-8.47 31.644-21.333 46.222h-28.445c11.179-14.667 18.198-30.101 21.334-46.222Z"/></svg>',
       "nats": '<svg xmlns="http://www.w3.org/2000/svg" width="256" height="266" viewBox="0 0 256 266"><path fill="#34a574" d="M128 0h128v103.768H128z"/><path fill="#27aae1" d="M0 0h128v103.768H0z"/><path fill="#8dc63f" d="M256 103.863v103.769h-84.193v57.395l-62.622-57.205l18.815-.76V103.863z"/><path fill="#375c93" d="M128 103.863v120.678l-18.815-16.719H0V103.863z"/><path fill="#fff" d="M181.024 134.177V48.273h30.599v111.086H165.25l-93.6-87.424v87.519H40.956V48.273h47.988z"/></svg>',
       "openshift": '<svg xmlns="http://www.w3.org/2000/svg" width="256" height="237" viewBox="0 0 256 237"><path fill="#da2430" d="m74.84 106.893l-40.869 14.87c.525 6.552 1.652 13.024 3.24 19.366l38.818-14.137c-1.244-6.552-1.689-13.32-1.18-20.1m180.595-45.19c-2.85-5.879-6.147-11.561-9.966-16.916l-40.857 14.87c4.755 4.864 8.743 10.33 12.007 16.176L255.445 61.7z"/><path fill="#da2430" d="M182.95 61.461c-5.14-4.46-10.946-8.31-17.408-11.324h-.003C127.6 32.449 82.33 48.905 64.642 86.859a74 74 0 0 0-2.653 6.487c-2.208 6.423-3.498 12.99-3.991 19.546l-.144.054l-.011.144l-24.596 8.95l-15.826 5.849l-.007-.088l-.434.158c-1.536-19.435 1.74-39.512 10.553-58.411a118 118 0 0 1 3.687-7.246c29.054-54.116 95.164-76.736 150.918-50.33a115.3 115.3 0 0 1 30.557 21.074a116.6 116.6 0 0 1 15.78 17.94L187.618 65.86a80 80 0 0 0-.635-.641l-.113.041a79 79 0 0 0-3.919-3.798"/><path fill="#e82429" d="m19.261 193.896l-.064.024A118.4 118.4 0 0 1 .939 154.347l38.825-14.14l.002.003l.024.125l.252-.093l.006.015c1.994 10.56 6.145 20.635 12.198 29.494a75 75 0 0 0 7.722 9.326l-.154.057l.294.308l-40.488 14.97q-.18-.256-.359-.516"/><path fill="#da2430" d="M173.465 183.447c-21.051 13.017-48.053 15.532-72.113 4.312a75.1 75.1 0 0 1-22.118-15.695l-40.772 14.844l.313.437l-.02.008c11.21 16.016 26.502 29.404 45.266 38.298c40.47 19.163 86.387 12.501 119.634-13.284c14.888-11.152 27.317-26.016 35.713-44.02c8.819-18.895 12.076-38.964 10.515-58.384l-1.136.414q-.022-.312-.047-.624l-40.49 14.957l.002.004a76.5 76.5 0 0 1-6.806 26.46c-6.315 13.753-16.164 24.708-27.94 32.273"/><path fill="#e82429" d="m218.552 75.13l.607-.222v-.001a117.7 117.7 0 0 1 11.454 42.055l-40.773 14.834l.022-.304l-.77.285c1.11-15.088-2.275-30.093-9.435-43.123l38.548-14.25l.002-.004q.174.364.345.73"/><path fill="#c22035" d="M74.89 106.654L34.31 121.65c.52 6.61 1.64 13.136 3.219 19.532l38.546-14.258c-1.247-6.622-1.695-13.438-1.169-20.274m179.321-45.567c-2.83-5.929-6.106-11.658-9.898-17.059L203.76 59.02c4.72 4.906 8.68 10.418 11.92 16.315l38.542-14.256z"/><path fill="#ac223b" d="m34.308 121.653l40.482-14.829l-.165 8.133l-39.056 14.749l-1.266-8.063zm169.458-62.756l41.113-14.108l4.273 6.449l-39.946 14.121l-5.434-6.465z"/><path fill="#b92135" d="m38.764 187.201l40.53-14.749l12.258 11.565l-42.503 15.956l-10.283-12.776zm210.616-77.339l-41.165 14.844l-3.032 16.478l43.892-15.643l.311-15.677z"/></svg>',
       "linode": '<svg xmlns="http://www.w3.org/2000/svg" width="256" height="307" viewBox="0 0 256 307"><path fill="#004711" d="m66.766 141.595l-12.64-83.896L2.919 26.102l15.254 78.884zM78.75 231.81l-8.063-59.49l-45.543-37.698l11.767 58.836zm-36.173-13.292l8.063 44.67l38.788 40.315l-5.448-45.544zm115.71-13.73l-19.938-14.817s-.284 5.306-.817 5.666l-14.546 10.242l15.907 13.074l.927 14.873l18.903 15.417zm60.253-43.472l-3.596 41.893l-13.401-8.825s1.477-21.181 1.47-21.192c-.077-.142-25.822-17.433-25.822-17.433l.817-19.285z"/><path fill="#00b159" d="m133.665 106.947l-3.704-78.012l-75.833 28.764l12.638 83.896zm3.487 88.472l-3.051-59.49l-63.412 36.39l9.37 61.016zm1.089 24.188l-54.26 38.352l6.756 46.85l49.465-39.441zm20.92-15.036l.87 45.326l39.225-31.815l1.96-43.147zm93.429-65.646l-5.121 39.769l-30.671 24.624l3.65-41.784z"/><path d="M140.278 218.847c-.002-.038-.016-.073-.02-.11a1.8 1.8 0 0 0-.107-.46a2 2 0 0 0-.125-.26q-.04-.076-.088-.146a2 2 0 0 0-.202-.234c-.035-.035-.066-.074-.104-.107l-.028-.03l-14.511-11.843l13.343-8.99c.533-.36.839-.966.81-1.603l-.135-3.165l17.692 13.504l.344 41.008l-16.276-13.702zm-71.23-45.953l8.205 56.072l-38.886-36.633l-11.26-54.382zm66.478 21.296l-54.29 36.575l-8.467-57.86l60.384-34.37zm-6.982-163.451l3.229 75.494l-63.888 33.245L56.037 58.6zm-76.24 27.78l11.649 79.516L20.026 103.8L4.5 28.795zm.678 204.375l-8.3-40.105l36.998 36.387l5.926 40.468zm85.558 1.459l-46.91 37.37l-6.238-42.582l51.354-36.742zm58.888-46.95l-36.6 29.192l-.342-41.166l39.383-28.17zm5.109-23.378l1.24-20.395c0-.023-.006-.044-.006-.067c0-.027.009-.052.008-.08c-.001-.08-.022-.158-.034-.237c-.01-.057-.01-.114-.024-.17a2 2 0 0 0-.156-.41l-.014-.034a2 2 0 0 0-.291-.388c-.023-.024-.051-.042-.075-.064c-.074-.07-.146-.141-.232-.2l-24.655-16.282l.359-17.868l38.8 24.178l-3.46 39.993zm15.22 7.196l3.39-39.175l30.623-21.916l-5.147 38.082zM256 136.045c-.002-.035-.015-.067-.02-.102a2 2 0 0 0-.036-.194a2 2 0 0 0-.17-.463a2 2 0 0 0-.181-.27c-.036-.045-.07-.091-.11-.133a2 2 0 0 0-.283-.233c-.032-.022-.055-.053-.09-.073c-.006-.005-.016-.006-.024-.011l-.031-.022l-41.91-23.223a1.84 1.84 0 0 0-1.85.043l-35.374 21.625c-.057.034-.102.083-.154.123c-.063.048-.128.092-.184.148c-.06.059-.106.127-.156.194c-.044.058-.094.112-.13.175c-.046.077-.075.162-.11.245c-.024.063-.057.12-.075.187c-.025.09-.032.184-.043.278c-.007.06-.026.118-.028.18l-.376 18.779l-14.39-9.503a1.84 1.84 0 0 0-1.976-.037l-20.702 12.656l-.897-21.047c-.002-.044-.018-.084-.022-.128a2 2 0 0 0-.048-.273c-.018-.066-.045-.128-.07-.192a2 2 0 0 0-.104-.228c-.037-.065-.081-.123-.125-.183a2 2 0 0 0-.148-.183a2 2 0 0 0-.18-.157c-.04-.032-.072-.072-.115-.102l-21.545-14.471l20.167-10.494a1.85 1.85 0 0 0 .987-1.712l-3.387-79.222c-.004-.097-.027-.19-.046-.284c-.008-.04-.01-.08-.02-.118a1.8 1.8 0 0 0-.188-.45c-.015-.026-.036-.047-.052-.071a1.8 1.8 0 0 0-.253-.311q-.053-.05-.111-.094c-.053-.044-.1-.094-.157-.132c-.045-.03-.096-.046-.143-.072c-.024-.013-.042-.033-.067-.045L76.736.225a1.83 1.83 0 0 0-1.347-.1L1.279 23.209l-.015.008c-.03.009-.056.03-.086.04a1.8 1.8 0 0 0-.391.196l-.011.005c-.041.029-.07.07-.107.102a2 2 0 0 0-.265.249c-.055.068-.092.146-.137.22s-.095.144-.13.224c-.04.096-.06.198-.082.3c-.015.062-.042.118-.051.18c-.001.01.002.019 0 .028c-.01.093 0 .186.005.28c.003.087-.001.173.014.257c.003.014 0 .027.003.04l16.536 79.869c.09.427.323.808.67 1.077l22.444 17.493l-16.226 7.726c-.03.014-.052.036-.08.05c-.025.015-.052.018-.076.032c-.036.022-.06.054-.093.078a2 2 0 0 0-.258.216q-.069.066-.13.138a2 2 0 0 0-.2.315c-.02.04-.047.078-.065.12a1.8 1.8 0 0 0-.133.482v.02c-.003.026.002.052 0 .078q-.017.226.022.447c.003.02-.001.039.003.058l12.44 60.109c.077.372.265.708.54.967l15.622 14.714l-10.352 6.332a2 2 0 0 0-.36.293c-.03.029-.05.062-.076.093q-.135.158-.23.342q-.031.06-.06.122c-.068.16-.122.328-.144.506c-.02.177-.005.352.025.524c.004.019-.001.038.003.058l9.638 46.554c.069.33.228.637.463.886l38.982 41.385c.059.062.127.11.192.164c.024.019.044.04.069.059q.182.132.388.216q.007.006.018.01c.01.005.024.003.036.007c.205.076.42.122.639.122a1.8 1.8 0 0 0 .659-.134c.046-.018.095-.027.14-.05c.076-.036.132-.094.199-.14c.048-.03.103-.045.148-.081l50.145-39.95c.46-.368.716-.931.692-1.516l-1.172-27.43l16.753 14.1c.029.025.067.034.098.057c.095.07.186.144.294.196c.036.016.073.023.109.038q.068.026.136.046c.18.057.362.096.547.096c.18 0 .358-.037.535-.091q.06-.019.122-.042c.042-.016.085-.024.126-.043c.093-.044.168-.108.25-.165c.036-.025.078-.035.112-.062l40.197-32.056c.409-.33.657-.81.689-1.332l1.223-20.115l12.23 8.513c.026.017.055.023.08.039c.036.022.063.054.1.074c.072.038.149.057.223.085c.05.019.099.042.152.057c.162.045.328.074.494.074c.18 0 .36-.036.537-.09q.06-.018.12-.04c.04-.016.084-.024.125-.042c.1-.048.186-.115.274-.178c.029-.02.064-.028.092-.05l32.79-26.134a1.85 1.85 0 0 0 .678-1.195l5.817-43.041c.006-.046-.005-.09-.002-.136c.004-.073.019-.143.015-.217"/></svg>',
+      "launchdarkly": '<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256"><path d="M129.865 255.306a5.64 5.64 0 0 1-5.073-3.157a5.36 5.36 0 0 1 .507-5.637l59.98-82.584l-105.02 42.899a5.8 5.8 0 0 1-2.255.479a5.64 5.64 0 0 1-5.384-4.059a5.41 5.41 0 0 1 2.311-6.172l92.365-54.54l-162.632-9.357a5.637 5.637 0 0 1 0-11.106l162.717-9.33l-92.393-54.538a5.41 5.41 0 0 1-2.311-6.173a5.64 5.64 0 0 1 5.355-4.059a5.2 5.2 0 0 1 2.255.507l105.048 42.955l-59.98-82.555a5.36 5.36 0 0 1-.507-5.638A5.64 5.64 0 0 1 129.894 0c1.48.01 2.894.62 3.917 1.691L253.347 121.2a9.076 9.076 0 0 1 0 12.824L133.755 253.672a5.44 5.44 0 0 1-3.89 1.634"/></svg>',
       "oracle": '<svg xmlns="http://www.w3.org/2000/svg" width="512" height="67" viewBox="0 0 512 67"><path fill="#ea1b22" d="M221.034 43.303h33.832l-17.889-28.781l-32.833 52.037h-14.942l39.935-62.508c1.736-2.525 4.63-4.051 7.84-4.051c3.104 0 5.998 1.473 7.682 3.946l40.093 62.613H269.81l-7.05-11.628h-34.253zM376.251 54.93V.631h-12.68v59.614c0 1.631.631 3.21 1.841 4.42s2.841 1.894 4.63 1.894h57.825l7.472-11.628zm-209.78-9.734c12.313 0 22.31-9.944 22.31-22.256c0-12.313-9.997-22.31-22.31-22.31h-55.473v65.93h12.676v-54.3h41.956c5.893 0 10.628 4.789 10.628 10.682c0 5.892-4.735 10.68-10.628 10.68l-35.747-.052l37.851 32.99h18.416l-25.466-21.362zM32.97 66.559C14.77 66.56 0 51.827 0 33.622C0 15.416 14.77.632 32.97.632h38.32c18.204 0 32.963 14.784 32.963 32.99c0 18.205-14.759 32.937-32.964 32.937zm37.468-11.628c11.791 0 21.341-9.524 21.341-21.31S82.228 12.26 70.437 12.26h-36.62c-11.787 0-21.342 9.576-21.342 21.362S22.03 54.93 33.816 54.93zm240.78 11.628c-18.204 0-32.99-14.732-32.99-32.937c0-18.206 14.786-32.99 32.99-32.99h45.514l-7.42 11.628H312.06c-11.786 0-21.362 9.576-21.362 21.362s9.576 21.309 21.362 21.309h45.723l-7.472 11.628zm155.06-11.628c-9.734 0-17.995-6.524-20.52-15.522h54.194l7.471-11.628h-61.665c2.525-8.945 10.786-15.521 20.52-15.521h37.2L511 .63h-45.565c-18.205 0-32.99 14.785-32.99 32.99s14.785 32.938 32.99 32.938h39.094L512 54.931z"/></svg>',
+      "microsoft": '<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256"><path fill="#f1511b" d="M121.666 121.666H0V0h121.666z"/><path fill="#80cc28" d="M256 121.666H134.335V0H256z"/><path fill="#00adef" d="M121.663 256.002H0V134.336h121.663z"/><path fill="#fbbc09" d="M256 256.002H134.335V134.336H256z"/></svg>',
       "windows": '<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256"><path fill="#0078d4" d="M0 0h121.329v121.329H0zm134.671 0H256v121.329H134.671zM0 134.671h121.329V256H0zm134.671 0H256V256H134.671z"/></svg>',
       "powerbi": '<svg xmlns="http://www.w3.org/2000/svg" width="256" height="342" viewBox="0 0 256 342"><defs><linearGradient id="SVGCdghnblF" x1="42.593%" x2="57.245%" y1="0%" y2="93.174%"><stop offset="0%" stop-color="#e6ad10"/><stop offset="100%" stop-color="#c87e0e"/></linearGradient><linearGradient id="SVG5tapKdof" x1="40.122%" x2="62.028%" y1="0%" y2="95.592%"><stop offset="0%" stop-color="#f6d751"/><stop offset="100%" stop-color="#e6ad10"/></linearGradient><linearGradient id="SVGRvjwscVp" x1="27.774%" x2="55.012%" y1="0%" y2="96.828%"><stop offset="0%" stop-color="#f9e589"/><stop offset="100%" stop-color="#f6d751"/></linearGradient><path id="SVGvAvgNc4T" d="M142.222 14.222C142.222 6.368 148.59 0 156.444 0h85.334C249.632 0 256 6.368 256 14.222v312.89c0 7.854-6.368 14.221-14.222 14.221H14.222C6.368 341.333 0 334.966 0 327.111V184.89c0-7.855 6.368-14.222 14.222-14.222h56.89V99.556c0-7.855 6.367-14.223 14.222-14.223h56.888z"/></defs><mask id="SVGvCV5wclL" fill="#fff"><use href="#SVGvAvgNc4T"/></mask><path fill="url(#SVGCdghnblF)" d="M256 0v341.333H142.222V0z" mask="url(#SVGvCV5wclL)"/><path fill-opacity=".2" d="M184.889 100.978v241.778H71.11v-256h99.556c7.854 0 14.222 6.367 14.222 14.222" mask="url(#SVGvCV5wclL)"/><path fill-opacity=".18" d="M184.889 106.667v241.777H71.11v-256h99.556c7.854 0 14.222 6.368 14.222 14.223" mask="url(#SVGvCV5wclL)"/><path fill="url(#SVG5tapKdof)" d="M184.889 99.556v241.777H71.11v-256h99.556c7.854 0 14.222 6.368 14.222 14.223" mask="url(#SVGvCV5wclL)"/><path fill="url(#SVGRvjwscVp)" d="M0 170.667v170.666h113.778V184.89c0-7.855-6.368-14.222-14.222-14.222z" mask="url(#SVGvCV5wclL)"/></svg>',
       "visualstudiocode": '<svg xmlns="http://www.w3.org/2000/svg" width="256" height="254" viewBox="0 0 256 254"><defs><linearGradient id="SVG6Q5wMbNQ" x1="50%" x2="50%" y1="0%" y2="100%"><stop offset="0%" stop-color="#fff"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></linearGradient><path id="SVGWhZ12djk" d="M180.828 252.605a15.87 15.87 0 0 0 12.65-.486l52.501-25.262a15.94 15.94 0 0 0 9.025-14.364V41.197a15.94 15.94 0 0 0-9.025-14.363l-52.5-25.263a15.88 15.88 0 0 0-18.115 3.084L74.857 96.35l-43.78-33.232a10.614 10.614 0 0 0-13.56.603L3.476 76.494c-4.63 4.211-4.635 11.495-.012 15.713l37.967 34.638l-37.967 34.637c-4.623 4.219-4.618 11.502.012 15.714l14.041 12.772a10.614 10.614 0 0 0 13.56.604l43.78-33.233l100.507 91.695a15.85 15.85 0 0 0 5.464 3.571m10.464-183.649l-76.262 57.889l76.262 57.888z"/></defs><mask id="SVGSAQ58H2f" fill="#fff"><use href="#SVGWhZ12djk"/></mask><path fill="#0065a9" d="M246.135 26.873L193.593 1.575a15.885 15.885 0 0 0-18.123 3.08L3.466 161.482c-4.626 4.219-4.62 11.502.012 15.714l14.05 12.772a10.625 10.625 0 0 0 13.569.604L238.229 33.436c6.949-5.271 16.93-.315 16.93 8.407v-.61a15.94 15.94 0 0 0-9.024-14.36" mask="url(#SVGSAQ58H2f)"/><path fill="#007acc" d="m246.135 226.816l-52.542 25.298a15.89 15.89 0 0 1-18.123-3.08L3.466 92.207c-4.626-4.218-4.62-11.502.012-15.713l14.05-12.773a10.625 10.625 0 0 1 13.569-.603l207.132 157.135c6.949 5.271 16.93.315 16.93-8.408v.611a15.94 15.94 0 0 1-9.024 14.36" mask="url(#SVGSAQ58H2f)"/><path fill="#1f9cf0" d="M193.428 252.134a15.89 15.89 0 0 1-18.125-3.083c5.881 5.88 15.938 1.715 15.938-6.603V11.273c0-8.318-10.057-12.483-15.938-6.602a15.89 15.89 0 0 1 18.125-3.084l52.533 25.263a15.94 15.94 0 0 1 9.03 14.363V212.51c0 6.125-3.51 11.709-9.03 14.363z" mask="url(#SVGSAQ58H2f)"/><path fill="url(#SVG6Q5wMbNQ)" fill-opacity=".25" d="M180.828 252.605a15.87 15.87 0 0 0 12.65-.486l52.5-25.263a15.94 15.94 0 0 0 9.026-14.363V41.197a15.94 15.94 0 0 0-9.025-14.363L193.477 1.57a15.88 15.88 0 0 0-18.114 3.084L74.857 96.35l-43.78-33.232a10.614 10.614 0 0 0-13.56.603L3.476 76.494c-4.63 4.211-4.635 11.495-.012 15.713l37.967 34.638l-37.967 34.637c-4.623 4.219-4.618 11.502.012 15.714l14.041 12.772a10.614 10.614 0 0 0 13.56.604l43.78-33.233l100.506 91.695a15.9 15.9 0 0 0 5.465 3.571m10.464-183.65l-76.262 57.89l76.262 57.888z" mask="url(#SVGSAQ58H2f)"/></svg>',
+      "lookerstudio": '<svg xmlns="http://www.w3.org/2000/svg" width="256" height="239" viewBox="0 0 256 239"><path fill="#669df6" d="M224.022 173.159h-92.959c-22.48 0-35.07 15.736-35.07 32.485c0 15.455 10.679 32.484 35.07 32.484h92.959z"/><ellipse cx="224.022" cy="205.587" fill="#1a73e8" rx="31.979" ry="32.485"/><path fill="#669df6" d="M128.028 86.551H35.07C12.59 86.551 0 102.288 0 119.036c0 15.456 10.678 32.485 35.07 32.485h92.958z"/><ellipse cx="128.028" cy="119.036" fill="#1a73e8" rx="31.979" ry="32.485"/><path fill="#669df6" d="M224.022 0h-92.959c-22.48 0-35.07 15.737-35.07 32.485c0 15.455 10.679 32.485 35.07 32.485h92.959z"/><ellipse cx="224.022" cy="32.485" fill="#1a73e8" rx="31.979" ry="32.485"/></svg>',
+      "adobe": '<svg xmlns="http://www.w3.org/2000/svg" width="256" height="227" viewBox="0 0 256 227"><path fill="#fa0f00" d="m128.024 83.527l60.288 143.042h-39.513l-18.038-45.554H86.642zM256 0v226.54L161.353 0zM94.684 0L0 226.54V0z"/></svg>',
+      "magento": '<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256"><circle cx="129.141" cy="127.998" r="121.376" fill="#27140D"/><path fill="#F26724" d="M129.141 12.571c16 0 30.857 3.429 44.571 9.143c13.714 5.714 26.285 13.714 36.57 25.143c10.286 10.285 19.43 22.856 25.143 36.57c5.715 13.715 9.143 29.714 9.143 44.571s-3.428 30.857-9.143 44.571c-5.714 13.714-13.714 26.285-25.142 36.571c-10.286 10.286-22.857 19.428-36.571 25.143c-13.714 5.714-29.714 9.142-44.57 9.142c-14.858 0-30.858-3.428-44.572-9.142c-13.714-5.715-26.285-13.715-36.57-25.143c-10.286-10.286-19.429-22.857-25.143-36.57c-5.714-13.715-9.143-29.715-9.143-44.572c0-14.857 3.429-30.856 9.143-44.57C28.57 69.712 36.57 57.141 47.999 46.856C58.285 36.57 70.856 27.428 84.57 21.714c13.714-5.714 28.571-9.143 44.571-9.143m0-12.571C58.285 0 0 57.142 0 127.998s57.142 127.999 127.998 127.999s127.999-57.143 127.999-127.999S199.997 0 129.14 0Z"/><path fill="#FDDFDD" d="m139.427 98.284l20.57 11.429v84.57l-30.856 17.143l-30.857-17.143v-84.57l20.572-11.429v83.428l10.285 5.714l10.286-5.714V98.284ZM129.14 44.571l73.142 41.142v84.57l-20.571 11.429V98.284l-52.57-29.713L76.57 98.284v83.428L56 169.14V85.713l73.141-41.142Z"/></svg>',
       "haproxy": '<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128"><path fill="#06486d" d="m51.01 31.87l-.862.761L63.49 47.685l.86-.763zm-28.872 3.71l-.478.332l10.486 15.125l.479-.332z"/><path fill="#06486d" d="m76.687 31.801l-13.2 15.125l.866.756l13.2-15.125zm18.541 18.631L79.46 63.702l.74.878l15.767-13.27z"/><path fill="#06486d" d="m80.209 63.71l-.756.864l15.767 13.77l.756-.866zM64.347 80.023l-.853.77L76.836 95.56l.853-.77z"/><path fill="#06486d" d="m63.492 80.025l-13.2 14.768l.858.765l13.2-14.767zm-16.36-16.388l-15.125 13.2l.756.864l15.125-13.2z"/><path fill="#06486d" d="m32.763 50.437l-.756.868l15.125 13.197l.756-.865z"/><path fill="#06486d" d="m63.855 46.733l-31.533 3.568l.129 1.14l31.533-3.566z"/><path fill="#06486d" d="m63.984 46.733l-.127 1.142l31.676 3.566l.129-1.14z"/><path fill="#06486d" d="m77.69 32.131l-1.144.095l2.71 31.963l1.146-.097z"/><path fill="#06486d" d="M79.257 64.093L76.689 95.13l1.145.093l2.568-31.033z"/><path fill="#06486d" d="m95.552 77.338l-31.677 2.498l.09 1.144l31.677-2.496z"/><path fill="#06486d" d="m32.443 76.697l-.113 1.143l31.533 3.14l.115-1.144z"/><path fill="#06486d" d="m48.082 64.012l-1.143.117l3.21 31.105l1.144-.117z"/><path fill="#06486d" d="m50.007 32.195l-3.068 31.82l1.145.11l3.066-31.82zM32.308 50.59l-14.484 4.068l.158.56l14.482-4.066z"/><path fill="#06486d" d="m35.623 21.24l-.338.475L50.41 32.486l.338-.472z"/><path fill="#06486d" d="m53.789 14.573l-3.496 17.62l.572.114l3.496-17.622z"/><path fill="#06486d" d="m54.252 14.396l-.354.463L76.943 32.41l.353-.463z"/><path fill="#06486d" d="m73.98 14.573l-.57.11l3.424 17.551l.572-.11z"/><path fill="#06486d" d="M92.148 21.238L76.95 31.941l.336.475l15.197-10.7z"/><path fill="#06486d" d="m77.156 31.891l-.072.576l28.752 3.568l.072-.578z"/><path fill="#06486d" d="M105.63 35.582L95.357 50.707l.48.328l10.276-15.125z"/><path fill="#06486d" d="m95.675 50.59l-.156.562l14.697 4.067l.157-.563z"/><path fill="#06486d" d="m95.84 50.713l-.487.316l14.34 22.047l.488-.318zM73.517 14.396L50.402 32.017l.353.465L73.87 14.86z"/><path fill="#06486d" d="m92.605 21.445l-.578.065l3.28 29.394l.579-.066zm17.235 51.198L95.5 77.637l.193.548l14.34-4.994z"/><path fill="#06486d" d="M110.048 54.781L95.35 77.754l.492.314l14.698-22.974z"/><path fill="#06486d" d="m95.832 77.738l-.47.346l10.347 13.984l.468-.347z"/><path fill="#06486d" d="m95.308 77.877l-3.21 28.254l.577.064l3.21-28.252z"/><path fill="#06486d" d="m77.433 94.941l-.342.471l15.125 10.986l.342-.47z"/><path fill="#06486d" d="m105.91 91.605l-28.682 3.282l.067.578l28.68-3.282z"/><path fill="#06486d" d="m76.976 95.121l-3.496 17.836l.572.111l3.496-17.836z"/><path fill="#06486d" d="m77.084 94.945l-23.116 17.836l.356.461l23.115-17.836z"/><path fill="#06486d" d="m51.007 95.121l-.572.11l3.426 17.835l.57-.11z"/><path fill="#06486d" d="m50.9 94.945l-.357.461l23.044 17.836l.358-.46z"/><path fill="#06486d" d="m50.55 94.94l-15.195 10.988l.34.47l15.197-10.986z"/><path fill="#06486d" d="m22.002 91.748l-.065.578l28.752 3.14l.065-.579z"/><path fill="#06486d" d="M32.148 77.101L21.732 91.87l.477.336l10.416-14.77z"/><path fill="#06486d" d="m32.675 77.236l-.578.065l3.139 28.894l.578-.064z"/><path fill="#06486d" d="m17.92 72.423l-.176.557l14.554 4.567l.174-.557z"/><path fill="#06486d" d="M32.144 50.71L17.59 72.54l.485.322l14.555-21.83z"/><path fill="#06486d" d="m18.148 54.78l-.49.316l14.484 22.332l.488-.319zm17.016-33.333l-3.067 29.396l.578.058l3.069-29.392z"/><path fill="#06486d" d="m50.545 31.961l-28.682 3.496l.07.578l28.682-3.496z"/><path fill="#093d5f" d="m24.42 15.928l-.192.396l11.13 5.352l.19-.397z"/><path fill="#093d5f" d="m34.818 9.19l-.44.031l.856 12.271l.44-.03z"/><path fill="#093d5f" d="m34.656 8.994l-.117.424l19.476 5.422l.12-.424z"/><path fill="#093d5f" d="m45.97 4.144l-.343.276l8.275 10.346l.346-.276z"/><path fill="#093d5f" d="m57.359 2.297l-3.496 12.271l.424.12l3.496-12.27zM45.61 4.17L35.266 21.363l.377.227L45.989 4.396z"/><path fill="#093d5f" d="m57.705 2.182l-.268.35l16.125 12.27l.266-.349z"/><path fill="#093d5f" d="m70.267 1.797l-.424.12l3.639 12.77l.424-.119z"/><path fill="#093d5f" d="m69.918 1.685l-15.98 12.77l.275.346L70.193 2.03zM81.87 4.144L73.523 14.49l.344.276l8.346-10.344z"/><path fill="#093d5f" d="m82.232 4.17l-.38.226L92.128 21.59l.378-.227z"/><path fill="#093d5f" d="m93.238 9.185l-1.143 12.272l.44.04l1.142-12.27z"/><path fill="#093d5f" d="m93.398 8.994l-19.762 5.422l.118.424l19.76-5.422zm10.231 6.366l-11.415 5.92l.204.39l11.414-5.92z"/><path fill="#093d5f" d="m92.347 21.26l-.064.435l19.906 2.926l.065-.438z"/><path fill="#093d5f" d="m112.029 24.295l-6.35 11.344l.385.214l6.35-11.343z"/><path fill="#093d5f" d="m103.95 15.531l-.44.047l2.142 20.191l.437-.046z"/><path fill="#093d5f" d="m118.91 34.457l-13.057 1.07l.035.438l13.057-1.07z"/><path fill="#093d5f" d="m105.98 35.555l-.217.382l17.907 10.131l.216-.383z"/><path fill="#093d5f" d="m118.724 34.59l-8.633 20.261l.407.172l8.632-20.26z"/><path fill="#093d5f" d="m123.656 45.693l-13.485 9.06l.247.368l13.484-9.06z"/><path fill="#093d5f" d="m110.338 54.723l-.088.431l15.054 3.067l.088-.432z"/><path fill="#093d5f" d="m125.195 57.848l-15.41 14.91l.306.316l15.41-14.91z"/><path fill="#093d5f" d="m125.736 69.703l-15.84 2.996l.082.434l15.84-2.996z"/><path fill="#093d5f" d="m110.447 54.78l-.307.316l15.483 14.982l.306-.316zm-.387 17.953l-.244.366l13.484 8.99l.245-.366z"/><path fill="#093d5f" d="m123.312 81.715l-17.478 9.988l.218.383l17.479-9.988z"/><path fill="#093d5f" d="m105.964 91.676l-.043.437l12.913 1.285l.044-.44z"/><path fill="#093d5f" d="m110.14 72.828l-.404.178l8.918 20.261l.404-.177zm-4.004 18.962l-.388.208l6.136 11.416l.389-.21z"/><path fill="#093d5f" d="m105.724 91.87l-2.355 20.046l.437.053l2.356-20.05z"/><path fill="#093d5f" d="m92.488 105.967l-.201.392l11.2 5.78l.202-.393z"/><path fill="#093d5f" d="m92.607 106.146l-.44.034l.928 12.556l.44-.033z"/><path fill="#093d5f" d="m112.046 103.092l-19.69 2.853l.062.436l19.69-2.854z"/><path fill="#093d5f" d="m92.197 106.051l-10.274 17.48l.38.223l10.275-17.479z"/><path fill="#093d5f" d="m73.94 112.877l-.347.271l8.346 10.631l.348-.273z"/><path fill="#093d5f" d="m73.828 112.801l-.123.423l19.549 5.708l.123-.424z"/><path fill="#093d5f" d="m73.554 112.953l-3.638 13.057l.423.117l3.64-13.055z"/><path fill="#093d5f" d="m73.627 112.842l-16.123 13.054l.277.344l16.123-13.057z"/><path fill="#093d5f" d="m54.359 112.955l-.426.115l3.496 13.055l.426-.113z"/><path fill="#093d5f" d="m54.285 112.842l-.278.341l15.98 13.055l.28-.34z"/><path fill="#093d5f" d="m53.972 112.877l-8.275 10.63l.348.27l8.275-10.629z"/><path fill="#093d5f" d="m35.714 106.051l-.378.224l10.345 17.48l.38-.224z"/><path fill="#093d5f" d="m54.082 112.801l-19.62 5.994l.13.422l19.619-5.994z"/><path fill="#093d5f" d="m35.306 106.146l-1 12.842l.44.033l1-12.84z"/><path fill="#093d5f" d="m35.42 105.971l-11.344 6.207l.21.386l11.344-6.207z"/><path fill="#093d5f" d="m22.19 92.013l-.438.047l2.21 20.334l.438-.048z"/><path fill="#093d5f" d="m15.72 103.305l-.058.437l19.834 2.639l.058-.436z"/><path fill="#093d5f" d="m21.777 91.932l-6.28 11.486l.387.21l6.28-11.486z"/><path fill="#093d5f" d="M21.949 91.818L8.964 93.031l.04.438l12.986-1.213z"/><path fill="#093d5f" d="m4.17 81.855l-.215.385l17.908 9.988l.215-.384z"/><path fill="#093d5f" d="m17.709 72.52l-13.77 9.347l.246.363l13.77-9.345z"/><path fill="#093d5f" d="m2.246 69.703l-.078.434l15.625 2.783l.078-.434z"/><path fill="#093d5f" d="M17.629 72.615L8.783 93.162l.404.176l8.848-20.55zm.123-17.835L2.054 69.76l.305.32l15.695-14.982z"/><path fill="#093d5f" d="m2.287 57.843l-.301.323L17.68 72.863l.3-.322zm2.326-12.007l-.244.367l13.412 8.918l.244-.367z"/><path fill="#093d5f" d="M17.86 54.721L2.093 57.79l.084.434l15.768-3.069z"/><path fill="#093d5f" d="m9.257 34.658l-.402.178l8.846 20.19l.404-.177z"/><path fill="#093d5f" d="m9.074 34.527l-.035.44l12.84.998l.037-.44z"/><path fill="#093d5f" d="M21.787 35.557L4.379 45.83l.224.38L22.01 35.934z"/><path fill="#093d5f" d="m16.027 24.865l-.385.215l6.065 10.773l.382-.214z"/><path fill="#093d5f" d="m24.105 16.1l-2.426 19.62l.438.053l2.426-19.62z"/><path fill="#093d5f" d="m35.416 21.26l-19.621 3.496l.078.433l19.619-3.496z"/><path fill="#006da7" d="M56.406 39.717L56.3 54.913l15.224.105l.106-15.196zM39.952 56.529l-.106 15.195l15.225.105l.106-15.194zm32.977 0l-.106 15.197l15.225.106l.106-15.196zM56.476 72.983l-.106 15.195l15.223.106l.106-15.196z"/><path fill="#2f77bb" d="m45.45 27l-.074 10.56l10.595.073l.073-10.56zm26.44.072l-.074 10.558l10.594.074l.074-10.558ZM27.128 45.68l-.074 10.558l10.595.074l.073-10.558Zm63.224.073l-.074 10.558l10.594.074l.074-10.558zM27.129 72.12l-.074 10.558l10.595.074l.073-10.558Zm63.153.072l-.074 10.558l10.594.074l.074-10.558zM71.817 90.297l-.074 10.558l10.595.076l.073-10.56zm-26.368.071l-.074 10.559l10.594.073l.074-10.558Z"/><path fill="#139ad6" d="m77.178 11.287l-6.92.05l.047 6.94l6.922-.048zm-26.452.1l-.05 6.92l6.943.047l.048-6.92zm45.19 6.761l-6.92.047l.05 6.942l6.92-.049zm-63.8.062l-.048 6.92l6.942.05l.048-6.92zm77.313 14.183l-6.92.05l.05 6.94l6.919-.049zm-90.89.043l-.05 6.92l6.942.05l.048-6.922zm94.948 19.19l-6.92.05l.049 6.94l6.92-.047zm-98.973.065l-.05 6.92l6.914.05l.05-6.923zm6.922 17.7l-6.92.05l.048 6.942l6.92-.049zm85.184.047l-.05 6.921l6.916.048l.047-6.92zm-81.125 19.19l-6.922.047l.05 6.942l6.92-.05zm77.1.065l-.047 6.92l6.94.048l.05-6.92zm-63.588 14.18l-6.921.047l.048 6.942l6.92-.049zm50.08.116l-.047 6.922l6.94.047l.05-6.92zm-31.413 6.674l-6.92.047l.049 6.942l6.92-.049zm12.734.08l-.048 6.92l6.942.05l.049-6.92z"/><path fill="#03a8d9" d="m59.675-.001l-3.783.025l.027 3.81l3.78-.025zm8.54.043l-.027 3.781L72 3.848l.025-3.78zm12 2.299v.002h-.001l-.028 3.779l3.811.027v-.002l.027-3.78h-.002zm-36.282.07l-.028 3.781l3.81.027l.026-3.78zm-7.395 4.812l-3.781.028l.025 3.81l3.783-.027zm55.027.075l-.027 3.78l3.81.028l.028-3.783zm-69.117 6.824l-.025 3.781l3.81.027l.026-3.78zm79.463.002l-.027 3.78l3.81.026l.026-3.779zm-87.94 8.619l-.027 3.781l3.81.028l.026-3.784zm96.346.002l-.025 3.781l3.809.028l.027-3.782zM7.147 32.872l-.027 3.781l3.81.028l.026-3.782zm109.922.004l-.025 3.78l3.81.026l.026-3.779zM2.55 44.153l-.027 3.78l3.809.027l.027-3.78zm119.48.002l-.03 3.783l3.81.026l.026-3.78zm1.866 11.928l-.027 3.781h.027l3.785.028l.025-3.784zM.321 56.15l-.027 3.782l3.81.027l.026-3.783zm0 11.926l-.027 3.781l3.81.028l.026-3.78zm123.574.004l-.027 3.781l3.81.028l.026-3.782zM2.545 80.15l-.025 3.78l3.809.027l.027-3.78zm119.339.002l-.028 3.782l3.81.027l.026-3.781zM7.074 91.43l-.028 3.783l3.81.025l.026-3.783zm109.921.004l-.025 3.781l3.81.025l.026-3.78zM13.97 101.632l-.026 3.781l3.81.028l.026-3.784zm96.418.004l-.028 3.78l3.81.027l.026-3.782zm-8.479 8.404l-.025 3.782l3.808.027l.028-3.781zm-79.463.07l-.025 3.782l3.808.027l.028-3.783zm72.86 7.003l-3.782.025l.028 3.81l3.783-.025zm-62.512.039l-.027 3.78l3.808.028l.027-3.781zm11.135 4.67l-.026 3.78l3.81.028l.026-3.781zm36.718.433l-.039 3.781l3.81.038l.038-3.78zm-8.62 1.87l-3.782.025l.025 3.81l3.784-.027zm-16.03.07l-.025 3.779l3.808.027l.028-3.781z"/></svg>',
       "vsphere": '<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128"><path fill="#00c1d5" d="M60.168.104H18.641S2.278.932 0 18.744v89.373s1.14 17.915 19.78 19.78h36.35l5.488-5.49H20.401s-13.048-1.656-14.705-14.705V19.883S5.178 6.628 20.194 5.385h35.107z"/><path fill="#78bd20" d="M67.832 127.896h41.527s16.363-.828 18.641-18.64V19.883S126.86 1.968 108.22.103H71.974l-5.489 5.49H107.6s13.048 1.656 14.705 14.705v87.819s.518 13.255-14.498 14.498H72.803Z"/><g fill="#0091da"><path d="M101.385 111.534s-.103 0 0 0H47.016c-6.731 0-9.113-6.006-9.424-9.217v-56.13c0-7.56 6.524-9.837 9.942-9.941h.103l54.576.207c6.835 0 9.321 6.214 9.632 9.424v55.094c0 3.107-.932 5.696-2.9 7.56c-2.9 2.9-6.939 3.003-7.56 3.003m-59.65-9.631c.103.828.932 5.489 5.281 5.489h54.37c.103 0 2.899 0 4.763-1.76c1.035-1.036 1.553-2.59 1.553-4.558V46.291c-.103-.932-1.035-5.695-5.592-5.695l-54.472-.208c-.725 0-5.903.518-5.903 5.8z"/><path d="M32.104 86.162h-7.25c-4.039 0-4.763-4.246-4.97-5.075V25.372c0-4.97 4.66-5.385 5.488-5.489l54.576.208c4.143 0 4.971 4.453 5.178 5.281v5.696h4.971v-6.11c-.414-3.417-3.003-9.838-10.045-9.838l-54.68-.207c-3.52.103-10.252 2.485-10.252 10.356v56.129c.31 3.314 2.9 9.631 9.838 9.631h7.25v-4.867z"/></g></svg>',
       "microsoftsqlserver": '<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128"><defs><linearGradient id="SVGfp3H9qRq" x1="-2901.952" x2="-2061.249" y1="923.573" y2="1420.331" gradientTransform="matrix(.01102 0 0 -.01102 56.808 125.521)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#909ca9"/><stop offset="1" stop-color="#ededee"/></linearGradient><linearGradient id="SVGi3e5AgbE" x1="-2882.7" x2="-2206.249" y1="10288.81" y2="10288.81" gradientTransform="matrix(.01102 0 0 -.01102 56.808 125.521)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#939fab"/><stop offset="1" stop-color="#dcdee1"/></linearGradient><radialGradient id="SVG01wvtQjR" cx="-14217.448" cy="7277.705" r="898.12" gradientTransform="matrix(-.01059 -.0016 -.00321 .02118 -64.462 -130.43)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ee352c"/><stop offset="1" stop-color="#a91d22"/></radialGradient></defs><path fill="url(#SVGfp3H9qRq)" d="m79.363 59.755l-25.634 8.37l-22.3 9.842l-6.24 1.648a136 136 0 0 1-5.057 4.592c-1.976 1.704-3.816 3.255-5.23 4.378c-1.57 1.24-3.895 3.565-5.077 5.038c-1.764 2.209-3.158 4.553-3.759 6.355c-1.066 3.255-.542 6.549 1.511 9.591c2.636 3.875 7.886 7.828 14.008 10.52c3.12 1.377 8.37 3.14 12.324 4.127c6.567 1.667 19.278 3.47 26.272 3.74c1.414.059 3.313.059 3.39 0c.156-.097 1.241-2.17 2.501-4.746c4.3-8.778 7.4-17.012 9.087-24.046c1.007-4.262 1.801-9.939 2.324-16.662c.136-1.88.194-8.177.078-10.308c-.175-3.487-.485-6.316-.97-9.086c-.077-.408-.096-.776-.057-.796c.077-.057.31-.135 3.468-1.046zm-5.851 3.43c.233 0 .852 5.947 1.007 9.706c.039.795.02 1.318-.02 1.318c-.154 0-3.274-1.84-5.501-3.236c-1.938-1.22-5.62-3.661-6.2-4.127c-.195-.135-.176-.155 1.413-.697c2.693-.91 9.088-2.965 9.3-2.965zm-13.06 4.3c.175 0 .62.252 1.686.911c3.991 2.5 9.417 5.523 11.742 6.53c.716.31.794.193-.853 1.318c-3.526 2.402-7.924 4.766-13.31 7.149c-.95.426-1.745.755-1.764.755c-.039 0 .078-.484.233-1.065c1.297-4.825 2.034-9.707 2.073-13.621c.02-1.938.02-1.938.194-1.996c-.04.02-.02.02 0 .02zm-2.692 1.027c.116.117.038 4.457-.117 5.639a49.4 49.4 0 0 1-1.782 8.428c-.213.717-.407 1.318-.446 1.356c-.078.097-2.732-2.5-3.604-3.507c-1.511-1.744-2.693-3.487-3.565-5.192c-.445-.872-1.143-2.577-1.085-2.635c.31-.214 10.521-4.166 10.599-4.089m-12.672 4.98c.019 0 .038 0 .058.019c.039.039.175.35.291.698c.62 1.685 2.014 4.165 3.216 5.754c1.318 1.744 3.042 3.605 4.476 4.825c.465.387.891.755.949.813c.116.117.155.097-3.004 1.299c-3.66 1.395-7.652 2.79-12.225 4.262a610 610 0 0 0-3.274 1.066c-.175.058-.116-.04.387-.834c2.267-3.544 5.715-10.5 7.653-15.422c.33-.853.66-1.705.718-1.899c.077-.271.174-.368.425-.504c.136-.038.272-.077.33-.077M41.213 75.1c.058.039-.93 2.112-1.899 4.01c-1.88 3.663-3.933 7.267-6.684 11.646c-.466.755-.91 1.453-.97 1.53c-.096.136-.134.097-.445-.503c-.659-1.299-1.201-2.965-1.492-4.496c-.29-1.511-.232-4.146.098-5.774c.25-1.2.232-1.181.813-1.472c2.48-1.26 10.502-5.018 10.58-4.941zm33.422 1.357v.813c0 4.321-.465 10.25-1.143 14.57c-.116.756-.213 1.376-.232 1.396c0 0-.562-.155-1.22-.349a50 50 0 0 1-8.914-3.817c-1.88-1.027-4.61-2.713-4.533-2.79c.019-.02.833-.446 1.782-.95c3.798-1.976 7.44-4.107 10.599-6.22c1.182-.794 2.964-2.072 3.351-2.421zm-48.05 5.734c.077 0 .057.155-.059.853a28 28 0 0 0-.213 2.072c-.155 2.83.31 4.923 1.705 7.79c.388.794.698 1.453.678 1.472c-.135.117-12.962 3.876-16.992 4.98c-1.201.33-2.247.62-2.325.639c-.136.04-.155.02-.097-.31c.446-2.848 2.616-6.568 5.639-9.707c2.014-2.093 3.623-3.313 6.374-4.882c1.976-1.124 5.018-2.81 5.25-2.887c0-.02.02-.02.04-.02m30.225 5.406c.02-.02.484.233 1.046.562c4.147 2.403 9.92 4.631 14.841 5.774l.446.097l-.62.349c-2.576 1.434-11.044 4.96-19.704 8.195c-1.26.465-2.5.93-2.732 1.027s-.446.155-.446.135s.349-.697.794-1.53c2.422-4.534 4.863-10.056 6.104-13.892c.155-.368.251-.697.27-.717zm-3.08 1.007c.019.02-.136.427-.33.892c-1.686 4.088-3.895 8.545-6.724 13.543c-.716 1.28-1.317 2.306-1.336 2.306s-.601-.349-1.299-.775c-4.107-2.519-7.75-5.619-10.132-8.622l-.35-.426l1.764-.485c6.316-1.724 11.683-3.584 17.011-5.87c.756-.31 1.376-.563 1.395-.563zm19.142 6.685s.02.02 0 0c.02.446-.969 4.437-1.783 7.324c-.678 2.422-1.259 4.32-2.325 7.672c-.464 1.474-.87 2.693-.89 2.693s-.136-.018-.253-.057c-5.754-1.047-10.908-2.5-15.752-4.437c-1.356-.543-3.293-1.415-3.41-1.512c-.038-.039 1.124-.581 2.597-1.22c8.816-3.856 17.96-8.235 21.1-10.114c.368-.233.658-.349.716-.349M28.677 96.8c.039.04-2.422 3.585-5.87 8.41c-1.202 1.685-2.597 3.661-3.12 4.397a78 78 0 0 0-1.763 2.597l-.814 1.26l-.872-.737c-1.027-.853-2.809-2.674-3.604-3.681c-1.666-2.073-2.79-4.263-3.235-6.258c-.214-.93-.214-1.396-.02-1.453a1459 1459 0 0 1 10.308-2.423a862 862 0 0 0 6.936-1.627c1.124-.271 2.035-.485 2.054-.485m2.48.95l.62.697c2.79 3.12 5.638 5.426 9.087 7.44c.62.35 1.085.66 1.046.68c-.135.096-11.974 4.3-17.457 6.199a463 463 0 0 1-5.638 1.957c-.019 0-.194-.117-.387-.252l-.349-.252l.562-.814c1.82-2.635 4.107-5.522 9.086-11.528zm15.462 11.063c.019-.02.871.29 1.918.679c2.519.949 4.514 1.55 7.188 2.228c3.294.833 8.06 1.647 10.87 1.88c.426.038.658.077.581.135c-.136.077-2.984 1.027-5.076 1.685c-3.333 1.047-13.505 4.05-21.798 6.433a219 219 0 0 1-2.925.834c-.194.038-.834-.137-.834-.214c0-.038.465-.639 1.027-1.298c2.79-3.333 5.561-7.053 7.867-10.579c.64-.969 1.182-1.764 1.182-1.783m-3.41.097c.019.02-1.357 2.228-3.76 6.026c-1.026 1.608-2.17 3.43-2.576 4.069c-.388.62-.97 1.589-1.298 2.131l-.562.988l-.291-.077c-.698-.194-5.6-1.919-6.898-2.442a48 48 0 0 1-4.514-2.072c-1.55-.834-3.487-2.074-3.332-2.113c.038-.02 2.693-.736 5.89-1.608c8.485-2.306 13.194-3.642 16.275-4.611c.562-.175 1.046-.31 1.065-.29zm24.122 5.657h.02c.077.195-3.062 8.913-4.206 11.664c-.251.62-.348.776-.484.756c-.329-.02-4.882-.658-7.653-1.065c-4.824-.736-12.924-2.151-14.957-2.616l-.466-.097l2.887-.659c6.2-1.395 9.184-2.15 12.207-3.08a86 86 0 0 0 11.412-4.399c.6-.27 1.104-.484 1.24-.503z"/><path fill="url(#SVGi3e5AgbE)" d="M52.935.001c-.426-.058-7.305 2.422-11.741 4.224c-5.988 2.441-10.637 4.766-13.505 6.781c-1.066.756-2.403 2.093-2.616 2.616a1.8 1.8 0 0 0-.116.659l2.597 2.46l6.18 1.977l14.706 2.635l16.817 2.887l.175-1.453c-.058 0-.097-.02-.155-.02l-2.209-.348l-.445-.795c-2.287-4.03-4.805-9.029-6.278-12.4c-1.142-2.616-2.228-5.638-2.828-7.808C53.187.098 53.149.02 52.935 0Zm-.31.988h.02c.019.02.096.563.174 1.202c.33 2.712.93 5.328 1.88 8.157c.716 2.13.716 2.015-.117 1.763c-1.976-.542-10.83-2.073-17.244-2.965c-1.027-.135-1.899-.27-1.899-.29c-.077-.078 4.63-2.538 6.704-3.507c2.654-1.22 9.94-4.263 10.482-4.36M33.947 9.67l.756.252c4.108 1.395 14.434 3.372 20.131 3.837c.639.058 1.182.116 1.2.116c.02.02-.522.31-1.22.639c-2.751 1.376-5.774 3.062-7.866 4.36c-.62.387-1.182.698-1.26.698c-.077 0-.484-.078-.91-.137l-.775-.116l-1.938-1.899a804 804 0 0 0-7.11-6.84zm-.775.601l2.732 3.41c1.492 1.88 3.004 3.72 3.333 4.127s.6.736.58.756c-.077.058-3.952-.698-6.005-1.162c-2.112-.485-2.984-.718-4.282-1.125l-1.066-.349v-.27c.02-1.3 1.667-3.237 4.456-5.212zm23.212 4.65c.077 0 .174.174.406.697c.66 1.453 2.713 5.367 3.217 6.123c.155.252.426.272-2.306-.174c-6.568-1.066-8.68-1.415-8.68-1.453c0-.02.194-.155.446-.291c2.035-1.124 4.088-2.557 5.91-4.088c.445-.368.852-.717.93-.775c.019-.039.057-.058.077-.039"/><path fill="url(#SVG01wvtQjR)" d="M25.209 13.35s-.426.679-.02 1.687c.252.62.988 1.375 1.822 2.15c0 0 8.621 8.409 9.668 9.61c4.766 5.503 6.84 10.928 7.033 18.407c.117 4.805-.794 9.029-3.061 13.931c-4.03 8.796-12.536 18.504-25.653 29.276l1.918-.64c1.24-.93 2.926-1.917 6.879-4.087c9.125-5 19.394-9.591 31.988-14.32c18.135-6.82 47.954-14.802 64.926-17.398l1.764-.271l-.272-.427c-1.55-2.403-2.616-3.894-3.895-5.483c-3.72-4.611-8.233-8.35-13.756-11.45c-7.595-4.244-17.418-7.557-29.857-10.017c-2.345-.466-7.499-1.357-11.684-1.996a1194 1194 0 0 1-20.925-3.41c-2.267-.388-5.658-.969-7.905-1.454c-1.163-.252-3.39-.775-5.134-1.375c-1.395-.543-3.41-1.085-3.837-2.732Zm4.999 4.844c.019-.018.329.098.736.233a50 50 0 0 0 2.81.853a143 143 0 0 0 2.557.678c1.162.29 2.131.561 2.15.561c.136.136 2.093 6.394 2.752 8.797c.252.91.446 1.685.427 1.685c-.02.02-.233-.31-.485-.755c-2.267-3.991-5.851-8.04-9.998-11.296c-.542-.387-.95-.736-.95-.756Zm9.532 2.636c.098 0 .524.058 1.047.174c3.293.736 9.203 1.86 12.98 2.5c.64.097 1.144.213 1.144.251c0 .04-.232.175-.523.33c-.64.329-3.216 1.86-4.069 2.44c-2.15 1.435-4.088 2.985-5.483 4.38c-.562.562-1.046 1.027-1.046 1.027s-.116-.33-.214-.736c-.697-2.694-2.15-6.685-3.468-9.495c-.213-.445-.387-.852-.387-.89c0 .038 0 .019.02.019zm16.78 3.196c.116.04.31.698.697 2.151a31.7 31.7 0 0 1 .93 8.874c-.039.814-.078 1.57-.117 1.667l-.058.193l-1.007-.33c-2.073-.658-5.444-1.646-8.331-2.46c-1.647-.446-2.984-.852-2.984-.89c0-.117 2.403-2.52 3.43-3.43c1.956-1.725 7.265-5.832 7.44-5.775m1.336.194c.058-.058 8.022 1.317 11.645 2.015c2.694.523 6.607 1.337 6.84 1.434c.115.039-.291.27-1.59.853c-5.115 2.305-8.912 4.378-12.69 6.897c-.988.659-1.822 1.202-1.84 1.202c-.02 0-.04-.562-.04-1.24c0-3.681-.735-7.402-2.092-10.54c-.136-.31-.252-.601-.233-.62zm20.596 4.07c.058.057-.193 1.627-.426 2.557c-.698 2.887-2.577 7.169-4.882 11.199c-.408.717-.776 1.298-.815 1.317c-.038.02-.56-.271-1.162-.62c-2.247-1.318-4.805-2.557-7.595-3.72c-.775-.33-1.453-.6-1.472-.64c-.136-.115 6.103-4.242 9.396-6.219c2.617-1.589 6.88-3.952 6.956-3.875zm1.473.232c.174 0 3.7.968 5.541 1.511c4.553 1.356 9.785 3.274 13.195 4.824l1.414.64l-.988.232c-8.33 1.918-15.461 4.128-22.34 6.917c-.562.233-1.066.427-1.104.427s.155-.446.407-.988c2.073-4.399 3.41-8.99 3.74-12.905c.019-.368.077-.658.135-.658m-35.108 8.06c.058-.058 2.75.581 4.204.988c2.21.62 6.898 2.19 6.898 2.305c0 .02-.523.466-1.143 1.008c-2.538 2.112-4.98 4.34-7.906 7.169c-.871.833-1.607 1.511-1.646 1.511c-.04 0-.058-.116-.04-.271c.446-3.255.35-7.44-.27-11.683c-.059-.543-.117-1.008-.098-1.027zm56.595.058c.038.039-1.24 2.053-2.054 3.196c-1.162 1.667-2.868 3.876-6.723 8.72a1290 1290 0 0 0-5.076 6.413c-.775.969-1.414 1.782-1.435 1.782c-.018 0-.27-.348-.542-.774c-2.17-3.256-4.766-6.104-7.847-8.661a45 45 0 0 0-1.433-1.163c-.214-.155-.388-.31-.388-.33c0-.057 3.293-1.472 5.793-2.479c4.38-1.783 10.346-3.914 14.823-5.29c2.344-.736 4.843-1.453 4.882-1.414m1.492.387c.077-.019.543.214 1.104.543c4.709 2.693 9.32 6.162 12.962 9.726c1.027 1.008 3.566 3.643 3.527 3.662c0 0-.892.078-1.938.155c-8.157.62-18.6 2.344-28.636 4.766c-.679.155-1.28.29-1.318.29s.717-.755 1.667-1.665c5.89-5.677 8.583-9.261 11.76-15.656c.446-.948.833-1.762.872-1.82q-.03 0 0 0zm-43.149 4.418c.271.058 2.79 1.24 4.689 2.19c1.744.871 4.36 2.266 4.495 2.383c.02.019-.91.503-2.054 1.066a135 135 0 0 0-10.017 5.521c-.93.562-1.705 1.027-1.724 1.027c-.078 0-.058-.078.465-1.027c1.744-3.177 3.139-6.975 3.933-10.676c.077-.29.155-.484.213-.484m-2.519.465c.058.058-.6 2.441-1.007 3.74c-.795 2.46-2.132 5.54-3.43 7.866c-.31.542-.775 1.337-1.027 1.782l-.484.775l-1.085-1.046c-1.26-1.22-2.286-1.976-3.603-2.655c-.524-.27-.931-.503-.931-.542c0-.155 3.314-3.158 5.852-5.328c1.82-1.57 5.657-4.65 5.715-4.592m15.404 6.336l.95.62c2.17 1.415 4.727 3.294 6.684 4.94c1.104.91 3.235 2.83 3.662 3.294l.232.252l-1.57.446c-8.873 2.46-15.732 4.65-23.734 7.595c-.892.33-1.647.6-1.705.6c-.116 0-.213.097 1.783-1.744c5.115-4.707 9.648-9.9 13.02-14.957zm-4.05 1.007c.04.039-2.615 3.778-4.204 5.89c-1.899 2.519-5.27 6.743-7.596 9.494c-.968 1.144-1.8 2.093-1.84 2.112c-.058.02-.078-.27-.078-.717c0-2.344-.6-4.844-1.646-6.975c-.446-.891-.524-1.104-.426-1.201c.368-.33 6.006-3.546 9.57-5.464c2.404-1.279 6.162-3.177 6.22-3.139M44.1 55.26c.058 0 .503.232 1.008.503a21.3 21.3 0 0 1 3.332 2.248c.039.038-.465.446-1.124.93c-1.84 1.317-4.63 3.43-6.258 4.728c-1.705 1.356-1.763 1.394-1.57 1.104c1.28-1.957 1.919-3.061 2.597-4.476a36 36 0 0 0 1.627-4.05c.155-.56.349-.987.388-.987m6.53 5.114c.096-.018.213.156.735.931c1.104 1.647 1.957 3.856 2.17 5.638l.04.387l-2.655 1.028c-4.747 1.84-9.126 3.661-12.09 5.018a217 217 0 0 0-3.236 1.55c-.95.484-1.724.852-1.724.833s.6-.465 1.336-1.008C41 70.547 46.018 65.935 49.777 61.324c.407-.484.775-.93.813-.949zm-3.004.737c.078.077-2.131 2.577-3.642 4.108c-3.74 3.816-7.44 6.8-12.032 9.706c-.582.368-1.105.698-1.163.736c-.135.078.038-.116 2.054-2.305a53 53 0 0 0 3.352-3.972c.736-.95.871-1.085 1.937-1.84c2.849-2.055 9.417-6.511 9.494-6.434z"/></svg>',
@@ -6775,6 +7402,102 @@ var init_simple_catalog_generated = __esm({
       "gnuprivacyguard": { viewBox: "0 0 24 24", brandHex: "0093DD", title: "GNU Privacy Guard", aliases: ["gnu privacy guard"] },
       "keybase": { viewBox: "0 0 24 24", brandHex: "33A0FF", title: "Keybase" },
       "simplelogin": { viewBox: "0 0 24 24", brandHex: "EA319F", title: "SimpleLogin" },
+      "pydantic": { viewBox: "0 0 24 24", brandHex: "E92063", title: "Pydantic" },
+      "openapiinitiative": { viewBox: "0 0 24 24", brandHex: "6BA539", title: "OpenAPI Initiative", aliases: ["openapi initiative"] },
+      "d3": { viewBox: "0 0 24 24", brandHex: "F9A03C", title: "D3" },
+      "threedotjs": { viewBox: "0 0 24 24", brandHex: "000000", title: "Three.js", aliases: ["three js"] },
+      "chartdotjs": { viewBox: "0 0 24 24", brandHex: "FF6384", title: "Chart.js", aliases: ["chart js"] },
+      "plotly": { viewBox: "0 0 24 24", brandHex: "7A76FF", title: "Plotly" },
+      "scipy": { viewBox: "0 0 24 24", brandHex: "8CAAE6", title: "SciPy" },
+      "scrapy": { viewBox: "0 0 24 24", brandHex: "60A839", title: "Scrapy" },
+      "rstudioide": { viewBox: "0 0 24 24", brandHex: "75AADB", title: "RStudio IDE", aliases: ["rstudio ide"] },
+      "ffmpeg": { viewBox: "0 0 24 24", brandHex: "007808", title: "FFmpeg" },
+      "xstate": { viewBox: "0 0 24 24", brandHex: "2C3E50", title: "XState" },
+      "gatsby": { viewBox: "0 0 24 24", brandHex: "663399", title: "Gatsby" },
+      "homebrew": { viewBox: "0 0 24 24", brandHex: "FBB040", title: "Homebrew" },
+      "pm2": { viewBox: "0 0 24 24", brandHex: "2B037A", title: "PM2" },
+      "denodeploy": { viewBox: "0 0 24 24", brandHex: "002633", title: "Deno Deploy", aliases: ["deno deploy"] },
+      "gitbook": { viewBox: "0 0 24 24", brandHex: "BBDDE5", title: "GitBook" },
+      "docusaurus": { viewBox: "0 0 24 24", brandHex: "3ECC5F", title: "Docusaurus" },
+      "mintlify": { viewBox: "0 0 24 24", brandHex: "18E299", title: "Mintlify" },
+      "readthedocs": { viewBox: "0 0 24 24", brandHex: "000000", title: "Read the Docs", aliases: ["read the docs"] },
+      "jfrogpipelines": { viewBox: "0 0 24 24", brandHex: "40BE46", title: "JFrog Pipelines", aliases: ["jfrog pipelines"] },
+      "codeship": { viewBox: "0 0 24 24", brandHex: "004466", title: "Codeship" },
+      "appium": { viewBox: "0 0 24 24", brandHex: "EE376D", title: "Appium" },
+      "webdriverio": { viewBox: "0 0 24 24", brandHex: "EA5906", title: "WebdriverIO" },
+      "saucelabs": { viewBox: "0 0 24 24", brandHex: "3DDC91", title: "Sauce Labs", aliases: ["sauce labs"] },
+      "blazemeter": { viewBox: "0 0 24 24", brandHex: "CA2133", title: "Blazemeter" },
+      "gatling": { viewBox: "0 0 24 24", brandHex: "FF9E2A", title: "Gatling" },
+      "testrail": { viewBox: "0 0 24 24", brandHex: "65C179", title: "TestRail" },
+      "tricentis": { viewBox: "0 0 24 24", brandHex: "12438C", title: "Tricentis" },
+      "eclipsejetty": { viewBox: "0 0 24 24", brandHex: "FC390E", title: "Eclipse Jetty", aliases: ["eclipse jetty"] },
+      "eclipsevertdotx": { viewBox: "0 0 24 24", brandHex: "782A90", title: "Eclipse Vert.x", aliases: ["eclipse vert x"] },
+      "vonage": { viewBox: "0 0 24 24", brandHex: "000000", title: "Vonage" },
+      "aircall": { viewBox: "0 0 24 24", brandHex: "00B388", title: "Aircall" },
+      "brevo": { viewBox: "0 0 24 24", brandHex: "0B996E", title: "Brevo" },
+      "campaignmonitor": { viewBox: "0 0 24 24", brandHex: "111324", title: "Campaign Monitor", aliases: ["campaign monitor"] },
+      "sparkpost": { viewBox: "0 0 24 24", brandHex: "FA6423", title: "SparkPost" },
+      "mailtrap": { viewBox: "0 0 24 24", brandHex: "22D172", title: "Mailtrap" },
+      "mautic": { viewBox: "0 0 24 24", brandHex: "4E5E9E", title: "Mautic" },
+      "matomo": { viewBox: "0 0 24 24", brandHex: "3152A0", title: "Matomo" },
+      "gotomeeting": { viewBox: "0 0 24 24", brandHex: "F68D2E", title: "GoToMeeting" },
+      "logmein": { viewBox: "0 0 24 24", brandHex: "45B6F2", title: "LogMeIn" },
+      "teamviewer": { viewBox: "0 0 24 24", brandHex: "050A52", title: "TeamViewer" },
+      "anydesk": { viewBox: "0 0 24 24", brandHex: "EF443B", title: "AnyDesk" },
+      "xmpp": { viewBox: "0 0 24 24", brandHex: "002B5C", title: "XMPP" },
+      "bitly": { viewBox: "0 0 24 24", brandHex: "EE6123", title: "Bitly" },
+      "discourse": { viewBox: "0 0 24 24", brandHex: "000000", title: "Discourse" },
+      "moodle": { viewBox: "0 0 24 24", brandHex: "F98012", title: "Moodle" },
+      "wistia": { viewBox: "0 0 24 24", brandHex: "58B7FE", title: "Wistia" },
+      "vimeo": { viewBox: "0 0 24 24", brandHex: "1AB7EA", title: "Vimeo" },
+      "deepl": { viewBox: "0 0 24 24", brandHex: "0F2B46", title: "DeepL" },
+      "uservoice": { viewBox: "0 0 24 24", brandHex: "FF6720", title: "UserVoice" },
+      "elavon": { viewBox: "0 0 24 24", brandHex: "0C2074", title: "Elavon" },
+      "paysafe": { viewBox: "0 0 24 24", brandHex: "5A28FF", title: "Paysafe" },
+      "xendit": { viewBox: "0 0 24 24", brandHex: "4573FF", title: "Xendit" },
+      "phonepe": { viewBox: "0 0 24 24", brandHex: "5F259F", title: "PhonePe" },
+      "vivawallet": { viewBox: "0 0 24 24", brandHex: "1F263A", title: "Viva Wallet", aliases: ["viva wallet"] },
+      "adp": { viewBox: "0 0 24 24", brandHex: "D0271D", title: "ADP" },
+      "hibob": { viewBox: "0 0 24 24", brandHex: "E42C51", title: "Hi Bob", aliases: ["hi bob"] },
+      "webflow": { viewBox: "0 0 24 24", brandHex: "146EF5", title: "Webflow" },
+      "wix": { viewBox: "0 0 24 24", brandHex: "0C6EFC", title: "Wix" },
+      "squarespace": { viewBox: "0 0 24 24", brandHex: "000000", title: "Squarespace" },
+      "datocms": { viewBox: "0 0 24 24", brandHex: "FF7751", title: "DatoCMS" },
+      "wagtail": { viewBox: "0 0 24 24", brandHex: "43B1B0", title: "Wagtail" },
+      "typo3": { viewBox: "0 0 24 24", brandHex: "FF8700", title: "TYPO3" },
+      "wpengine": { viewBox: "0 0 24 24", brandHex: "0ECAD4", title: "WP Engine", aliases: ["wp engine"] },
+      "platformdotsh": { viewBox: "0 0 24 24", brandHex: "1A182A", title: "Platform.sh", aliases: ["platform sh"] },
+      "cloudways": { viewBox: "0 0 24 24", brandHex: "2C39BD", title: "Cloudways" },
+      "nhost": { viewBox: "0 0 24 24", brandHex: "0052CD", title: "Nhost" },
+      "mapbox": { viewBox: "0 0 24 24", brandHex: "000000", title: "Mapbox" },
+      "esri": { viewBox: "0 0 24 24", brandHex: "000000", title: "ESRI" },
+      "arcgis": { viewBox: "0 0 24 24", brandHex: "2C7AC3", title: "ArcGIS" },
+      "openstreetmap": { viewBox: "0 0 24 24", brandHex: "7EBC6F", title: "OpenStreetMap" },
+      "maplibre": { viewBox: "0 0 24 24", brandHex: "396CB2", title: "MapLibre" },
+      "qgis": { viewBox: "0 0 24 24", brandHex: "589632", title: "QGIS" },
+      "googlechronicle": { viewBox: "0 0 24 24", brandHex: "4285F4", title: "Google Chronicle", aliases: ["google chronicle"] },
+      "googleauthenticator": { viewBox: "0 0 24 24", brandHex: "4285F4", title: "Google Authenticator", aliases: ["google authenticator"] },
+      "virustotal": { viewBox: "0 0 24 24", brandHex: "394EFF", title: "VirusTotal" },
+      "bmcsoftware": { viewBox: "0 0 24 24", brandHex: "FE5000", title: "BMC Software", aliases: ["bmc software"] },
+      "openproject": { viewBox: "0 0 24 24", brandHex: "0770B8", title: "OpenProject" },
+      "pivotaltracker": { viewBox: "0 0 24 24", brandHex: "517A9E", title: "Pivotal Tracker", aliases: ["pivotal tracker"] },
+      "phabricator": { viewBox: "0 0 24 24", brandHex: "4A5F88", title: "Phabricator" },
+      "openzfs": { viewBox: "0 0 24 24", brandHex: "2A667F", title: "OpenZFS" },
+      "opencontainersinitiative": { viewBox: "0 0 24 24", brandHex: "262261", title: "Open Containers Initiative", aliases: ["open containers initiative"] },
+      "fujitsu": { viewBox: "0 0 24 24", brandHex: "FF0000", title: "Fujitsu" },
+      "ericsson": { viewBox: "0 0 24 24", brandHex: "0082F0", title: "Ericsson" },
+      "rockwellautomation": { viewBox: "0 0 24 24", brandHex: "CD163F", title: "Rockwell Automation", aliases: ["rockwell automation"] },
+      "schneiderelectric": { viewBox: "0 0 24 24", brandHex: "3DCD58", title: "Schneider Electric", aliases: ["schneider electric"] },
+      "inductiveautomation": { viewBox: "0 0 24 24", brandHex: "445C6D", title: "Inductive Automation", aliases: ["inductive automation"] },
+      "smartthings": { viewBox: "0 0 24 24", brandHex: "15BFFF", title: "SmartThings" },
+      "icloud": { viewBox: "0 0 24 24", brandHex: "3693F3", title: "iCloud" },
+      "unrealengine": { viewBox: "0 0 24 24", brandHex: "0E1128", title: "Unreal Engine", aliases: ["unreal engine"] },
+      "usps": { viewBox: "0 0 24 24", brandHex: "333366", title: "USPS" },
+      "ethereum": { viewBox: "0 0 24 24", brandHex: "3C3C3D", title: "Ethereum" },
+      "bitcoin": { viewBox: "0 0 24 24", brandHex: "F7931A", title: "Bitcoin" },
+      "solana": { viewBox: "0 0 24 24", brandHex: "9945FF", title: "Solana" },
+      "baserow": { viewBox: "0 0 24 24", brandHex: "5190EF", title: "Baserow" },
+      "bigbluebutton": { viewBox: "0 0 24 24", brandHex: "283274", title: "BigBlueButton" },
       "1001tracklists": { viewBox: "0 0 24 24", brandHex: "40AEF0", title: "1001Tracklists", tail: true },
       "1and1": { viewBox: "0 0 24 24", brandHex: "003D8F", title: "1&1", aliases: ["1 1"], tail: true },
       "1dot1dot1dot1": { viewBox: "0 0 24 24", brandHex: "221E68", title: "1.1.1.1", aliases: ["1 1 1 1"], tail: true },
@@ -6814,7 +7537,6 @@ var init_simple_catalog_generated = __esm({
       "adguard": { viewBox: "0 0 24 24", brandHex: "68BC71", title: "AdGuard", tail: true },
       "adidas": { viewBox: "0 0 24 24", brandHex: "000000", title: "Adidas", tail: true },
       "adonisjs": { viewBox: "0 0 24 24", brandHex: "5A45FF", title: "AdonisJS", tail: true },
-      "adp": { viewBox: "0 0 24 24", brandHex: "D0271D", title: "ADP", tail: true },
       "adroll": { viewBox: "0 0 24 24", brandHex: "0DBDFF", title: "Adroll", tail: true },
       "adventofcode": { viewBox: "0 0 24 24", brandHex: "FFFF66", title: "Advent Of Code", aliases: ["advent of code"], tail: true },
       "aegisauthenticator": { viewBox: "0 0 24 24", brandHex: "005E9D", title: "Aegis Authenticator", aliases: ["aegis authenticator"], tail: true },
@@ -6833,7 +7555,6 @@ var init_simple_catalog_generated = __esm({
       "airasia": { viewBox: "0 0 24 24", brandHex: "FF0000", title: "AirAsia", tail: true },
       "airbnb": { viewBox: "0 0 24 24", brandHex: "FF5A5F", title: "Airbnb", tail: true },
       "airbus": { viewBox: "0 0 24 24", brandHex: "00205B", title: "Airbus", tail: true },
-      "aircall": { viewBox: "0 0 24 24", brandHex: "00B388", title: "Aircall", tail: true },
       "aircanada": { viewBox: "0 0 24 24", brandHex: "F01428", title: "Air Canada", aliases: ["air canada"], tail: true },
       "airchina": { viewBox: "0 0 24 24", brandHex: "E30E17", title: "Air China", aliases: ["air china"], tail: true },
       "airfrance": { viewBox: "0 0 24 24", brandHex: "002157", title: "Air France", aliases: ["air france"], tail: true },
@@ -6886,7 +7607,6 @@ var init_simple_catalog_generated = __esm({
       "antennapod": { viewBox: "0 0 24 24", brandHex: "364FF3", title: "AntennaPod", tail: true },
       "antv": { viewBox: "0 0 24 24", brandHex: "8B5DFF", title: "AntV", tail: true },
       "anycubic": { viewBox: "0 0 24 24", brandHex: "476695", title: "Anycubic", tail: true },
-      "anydesk": { viewBox: "0 0 24 24", brandHex: "EF443B", title: "AnyDesk", tail: true },
       "anytype": { viewBox: "0 0 24 24", brandHex: "FF6A7B", title: "Anytype", tail: true },
       "aparat": { viewBox: "0 0 24 24", brandHex: "ED145B", title: "Aparat", tail: true },
       "apifox": { viewBox: "0 0 24 24", brandHex: "F44A53", title: "Apifox", tail: true },
@@ -6894,7 +7614,6 @@ var init_simple_catalog_generated = __esm({
       "apostrophe": { viewBox: "0 0 24 24", brandHex: "6236FF", title: "Apostrophe", tail: true },
       "appgallery": { viewBox: "0 0 24 24", brandHex: "FF0000", title: "AppGallery", tail: true },
       "appimage": { viewBox: "0 0 24 24", brandHex: "739FB9", title: "AppImage", tail: true },
-      "appium": { viewBox: "0 0 24 24", brandHex: "EE376D", title: "Appium", tail: true },
       "applearcade": { viewBox: "0 0 24 24", brandHex: "000000", title: "Apple Arcade", aliases: ["apple arcade"], tail: true },
       "applemusic": { viewBox: "0 0 24 24", brandHex: "FA243C", title: "Apple Music", aliases: ["apple music"], tail: true },
       "applenews": { viewBox: "0 0 24 24", brandHex: "FD415E", title: "Apple News", aliases: ["apple news"], tail: true },
@@ -6903,7 +7622,6 @@ var init_simple_catalog_generated = __esm({
       "aqua": { viewBox: "0 0 24 24", brandHex: "1904DA", title: "Aqua", tail: true },
       "aral": { viewBox: "0 0 24 24", brandHex: "0063CB", title: "ARAL", tail: true },
       "arc": { viewBox: "0 0 24 24", brandHex: "FCBFBD", title: "Arc", tail: true },
-      "arcgis": { viewBox: "0 0 24 24", brandHex: "2C7AC3", title: "ArcGIS", tail: true },
       "archicad": { viewBox: "0 0 24 24", brandHex: "2D50A5", title: "Archicad", tail: true },
       "archiveofourown": { viewBox: "0 0 24 24", brandHex: "990000", title: "Archive of Our Own", aliases: ["archive of our own"], tail: true },
       "ardour": { viewBox: "0 0 24 24", brandHex: "C61C3E", title: "Ardour", tail: true },
@@ -6980,7 +7698,6 @@ var init_simple_catalog_generated = __esm({
       "barclays": { viewBox: "0 0 24 24", brandHex: "00AEEF", title: "Barclays", tail: true },
       "baremetrics": { viewBox: "0 0 24 24", brandHex: "6078FF", title: "Baremetrics", tail: true },
       "barmenia": { viewBox: "0 0 24 24", brandHex: "009FE3", title: "Barmenia", tail: true },
-      "baserow": { viewBox: "0 0 24 24", brandHex: "5190EF", title: "Baserow", tail: true },
       "baseui": { viewBox: "0 0 24 24", brandHex: "EDEDED", title: "Base UI", aliases: ["base ui"], tail: true },
       "basicattentiontoken": { viewBox: "0 0 24 24", brandHex: "80247B", title: "Basic Attention Token", aliases: ["basic attention token"], tail: true },
       "bastyon": { viewBox: "0 0 24 24", brandHex: "00A4FF", title: "Bastyon", tail: true },
@@ -7002,7 +7719,6 @@ var init_simple_catalog_generated = __esm({
       "betterdiscord": { viewBox: "0 0 24 24", brandHex: "3E82E5", title: "BetterDiscord", tail: true },
       "bevy": { viewBox: "0 0 24 24", brandHex: "232326", title: "Bevy", tail: true },
       "bigbasket": { viewBox: "0 0 24 24", brandHex: "A5CD39", title: "bigbasket", tail: true },
-      "bigbluebutton": { viewBox: "0 0 24 24", brandHex: "283274", title: "BigBlueButton", tail: true },
       "bigcartel": { viewBox: "0 0 24 24", brandHex: "222222", title: "Big Cartel", aliases: ["big cartel"], tail: true },
       "bilibili": { viewBox: "0 0 24 24", brandHex: "00A1D6", title: "Bilibili", tail: true },
       "billboard": { viewBox: "0 0 24 24", brandHex: "000000", title: "Billboard", tail: true },
@@ -7011,18 +7727,15 @@ var init_simple_catalog_generated = __esm({
       "biolink": { viewBox: "0 0 24 24", brandHex: "000000", title: "Bio Link", aliases: ["bio link"], tail: true },
       "bisecthosting": { viewBox: "0 0 24 24", brandHex: "0D1129", title: "BisectHosting", tail: true },
       "bit": { viewBox: "0 0 24 24", brandHex: "592EC1", title: "Bit", tail: true },
-      "bitcoin": { viewBox: "0 0 24 24", brandHex: "F7931A", title: "Bitcoin", tail: true },
       "bitcoincash": { viewBox: "0 0 24 24", brandHex: "0AC18E", title: "Bitcoin Cash", aliases: ["bitcoin cash"], tail: true },
       "bitcoinsv": { viewBox: "0 0 24 24", brandHex: "EAB300", title: "Bitcoin SV", aliases: ["bitcoin sv"], tail: true },
       "bitcomet": { viewBox: "0 0 24 24", brandHex: "F49923", title: "BitComet", tail: true },
-      "bitly": { viewBox: "0 0 24 24", brandHex: "EE6123", title: "Bitly", tail: true },
       "bitsy": { viewBox: "0 0 24 24", brandHex: "6767B2", title: "Bitsy", tail: true },
       "bittorrent": { viewBox: "0 0 24 24", brandHex: "050505", title: "BitTorrent", tail: true },
       "bitwig": { viewBox: "0 0 24 24", brandHex: "FF5A00", title: "Bitwig", tail: true },
       "black": { viewBox: "0 0 24 24", brandHex: "000000", title: "Black", tail: true },
       "blackberry": { viewBox: "0 0 24 24", brandHex: "000000", title: "Blackberry", tail: true },
       "blackmagicdesign": { viewBox: "0 0 24 24", brandHex: "FFA200", title: "Blackmagic Design", aliases: ["blackmagic design"], tail: true },
-      "blazemeter": { viewBox: "0 0 24 24", brandHex: "CA2133", title: "Blazemeter", tail: true },
       "blender": { viewBox: "0 0 24 24", brandHex: "E87D0D", title: "Blender", tail: true },
       "blibli": { viewBox: "0 0 24 24", brandHex: "0072FF", title: "Blibli", tail: true },
       "blockbench": { viewBox: "0 0 24 24", brandHex: "1E93D9", title: "Blockbench", tail: true },
@@ -7031,7 +7744,6 @@ var init_simple_catalog_generated = __esm({
       "bloglovin": { viewBox: "0 0 24 24", brandHex: "000000", title: "Bloglovin", tail: true },
       "blueprint": { viewBox: "0 0 24 24", brandHex: "137CBD", title: "Blueprint", tail: true },
       "bluesound": { viewBox: "0 0 24 24", brandHex: "0F131E", title: "Bluesound", tail: true },
-      "bmcsoftware": { viewBox: "0 0 24 24", brandHex: "FE5000", title: "BMC Software", aliases: ["bmc software"], tail: true },
       "bmw": { viewBox: "0 0 24 24", brandHex: "0066B1", title: "BMW", tail: true },
       "bnbchain": { viewBox: "0 0 24 24", brandHex: "F0B90B", title: "BNB Chain", aliases: ["bnb chain"], tail: true },
       "boardgamegeek": { viewBox: "0 0 24 24", brandHex: "FF5100", title: "BoardGameGeek", tail: true },
@@ -7061,7 +7773,6 @@ var init_simple_catalog_generated = __esm({
       "brave": { viewBox: "0 0 24 24", brandHex: "FB542B", title: "Brave", tail: true },
       "breaker": { viewBox: "0 0 24 24", brandHex: "003DAD", title: "Breaker", tail: true },
       "brenntag": { viewBox: "0 0 24 24", brandHex: "1A0033", title: "Brenntag", tail: true },
-      "brevo": { viewBox: "0 0 24 24", brandHex: "0B996E", title: "Brevo", tail: true },
       "bricks": { viewBox: "0 0 24 24", brandHex: "FFD54D", title: "Bricks", tail: true },
       "britishairways": { viewBox: "0 0 24 24", brandHex: "2E5C99", title: "British Airways", aliases: ["british airways"], tail: true },
       "bruno": { viewBox: "0 0 24 24", brandHex: "F4AA41", title: "Bruno", tail: true },
@@ -7094,7 +7805,6 @@ var init_simple_catalog_generated = __esm({
       "cairometro": { viewBox: "0 0 24 24", brandHex: "C10C0C", title: "Cairo Metro", aliases: ["cairo metro"], tail: true },
       "caixabank": { viewBox: "0 0 24 24", brandHex: "007EAE", title: "CaixaBank", tail: true },
       "calibreweb": { viewBox: "0 0 24 24", brandHex: "45B29D", title: "Calibre-Web", aliases: ["calibre web"], tail: true },
-      "campaignmonitor": { viewBox: "0 0 24 24", brandHex: "111324", title: "Campaign Monitor", aliases: ["campaign monitor"], tail: true },
       "canvas": { viewBox: "0 0 24 24", brandHex: "E72429", title: "Canvas", tail: true },
       "cardano": { viewBox: "0 0 24 24", brandHex: "0133AD", title: "Cardano", tail: true },
       "cardmarket": { viewBox: "0 0 24 24", brandHex: "012169", title: "Cardmarket", tail: true },
@@ -7121,7 +7831,6 @@ var init_simple_catalog_generated = __esm({
       "changedetection": { viewBox: "0 0 24 24", brandHex: "3056D3", title: "Change Detection", aliases: ["change detection"], tail: true },
       "channel4": { viewBox: "0 0 24 24", brandHex: "AAFF89", title: "Channel 4", aliases: ["channel 4"], tail: true },
       "charles": { viewBox: "0 0 24 24", brandHex: "F3F5F5", title: "Charles", tail: true },
-      "chartdotjs": { viewBox: "0 0 24 24", brandHex: "FF6384", title: "Chart.js", aliases: ["chart js"], tail: true },
       "chartmogul": { viewBox: "0 0 24 24", brandHex: "13324B", title: "ChartMogul", tail: true },
       "chase": { viewBox: "0 0 24 24", brandHex: "117ACA", title: "Chase", tail: true },
       "chatbot": { viewBox: "0 0 24 24", brandHex: "0066FF", title: "ChatBot", tail: true },
@@ -7153,7 +7862,6 @@ var init_simple_catalog_generated = __esm({
       "cloudcannon": { viewBox: "0 0 24 24", brandHex: "407AFC", title: "CloudCannon", tail: true },
       "cloudnativebuild": { viewBox: "0 0 24 24", brandHex: "F76945", title: "Cloud Native Build", aliases: ["cloud native build"], tail: true },
       "cloudron": { viewBox: "0 0 24 24", brandHex: "03A9F4", title: "Cloudron", tail: true },
-      "cloudways": { viewBox: "0 0 24 24", brandHex: "2C39BD", title: "Cloudways", tail: true },
       "clubforce": { viewBox: "0 0 24 24", brandHex: "191176", title: "Clubforce", tail: true },
       "clubhouse": { viewBox: "0 0 24 24", brandHex: "FFE450", title: "Clubhouse", tail: true },
       "clyp": { viewBox: "0 0 24 24", brandHex: "3CBDB1", title: "Clyp", tail: true },
@@ -7178,7 +7886,6 @@ var init_simple_catalog_generated = __esm({
       "codeproject": { viewBox: "0 0 24 24", brandHex: "FF9900", title: "CodeProject", tail: true },
       "codersrank": { viewBox: "0 0 24 24", brandHex: "67A4AC", title: "CodersRank", tail: true },
       "coderwall": { viewBox: "0 0 24 24", brandHex: "3E8DCC", title: "Coderwall", tail: true },
-      "codeship": { viewBox: "0 0 24 24", brandHex: "004466", title: "Codeship", tail: true },
       "codesignal": { viewBox: "0 0 24 24", brandHex: "1062FB", title: "CodeSignal", tail: true },
       "codestream": { viewBox: "0 0 24 24", brandHex: "008C99", title: "CodeStream", tail: true },
       "codewars": { viewBox: "0 0 24 24", brandHex: "B1361E", title: "Codewars", tail: true },
@@ -7255,7 +7962,6 @@ var init_simple_catalog_generated = __esm({
       "cycling74": { viewBox: "0 0 24 24", brandHex: "111111", title: "Cycling '74", aliases: ["cycling 74"], tail: true },
       "cytoscapedotjs": { viewBox: "0 0 24 24", brandHex: "F7DF1E", title: "Cytoscape.js", aliases: ["cytoscape js"], tail: true },
       "d": { viewBox: "0 0 24 24", brandHex: "B03931", title: "D", tail: true },
-      "d3": { viewBox: "0 0 24 24", brandHex: "F9A03C", title: "D3", tail: true },
       "dacia": { viewBox: "0 0 24 24", brandHex: "646B52", title: "Dacia", tail: true },
       "daf": { viewBox: "0 0 24 24", brandHex: "00529B", title: "DAF", tail: true },
       "dailydotdev": { viewBox: "0 0 24 24", brandHex: "CE3DF3", title: "daily.dev", aliases: ["daily dev"], tail: true },
@@ -7270,7 +7976,6 @@ var init_simple_catalog_generated = __esm({
       "datadotai": { viewBox: "0 0 24 24", brandHex: "000000", title: "data.ai", aliases: ["data ai"], tail: true },
       "datefns": { viewBox: "0 0 24 24", brandHex: "770C56", title: "date-fns", aliases: ["date fns"], tail: true },
       "datev": { viewBox: "0 0 24 24", brandHex: "9BD547", title: "DATEV", tail: true },
-      "datocms": { viewBox: "0 0 24 24", brandHex: "FF7751", title: "DatoCMS", tail: true },
       "datto": { viewBox: "0 0 24 24", brandHex: "199ED9", title: "Datto", tail: true },
       "davinciresolve": { viewBox: "0 0 24 24", brandHex: "233A51", title: "DaVinci Resolve", aliases: ["davinci resolve"], tail: true },
       "dazhongdianping": { viewBox: "0 0 24 24", brandHex: "FF6633", title: "Dazhong Dianping", aliases: ["dazhong dianping"], tail: true },
@@ -7283,14 +7988,12 @@ var init_simple_catalog_generated = __esm({
       "dedge": { viewBox: "0 0 24 24", brandHex: "432975", title: "D-EDGE", aliases: ["d edge"], tail: true },
       "deepcool": { viewBox: "0 0 24 24", brandHex: "068584", title: "DeepCool", tail: true },
       "deepin": { viewBox: "0 0 24 24", brandHex: "007CFF", title: "deepin", tail: true },
-      "deepl": { viewBox: "0 0 24 24", brandHex: "0F2B46", title: "DeepL", tail: true },
       "deepnote": { viewBox: "0 0 24 24", brandHex: "3793EF", title: "Deepnote", tail: true },
       "deezer": { viewBox: "0 0 24 24", brandHex: "A238FF", title: "Deezer", tail: true },
       "deliveroo": { viewBox: "0 0 24 24", brandHex: "00CCBC", title: "Deliveroo", tail: true },
       "delonghi": { viewBox: "0 0 24 24", brandHex: "072240", title: "De'Longhi", aliases: ["de longhi"], tail: true },
       "delphi": { viewBox: "0 0 24 24", brandHex: "E62431", title: "Delphi", tail: true },
       "delta": { viewBox: "0 0 24 24", brandHex: "003366", title: "Delta", tail: true },
-      "denodeploy": { viewBox: "0 0 24 24", brandHex: "002633", title: "Deno Deploy", aliases: ["deno deploy"], tail: true },
       "denon": { viewBox: "0 0 24 24", brandHex: "0B131A", title: "Denon", tail: true },
       "depositphotos": { viewBox: "0 0 24 24", brandHex: "000000", title: "Depositphotos", tail: true },
       "derspiegel": { viewBox: "0 0 24 24", brandHex: "E64415", title: "Der Spiegel", aliases: ["der spiegel"], tail: true },
@@ -7314,7 +8017,6 @@ var init_simple_catalog_generated = __esm({
       "dior": { viewBox: "0 0 24 24", brandHex: "000000", title: "Dior", tail: true },
       "discogs": { viewBox: "0 0 24 24", brandHex: "333333", title: "Discogs", tail: true },
       "discorddotjs": { viewBox: "0 0 24 24", brandHex: "5865F2", title: "discord.js", aliases: ["discord js"], tail: true },
-      "discourse": { viewBox: "0 0 24 24", brandHex: "000000", title: "Discourse", tail: true },
       "discover": { viewBox: "0 0 24 24", brandHex: "FF6000", title: "Discover", tail: true },
       "disqus": { viewBox: "0 0 24 24", brandHex: "2E9FFF", title: "Disqus", tail: true },
       "disroot": { viewBox: "0 0 24 24", brandHex: "50162D", title: "Disroot", tail: true },
@@ -7328,7 +8030,6 @@ var init_simple_catalog_generated = __esm({
       "docsdotrs": { viewBox: "0 0 24 24", brandHex: "000000", title: "Docs.rs", aliases: ["docs rs"], tail: true },
       "docsify": { viewBox: "0 0 24 24", brandHex: "2ECE53", title: "Docsify", tail: true },
       "doctrine": { viewBox: "0 0 24 24", brandHex: "FC6A31", title: "Doctrine", tail: true },
-      "docusaurus": { viewBox: "0 0 24 24", brandHex: "3ECC5F", title: "Docusaurus", tail: true },
       "dodopayments": { viewBox: "0 0 24 24", brandHex: "C6FE1E", title: "Dodo Payments", aliases: ["dodo payments"], tail: true },
       "dogecoin": { viewBox: "0 0 24 24", brandHex: "C2A633", title: "Dogecoin", tail: true },
       "doi": { viewBox: "0 0 24 24", brandHex: "FAB70C", title: "DOI", tail: true },
@@ -7370,8 +8071,6 @@ var init_simple_catalog_generated = __esm({
       "ebox": { viewBox: "0 0 24 24", brandHex: "BE2323", title: "EBOX", tail: true },
       "eclipseadoptium": { viewBox: "0 0 24 24", brandHex: "FF1464", title: "Eclipse Adoptium", aliases: ["eclipse adoptium"], tail: true },
       "eclipseche": { viewBox: "0 0 24 24", brandHex: "525C86", title: "Eclipse Che", aliases: ["eclipse che"], tail: true },
-      "eclipsejetty": { viewBox: "0 0 24 24", brandHex: "FC390E", title: "Eclipse Jetty", aliases: ["eclipse jetty"], tail: true },
-      "eclipsevertdotx": { viewBox: "0 0 24 24", brandHex: "782A90", title: "Eclipse Vert.x", aliases: ["eclipse vert x"], tail: true },
       "ecosia": { viewBox: "0 0 24 24", brandHex: "008009", title: "Ecosia", tail: true },
       "ecovacs": { viewBox: "0 0 24 24", brandHex: "1E384B", title: "Ecovacs", tail: true },
       "edeka": { viewBox: "0 0 24 24", brandHex: "1B66B3", title: "EDEKA", tail: true },
@@ -7384,7 +8083,6 @@ var init_simple_catalog_generated = __esm({
       "eight": { viewBox: "0 0 24 24", brandHex: "0054FF", title: "Eight", tail: true },
       "eightsleep": { viewBox: "0 0 24 24", brandHex: "262729", title: "Eight Sleep", aliases: ["eight sleep"], tail: true },
       "ejs": { viewBox: "0 0 24 24", brandHex: "B4CA65", title: "EJS", tail: true },
-      "elavon": { viewBox: "0 0 24 24", brandHex: "0C2074", title: "Elavon", tail: true },
       "electronbuilder": { viewBox: "0 0 24 24", brandHex: "000000", title: "electron-builder", aliases: ["electron builder"], tail: true },
       "electronfiddle": { viewBox: "0 0 24 24", brandHex: "E79537", title: "Electron Fiddle", aliases: ["electron fiddle"], tail: true },
       "elegoo": { viewBox: "0 0 24 24", brandHex: "2C3A83", title: "Elegoo", tail: true },
@@ -7409,13 +8107,10 @@ var init_simple_catalog_generated = __esm({
       "epicgames": { viewBox: "0 0 24 24", brandHex: "313131", title: "Epic Games", aliases: ["epic games"], tail: true },
       "epson": { viewBox: "0 0 24 24", brandHex: "003399", title: "Epson", tail: true },
       "eraser": { viewBox: "0 0 24 24", brandHex: "EC2C40", title: "Eraser", tail: true },
-      "ericsson": { viewBox: "0 0 24 24", brandHex: "0082F0", title: "Ericsson", tail: true },
       "esea": { viewBox: "0 0 24 24", brandHex: "0E9648", title: "ESEA", tail: true },
       "eslgaming": { viewBox: "0 0 24 24", brandHex: "FFFF09", title: "ESLGaming", tail: true },
       "esotericsoftware": { viewBox: "0 0 24 24", brandHex: "3FA9F5", title: "Esoteric Software", aliases: ["esoteric software"], tail: true },
       "esphome": { viewBox: "0 0 24 24", brandHex: "18BCF2", title: "ESPHome", tail: true },
-      "esri": { viewBox: "0 0 24 24", brandHex: "000000", title: "ESRI", tail: true },
-      "ethereum": { viewBox: "0 0 24 24", brandHex: "3C3C3D", title: "Ethereum", tail: true },
       "ethers": { viewBox: "0 0 24 24", brandHex: "2535A0", title: "Ethers", tail: true },
       "ethiopianairlines": { viewBox: "0 0 24 24", brandHex: "648B1A", title: "Ethiopian Airlines", aliases: ["ethiopian airlines"], tail: true },
       "etihadairways": { viewBox: "0 0 24 24", brandHex: "BD8B13", title: "Etihad Airways", aliases: ["etihad airways"], tail: true },
@@ -7452,7 +8147,6 @@ var init_simple_catalog_generated = __esm({
       "feedly": { viewBox: "0 0 24 24", brandHex: "2BB24C", title: "Feedly", tail: true },
       "ferrari": { viewBox: "0 0 24 24", brandHex: "D40000", title: "Ferrari", tail: true },
       "ferrarinv": { viewBox: "0 0 24 24", brandHex: "EB2E2C", title: "Ferrari N.V.", aliases: ["ferrari n v"], tail: true },
-      "ffmpeg": { viewBox: "0 0 24 24", brandHex: "007808", title: "FFmpeg", tail: true },
       "fi": { viewBox: "0 0 24 24", brandHex: "00B899", title: "Fi", tail: true },
       "fiat": { viewBox: "0 0 24 24", brandHex: "941711", title: "Fiat", tail: true },
       "fifa": { viewBox: "0 0 24 24", brandHex: "326295", title: "FIFA", tail: true },
@@ -7534,7 +8228,6 @@ var init_simple_catalog_generated = __esm({
       "fueler": { viewBox: "0 0 24 24", brandHex: "09C9E3", title: "Fueler", tail: true },
       "fugacloud": { viewBox: "0 0 24 24", brandHex: "242F4B", title: "Fuga Cloud", aliases: ["fuga cloud"], tail: true },
       "fujifilm": { viewBox: "0 0 24 24", brandHex: "FB0020", title: "Fujifilm", tail: true },
-      "fujitsu": { viewBox: "0 0 24 24", brandHex: "FF0000", title: "Fujitsu", tail: true },
       "furaffinity": { viewBox: "0 0 24 24", brandHex: "36566F", title: "Fur Affinity", aliases: ["fur affinity"], tail: true },
       "furrynetwork": { viewBox: "0 0 24 24", brandHex: "2E75B4", title: "Furry Network", aliases: ["furry network"], tail: true },
       "futurelearn": { viewBox: "0 0 24 24", brandHex: "DE00A5", title: "FutureLearn", tail: true },
@@ -7549,8 +8242,6 @@ var init_simple_catalog_generated = __esm({
       "gamemaker": { viewBox: "0 0 24 24", brandHex: "000000", title: "Gamemaker", tail: true },
       "gamescience": { viewBox: "0 0 24 24", brandHex: "000000", title: "Game Science", aliases: ["game science"], tail: true },
       "garmin": { viewBox: "0 0 24 24", brandHex: "000000", title: "Garmin", tail: true },
-      "gatling": { viewBox: "0 0 24 24", brandHex: "FF9E2A", title: "Gatling", tail: true },
-      "gatsby": { viewBox: "0 0 24 24", brandHex: "663399", title: "Gatsby", tail: true },
       "gdal": { viewBox: "0 0 24 24", brandHex: "5CAE58", title: "GDAL", tail: true },
       "geeksforgeeks": { viewBox: "0 0 24 24", brandHex: "2F8D46", title: "GeeksforGeeks", tail: true },
       "generalelectric": { viewBox: "0 0 24 24", brandHex: "0870D8", title: "General Electric", aliases: ["general electric"], tail: true },
@@ -7564,7 +8255,6 @@ var init_simple_catalog_generated = __esm({
       "ghostfolio": { viewBox: "0 0 24 24", brandHex: "36CFCC", title: "Ghostfolio", tail: true },
       "ghostty": { viewBox: "0 0 24 24", brandHex: "3551F3", title: "Ghostty", tail: true },
       "giphy": { viewBox: "0 0 24 24", brandHex: "FF6666", title: "GIPHY", tail: true },
-      "gitbook": { viewBox: "0 0 24 24", brandHex: "BBDDE5", title: "GitBook", tail: true },
       "gitcode": { viewBox: "0 0 24 24", brandHex: "DA203E", title: "GitCode", tail: true },
       "gitconnected": { viewBox: "0 0 24 24", brandHex: "2E69AE", title: "Gitconnected", tail: true },
       "gitee": { viewBox: "0 0 24 24", brandHex: "C71D23", title: "Gitee", tail: true },
@@ -7598,11 +8288,9 @@ var init_simple_catalog_generated = __esm({
       "googleadsense": { viewBox: "0 0 24 24", brandHex: "4285F4", title: "Google AdSense", aliases: ["google adsense"], tail: true },
       "googleappsscript": { viewBox: "0 0 24 24", brandHex: "4285F4", title: "Google Apps Script", aliases: ["google apps script"], tail: true },
       "googleassistant": { viewBox: "0 0 24 24", brandHex: "4285F4", title: "Google Assistant", aliases: ["google assistant"], tail: true },
-      "googleauthenticator": { viewBox: "0 0 24 24", brandHex: "4285F4", title: "Google Authenticator", aliases: ["google authenticator"], tail: true },
       "googlecampaignmanager360": { viewBox: "0 0 24 24", brandHex: "1E8E3E", title: "Google Campaign Manager 360", aliases: ["google campaign manager 360"], tail: true },
       "googlecardboard": { viewBox: "0 0 24 24", brandHex: "FF7143", title: "Google Cardboard", aliases: ["google cardboard"], tail: true },
       "googlecast": { viewBox: "0 0 24 24", brandHex: "4285F4", title: "Google Cast", aliases: ["google cast"], tail: true },
-      "googlechronicle": { viewBox: "0 0 24 24", brandHex: "4285F4", title: "Google Chronicle", aliases: ["google chronicle"], tail: true },
       "googleclassroom": { viewBox: "0 0 24 24", brandHex: "0F9D58", title: "Google Classroom", aliases: ["google classroom"], tail: true },
       "googlecloudcomposer": { viewBox: "0 0 24 24", brandHex: "4285F4", title: "Google Cloud Composer", aliases: ["google cloud composer"], tail: true },
       "googlecontaineroptimizedos": { viewBox: "0 0 24 24", brandHex: "4285F4", title: "Google Container Optimized OS", aliases: ["google container optimized os"], tail: true },
@@ -7626,7 +8314,6 @@ var init_simple_catalog_generated = __esm({
       "googletasks": { viewBox: "0 0 24 24", brandHex: "2684FC", title: "Google Tasks", aliases: ["google tasks"], tail: true },
       "googletranslate": { viewBox: "0 0 24 24", brandHex: "4285F4", title: "Google Translate", aliases: ["google translate"], tail: true },
       "googletv": { viewBox: "0 0 24 24", brandHex: "4285F4", title: "Google TV", aliases: ["google tv"], tail: true },
-      "gotomeeting": { viewBox: "0 0 24 24", brandHex: "F68D2E", title: "GoToMeeting", tail: true },
       "gplv3": { viewBox: "0 0 24 24", brandHex: "BD0000", title: "GPLv3", tail: true },
       "grab": { viewBox: "0 0 24 24", brandHex: "00B14F", title: "Grab", tail: true },
       "grammarly": { viewBox: "0 0 24 24", brandHex: "027E6F", title: "Grammarly", tail: true },
@@ -7701,7 +8388,6 @@ var init_simple_catalog_generated = __esm({
       "hexlet": { viewBox: "0 0 24 24", brandHex: "116EF5", title: "Hexlet", tail: true },
       "hexo": { viewBox: "0 0 24 24", brandHex: "0E83CD", title: "Hexo", tail: true },
       "hey": { viewBox: "0 0 24 24", brandHex: "5522FA", title: "HEY", tail: true },
-      "hibob": { viewBox: "0 0 24 24", brandHex: "E42C51", title: "Hi Bob", aliases: ["hi bob"], tail: true },
       "hilton": { viewBox: "0 0 24 24", brandHex: "231F20", title: "Hilton", tail: true },
       "hiltonhotelsandresorts": { viewBox: "0 0 24 24", brandHex: "1E4380", title: "Hilton Hotels & Resorts", aliases: ["hilton hotels resorts"], tail: true },
       "hitachi": { viewBox: "0 0 24 24", brandHex: "E60027", title: "Hitachi", tail: true },
@@ -7710,7 +8396,6 @@ var init_simple_catalog_generated = __esm({
       "homarr": { viewBox: "0 0 24 24", brandHex: "FA5252", title: "Homarr", tail: true },
       "homeadvisor": { viewBox: "0 0 24 24", brandHex: "F68315", title: "HomeAdvisor", tail: true },
       "homeassistantcommunitystore": { viewBox: "0 0 24 24", brandHex: "41BDF5", title: "Home Assistant Community Store", aliases: ["home assistant community store"], tail: true },
-      "homebrew": { viewBox: "0 0 24 24", brandHex: "FBB040", title: "Homebrew", tail: true },
       "homebridge": { viewBox: "0 0 24 24", brandHex: "491F59", title: "Homebridge", tail: true },
       "homepage": { viewBox: "0 0 24 24", brandHex: "009BD5", title: "Homepage", tail: true },
       "homify": { viewBox: "0 0 24 24", brandHex: "7DCDA3", title: "homify", tail: true },
@@ -7748,7 +8433,6 @@ var init_simple_catalog_generated = __esm({
       "iced": { viewBox: "0 0 24 24", brandHex: "3645FF", title: "Iced", tail: true },
       "iceland": { viewBox: "0 0 24 24", brandHex: "CC092F", title: "Iceland", tail: true },
       "icicibank": { viewBox: "0 0 24 24", brandHex: "AE282E", title: "ICICI Bank", aliases: ["icici bank"], tail: true },
-      "icloud": { viewBox: "0 0 24 24", brandHex: "3693F3", title: "iCloud", tail: true },
       "icomoon": { viewBox: "0 0 24 24", brandHex: "825794", title: "IcoMoon", tail: true },
       "icon": { viewBox: "0 0 24 24", brandHex: "31B8BB", title: "ICON", tail: true },
       "iconfinder": { viewBox: "0 0 24 24", brandHex: "1A1B1F", title: "Iconfinder", tail: true },
@@ -7780,7 +8464,6 @@ var init_simple_catalog_generated = __esm({
       "indiehackers": { viewBox: "0 0 24 24", brandHex: "0E2439", title: "Indie Hackers", aliases: ["indie hackers"], tail: true },
       "indieweb": { viewBox: "0 0 24 24", brandHex: "FF0000", title: "IndieWeb", tail: true },
       "indigo": { viewBox: "0 0 24 24", brandHex: "09009B", title: "IndiGo", tail: true },
-      "inductiveautomation": { viewBox: "0 0 24 24", brandHex: "445C6D", title: "Inductive Automation", aliases: ["inductive automation"], tail: true },
       "inertia": { viewBox: "0 0 24 24", brandHex: "9553E9", title: "Inertia", tail: true },
       "infiniti": { viewBox: "0 0 24 24", brandHex: "020B24", title: "INFINITI", tail: true },
       "infinityfree": { viewBox: "0 0 24 24", brandHex: "7738C8", title: "InfinityFree", tail: true },
@@ -7830,7 +8513,6 @@ var init_simple_catalog_generated = __esm({
       "jet": { viewBox: "0 0 24 24", brandHex: "FBBA00", title: "JET", tail: true },
       "jetblue": { viewBox: "0 0 24 24", brandHex: "001E59", title: "JetBlue", tail: true },
       "jetpackcompose": { viewBox: "0 0 24 24", brandHex: "4285F4", title: "Jetpack Compose", aliases: ["jetpack compose"], tail: true },
-      "jfrogpipelines": { viewBox: "0 0 24 24", brandHex: "40BE46", title: "JFrog Pipelines", aliases: ["jfrog pipelines"], tail: true },
       "jinja": { viewBox: "0 0 24 24", brandHex: "7E0C1B", title: "Jinja", tail: true },
       "jio": { viewBox: "0 0 24 24", brandHex: "0A2885", title: "Jio", tail: true },
       "jirasoftware": { viewBox: "0 0 24 24", brandHex: "0052CC", title: "Jira Software", aliases: ["jira software"], tail: true },
@@ -7991,7 +8673,6 @@ var init_simple_catalog_generated = __esm({
       "localxpose": { viewBox: "0 0 24 24", brandHex: "6023C0", title: "LocalXpose", tail: true },
       "locust": { viewBox: "0 0 24 24", brandHex: "B8EE4B", title: "Locust", tail: true },
       "lodash": { viewBox: "0 0 24 24", brandHex: "3492FF", title: "Lodash", tail: true },
-      "logmein": { viewBox: "0 0 24 24", brandHex: "45B6F2", title: "LogMeIn", tail: true },
       "logseq": { viewBox: "0 0 24 24", brandHex: "85C8C8", title: "Logseq", tail: true },
       "looker": { viewBox: "0 0 24 24", brandHex: "4285F4", title: "Looker", tail: true },
       "loom": { viewBox: "0 0 24 24", brandHex: "625DF5", title: "Loom", tail: true },
@@ -8027,7 +8708,6 @@ var init_simple_catalog_generated = __esm({
       "mailbox": { viewBox: "0 0 24 24", brandHex: "ABE659", title: "mailbox", tail: true },
       "maildotcom": { viewBox: "0 0 24 24", brandHex: "004788", title: "mail.com", aliases: ["mail com"], tail: true },
       "maildotru": { viewBox: "0 0 24 24", brandHex: "005FF9", title: "Mail.Ru", aliases: ["mail ru"], tail: true },
-      "mailtrap": { viewBox: "0 0 24 24", brandHex: "22D172", title: "Mailtrap", tail: true },
       "mainwp": { viewBox: "0 0 24 24", brandHex: "7FB100", title: "MainWP", tail: true },
       "majorleaguehacking": { viewBox: "0 0 24 24", brandHex: "265A8F", title: "Major League Hacking", aliases: ["major league hacking"], tail: true },
       "make": { viewBox: "0 0 24 24", brandHex: "6D00CC", title: "Make", tail: true },
@@ -8040,9 +8720,7 @@ var init_simple_catalog_generated = __esm({
       "mangacollec": { viewBox: "0 0 24 24", brandHex: "DA1F05", title: "Mangacollec", tail: true },
       "mangaupdates": { viewBox: "0 0 24 24", brandHex: "FF8C15", title: "MangaUpdates", tail: true },
       "manjaro": { viewBox: "0 0 24 24", brandHex: "35BFA4", title: "Manjaro", tail: true },
-      "mapbox": { viewBox: "0 0 24 24", brandHex: "000000", title: "Mapbox", tail: true },
       "mapillary": { viewBox: "0 0 24 24", brandHex: "00AF66", title: "Mapillary", tail: true },
-      "maplibre": { viewBox: "0 0 24 24", brandHex: "396CB2", title: "MapLibre", tail: true },
       "maptiler": { viewBox: "0 0 24 24", brandHex: "323357", title: "MapTiler", tail: true },
       "mariadbfoundation": { viewBox: "0 0 24 24", brandHex: "1F305F", title: "MariaDB Foundation", aliases: ["mariadb foundation"], tail: true },
       "marko": { viewBox: "0 0 24 24", brandHex: "2596BE", title: "Marko", tail: true },
@@ -8052,10 +8730,8 @@ var init_simple_catalog_generated = __esm({
       "mastercomfig": { viewBox: "0 0 24 24", brandHex: "009688", title: "mastercomfig", tail: true },
       "materialdesign": { viewBox: "0 0 24 24", brandHex: "6750A4", title: "Material Design", aliases: ["material design"], tail: true },
       "materialformkdocs": { viewBox: "0 0 24 24", brandHex: "526CFE", title: "Material for MkDocs", aliases: ["material for mkdocs"], tail: true },
-      "matomo": { viewBox: "0 0 24 24", brandHex: "3152A0", title: "Matomo", tail: true },
       "matterdotjs": { viewBox: "0 0 24 24", brandHex: "4B5562", title: "Matter.js", aliases: ["matter js"], tail: true },
       "matternet": { viewBox: "0 0 24 24", brandHex: "261C29", title: "Matternet", tail: true },
-      "mautic": { viewBox: "0 0 24 24", brandHex: "4E5E9E", title: "Mautic", tail: true },
       "max": { viewBox: "0 0 24 24", brandHex: "525252", title: "Max", tail: true },
       "maxplanckgesellschaft": { viewBox: "0 0 24 24", brandHex: "006C66", title: "Max-Planck-Gesellschaft", aliases: ["max planck gesellschaft"], tail: true },
       "maytag": { viewBox: "0 0 24 24", brandHex: "002E5F", title: "Maytag", tail: true },
@@ -8102,7 +8778,6 @@ var init_simple_catalog_generated = __esm({
       "milanote": { viewBox: "0 0 24 24", brandHex: "31303A", title: "Milanote", tail: true },
       "mingww64": { viewBox: "0 0 24 24", brandHex: "000000", title: "MinGW-w64", aliases: ["mingw w64"], tail: true },
       "mini": { viewBox: "0 0 24 24", brandHex: "000000", title: "Mini", tail: true },
-      "mintlify": { viewBox: "0 0 24 24", brandHex: "18E299", title: "Mintlify", tail: true },
       "minutemailer": { viewBox: "0 0 24 24", brandHex: "30B980", title: "Minutemailer", tail: true },
       "miraheze": { viewBox: "0 0 24 24", brandHex: "FFFC00", title: "Miraheze", tail: true },
       "mitsubishi": { viewBox: "0 0 24 24", brandHex: "E60012", title: "Mitsubishi", tail: true },
@@ -8129,7 +8804,6 @@ var init_simple_catalog_generated = __esm({
       "monster": { viewBox: "0 0 24 24", brandHex: "6D4C9F", title: "Monster", tail: true },
       "monzo": { viewBox: "0 0 24 24", brandHex: "14233C", title: "Monzo", tail: true },
       "moo": { viewBox: "0 0 24 24", brandHex: "00945E", title: "Moo", tail: true },
-      "moodle": { viewBox: "0 0 24 24", brandHex: "F98012", title: "Moodle", tail: true },
       "moonrepo": { viewBox: "0 0 24 24", brandHex: "6F53F3", title: "Moonrepo", tail: true },
       "moq": { viewBox: "0 0 24 24", brandHex: "F4BE00", title: "Moq", tail: true },
       "moqups": { viewBox: "0 0 24 24", brandHex: "006BE5", title: "Moqups", tail: true },
@@ -8197,7 +8871,6 @@ var init_simple_catalog_generated = __esm({
       "nextra": { viewBox: "0 0 24 24", brandHex: "000000", title: "Nextra", tail: true },
       "nfcore": { viewBox: "0 0 24 24", brandHex: "24B064", title: "nf-core", aliases: ["nf core"], tail: true },
       "nhl": { viewBox: "0 0 24 24", brandHex: "000000", title: "NHL", tail: true },
-      "nhost": { viewBox: "0 0 24 24", brandHex: "0052CD", title: "Nhost", tail: true },
       "nicehash": { viewBox: "0 0 24 24", brandHex: "FBC342", title: "NiceHash", tail: true },
       "niconico": { viewBox: "0 0 24 24", brandHex: "231815", title: "niconico", tail: true },
       "nike": { viewBox: "0 0 24 24", brandHex: "111111", title: "Nike", tail: true },
@@ -8256,28 +8929,23 @@ var init_simple_catalog_generated = __esm({
       "open3d": { viewBox: "0 0 24 24", brandHex: "000000", title: "Open3D", tail: true },
       "openaccess": { viewBox: "0 0 24 24", brandHex: "F68212", title: "Open Access", aliases: ["open access"], tail: true },
       "openaigym": { viewBox: "0 0 24 24", brandHex: "0081A5", title: "OpenAI Gym", aliases: ["openai gym"], tail: true },
-      "openapiinitiative": { viewBox: "0 0 24 24", brandHex: "6BA539", title: "OpenAPI Initiative", aliases: ["openapi initiative"], tail: true },
       "openbadges": { viewBox: "0 0 24 24", brandHex: "073B5A", title: "Open Badges", aliases: ["open badges"], tail: true },
       "openbugbounty": { viewBox: "0 0 24 24", brandHex: "F67909", title: "Open Bug Bounty", aliases: ["open bug bounty"], tail: true },
       "opencage": { viewBox: "0 0 24 24", brandHex: "1A8865", title: "OpenCage", tail: true },
       "opencollective": { viewBox: "0 0 24 24", brandHex: "7FADF2", title: "Open Collective", aliases: ["open collective"], tail: true },
-      "opencontainersinitiative": { viewBox: "0 0 24 24", brandHex: "262261", title: "Open Containers Initiative", aliases: ["open containers initiative"], tail: true },
       "opencritic": { viewBox: "0 0 24 24", brandHex: "FC3E04", title: "OpenCritic", tail: true },
       "openhab": { viewBox: "0 0 24 24", brandHex: "E64A19", title: "openHAB", tail: true },
       "openjsfoundation": { viewBox: "0 0 24 24", brandHex: "0075C9", title: "OpenJS Foundation", aliases: ["openjs foundation"], tail: true },
       "openlayers": { viewBox: "0 0 24 24", brandHex: "1F6B75", title: "Openlayers", tail: true },
       "openmediavault": { viewBox: "0 0 24 24", brandHex: "5DACDF", title: "openmediavault", tail: true },
       "openmined": { viewBox: "0 0 24 24", brandHex: "ED986C", title: "OpenMined", tail: true },
-      "openproject": { viewBox: "0 0 24 24", brandHex: "0770B8", title: "OpenProject", tail: true },
       "openscad": { viewBox: "0 0 24 24", brandHex: "F9D72C", title: "OpenSCAD", tail: true },
       "opensea": { viewBox: "0 0 24 24", brandHex: "2081E2", title: "OpenSea", tail: true },
       "opensourceinitiative": { viewBox: "0 0 24 24", brandHex: "3DA639", title: "Open Source Initiative", aliases: ["open source initiative"], tail: true },
-      "openstreetmap": { viewBox: "0 0 24 24", brandHex: "7EBC6F", title: "OpenStreetMap", tail: true },
       "opentext": { viewBox: "0 0 24 24", brandHex: "000000", title: "OpenText", tail: true },
       "opentui": { viewBox: "0 0 24 24", brandHex: "000000", title: "OpenTUI", tail: true },
       "openverse": { viewBox: "0 0 24 24", brandHex: "FFE033", title: "Openverse", tail: true },
       "openzeppelin": { viewBox: "0 0 24 24", brandHex: "4E5EE4", title: "OpenZeppelin", tail: true },
-      "openzfs": { viewBox: "0 0 24 24", brandHex: "2A667F", title: "OpenZFS", tail: true },
       "opera": { viewBox: "0 0 24 24", brandHex: "FF1B2D", title: "Opera", tail: true },
       "operagx": { viewBox: "0 0 24 24", brandHex: "EE2950", title: "Opera GX", aliases: ["opera gx"], tail: true },
       "oppo": { viewBox: "0 0 24 24", brandHex: "2D683D", title: "OPPO", tail: true },
@@ -8327,7 +8995,6 @@ var init_simple_catalog_generated = __esm({
       "payback": { viewBox: "0 0 24 24", brandHex: "003EB0", title: "PAYBACK", tail: true },
       "paychex": { viewBox: "0 0 24 24", brandHex: "004B8D", title: "Paychex", tail: true },
       "payhip": { viewBox: "0 0 24 24", brandHex: "5C6AC4", title: "Payhip", tail: true },
-      "paysafe": { viewBox: "0 0 24 24", brandHex: "5A28FF", title: "Paysafe", tail: true },
       "paytm": { viewBox: "0 0 24 24", brandHex: "20336B", title: "Paytm", tail: true },
       "pcgamingwiki": { viewBox: "0 0 24 24", brandHex: "556DB3", title: "PCGamingWiki", tail: true },
       "pdm": { viewBox: "0 0 24 24", brandHex: "AC75D7", title: "PDM", tail: true },
@@ -8344,9 +9011,7 @@ var init_simple_catalog_generated = __esm({
       "petsathome": { viewBox: "0 0 24 24", brandHex: "00AA28", title: "Pets at Home", aliases: ["pets at home"], tail: true },
       "peugeot": { viewBox: "0 0 24 24", brandHex: "000000", title: "Peugeot", tail: true },
       "pexels": { viewBox: "0 0 24 24", brandHex: "05A081", title: "Pexels", tail: true },
-      "phabricator": { viewBox: "0 0 24 24", brandHex: "4A5F88", title: "Phabricator", tail: true },
       "philipshue": { viewBox: "0 0 24 24", brandHex: "0065D3", title: "Philips Hue", aliases: ["philips hue"], tail: true },
-      "phonepe": { viewBox: "0 0 24 24", brandHex: "5F259F", title: "PhonePe", tail: true },
       "photobucket": { viewBox: "0 0 24 24", brandHex: "1C47CB", title: "Photobucket", tail: true },
       "photocrowd": { viewBox: "0 0 24 24", brandHex: "3DAD4B", title: "Photocrowd", tail: true },
       "photon": { viewBox: "0 0 24 24", brandHex: "004480", title: "Photon", tail: true },
@@ -8373,7 +9038,6 @@ var init_simple_catalog_generated = __esm({
       "pioneerdj": { viewBox: "0 0 24 24", brandHex: "1A1928", title: "Pioneer DJ", aliases: ["pioneer dj"], tail: true },
       "piped": { viewBox: "0 0 24 24", brandHex: "F84330", title: "Piped", tail: true },
       "pipx": { viewBox: "0 0 24 24", brandHex: "2CFFAA", title: "pipx", tail: true },
-      "pivotaltracker": { viewBox: "0 0 24 24", brandHex: "517A9E", title: "Pivotal Tracker", aliases: ["pivotal tracker"], tail: true },
       "piwigo": { viewBox: "0 0 24 24", brandHex: "FF7700", title: "Piwigo", tail: true },
       "pix": { viewBox: "0 0 24 24", brandHex: "77B6A8", title: "Pix", tail: true },
       "pixabay": { viewBox: "0 0 24 24", brandHex: "191B26", title: "Pixabay", tail: true },
@@ -8384,7 +9048,6 @@ var init_simple_catalog_generated = __esm({
       "plane": { viewBox: "0 0 24 24", brandHex: "121212", title: "Plane", tail: true },
       "planet": { viewBox: "0 0 24 24", brandHex: "009DB1", title: "Planet", tail: true },
       "plangrid": { viewBox: "0 0 24 24", brandHex: "0085DE", title: "PlanGrid", tail: true },
-      "platformdotsh": { viewBox: "0 0 24 24", brandHex: "1A182A", title: "Platform.sh", aliases: ["platform sh"], tail: true },
       "platformio": { viewBox: "0 0 24 24", brandHex: "F5822A", title: "PlatformIO", tail: true },
       "platzi": { viewBox: "0 0 24 24", brandHex: "98CA3F", title: "Platzi", tail: true },
       "playcanvas": { viewBox: "0 0 24 24", brandHex: "E05F2C", title: "PlayCanvas", tail: true },
@@ -8398,11 +9061,9 @@ var init_simple_catalog_generated = __esm({
       "playstationportable": { viewBox: "0 0 24 24", brandHex: "003791", title: "PlayStation Portable", aliases: ["playstation portable"], tail: true },
       "playstationvita": { viewBox: "0 0 24 24", brandHex: "003791", title: "PlayStation Vita", aliases: ["playstation vita"], tail: true },
       "plex": { viewBox: "0 0 24 24", brandHex: "EBAF00", title: "Plex", tail: true },
-      "plotly": { viewBox: "0 0 24 24", brandHex: "7A76FF", title: "Plotly", tail: true },
       "plume": { viewBox: "0 0 24 24", brandHex: "7C5CDF", title: "Plume", tail: true },
       "pluralsight": { viewBox: "0 0 24 24", brandHex: "F15B2A", title: "Pluralsight", tail: true },
       "plurk": { viewBox: "0 0 24 24", brandHex: "FF574D", title: "Plurk", tail: true },
-      "pm2": { viewBox: "0 0 24 24", brandHex: "2B037A", title: "PM2", tail: true },
       "pocketcasts": { viewBox: "0 0 24 24", brandHex: "F43E37", title: "Pocket Casts", aliases: ["pocket casts"], tail: true },
       "podcastaddict": { viewBox: "0 0 24 24", brandHex: "F4842D", title: "Podcast Addict", aliases: ["podcast addict"], tail: true },
       "podcastindex": { viewBox: "0 0 24 24", brandHex: "F90000", title: "Podcast Index", aliases: ["podcast index"], tail: true },
@@ -8470,7 +9131,6 @@ var init_simple_catalog_generated = __esm({
       "purism": { viewBox: "0 0 24 24", brandHex: "2D2D2D", title: "Purism", tail: true },
       "pushbullet": { viewBox: "0 0 24 24", brandHex: "4AB367", title: "Pushbullet", tail: true },
       "pwa": { viewBox: "0 0 24 24", brandHex: "5A0FC8", title: "PWA", tail: true },
-      "pydantic": { viewBox: "0 0 24 24", brandHex: "E92063", title: "Pydantic", tail: true },
       "pyg": { viewBox: "0 0 24 24", brandHex: "3C2179", title: "PyG", tail: true },
       "pypy": { viewBox: "0 0 24 24", brandHex: "193440", title: "PyPy", tail: true },
       "pyscaffold": { viewBox: "0 0 24 24", brandHex: "005CA0", title: "PyScaffold", tail: true },
@@ -8481,7 +9141,6 @@ var init_simple_catalog_generated = __esm({
       "qantas": { viewBox: "0 0 24 24", brandHex: "E40000", title: "Qantas", tail: true },
       "qatarairways": { viewBox: "0 0 24 24", brandHex: "5C0D34", title: "Qatar Airways", aliases: ["qatar airways"], tail: true },
       "qbittorrent": { viewBox: "0 0 24 24", brandHex: "2F67BA", title: "qbittorrent", tail: true },
-      "qgis": { viewBox: "0 0 24 24", brandHex: "589632", title: "QGIS", tail: true },
       "qi": { viewBox: "0 0 24 24", brandHex: "000000", title: "Qi", tail: true },
       "qiita": { viewBox: "0 0 24 24", brandHex: "55C500", title: "Qiita", tail: true },
       "qiskit": { viewBox: "0 0 24 24", brandHex: "6929C4", title: "Qiskit", tail: true },
@@ -8533,7 +9192,6 @@ var init_simple_catalog_generated = __esm({
       "reacttable": { viewBox: "0 0 24 24", brandHex: "FF4154", title: "React Table", aliases: ["react table"], tail: true },
       "readdotcv": { viewBox: "0 0 24 24", brandHex: "111111", title: "Read.cv", aliases: ["read cv"], tail: true },
       "readme": { viewBox: "0 0 24 24", brandHex: "018EF5", title: "ReadMe", tail: true },
-      "readthedocs": { viewBox: "0 0 24 24", brandHex: "000000", title: "Read the Docs", aliases: ["read the docs"], tail: true },
       "reason": { viewBox: "0 0 24 24", brandHex: "DD4B39", title: "Reason", tail: true },
       "reasonstudios": { viewBox: "0 0 24 24", brandHex: "FFFFFF", title: "Reason Studios", aliases: ["reason studios"], tail: true },
       "recoil": { viewBox: "0 0 24 24", brandHex: "3578E5", title: "Recoil", tail: true },
@@ -8593,7 +9251,6 @@ var init_simple_catalog_generated = __esm({
       "robloxstudio": { viewBox: "0 0 24 24", brandHex: "00A2FF", title: "Roblox Studio", aliases: ["roblox studio"], tail: true },
       "rocket": { viewBox: "0 0 24 24", brandHex: "D33847", title: "Rocket", tail: true },
       "rockstargames": { viewBox: "0 0 24 24", brandHex: "FCAF17", title: "Rockstar Games", aliases: ["rockstar games"], tail: true },
-      "rockwellautomation": { viewBox: "0 0 24 24", brandHex: "CD163F", title: "Rockwell Automation", aliases: ["rockwell automation"], tail: true },
       "roku": { viewBox: "0 0 24 24", brandHex: "662D91", title: "Roku", tail: true },
       "roll20": { viewBox: "0 0 24 24", brandHex: "E10085", title: "Roll20", tail: true },
       "rolldown": { viewBox: "0 0 24 24", brandHex: "FF4100", title: "Rolldown", tail: true },
@@ -8609,7 +9266,6 @@ var init_simple_catalog_generated = __esm({
       "rottentomatoes": { viewBox: "0 0 24 24", brandHex: "FA320A", title: "Rotten Tomatoes", aliases: ["rotten tomatoes"], tail: true },
       "roundcube": { viewBox: "0 0 24 24", brandHex: "37BEFF", title: "Roundcube", tail: true },
       "rss": { viewBox: "0 0 24 24", brandHex: "FFA500", title: "RSS", tail: true },
-      "rstudioide": { viewBox: "0 0 24 24", brandHex: "75AADB", title: "RStudio IDE", aliases: ["rstudio ide"], tail: true },
       "rte": { viewBox: "0 0 24 24", brandHex: "00A7B3", title: "RT\xC9", tail: true },
       "rtl": { viewBox: "0 0 24 24", brandHex: "FA002E", title: "RTL", tail: true },
       "rtlzwei": { viewBox: "0 0 24 24", brandHex: "00BCF6", title: "RTLZWEI", tail: true },
@@ -8639,18 +9295,14 @@ var init_simple_catalog_generated = __esm({
       "sat1": { viewBox: "0 0 24 24", brandHex: "047DA3", title: "Sat.1", aliases: ["sat 1"], tail: true },
       "satellite": { viewBox: "0 0 24 24", brandHex: "000000", title: "Satellite", tail: true },
       "saturn": { viewBox: "0 0 24 24", brandHex: "EB680B", title: "Saturn", tail: true },
-      "saucelabs": { viewBox: "0 0 24 24", brandHex: "3DDC91", title: "Sauce Labs", aliases: ["sauce labs"], tail: true },
       "saudia": { viewBox: "0 0 24 24", brandHex: "026938", title: "Saudia", tail: true },
       "scalar": { viewBox: "0 0 24 24", brandHex: "1A1A1A", title: "Scalar", tail: true },
       "scan": { viewBox: "0 0 24 24", brandHex: "004C97", title: "Scan", tail: true },
       "scania": { viewBox: "0 0 24 24", brandHex: "041E42", title: "Scania", tail: true },
-      "schneiderelectric": { viewBox: "0 0 24 24", brandHex: "3DCD58", title: "Schneider Electric", aliases: ["schneider electric"], tail: true },
       "scilab": { viewBox: "0 0 24 24", brandHex: "CD1925", title: "Scilab", tail: true },
-      "scipy": { viewBox: "0 0 24 24", brandHex: "8CAAE6", title: "SciPy", tail: true },
       "scopus": { viewBox: "0 0 24 24", brandHex: "E9711C", title: "Scopus", tail: true },
       "scpfoundation": { viewBox: "0 0 24 24", brandHex: "FFFFFF", title: "SCP Foundation", aliases: ["scp foundation"], tail: true },
       "scrapbox": { viewBox: "0 0 24 24", brandHex: "06B632", title: "Scrapbox", tail: true },
-      "scrapy": { viewBox: "0 0 24 24", brandHex: "60A839", title: "Scrapy", tail: true },
       "scratch": { viewBox: "0 0 24 24", brandHex: "855CD6", title: "Scratch", tail: true },
       "screencastify": { viewBox: "0 0 24 24", brandHex: "FF8282", title: "Screencastify", tail: true },
       "scrimba": { viewBox: "0 0 24 24", brandHex: "2B283A", title: "Scrimba", tail: true },
@@ -8723,7 +9375,6 @@ var init_simple_catalog_generated = __esm({
       "slides": { viewBox: "0 0 24 24", brandHex: "E4637C", title: "Slides", tail: true },
       "slideshare": { viewBox: "0 0 24 24", brandHex: "008ED2", title: "SlideShare", tail: true },
       "smart": { viewBox: "0 0 24 24", brandHex: "D7E600", title: "smart", tail: true },
-      "smartthings": { viewBox: "0 0 24 24", brandHex: "15BFFF", title: "SmartThings", tail: true },
       "smashingmagazine": { viewBox: "0 0 24 24", brandHex: "E85C33", title: "Smashing Magazine", aliases: ["smashing magazine"], tail: true },
       "smoothcomp": { viewBox: "0 0 24 24", brandHex: "000000", title: "Smoothcomp", tail: true },
       "smrt": { viewBox: "0 0 24 24", brandHex: "EE2E24", title: "SMRT", tail: true },
@@ -8737,7 +9388,6 @@ var init_simple_catalog_generated = __esm({
       "socket": { viewBox: "0 0 24 24", brandHex: "C93CD7", title: "Socket", tail: true },
       "softpedia": { viewBox: "0 0 24 24", brandHex: "002873", title: "Softpedia", tail: true },
       "sogou": { viewBox: "0 0 24 24", brandHex: "FB6022", title: "Sogou", tail: true },
-      "solana": { viewBox: "0 0 24 24", brandHex: "9945FF", title: "Solana", tail: true },
       "sololearn": { viewBox: "0 0 24 24", brandHex: "149EF2", title: "Sololearn", tail: true },
       "solus": { viewBox: "0 0 24 24", brandHex: "5294E2", title: "Solus", tail: true },
       "solveddotac": { viewBox: "0 0 24 24", brandHex: "17CE3A", title: "solved.ac", aliases: ["solved ac"], tail: true },
@@ -8758,7 +9408,6 @@ var init_simple_catalog_generated = __esm({
       "sparkar": { viewBox: "0 0 24 24", brandHex: "FF5C83", title: "Spark AR", aliases: ["spark ar"], tail: true },
       "sparkasse": { viewBox: "0 0 24 24", brandHex: "FF0000", title: "Sparkasse", tail: true },
       "sparkfun": { viewBox: "0 0 24 24", brandHex: "E53525", title: "SparkFun", tail: true },
-      "sparkpost": { viewBox: "0 0 24 24", brandHex: "FA6423", title: "SparkPost", tail: true },
       "spdx": { viewBox: "0 0 24 24", brandHex: "4398CC", title: "SPDX", tail: true },
       "speakerdeck": { viewBox: "0 0 24 24", brandHex: "009287", title: "Speaker Deck", aliases: ["speaker deck"], tail: true },
       "spectrum": { viewBox: "0 0 24 24", brandHex: "7B16FF", title: "Spectrum", tail: true },
@@ -8775,7 +9424,6 @@ var init_simple_catalog_generated = __esm({
       "spring_creators": { viewBox: "0 0 24 24", brandHex: "000000", title: "Spring", tail: true },
       "spyderide": { viewBox: "0 0 24 24", brandHex: "8C0000", title: "Spyder IDE", aliases: ["spyder ide"], tail: true },
       "squareenix": { viewBox: "0 0 24 24", brandHex: "ED1C24", title: "Square Enix", aliases: ["square enix"], tail: true },
-      "squarespace": { viewBox: "0 0 24 24", brandHex: "000000", title: "Squarespace", tail: true },
       "srgssr": { viewBox: "0 0 24 24", brandHex: "AF001E", title: "SRG SSR", aliases: ["srg ssr"], tail: true },
       "ssrn": { viewBox: "0 0 24 24", brandHex: "154881", title: "SSRN", tail: true },
       "stackbit": { viewBox: "0 0 24 24", brandHex: "207BEA", title: "Stackbit", tail: true },
@@ -8874,7 +9522,6 @@ var init_simple_catalog_generated = __esm({
       "tcs": { viewBox: "0 0 24 24", brandHex: "EE3984", title: "Tata Consultancy Services", aliases: ["tata consultancy services"], tail: true },
       "teal": { viewBox: "0 0 24 24", brandHex: "005149", title: "Teal", tail: true },
       "teamspeak": { viewBox: "0 0 24 24", brandHex: "4B69B6", title: "TeamSpeak", tail: true },
-      "teamviewer": { viewBox: "0 0 24 24", brandHex: "050A52", title: "TeamViewer", tail: true },
       "techcrunch": { viewBox: "0 0 24 24", brandHex: "029F00", title: "TechCrunch", tail: true },
       "ted": { viewBox: "0 0 24 24", brandHex: "E62B1E", title: "TED", tail: true },
       "teepublic": { viewBox: "0 0 24 24", brandHex: "4E64DF", title: "TeePublic", tail: true },
@@ -8892,7 +9539,6 @@ var init_simple_catalog_generated = __esm({
       "testcafe": { viewBox: "0 0 24 24", brandHex: "36B6E5", title: "TestCafe", tail: true },
       "testin": { viewBox: "0 0 24 24", brandHex: "007DD7", title: "Testin", tail: true },
       "testinglibrary": { viewBox: "0 0 24 24", brandHex: "E33332", title: "Testing Library", aliases: ["testing library"], tail: true },
-      "testrail": { viewBox: "0 0 24 24", brandHex: "65C179", title: "TestRail", tail: true },
       "tether": { viewBox: "0 0 24 24", brandHex: "50AF95", title: "Tether", tail: true },
       "textpattern": { viewBox: "0 0 24 24", brandHex: "FFDA44", title: "Textpattern", tail: true },
       "tga": { viewBox: "0 0 24 24", brandHex: "0014FF", title: "TGA", tail: true },
@@ -8921,7 +9567,6 @@ var init_simple_catalog_generated = __esm({
       "thirdweb": { viewBox: "0 0 24 24", brandHex: "F213A4", title: "thirdweb", tail: true },
       "threadless": { viewBox: "0 0 24 24", brandHex: "0099FF", title: "Threadless", tail: true },
       "threads": { viewBox: "0 0 24 24", brandHex: "000000", title: "Threads", tail: true },
-      "threedotjs": { viewBox: "0 0 24 24", brandHex: "000000", title: "Three.js", aliases: ["three js"], tail: true },
       "threema": { viewBox: "0 0 24 24", brandHex: "3FE669", title: "Threema", tail: true },
       "thumbtack": { viewBox: "0 0 24 24", brandHex: "009FD9", title: "Thumbtack", tail: true },
       "thunderbird": { viewBox: "0 0 24 24", brandHex: "0A84FF", title: "Thunderbird", tail: true },
@@ -8980,7 +9625,6 @@ var init_simple_catalog_generated = __esm({
       "tresorit": { viewBox: "0 0 24 24", brandHex: "00A9E2", title: "Tresorit", tail: true },
       "treyarch": { viewBox: "0 0 24 24", brandHex: "000000", title: "Treyarch", tail: true },
       "trezor": { viewBox: "0 0 24 24", brandHex: "141609", title: "Trezor", tail: true },
-      "tricentis": { viewBox: "0 0 24 24", brandHex: "12438C", title: "Tricentis", tail: true },
       "trilium": { viewBox: "0 0 24 24", brandHex: "000000", title: "Trilium", tail: true },
       "triller": { viewBox: "0 0 24 24", brandHex: "FF0089", title: "Triller", tail: true },
       "trillertv": { viewBox: "0 0 24 24", brandHex: "E61414", title: "TrillerTV", tail: true },
@@ -9013,7 +9657,6 @@ var init_simple_catalog_generated = __esm({
       "twitch": { viewBox: "0 0 24 24", brandHex: "9146FF", title: "Twitch", tail: true },
       "ty": { viewBox: "0 0 24 24", brandHex: "46EBE1", title: "ty", tail: true },
       "typer": { viewBox: "0 0 24 24", brandHex: "000000", title: "Typer", tail: true },
-      "typo3": { viewBox: "0 0 24 24", brandHex: "FF8700", title: "TYPO3", tail: true },
       "typst": { viewBox: "0 0 24 24", brandHex: "239DAD", title: "Typst", tail: true },
       "uber": { viewBox: "0 0 24 24", brandHex: "000000", title: "Uber", tail: true },
       "ubereats": { viewBox: "0 0 24 24", brandHex: "06C167", title: "Uber Eats", aliases: ["uber eats"], tail: true },
@@ -9044,7 +9687,6 @@ var init_simple_catalog_generated = __esm({
       "unlicense": { viewBox: "0 0 24 24", brandHex: "808080", title: "Unlicense", tail: true },
       "unocss": { viewBox: "0 0 24 24", brandHex: "333333", title: "UnoCSS", tail: true },
       "unraid": { viewBox: "0 0 24 24", brandHex: "F15A2C", title: "Unraid", tail: true },
-      "unrealengine": { viewBox: "0 0 24 24", brandHex: "0E1128", title: "Unreal Engine", aliases: ["unreal engine"], tail: true },
       "unsplash": { viewBox: "0 0 24 24", brandHex: "000000", title: "Unsplash", tail: true },
       "unstop": { viewBox: "0 0 24 24", brandHex: "1C4980", title: "Unstop", tail: true },
       "untappd": { viewBox: "0 0 24 24", brandHex: "FFC000", title: "Untappd", tail: true },
@@ -9053,8 +9695,6 @@ var init_simple_catalog_generated = __esm({
       "upptime": { viewBox: "0 0 24 24", brandHex: "1ABC9C", title: "Upptime", tail: true },
       "ups": { viewBox: "0 0 24 24", brandHex: "150400", title: "UPS", tail: true },
       "upwork": { viewBox: "0 0 24 24", brandHex: "6FDA44", title: "Upwork", tail: true },
-      "uservoice": { viewBox: "0 0 24 24", brandHex: "FF6720", title: "UserVoice", tail: true },
-      "usps": { viewBox: "0 0 24 24", brandHex: "333366", title: "USPS", tail: true },
       "utorrent": { viewBox: "0 0 24 24", brandHex: "76B83F", title: "uTorrent", tail: true },
       "uv": { viewBox: "0 0 24 24", brandHex: "DE5FE9", title: "uv", tail: true },
       "v0": { viewBox: "0 0 24 24", brandHex: "000000", title: "v0", tail: true },
@@ -9084,17 +9724,14 @@ var init_simple_catalog_generated = __esm({
       "viblo": { viewBox: "0 0 24 24", brandHex: "5387C6", title: "Viblo", tail: true },
       "victronenergy": { viewBox: "0 0 24 24", brandHex: "0066B2", title: "Victron Energy", aliases: ["victron energy"], tail: true },
       "vikunja": { viewBox: "0 0 24 24", brandHex: "196AFF", title: "Vikunja", tail: true },
-      "vimeo": { viewBox: "0 0 24 24", brandHex: "1AB7EA", title: "Vimeo", tail: true },
       "vimeolivestream": { viewBox: "0 0 24 24", brandHex: "0A0A20", title: "Vimeo Livestream", aliases: ["vimeo livestream"], tail: true },
       "vinted": { viewBox: "0 0 24 24", brandHex: "007782", title: "Vinted", tail: true },
       "virgin": { viewBox: "0 0 24 24", brandHex: "E10A0A", title: "Virgin", tail: true },
       "virginatlantic": { viewBox: "0 0 24 24", brandHex: "DA0530", title: "Virgin Atlantic", aliases: ["virgin atlantic"], tail: true },
       "virginmedia": { viewBox: "0 0 24 24", brandHex: "ED1A37", title: "Virgin Media", aliases: ["virgin media"], tail: true },
-      "virustotal": { viewBox: "0 0 24 24", brandHex: "394EFF", title: "VirusTotal", tail: true },
       "visualparadigm": { viewBox: "0 0 24 24", brandHex: "CC3333", title: "Visual Paradigm", aliases: ["visual paradigm"], tail: true },
       "visx": { viewBox: "0 0 24 24", brandHex: "FF1231", title: "visx", tail: true },
       "vitepress": { viewBox: "0 0 24 24", brandHex: "5C73E7", title: "VitePress", tail: true },
-      "vivawallet": { viewBox: "0 0 24 24", brandHex: "1F263A", title: "Viva Wallet", aliases: ["viva wallet"], tail: true },
       "vivino": { viewBox: "0 0 24 24", brandHex: "A61A30", title: "Vivino", tail: true },
       "vivint": { viewBox: "0 0 24 24", brandHex: "212721", title: "Vivint", tail: true },
       "vivo": { viewBox: "0 0 24 24", brandHex: "415FFF", title: "vivo", tail: true },
@@ -9106,7 +9743,6 @@ var init_simple_catalog_generated = __esm({
       "voipdotms": { viewBox: "0 0 24 24", brandHex: "E1382D", title: "VoIP.ms", aliases: ["voip ms"], tail: true },
       "volkswagen": { viewBox: "0 0 24 24", brandHex: "151F5D", title: "Volkswagen", tail: true },
       "volvo": { viewBox: "0 0 24 24", brandHex: "003057", title: "Volvo", tail: true },
-      "vonage": { viewBox: "0 0 24 24", brandHex: "000000", title: "Vonage", tail: true },
       "vorondesign": { viewBox: "0 0 24 24", brandHex: "ED3023", title: "Voron Design", aliases: ["voron design"], tail: true },
       "vowpalwabbit": { viewBox: "0 0 24 24", brandHex: "FF81F9", title: "Vowpal Wabbit", aliases: ["vowpal wabbit"], tail: true },
       "vox": { viewBox: "0 0 24 24", brandHex: "DA074A", title: "VOX", tail: true },
@@ -9118,7 +9754,6 @@ var init_simple_catalog_generated = __esm({
       "w3schools": { viewBox: "0 0 24 24", brandHex: "04AA6D", title: "W3Schools", tail: true },
       "wacom": { viewBox: "0 0 24 24", brandHex: "000000", title: "Wacom", tail: true },
       "wagmi": { viewBox: "0 0 24 24", brandHex: "000000", title: "Wagmi", tail: true },
-      "wagtail": { viewBox: "0 0 24 24", brandHex: "43B1B0", title: "Wagtail", tail: true },
       "wails": { viewBox: "0 0 24 24", brandHex: "DF0000", title: "Wails", tail: true },
       "wakatime": { viewBox: "0 0 24 24", brandHex: "000000", title: "WakaTime", tail: true },
       "walkman": { viewBox: "0 0 24 24", brandHex: "000000", title: "WALKMAN", tail: true },
@@ -9137,8 +9772,6 @@ var init_simple_catalog_generated = __esm({
       "webawesome": { viewBox: "0 0 24 24", brandHex: "F36944", title: "Web Awesome", aliases: ["web awesome"], tail: true },
       "webcomponentsdotorg": { viewBox: "0 0 24 24", brandHex: "29ABE2", title: "webcomponents.org", aliases: ["webcomponents org"], tail: true },
       "webdotde": { viewBox: "0 0 24 24", brandHex: "FFD800", title: "WEB.DE", aliases: ["web de"], tail: true },
-      "webdriverio": { viewBox: "0 0 24 24", brandHex: "EA5906", title: "WebdriverIO", tail: true },
-      "webflow": { viewBox: "0 0 24 24", brandHex: "146EF5", title: "Webflow", tail: true },
       "webmoney": { viewBox: "0 0 24 24", brandHex: "036CB5", title: "WebMoney", tail: true },
       "webtoon": { viewBox: "0 0 24 24", brandHex: "00D564", title: "WEBTOON", tail: true },
       "webtrees": { viewBox: "0 0 24 24", brandHex: "2694E8", title: "webtrees", tail: true },
@@ -9169,8 +9802,6 @@ var init_simple_catalog_generated = __esm({
       "wine": { viewBox: "0 0 24 24", brandHex: "800000", title: "Wine", tail: true },
       "wire": { viewBox: "0 0 24 24", brandHex: "000000", title: "Wire", tail: true },
       "wish": { viewBox: "0 0 24 24", brandHex: "32E476", title: "Wish", tail: true },
-      "wistia": { viewBox: "0 0 24 24", brandHex: "58B7FE", title: "Wistia", tail: true },
-      "wix": { viewBox: "0 0 24 24", brandHex: "0C6EFC", title: "Wix", tail: true },
       "wizzair": { viewBox: "0 0 24 24", brandHex: "C6007E", title: "Wizz Air", aliases: ["wizz air"], tail: true },
       "wolfram": { viewBox: "0 0 24 24", brandHex: "DD1100", title: "Wolfram", tail: true },
       "wolframlanguage": { viewBox: "0 0 24 24", brandHex: "DD1100", title: "Wolfram Language", aliases: ["wolfram language"], tail: true },
@@ -9180,7 +9811,6 @@ var init_simple_catalog_generated = __esm({
       "woo": { viewBox: "0 0 24 24", brandHex: "873EFF", title: "Woo", tail: true },
       "workplace": { viewBox: "0 0 24 24", brandHex: "4526CE", title: "Workplace", tail: true },
       "worldhealthorganization": { viewBox: "0 0 24 24", brandHex: "0093D5", title: "World Health Organization", aliases: ["world health organization"], tail: true },
-      "wpengine": { viewBox: "0 0 24 24", brandHex: "0ECAD4", title: "WP Engine", aliases: ["wp engine"], tail: true },
       "wpexplorer": { viewBox: "0 0 24 24", brandHex: "2563EB", title: "WPExplorer", tail: true },
       "wprocket": { viewBox: "0 0 24 24", brandHex: "F56640", title: "WP Rocket", aliases: ["wp rocket"], tail: true },
       "writedotas": { viewBox: "0 0 24 24", brandHex: "5AC4EE", title: "Write.as", aliases: ["write as"], tail: true },
@@ -9192,16 +9822,13 @@ var init_simple_catalog_generated = __esm({
       "xampp": { viewBox: "0 0 24 24", brandHex: "FB7A24", title: "XAMPP", tail: true },
       "xdadevelopers": { viewBox: "0 0 24 24", brandHex: "EA7100", title: "XDA Developers", aliases: ["xda developers"], tail: true },
       "xdotorg": { viewBox: "0 0 24 24", brandHex: "F28834", title: "X.Org", aliases: ["x org"], tail: true },
-      "xendit": { viewBox: "0 0 24 24", brandHex: "4573FF", title: "Xendit", tail: true },
       "xfce": { viewBox: "0 0 24 24", brandHex: "2284F2", title: "XFCE", tail: true },
       "xiaohongshu": { viewBox: "0 0 24 24", brandHex: "FF2442", title: "Xiaohongshu", tail: true },
       "xiaomi": { viewBox: "0 0 24 24", brandHex: "FF6900", title: "Xiaomi", tail: true },
       "xing": { viewBox: "0 0 24 24", brandHex: "006567", title: "Xing", tail: true },
-      "xmpp": { viewBox: "0 0 24 24", brandHex: "002B5C", title: "XMPP", tail: true },
       "xo": { viewBox: "0 0 24 24", brandHex: "5ED9C7", title: "XO", tail: true },
       "xrp": { viewBox: "0 0 24 24", brandHex: "25A768", title: "XRP", tail: true },
       "xsplit": { viewBox: "0 0 24 24", brandHex: "0095DE", title: "XSplit", tail: true },
-      "xstate": { viewBox: "0 0 24 24", brandHex: "2C3E50", title: "XState", tail: true },
       "xubuntu": { viewBox: "0 0 24 24", brandHex: "0044AA", title: "Xubuntu", tail: true },
       "xyflow": { viewBox: "0 0 24 24", brandHex: "1A192B", title: "xyflow", tail: true },
       "yaak": { viewBox: "0 0 24 24", brandHex: "814EDF", title: "Yaak", tail: true },
@@ -9268,9 +9895,11 @@ var init_simple_catalog_generated = __esm({
       "sqlite": '<path d="M21.678.521c-1.032-.92-2.28-.55-3.513.544a8.71 8.71 0 0 0-.547.535c-2.109 2.237-4.066 6.38-4.674 9.544.237.48.422 1.093.544 1.561a13.044 13.044 0 0 1 .164.703s-.019-.071-.096-.296l-.05-.146a1.689 1.689 0 0 0-.033-.08c-.138-.32-.518-.995-.686-1.289-.143.423-.27.818-.376 1.176.484.884.778 2.4.778 2.4s-.025-.099-.147-.442c-.107-.303-.644-1.244-.772-1.464-.217.804-.304 1.346-.226 1.478.152.256.296.698.422 1.186.286 1.1.485 2.44.485 2.44l.017.224a22.41 22.41 0 0 0 .056 2.748c.095 1.146.273 2.13.5 2.657l.155-.084c-.334-1.038-.47-2.399-.41-3.967.09-2.398.642-5.29 1.661-8.304 1.723-4.55 4.113-8.201 6.3-9.945-1.993 1.8-4.692 7.63-5.5 9.788-.904 2.416-1.545 4.684-1.931 6.857.666-2.037 2.821-2.912 2.821-2.912s1.057-1.304 2.292-3.166c-.74.169-1.955.458-2.362.629-.6.251-.762.337-.762.337s1.945-1.184 3.613-1.72C21.695 7.9 24.195 2.767 21.678.521m-18.573.543A1.842 1.842 0 0 0 1.27 2.9v16.608a1.84 1.84 0 0 0 1.835 1.834h9.418a22.953 22.953 0 0 1-.052-2.707c-.006-.062-.011-.141-.016-.2a27.01 27.01 0 0 0-.473-2.378c-.121-.47-.275-.898-.369-1.057-.116-.197-.098-.31-.097-.432 0-.12.015-.245.037-.386a9.98 9.98 0 0 1 .234-1.045l.217-.028c-.017-.035-.014-.065-.031-.097l-.041-.381a32.8 32.8 0 0 1 .382-1.194l.2-.019c-.008-.016-.01-.038-.018-.053l-.043-.316c.63-3.28 2.587-7.443 4.8-9.791.066-.069.133-.128.198-.194Z"/>',
       "redis": '<path d="M22.71 13.145c-1.66 2.092-3.452 4.483-7.038 4.483-3.203 0-4.397-2.825-4.48-5.12.701 1.484 2.073 2.685 4.214 2.63 4.117-.133 6.94-3.852 6.94-7.239 0-4.05-3.022-6.972-8.268-6.972-3.752 0-8.4 1.428-11.455 3.685C2.59 6.937 3.885 9.958 4.35 9.626c2.648-1.904 4.748-3.13 6.784-3.744C8.12 9.244.886 17.05 0 18.425c.1 1.261 1.66 4.648 2.424 4.648.232 0 .431-.133.664-.365a100.49 100.49 0 0 0 5.54-6.765c.222 3.104 1.748 6.898 6.014 6.898 3.819 0 7.604-2.756 9.33-8.965.2-.764-.73-1.361-1.261-.73zm-4.349-5.013c0 1.959-1.926 2.922-3.685 2.922-.941 0-1.664-.247-2.235-.568 1.051-1.592 2.092-3.225 3.21-4.973 1.972.334 2.71 1.43 2.71 2.619z"/>',
       "mongodb": '<path d="M17.193 9.555c-1.264-5.58-4.252-7.414-4.573-8.115-.28-.394-.53-.954-.735-1.44-.036.495-.055.685-.523 1.184-.723.566-4.438 3.682-4.74 10.02-.282 5.912 4.27 9.435 4.888 9.884l.07.05A73.49 73.49 0 0111.91 24h.481c.114-1.032.284-2.056.51-3.07.417-.296.604-.463.85-.693a11.342 11.342 0 003.639-8.464c.01-.814-.103-1.662-.197-2.218zm-5.336 8.195s0-8.291.275-8.29c.213 0 .49 10.695.49 10.695-.381-.045-.765-1.76-.765-2.405z"/>',
+      "supabase": '<path d="M11.9 1.036c-.015-.986-1.26-1.41-1.874-.637L.764 12.05C-.33 13.427.65 15.455 2.409 15.455h9.579l.113 7.51c.014.985 1.259 1.408 1.873.636l9.262-11.653c1.093-1.375.113-3.403-1.645-3.403h-9.642z"/>',
       "cloudflare": '<path d="M16.5088 16.8447c.1475-.5068.0908-.9707-.1553-1.3154-.2246-.3164-.6045-.499-1.0615-.5205l-8.6592-.1123a.1559.1559 0 0 1-.1333-.0713c-.0283-.042-.0351-.0986-.021-.1553.0278-.084.1123-.1484.2036-.1562l8.7359-.1123c1.0351-.0489 2.1601-.8868 2.5537-1.9136l.499-1.3013c.0215-.0561.0293-.1128.0147-.168-.5625-2.5463-2.835-4.4453-5.5499-4.4453-2.5039 0-4.6284 1.6177-5.3876 3.8614-.4927-.3658-1.1187-.5625-1.794-.499-1.2026.119-2.1665 1.083-2.2861 2.2856-.0283.31-.0069.6128.0635.894C1.5683 13.171 0 14.7754 0 16.752c0 .1748.0142.3515.0352.5273.0141.083.0844.1475.1689.1475h15.9814c.0909 0 .1758-.0645.2032-.1553l.12-.4268zm2.7568-5.5634c-.0771 0-.1611 0-.2383.0112-.0566 0-.1054.0415-.127.0976l-.3378 1.1744c-.1475.5068-.0918.9707.1543 1.3164.2256.3164.6055.498 1.0625.5195l1.8437.1133c.0557 0 .1055.0263.1329.0703.0283.043.0351.1074.0214.1562-.0283.084-.1132.1485-.204.1553l-1.921.1123c-1.041.0488-2.1582.8867-2.5527 1.914l-.1406.3585c-.0283.0713.0215.1416.0986.1416h6.5977c.0771 0 .1474-.0489.169-.126.1122-.4082.1757-.837.1757-1.2803 0-2.6025-2.125-4.727-4.7344-4.727"/>',
       "github": '<path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>',
       "gitlab": '<path d="m23.6004 9.5927-.0337-.0862L20.3.9814a.851.851 0 0 0-.3362-.405.8748.8748 0 0 0-.9997.0539.8748.8748 0 0 0-.29.4399l-2.2055 6.748H7.5375l-2.2057-6.748a.8573.8573 0 0 0-.29-.4412.8748.8748 0 0 0-.9997-.0537.8585.8585 0 0 0-.3362.4049L.4332 9.5015l-.0325.0862a6.0657 6.0657 0 0 0 2.0119 7.0105l.0113.0087.03.0213 4.976 3.7264 2.462 1.8633 1.4995 1.1321a1.0085 1.0085 0 0 0 1.2197 0l1.4995-1.1321 2.4619-1.8633 5.006-3.7489.0125-.01a6.0682 6.0682 0 0 0 2.0094-7.003z"/>',
+      "google": '<path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/>',
       "okta": '<path d="M12 0C5.389 0 0 5.35 0 12s5.35 12 12 12 12-5.35 12-12S18.611 0 12 0zm0 18c-3.325 0-6-2.675-6-6s2.675-6 6-6 6 2.675 6 6-2.675 6-6 6z"/>',
       "auth0": '<path d="M21.98 7.448L19.62 0H4.347L2.02 7.448c-1.352 4.312.03 9.206 3.815 12.015L12.007 24l6.157-4.552c3.755-2.81 5.182-7.688 3.815-12.015l-6.16 4.58 2.343 7.45-6.157-4.597-6.158 4.58 2.358-7.433-6.188-4.55 7.63-.045L12.008 0l2.356 7.404 7.615.044z"/>',
       "openid": '<path d="M14.54.889l-3.63 1.773v18.17c-4.15-.52-7.27-2.78-7.27-5.5 0-2.58 2.8-4.75 6.63-5.41v-2.31C4.42 8.322 0 11.502 0 15.332c0 3.96 4.74 7.24 10.91 7.78l3.63-1.71V.888m.64 6.724v2.31c1.43.25 2.71.7 3.76 1.31l-1.97 1.11 7.03 1.53-.5-5.21-1.87 1.06c-1.74-1.06-3.96-1.81-6.45-2.11z"/>',
@@ -9320,13 +9949,19 @@ var init_simple_catalog_generated = __esm({
       "elasticsearch": '<path d="M13.394 0C8.683 0 4.609 2.716 2.644 6.667h15.641a4.77 4.77 0 0 0 3.073-1.11c.446-.375.864-.785 1.247-1.243l.001-.002A11.974 11.974 0 0 0 13.394 0zM1.804 8.889a12.009 12.009 0 0 0 0 6.222h14.7a3.111 3.111 0 1 0 0-6.222zm.84 8.444C4.61 21.283 8.684 24 13.395 24c3.701 0 7.011-1.677 9.212-4.312l-.001-.002a9.958 9.958 0 0 0-1.247-1.243 4.77 4.77 0 0 0-3.073-1.11z"/>',
       "snowflake": '<path d="M24 3.459c0 .646-.418 1.18-1.141 1.18-.723 0-1.142-.534-1.142-1.18 0-.647.419-1.18 1.142-1.18.723 0 1.141.533 1.141 1.18zm-.228 0c0-.533-.38-.951-.913-.951s-.913.38-.913.95c0 .533.38.952.913.952.57 0 .913-.419.913-.951zm-1.37-.533h.495c.266 0 .456.152.456.38 0 .153-.076.229-.19.305l.19.266v.038h-.266l-.19-.266h-.229v.266h-.266zm.495.228h-.229v.267h.229c.114 0 .152-.038.152-.114.038-.077-.038-.153-.152-.153zM7.602 12.4c.038-.151.076-.304.076-.456 0-.114-.038-.228-.038-.342-.114-.343-.304-.647-.646-.838l-4.87-2.777c-.685-.38-1.56-.152-1.94.533-.381.685-.153 1.56.532 1.94l2.701 1.56-2.701 1.56c-.685.38-.913 1.256-.533 1.94.38.685 1.256.914 1.94.533l4.832-2.777c.343-.267.571-.533.647-.876zm1.332 2.626c-.266-.038-.57.038-.837.19l-4.832 2.777c-.685.38-.913 1.256-.532 1.94.38.686 1.255.914 1.94.533l2.701-1.56v3.12c0 .8.647 1.408 1.446 1.408.799 0 1.407-.647 1.407-1.408v-5.592c0-.761-.57-1.37-1.293-1.408zm4.946-6.088c.266.038.57-.038.837-.19l4.832-2.777c.685-.38.913-1.256.532-1.94-.38-.686-1.255-.914-1.94-.533l-2.701 1.56V1.975c0-.799-.647-1.408-1.446-1.408-.799 0-1.446.609-1.446 1.408V7.53c0 .76.609 1.37 1.332 1.407zM3.265 5.97l4.832 2.777c.266.152.533.19.837.19.723-.038 1.331-.684 1.331-1.407V1.975c0-.799-.646-1.408-1.407-1.408-.799 0-1.446.647-1.446 1.408v3.12l-2.701-1.56c-.685-.38-1.56-.152-1.94.533-.419.646-.19 1.521.494 1.902zm9.093 6.011a.412.412 0 00-.114-.266l-.57-.571a.346.346 0 00-.267-.114.412.412 0 00-.266.114l-.571.57a.411.411 0 00-.114.267c0 .076.038.19.114.267l.57.57a.345.345 0 00.267.114c.076 0 .19-.038.266-.114l.571-.57a.412.412 0 00.114-.267zm1.598.533L11.94 14.53c-.039.038-.153.114-.229.114h-.608a.411.411 0 01-.267-.114L8.82 12.514a.408.408 0 01-.076-.229v-.608c0-.076.038-.19.114-.267l2.016-2.016a.41.41 0 01.267-.114h.608a.41.41 0 01.267.114l2.016 2.016a.347.347 0 01.114.267v.608c-.076.077-.114.19-.19.229zm5.593 5.44l-4.832-2.777c-.266-.152-.57-.19-.837-.152-.723.038-1.332.684-1.332 1.408v5.554c0 .8.647 1.408 1.408 1.408.799 0 1.446-.647 1.446-1.408v-3.12l2.7 1.56c.686.38 1.561.152 1.941-.533.419-.646.19-1.521-.494-1.94zm2.549-7.533l-2.701 1.56 2.7 1.56c.686.38.914 1.256.533 1.94-.38.685-1.255.913-1.94.533l-4.832-2.778a1.644 1.644 0 01-.647-.798c-.037-.153-.076-.305-.076-.457 0-.114.039-.228.039-.342.114-.343.342-.647.646-.837l4.832-2.778c.685-.38 1.56-.152 1.94.533.457.609.19 1.484-.494 1.864"/>',
       "clickhouse": '<path d="M21.333 10H24v4h-2.667ZM16 1.335h2.667v21.33H16Zm-5.333 0h2.666v21.33h-2.666ZM0 22.665V1.335h2.667v21.33zm5.333-21.33H8v21.33H5.333Z"/>',
+      "temporal": '<path d="M16.206 7.794C15.64 3.546 14.204 0 12 0 9.796 0 8.361 3.546 7.794 7.794 3.546 8.36 0 9.796 0 12c0 2.204 3.546 3.639 7.794 4.206C8.36 20.453 9.796 24 12 24c2.204 0 3.639-3.546 4.206-7.794C20.454 15.64 24 14.204 24 12c0-2.204-3.547-3.64-7.794-4.206Zm-8.55 7.174c-4.069-.587-6.44-1.932-6.44-2.969 0-1.036 2.372-2.381 6.44-2.969-.09.98-.137 1.98-.137 2.97 0 .99.047 1.99.137 2.968zM12 1.215c1.036 0 2.381 2.372 2.969 6.44a32.718 32.718 0 0 0-5.938 0c.587-4.068 1.932-6.44 2.969-6.44Zm4.344 13.753c-.2.03-1.022.126-1.23.146-.02.209-.117 1.03-.145 1.23-.588 4.068-1.933 6.44-2.97 6.44-1.036 0-2.38-2.372-2.968-6.44-.03-.2-.126-1.022-.147-1.23a31.833 31.833 0 0 1 0-6.23 31.813 31.813 0 0 1 7.46.146c4.068.587 6.442 1.933 6.442 2.969-.001 1.036-2.374 2.382-6.442 2.97z"/>',
       "angular": '<path d="M16.712 17.711H7.288l-1.204 2.916L12 24l5.916-3.373-1.204-2.916ZM14.692 0l7.832 16.855.814-12.856L14.692 0ZM9.308 0 .662 3.999l.814 12.856L9.308 0Zm-.405 13.93h6.198L12 6.396 8.903 13.93Z"/>',
       "dotnet": '<path d="M24 8.77h-2.468v7.565h-1.425V8.77h-2.462V7.53H24zm-6.852 7.565h-4.821V7.53h4.63v1.24h-3.205v2.494h2.953v1.234h-2.953v2.604h3.396zm-6.708 0H8.882L4.78 9.863a2.896 2.896 0 0 1-.258-.51h-.036c.032.189.048.592.048 1.21v5.772H3.157V7.53h1.659l3.965 6.32c.167.261.275.442.323.54h.024c-.04-.233-.06-.629-.06-1.185V7.529h1.372zm-8.703-.693a.868.829 0 0 1-.869.829.868.829 0 0 1-.868-.83.868.829 0 0 1 .868-.828.868.829 0 0 1 .869.829Z"/>',
       "openjdk": '<path d="M11.915 0 11.7.215C9.515 2.4 7.47 6.39 6.046 10.483c-1.064 1.024-3.633 2.81-3.711 3.551-.093.87 1.746 2.611 1.55 3.235-.198.625-1.304 1.408-1.014 1.939.1.188.823.011 1.277-.491a13.389 13.389 0 0 0-.017 2.14c.076.906.27 1.668.643 2.232.372.563.956.911 1.667.911.397 0 .727-.114 1.024-.264.298-.149.571-.33.91-.5.68-.34 1.634-.666 3.53-.604 1.903.062 2.872.39 3.559.704.687.314 1.15.664 1.925.664.767 0 1.395-.336 1.807-.9.412-.563.631-1.33.72-2.24.06-.623.055-1.32 0-2.066.454.45 1.117.604 1.213.424.29-.53-.816-1.314-1.013-1.937-.198-.624 1.642-2.366 1.549-3.236-.08-.748-2.707-2.568-3.748-3.586C16.428 6.374 14.308 2.394 12.13.215zm.175 6.038a2.95 2.95 0 0 1 2.943 2.942 2.95 2.95 0 0 1-2.943 2.943A2.95 2.95 0 0 1 9.148 8.98a2.95 2.95 0 0 1 2.942-2.942zM8.685 7.983a3.515 3.515 0 0 0-.145.997c0 1.951 1.6 3.55 3.55 3.55 1.95 0 3.55-1.598 3.55-3.55 0-.329-.046-.648-.132-.951.334.095.64.208.915.336a42.699 42.699 0 0 1 2.042 5.829c.678 2.545 1.01 4.92.846 6.607-.082.844-.29 1.51-.606 1.94-.315.431-.713.651-1.315.651-.593 0-.932-.27-1.673-.61-.741-.338-1.825-.694-3.792-.758-1.974-.064-3.073.293-3.821.669-.375.188-.659.373-.911.5s-.466.2-.752.2c-.53 0-.876-.209-1.16-.64-.285-.43-.474-1.101-.545-1.948-.141-1.693.176-4.069.823-6.614a43.155 43.155 0 0 1 1.934-5.783c.348-.167.749-.31 1.192-.425zm-3.382 4.362a.216.216 0 0 1 .13.031c-.166.56-.323 1.116-.463 1.665a33.849 33.849 0 0 0-.547 2.555 3.9 3.9 0 0 0-.2-.39c-.58-1.012-.914-1.642-1.16-2.08.315-.24 1.679-1.755 2.24-1.781zm13.394.01c.562.027 1.926 1.543 2.24 1.783-.246.438-.58 1.068-1.16 2.08a4.428 4.428 0 0 0-.163.309 32.354 32.354 0 0 0-.562-2.49 40.579 40.579 0 0 0-.482-1.652.216.216 0 0 1 .127-.03z"/>',
       "springboot": '<path d="m23.693 10.7058-4.73-8.1844c-.4094-.7106-1.4166-1.2942-2.2402-1.2942H7.2725c-.819 0-1.8308.5836-2.2402 1.2942L.307 10.7058c-.4095.7106-.4095 1.873 0 2.5837l4.7252 8.189c.4094.7107 1.4166 1.2943 2.2402 1.2943h9.455c.819 0 1.826-.5836 2.2402-1.2942l4.7252-8.189c.4095-.7107.4095-1.8732 0-2.5838zM10.9763 5.7547c0-.5365.4377-.9742.9742-.9742s.9742.4377.9742.9742v5.8217c0 .5366-.4377.9742-.9742.9742s-.9742-.4376-.9742-.9742zm.9742 12.4294c-3.6427 0-6.6077-2.965-6.6077-6.6077.0047-2.0896.993-4.0521 2.6685-5.304a.8657.8657 0 0 1 1.2142.1788.8657.8657 0 0 1-.1788 1.2143c-2.1602 1.6048-2.612 4.6592-1.0072 6.8194 1.6049 2.1603 4.6593 2.612 6.8195 1.0072 1.2378-.9177 1.9673-2.372 1.9673-3.9157a4.8972 4.8972 0 0 0-1.9861-3.925c-.386-.2824-.466-.8284-.1836-1.2143.2824-.386.8283-.466 1.2143-.1835 1.6895 1.2471 2.6826 3.2238 2.6873 5.3228 0 3.6474-2.965 6.6077-6.6077 6.6077z"/>',
       "php": '<path d="M7.01 10.207h-.944l-.515 2.648h.838c.556 0 .97-.105 1.242-.314.272-.21.455-.559.55-1.049.092-.47.05-.802-.124-.995-.175-.193-.523-.29-1.047-.29zM12 5.688C5.373 5.688 0 8.514 0 12s5.373 6.313 12 6.313S24 15.486 24 12c0-3.486-5.373-6.312-12-6.312zm-3.26 7.451c-.261.25-.575.438-.917.551-.336.108-.765.164-1.285.164H5.357l-.327 1.681H3.652l1.23-6.326h2.65c.797 0 1.378.209 1.744.628.366.418.476 1.002.33 1.752a2.836 2.836 0 0 1-.305.847c-.143.255-.33.49-.561.703zm4.024.715l.543-2.799c.063-.318.039-.536-.068-.651-.107-.116-.336-.174-.687-.174H11.46l-.704 3.625H9.388l1.23-6.327h1.367l-.327 1.682h1.218c.767 0 1.295.134 1.586.401s.378.7.263 1.299l-.572 2.944h-1.389zm7.597-2.265a2.782 2.782 0 0 1-.305.847c-.143.255-.33.49-.561.703a2.44 2.44 0 0 1-.917.551c-.336.108-.765.164-1.286.164h-1.18l-.327 1.682h-1.378l1.23-6.326h2.649c.797 0 1.378.209 1.744.628.366.417.477 1.001.331 1.751zM17.766 10.207h-.943l-.516 2.648h.838c.557 0 .971-.105 1.242-.314.272-.21.455-.559.551-1.049.092-.47.049-.802-.125-.995s-.524-.29-1.047-.29z"/>',
+      "sentry": '<path d="M13.91 2.505c-.873-1.448-2.972-1.448-3.844 0L6.904 7.92a15.478 15.478 0 0 1 8.53 12.811h-2.221A13.301 13.301 0 0 0 5.784 9.814l-2.926 5.06a7.65 7.65 0 0 1 4.435 5.848H2.194a.365.365 0 0 1-.298-.534l1.413-2.402a5.16 5.16 0 0 0-1.614-.913L.296 19.275a2.182 2.182 0 0 0 .812 2.999 2.24 2.24 0 0 0 1.086.288h6.983a9.322 9.322 0 0 0-3.845-8.318l1.11-1.922a11.47 11.47 0 0 1 4.95 10.24h5.915a17.242 17.242 0 0 0-7.885-15.28l2.244-3.845a.37.37 0 0 1 .504-.13c.255.14 9.75 16.708 9.928 16.9a.365.365 0 0 1-.327.543h-2.287c.029.612.029 1.223 0 1.831h2.297a2.206 2.206 0 0 0 1.922-3.31z"/>',
+      "datadog": '<path d="M19.57 17.04l-1.997-1.316-1.665 2.782-1.937-.567-1.706 2.604.087.82 9.274-1.71-.538-5.794zm-8.649-2.498l1.488-.204c.241.108.409.15.697.223.45.117.97.23 1.741-.16.18-.088.553-.43.704-.625l6.096-1.106.622 7.527-10.444 1.882zm11.325-2.712l-.602.115L20.488 0 .789 2.285l2.427 19.693 2.306-.334c-.184-.263-.471-.581-.96-.989-.68-.564-.44-1.522-.039-2.127.53-1.022 3.26-2.322 3.106-3.956-.056-.594-.15-1.368-.702-1.898-.02.22.017.432.017.432s-.227-.289-.34-.683c-.112-.15-.2-.199-.319-.4-.085.233-.073.503-.073.503s-.186-.437-.216-.807c-.11.166-.137.48-.137.48s-.241-.69-.186-1.062c-.11-.323-.436-.965-.343-2.424.6.421 1.924.321 2.44-.439.171-.251.288-.939-.086-2.293-.24-.868-.835-2.16-1.066-2.651l-.028.02c.122.395.374 1.223.47 1.625.293 1.218.372 1.642.234 2.204-.116.488-.397.808-1.107 1.165-.71.358-1.653-.514-1.713-.562-.69-.55-1.224-1.447-1.284-1.883-.062-.477.275-.763.445-1.153-.243.07-.514.192-.514.192s.323-.334.722-.624c.165-.109.262-.178.436-.323a9.762 9.762 0 0 0-.456.003s.42-.227.855-.392c-.318-.014-.623-.003-.623-.003s.937-.419 1.678-.727c.509-.208 1.006-.147 1.286.257.367.53.752.817 1.569.996.501-.223.653-.337 1.284-.509.554-.61.99-.688.99-.688s-.216.198-.274.51c.314-.249.66-.455.66-.455s-.134.164-.259.426l.03.043c.366-.22.797-.394.797-.394s-.123.156-.268.358c.277-.002.838.012 1.056.037 1.285.028 1.552-1.374 2.045-1.55.618-.22.894-.353 1.947.68.903.888 1.609 2.477 1.259 2.833-.294.295-.874-.115-1.516-.916a3.466 3.466 0 0 1-.716-1.562 1.533 1.533 0 0 0-.497-.85s.23.51.23.96c0 .246.03 1.165.424 1.68-.039.076-.057.374-.1.43-.458-.554-1.443-.95-1.604-1.067.544.445 1.793 1.468 2.273 2.449.453.927.186 1.777.416 1.997.065.063.976 1.197 1.15 1.767.306.994.019 2.038-.381 2.685l-1.117.174c-.163-.045-.273-.068-.42-.153.08-.143.241-.5.243-.572l-.063-.111c-.348.492-.93.97-1.414 1.245-.633.359-1.363.304-1.838.156-1.348-.415-2.623-1.327-2.93-1.566 0 0-.01.191.048.234.34.383 1.119 1.077 1.872 1.56l-1.605.177.759 5.908c-.337.048-.39.071-.757.124-.325-1.147-.946-1.895-1.624-2.332-.599-.384-1.424-.47-2.214-.314l-.05.059a2.851 2.851 0 0 1 1.863.444c.654.413 1.181 1.481 1.375 2.124.248.822.42 1.7-.248 2.632-.476.662-1.864 1.028-2.986.237.3.481.705.876 1.25.95.809.11 1.577-.03 2.106-.574.452-.464.69-1.434.628-2.456l.714-.104.258 1.834 11.827-1.424zM15.05 6.848c-.034.075-.085.125-.007.37l.004.014.013.032.032.073c.14.287.295.558.552.696.067-.011.136-.019.207-.023.242-.01.395.028.492.08.009-.048.01-.119.005-.222-.018-.364.072-.982-.626-1.308-.264-.122-.634-.084-.757.068a.302.302 0 0 1 .058.013c.186.066.06.13.027.207m1.958 3.392c-.092-.05-.52-.03-.821.005-.574.068-1.193.267-1.328.372-.247.191-.135.523.047.66.511.382.96.638 1.432.575.29-.038.546-.497.728-.914.124-.288.124-.598-.058-.698m-5.077-2.942c.162-.154-.805-.355-1.556.156-.554.378-.571 1.187-.041 1.646.053.046.096.078.137.104a4.77 4.77 0 0 1 1.396-.412c.113-.125.243-.345.21-.745-.044-.542-.455-.456-.146-.749"/>',
       "opentelemetry": '<path d="M12.6974 13.1173c-1.0224 1.0224-1.0224 2.68 0 3.7024 1.0224 1.0224 2.68 1.0224 3.7024 0 1.0224-1.0223 1.0224-2.68 0-3.7024-1.0223-1.0223-2.68-1.0223-3.7024 0zm2.7677 2.7701c-.5063.5063-1.3267.5063-1.833 0s-.5063-1.3266 0-1.833c.5063-.5062 1.3267-.5062 1.833 0 .5063.504.5063 1.3267 0 1.833zM16.356.2355l-1.6041 1.6042c-.314.314-.314.83 0 1.144L21.015 9.247c.314.314.83.314 1.144 0l1.6042-1.6041c.314-.314.314-.83 0-1.144L17.4976.2354c-.314-.314-.8276-.314-1.1416 0zM5.1173 20.734c.2848-.2848.2848-.7497 0-1.0345l-.8155-.8155c-.2848-.2848-.7497-.2848-1.0345 0l-1.6845 1.6845-.0024.0024-.4625-.4625c-.2556-.2556-.6718-.2556-.925 0-.2556.2556-.2556.6718 0 .925l2.775 2.775c.2556.2556.6718.2556.925 0 .2532-.2556.2556-.6718 0-.925l-.4625-.4625.0024-.0024zm8.4856-15.893-3.5637 3.5637c-.3164.3164-.3164.8374 0 1.1538l2.2006 2.2005c1.5554-1.1197 3.7365-.981 5.1361.4187l1.7819-1.7818c.3164-.3165.3164-.8374 0-1.1538l-4.401-4.401c-.3165-.319-.8374-.319-1.1539 0zm-2.2881 7.8455-1.2999-1.2999c-.3043-.3043-.8033-.3043-1.1076 0l-4.5836 4.586c-.3042.3043-.3042.8033 0 1.1076l2.5973 2.5973c.3043.3043.8033.3043 1.1076 0l2.9478-2.9527c-.6231-1.2877-.5112-2.8431.3384-4.0383z"/>',
+      "pagerduty": '<path d="M16.965 1.18C15.085.164 13.769 0 10.683 0H3.73v14.55h6.926c2.743 0 4.8-.164 6.61-1.37 1.975-1.303 3.004-3.484 3.004-6.007 0-2.716-1.262-4.896-3.305-5.994zm-5.5 10.326h-4.21V3.113l3.977-.027c3.62-.028 5.43 1.234 5.43 4.128 0 3.113-2.248 4.292-5.197 4.292zM3.73 17.61h3.525V24H3.73Z"/>',
       "jira": '<path d="M11.571 11.513H0a5.218 5.218 0 0 0 5.232 5.215h2.13v2.057A5.215 5.215 0 0 0 12.575 24V12.518a1.005 1.005 0 0 0-1.005-1.005zm5.723-5.756H5.736a5.215 5.215 0 0 0 5.215 5.214h2.129v2.058a5.218 5.218 0 0 0 5.215 5.214V6.758a1.001 1.001 0 0 0-1.001-1.001zM23.013 0H11.455a5.215 5.215 0 0 0 5.215 5.215h2.129v2.057A5.215 5.215 0 0 0 24 12.483V1.005A1.001 1.001 0 0 0 23.013 0Z"/>',
+      "discord": '<path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>',
+      "notion": '<path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z"/>',
       "googlebigquery": '<path d="M5.676 10.595h2.052v5.244a5.892 5.892 0 0 1-2.052-2.088v-3.156zm18.179 10.836a.504.504 0 0 1 0 .708l-1.716 1.716a.504.504 0 0 1-.708 0l-4.248-4.248a.206.206 0 0 1-.007-.007c-.02-.02-.028-.045-.043-.066a10.736 10.736 0 0 1-6.334 2.065C4.835 21.599 0 16.764 0 10.799S4.835 0 10.8 0s10.799 4.835 10.799 10.8c0 2.369-.772 4.553-2.066 6.333.025.017.052.028.074.05l4.248 4.248zm-5.028-10.632a8.015 8.015 0 1 0-8.028 8.028h.024a8.016 8.016 0 0 0 8.004-8.028zm-4.86 4.98a6.002 6.002 0 0 0 2.04-2.184v-1.764h-2.04v3.948zm-4.5.948c.442.057.887.08 1.332.072.4.025.8.025 1.2 0V7.692H9.468v9.035z"/>',
       "googlebigtable": '<path d="M10.511.278s0-.4.456-.24c.267.094 3.728 2.243 5.88 3.533l.006.003.364.217c.004.003.007.009.011.011.322.2.656.42 1.006.673.27.165.43.463.42.78l-.06 7.566a.42.42 0 0 1-.192.396l-1.2.815V5.436c-.042-.034-.083-.07-.131-.098l-5.06-3.01c-.744-.466-1.5-1.642-1.5-2.05zm-2.89 12.171 4.39 2.614 4.388-2.566v-1.079L12.25 13.84a.78.78 0 0 1-.24.072.43.43 0 0 1-.24-.072l-4.149-2.47v1.08zm0 1.943c0 .17.086.327.228.42l3.933 2.398c.123.06.162.07.228.064.088-.003.173-.074.252-.112l3.933-2.398a.468.468 0 0 0 .228-.42v-.791L12.25 16.07a.432.432 0 0 1-.48 0L7.621 13.6v.79zm8.778-4.137v-.516a.467.467 0 0 0-.228-.408l-3.933-2.398a.444.444 0 0 0-.456 0L7.85 9.331a.492.492 0 0 0-.228.408v.516l4.39 2.614 4.388-2.614zm-4.473 11.332L6.95 18.625c-.041-.025-.06-.07-.096-.1v-8.63l-1.2.708a.491.491 0 0 0-.227.395v7.867a.9.9 0 0 0 .407.72l1.272.79c-.002 0-.003-.003-.005-.004l6.024 3.59a.216.216 0 0 0 .336-.216 3.262 3.262 0 0 0-1.535-2.158zM8.891 4.097a.845.845 0 0 1 .859.009L16.41 8.06V6.645a.444.444 0 0 0-.24-.371l-6.38-3.778a.81.81 0 0 0-.85-.012l-1.433.856C5.56 4.498 1.525 6.893 1.36 6.975a.276.276 0 0 0 0 .48 3.154 3.154 0 0 0 2.495-.312L8.89 4.097zM22.635 16.49a3.154 3.154 0 0 0-2.519.3l-5.036 2.986a.875.875 0 0 1-.887 0l-.018-.006-6.554-3.867v1.39c.021.152.093.292.204.397l6.356 3.765a.84.84 0 0 0 .887 0l1.415-.863h-.004l6.156-3.646a.252.252 0 0 0 0-.456zM10.967 6.13l-1.2-.708a.407.407 0 0 0-.431 0L3.688 8.756a.863.863 0 0 0-.456.767v8.862a.216.216 0 0 0 .36.156 3.297 3.297 0 0 0 1.043-2.398v-5.996a.9.9 0 0 1 .098-.367l6.234-3.65zm2.11 11.728 1.2.683a.42.42 0 0 0 .443 0l5.684-3.418c.335-.207.442-.408.442-.706l.002-.001V12.665c0 .006-.004.01-.004.017-.006-2.494-.013-6.831.004-7.104.024-.384-.372-.252-.372-.252a3.37 3.37 0 0 0-1.007 2.399v5.995a.97.97 0 0 1-.191.413l-6.2 3.725z"/>',
       "googlecloudspanner": '<path d="M12 9.06 7.944 6.864V2.388L10.38.924v3.66l1.62.744 1.62-.744V.924l2.436 1.464v4.476L12 9.06zm-8.124 4.752L0 16.056v2.988l3.228-1.86 1.404.912.096 1.632-3.24 1.872 2.616 1.476 3.828-2.268-.132-4.596-3.924-2.4zm9.732-.9V8.758l-1.37.742-.238.129-.238-.13-1.37-.741v4.154l-3.613 2.09 1.282.783.231.142.008.27.046 1.612L12 15.696l3.595 2.079.045-1.59.008-.27.231-.142 1.301-.795-3.572-2.066zm7.164 4.272L24 19.044v-2.988L20.064 13.8l-3.924 2.4-.132 4.596 3.888 2.244 2.616-1.44-3.24-1.836.096-1.668 1.404-.912z"/>',
@@ -9350,9 +9985,14 @@ var init_simple_catalog_generated = __esm({
       "jupyter": '<path d="M7.157 22.201A1.784 1.799 0 0 1 5.374 24a1.784 1.799 0 0 1-1.784-1.799 1.784 1.799 0 0 1 1.784-1.799 1.784 1.799 0 0 1 1.783 1.799zM20.582 1.427a1.415 1.427 0 0 1-1.415 1.428 1.415 1.427 0 0 1-1.416-1.428A1.415 1.427 0 0 1 19.167 0a1.415 1.427 0 0 1 1.415 1.427zM4.992 3.336A1.047 1.056 0 0 1 3.946 4.39a1.047 1.056 0 0 1-1.047-1.055A1.047 1.056 0 0 1 3.946 2.28a1.047 1.056 0 0 1 1.046 1.056zm7.336 1.517c3.769 0 7.06 1.38 8.768 3.424a9.363 9.363 0 0 0-3.393-4.547 9.238 9.238 0 0 0-5.377-1.728A9.238 9.238 0 0 0 6.95 3.73a9.363 9.363 0 0 0-3.394 4.547c1.713-2.04 5.004-3.424 8.772-3.424zm.001 13.295c-3.768 0-7.06-1.381-8.768-3.425a9.363 9.363 0 0 0 3.394 4.547A9.238 9.238 0 0 0 12.33 21a9.238 9.238 0 0 0 5.377-1.729 9.363 9.363 0 0 0 3.393-4.547c-1.712 2.044-5.003 3.425-8.772 3.425Z"/>',
       "modelcontextprotocol": '<path d="M13.85 0a4.16 4.16 0 0 0-2.95 1.217L1.456 10.66a.835.835 0 0 0 0 1.18.835.835 0 0 0 1.18 0l9.442-9.442a2.49 2.49 0 0 1 3.541 0 2.49 2.49 0 0 1 0 3.541L8.59 12.97l-.1.1a.835.835 0 0 0 0 1.18.835.835 0 0 0 1.18 0l.1-.098 7.03-7.034a2.49 2.49 0 0 1 3.542 0l.049.05a2.49 2.49 0 0 1 0 3.54l-8.54 8.54a1.96 1.96 0 0 0 0 2.755l1.753 1.753a.835.835 0 0 0 1.18 0 .835.835 0 0 0 0-1.18l-1.753-1.753a.266.266 0 0 1 0-.394l8.54-8.54a4.185 4.185 0 0 0 0-5.9l-.05-.05a4.16 4.16 0 0 0-2.95-1.218c-.2 0-.401.02-.6.048a4.17 4.17 0 0 0-1.17-3.552A4.16 4.16 0 0 0 13.85 0m0 3.333a.84.84 0 0 0-.59.245L6.275 10.56a4.186 4.186 0 0 0 0 5.902 4.186 4.186 0 0 0 5.902 0L19.16 9.48a.835.835 0 0 0 0-1.18.835.835 0 0 0-1.18 0l-6.985 6.984a2.49 2.49 0 0 1-3.54 0 2.49 2.49 0 0 1 0-3.54l6.983-6.985a.835.835 0 0 0 0-1.18.84.84 0 0 0-.59-.245"/>',
       "elevenlabs": '<path d="M4.6035 0v24h4.9317V0zm9.8613 0v24h4.9317V0z"/>',
+      "zoom": '<path d="M5.033 14.649H.743a.74.74 0 0 1-.686-.458.74.74 0 0 1 .16-.808L3.19 10.41H1.06A1.06 1.06 0 0 1 0 9.35h3.957c.301 0 .57.18.686.458a.74.74 0 0 1-.161.808L1.51 13.59h2.464c.585 0 1.06.475 1.06 1.06zM24 11.338c0-1.14-.927-2.066-2.066-2.066-.61 0-1.158.265-1.537.686a2.061 2.061 0 0 0-1.536-.686c-1.14 0-2.066.926-2.066 2.066v3.311a1.06 1.06 0 0 0 1.06-1.06v-2.251a1.004 1.004 0 0 1 2.013 0v2.251c0 .586.474 1.06 1.06 1.06v-3.311a1.004 1.004 0 0 1 2.012 0v2.251c0 .586.475 1.06 1.06 1.06zM16.265 12a2.728 2.728 0 1 1-5.457 0 2.728 2.728 0 0 1 5.457 0zm-1.06 0a1.669 1.669 0 1 0-3.338 0 1.669 1.669 0 0 0 3.338 0zm-4.82 0a2.728 2.728 0 1 1-5.458 0 2.728 2.728 0 0 1 5.457 0zm-1.06 0a1.669 1.669 0 1 0-3.338 0 1.669 1.669 0 0 0 3.338 0z"/>',
       "netlify": '<path d="M6.49 19.04h-.23L5.13 17.9v-.23l1.73-1.71h1.2l.15.15v1.2L6.5 19.04ZM5.13 6.31V6.1l1.13-1.13h.23L8.2 6.68v1.2l-.15.15h-1.2L5.13 6.31Zm9.96 9.09h-1.65l-.14-.13v-3.83c0-.68-.27-1.2-1.1-1.23-.42 0-.9 0-1.43.02l-.07.08v4.96l-.14.14H8.9l-.13-.14V8.73l.13-.14h3.7a2.6 2.6 0 0 1 2.61 2.6v4.08l-.13.14Zm-8.37-2.44H.14L0 12.82v-1.64l.14-.14h6.58l.14.14v1.64l-.14.14Zm17.14 0h-6.58l-.14-.14v-1.64l.14-.14h6.58l.14.14v1.64l-.14.14ZM11.05 6.55V1.64l.14-.14h1.65l.14.14v4.9l-.14.14h-1.65l-.14-.13Zm0 15.81v-4.9l.14-.14h1.65l.14.13v4.91l-.14.14h-1.65l-.14-.14Z"/>',
       "flydotio": '<path d="M11.987 0c-2.45-.01-5.002.925-6.541 2.897-1.17 1.502-1.664 3.474-1.49 5.356.29 2.112 1.476 3.96 2.676 5.672a41.5 41.5 0 0 0 4.216 4.831c-1.063.832-1.943 2.286-1.357 3.644.821 2.32 4.665 2.05 5.122-.372.39-1.288-.694-2.533-1.428-3.309 2.388-2.431 4.706-5.036 6.17-8.145.595-1.32.902-2.802.614-4.24-.28-2.341-1.823-4.473-3.967-5.46C14.76.266 13.364.016 11.987 0m-.236 1.577v15.534C9.881 13.483 7.724 9.266 8.73 5.069c.35-1.539 1.253-3.309 3.02-3.492m1.996.04c1.534.357 3.031 1.096 3.906 2.48 1.3 1.93 1.318 4.55.1 6.521-1.268 2.395-3.06 4.463-4.916 6.415 1.472-2.974 3.074-6.106 3.182-9.5-.043-2.08-.438-4.612-2.272-5.916M11.97 20.103c.848.342 1.597 1.983.153 2.173-.664.15-1.367-.599-.995-1.222.213-.355.488-.73.842-.95"/>',
+      "fastly": '<path d="M13.919 3.036V1.3h.632V0H9.377v1.3h.631v1.749a10.572 10.572 0 00-8.575 10.384C1.433 19.275 6.17 24 12 24c5.842 0 10.567-4.737 10.567-10.567 0-5.186-3.729-9.486-8.648-10.397zm-1.628 15.826v-.607h-.619v.607c-2.757-.158-4.955-2.38-5.101-5.137h.607v-.62h-.607a5.436 5.436 0 015.101-5.089v.607h.62v-.607a5.435 5.435 0 015.137 5.114h-.607v.619h.607a5.444 5.444 0 01-5.138 5.113zm2.26-7.712l-.39-.389-1.979 1.725a.912.912 0 00-.316-.06c-.534 0-.971.448-.971.995 0 .547.437.996.971.996.535 0 .972-.45.972-.996a.839.839 0 00-.049-.304Z"/>',
+      "akamai": '<path d="M13.0548 0C6.384 0 .961 5.3802.961 12.0078.961 18.6354 6.3698 24 13.0548 24c.6168 0 .6454-.3572.0859-.5293-4.9349-1.5063-8.5352-6.069-8.5352-11.4629 0-5.4656 3.6725-10.0706 8.6934-11.5195C13.8153.3448 13.6716 0 13.0548 0Zm2.3242 1.8223c-5.2648 0-9.5254 4.2606-9.5254 9.5254 0 1.2193.2285 2.3818.6445 3.4433.1722.459.4454.4584.4024.0137-.0287-.3156-.0567-.6447-.0567-.9746 0-5.2648 4.2606-9.5254 9.5254-9.5254 4.9779 0 6.4698 2.2235 6.6563 2.08.2008-.1577-1.808-4.5624-7.6465-4.5624zm.4687 4.0703c-1.8622.0592-3.651.7168-5.1035 1.8554-.2582.2009-.1567.3284.1445.1993 2.4675-1.076 5.5812-1.1046 8.6368-.043 2.0514.7173 3.2413 1.7364 3.3418 1.6934.1578-.0718-1.1915-2.2226-3.6446-3.1407-1.1135-.4196-2.2576-.6-3.375-.5644z"/>',
+      "hetzner": '<path d="M0 0v24h24V0H0zm4.602 4.025h2.244c.509 0 .716.215.716.717v5.64h8.883v-5.64c0-.509.215-.717.717-.717h2.229c.5 0 .71.23.724.717v14.516c0 .509-.215.717-.717.717h-2.23c-.51 0-.717-.215-.717-.717v-5.735H7.562v5.735c0 .516-.215.717-.716.717H4.602c-.51 0-.717-.208-.717-.717V4.742c0-.509.207-.717.717-.717z"/>',
       "openstack": '<path d="M18.575 9.29h5.418v5.42h-5.418zM0 9.29h5.419v5.42H0zm18.575 7.827a1.207 1.207 0 0 1-1.206 1.206H6.623a1.207 1.207 0 0 1-1.205-1.206v-.858H0v5.252a2.236 2.236 0 0 0 2.229 2.23h19.53A2.237 2.237 0 0 0 24 21.512V16.26h-5.425zM21.763.258H2.233a2.236 2.236 0 0 0-2.23 2.23V7.74h5.419v-.858a1.206 1.206 0 0 1 1.205-1.206h10.746a1.206 1.206 0 0 1 1.205 1.206v.858H24V2.487A2.237 2.237 0 0 0 21.763.258Z"/>',
+      "sanity": '<path d="m23.327 15.205-.893-1.555-4.321 2.632 4.799-6.11.726-.426-.179-.27.33-.421-1.515-1.261-.693.883-13.992 8.186 5.173-6.221 9.636-5.282-.915-1.769-5.248 2.876 2.584-3.106-1.481-1.305-5.816 6.994-5.777 3.168 4.423-5.847 2.771-1.442-.88-1.789-8.075 4.203L6.186 4.43 4.648 3.198 0 9.349l.072.058.868 1.768 5.153-2.683-4.696 6.207.77.617.458.885 5.425-2.974-5.974 7.185 1.481 1.304.297-.358 14.411-8.459-4.785 6.094.078.065-.007.005.992 1.726 6.364-3.877-2.451 3.954 1.642 1.077L24 15.648z"/>',
       "wordpress": '<path d="M21.469 6.825c.84 1.537 1.318 3.3 1.318 5.175 0 3.979-2.156 7.456-5.363 9.325l3.295-9.527c.615-1.54.82-2.771.82-3.864 0-.405-.026-.78-.07-1.11m-7.981.105c.647-.03 1.232-.105 1.232-.105.582-.075.514-.93-.067-.899 0 0-1.755.135-2.88.135-1.064 0-2.85-.15-2.85-.15-.585-.03-.661.855-.075.885 0 0 .54.061 1.125.09l1.68 4.605-2.37 7.08L5.354 6.9c.649-.03 1.234-.1 1.234-.1.585-.075.516-.93-.065-.896 0 0-1.746.138-2.874.138-.2 0-.438-.008-.69-.015C4.911 3.15 8.235 1.215 12 1.215c2.809 0 5.365 1.072 7.286 2.833-.046-.003-.091-.009-.141-.009-1.06 0-1.812.923-1.812 1.914 0 .89.513 1.643 1.06 2.531.411.72.89 1.643.89 2.977 0 .915-.354 1.994-.821 3.479l-1.075 3.585-3.9-11.61.001.014zM12 22.784c-1.059 0-2.081-.153-3.048-.437l3.237-9.406 3.315 9.087c.024.053.05.101.078.149-1.12.393-2.325.609-3.582.609M1.211 12c0-1.564.336-3.05.935-4.39L7.29 21.709C3.694 19.96 1.212 16.271 1.211 12M12 0C5.385 0 0 5.385 0 12s5.385 12 12 12 12-5.385 12-12S18.615 0 12 0"/>',
       "sap": '<path d="M0 6.064v11.872h12.13L24 6.064zm3.264 2.208h.005c.863.001 1.915.245 2.676.633l-.82 1.43c-.835-.404-1.255-.442-1.73-.467-.708-.038-1.064.215-1.069.488-.007.332.669.633 1.305.838.964.306 2.19.715 2.377 1.9L7.77 8.437h2.046l2.064 5.576-.007-5.575h2.37c2.257 0 3.318.764 3.318 2.519 0 1.575-1.09 2.514-2.936 2.514h-.763l-.01 2.094-3.588-.003-.25-.908c-.37.122-.787.189-1.23.189-.456 0-.885-.071-1.263-.2l-.358.919-2 .006.09-.462c-.029.025-.057.05-.087.074-.535.43-1.208.629-2.037.644l-.213.002a5.075 5.075 0 0 1-2.581-.675l.73-1.448c.79.467 1.286.572 1.956.558.347-.007.598-.07.761-.239a.557.557 0 0 0 .156-.369c.007-.376-.53-.553-1.185-.756-.531-.164-1.135-.389-1.606-.735-.559-.41-.825-.924-.812-1.65a1.99 1.99 0 0 1 .566-1.377c.519-.537 1.357-.863 2.363-.863zm10.597 1.67v1.904h.521c.694 0 1.247-.23 1.248-.964 0-.709-.554-.94-1.248-.94zm-5.087.767l-.748 2.362c.223.085.481.133.757.133.268 0 .52-.047.742-.126l-.736-2.37z"/>',
       "confluence": '<path d="M.87 18.257c-.248.382-.53.875-.763 1.245a.764.764 0 0 0 .255 1.04l4.965 3.054a.764.764 0 0 0 1.058-.26c.199-.332.454-.763.733-1.221 1.967-3.247 3.945-2.853 7.508-1.146l4.957 2.337a.764.764 0 0 0 1.028-.382l2.364-5.346a.764.764 0 0 0-.382-1 599.851 599.851 0 0 1-4.965-2.361C10.911 10.97 5.224 11.185.87 18.257zM23.131 5.743c.249-.405.531-.875.764-1.25a.764.764 0 0 0-.256-1.034L18.675.404a.764.764 0 0 0-1.058.26c-.195.335-.451.763-.734 1.225-1.966 3.246-3.945 2.85-7.508 1.146L4.437.694a.764.764 0 0 0-1.027.382L1.046 6.422a.764.764 0 0 0 .382 1c1.039.49 3.105 1.467 4.965 2.361 6.698 3.246 12.392 3.029 16.738-4.04z"/>',
@@ -9373,6 +10013,7 @@ var init_simple_catalog_generated = __esm({
       "etcd": '<path d="M10.985 10.715A1.565 1.565 0 1 1 9.42 9.151a1.566 1.566 0 0 1 1.565 1.564zm2.023 0a1.565 1.565 0 1 0 1.565-1.564 1.564 1.564 0 0 0-1.565 1.564zm10.653 1.698a4.295 4.295 0 0 1-.346.013 4.517 4.517 0 0 1-1.986-.462 18.448 18.448 0 0 0 .267-3.515 18.184 18.184 0 0 0-2.274-2.695 4.519 4.519 0 0 1 1.603-1.717l.294-.182-.23-.26a11.977 11.977 0 0 0-4.182-3.05l-.319-.138-.08.336a4.506 4.506 0 0 1-1.135 2.058 18.19 18.19 0 0 0-3.277-1.35 18.126 18.126 0 0 0-3.272 1.348A4.495 4.495 0 0 1 7.594.745L7.512.408l-.317.139a12.091 12.091 0 0 0-4.182 3.05l-.23.259.294.182a4.512 4.512 0 0 1 1.599 1.708 18.322 18.322 0 0 0-2.27 2.685 18.435 18.435 0 0 0 .26 3.538 4.505 4.505 0 0 1-1.975.458 4.224 4.224 0 0 1-.346-.013L0 12.386l.032.344a11.904 11.904 0 0 0 1.609 4.924l.175.298.263-.223a4.502 4.502 0 0 1 2.132-.998 18.29 18.29 0 0 0 1.824 2.971 18.473 18.473 0 0 0 3.457.85 4.493 4.493 0 0 1-.287 2.36l-.132.319.338.075a12.048 12.048 0 0 0 2.59.286l2.59-.286.338-.075-.131-.32a4.487 4.487 0 0 1-.287-2.361 18.476 18.476 0 0 0 3.443-.848 18.208 18.208 0 0 0 1.826-2.974 4.51 4.51 0 0 1 2.143.999l.263.223.175-.296a11.877 11.877 0 0 0 1.607-4.924l.032-.343zm-7.958 4.209a13.981 13.981 0 0 1-7.416 0 14.189 14.189 0 0 1-2.256-7.013 14.118 14.118 0 0 1 2.687-2.558 14.333 14.333 0 0 1 3.279-1.784 14.377 14.377 0 0 1 3.27 1.779 14.226 14.226 0 0 1 2.7 2.576 14.293 14.293 0 0 1-.675 3.652 14.365 14.365 0 0 1-1.59 3.348z"/>',
       "opensearch": '<path d="M23.1515 8.8125a.8484.8484 0 0 0-.8484.8485c0 6.982-5.6601 12.6421-12.6421 12.6421a.8485.8485 0 0 0 0 1.6969C17.5802 24 24 17.5802 24 9.661a.8485.8485 0 0 0-.8485-.8485Zm-5.121 5.4375c.816-1.3311 1.6051-3.1058 1.4498-5.5905-.3216-5.1468-4.9832-9.0512-9.3851-8.6281C8.372.1971 6.6025 1.6017 6.7598 4.1177c.0683 1.0934.6034 1.7386 1.473 2.2348.8279.4722 1.8914.7713 3.097 1.1104 1.4563.4096 3.1455.8697 4.4438 1.8265 1.5561 1.1467 2.6198 2.4759 2.2569 4.9606Zm-16.561-9C.6535 6.581-.1355 8.3558.0197 10.8405c.3216 5.1468 4.9832 9.0512 9.385 8.6281 1.7233-.1657 3.4927-1.5703 3.3355-4.0863-.0683-1.0934-.6034-1.7386-1.4731-2.2348-.8278-.4722-1.8913-.7713-3.0969-1.1104-1.4563-.4096-3.1455-.8697-4.4438-1.8265-1.5561-1.1467-2.6198-2.476-2.257-4.9606Z"/>',
       "pulumi": '<path d="M11.997 0C10.226 0 8.79.83 8.79 1.856c0 1.025 1.436 1.856 3.207 1.856 1.772 0 3.208-.831 3.208-1.856C15.205.83 13.77 0 11.997 0zM5.95 3.488c-1.772 0-3.208.83-3.208 1.856C2.742 6.369 4.178 7.2 5.95 7.2c1.771 0 3.207-.831 3.207-1.856 0-1.025-1.436-1.856-3.207-1.856zm12.103 0c-1.772 0-3.208.83-3.208 1.856 0 1.025 1.436 1.856 3.208 1.856 1.771 0 3.207-.831 3.207-1.856 0-1.025-1.436-1.856-3.207-1.856zm-6.056 3.495c-1.771 0-3.207.831-3.207 1.856 0 1.025 1.436 1.856 3.207 1.856 1.772 0 3.208-.83 3.208-1.856 0-1.025-1.436-1.856-3.208-1.856zm-10.127.67a1.157 1.157 0 0 0-.55.151c-.888.513-.89 2.172-.004 3.706.886 1.534 2.324 2.362 3.211 1.85.888-.513.89-2.171.003-3.706-.72-1.246-1.803-2.027-2.66-2zm20.257.004c-.857-.026-1.941.754-2.661 2-.886 1.535-.884 3.194.003 3.707.888.512 2.325-.316 3.211-1.85.886-1.534.885-3.193-.003-3.706a1.157 1.157 0 0 0-.55-.15zm-6.048 3.492c-.857-.026-1.94.754-2.66 2-.886 1.535-.885 3.194.003 3.706.887.513 2.325-.316 3.21-1.85.887-1.534.885-3.193-.003-3.706a1.157 1.157 0 0 0-.55-.15zm-8.16.001a1.157 1.157 0 0 0-.55.151c-.888.513-.89 2.172-.004 3.706.886 1.535 2.324 2.363 3.211 1.85.888-.512.89-2.171.003-3.705-.72-1.247-1.803-2.028-2.66-2.002zm-6.047 3.494a1.157 1.157 0 0 0-.55.151c-.888.513-.89 2.172-.004 3.706.886 1.534 2.324 2.362 3.212 1.85.887-.513.888-2.172.003-3.706-.72-1.246-1.804-2.027-2.661-2.001zm20.258.002c-.857-.026-1.941.755-2.66 2.001-.887 1.535-.885 3.193.003 3.706.887.512 2.325-.316 3.21-1.85.886-1.534.885-3.193-.003-3.706a1.157 1.157 0 0 0-.55-.15zm-6.047 3.492c-.858-.026-1.942.754-2.661 2-.886 1.535-.885 3.194.003 3.706.888.513 2.325-.315 3.21-1.85.887-1.533.885-3.193-.002-3.705a1.157 1.157 0 0 0-.55-.151zm-8.163.003a1.157 1.157 0 0 0-.55.151c-.887.513-.889 2.172-.003 3.706.886 1.534 2.323 2.363 3.211 1.85.888-.512.89-2.171.004-3.706-.72-1.246-1.804-2.027-2.662-2z"/>',
+      "nomad": '<path d="m12.004 0-10.4 6v12l10.392 6 10.4-6V6L12.004 0zm4.639 13.204-2.77 1.6-3.347-1.832v3.826l-3.144 1.995V10.8L9.88 9.272l3.462 1.823V7.191l3.301-1.984v7.997z"/>',
       "consul": '<path d="M14.0754 12.0285a2.5059 2.5059 0 0 0-2.506-2.506 2.5059 2.5059 0 0 0-2.5058 2.506 2.5059 2.5059 0 0 0 2.5059 2.5059 2.5059 2.5059 0 0 0 2.5059-2.506zm3.5317.0003a1.1559 1.1556 0 0 0-1.1558-1.1556 1.1559 1.1556 0 0 0-1.1559 1.1556 1.1559 1.1556 0 0 0 1.1559 1.1555 1.1559 1.1556 0 0 0 1.1558-1.1555zm4.7917 5.5103a1.1576 1.1564 0 0 0-1.1577-1.1564 1.1576 1.1564 0 0 0-1.1576 1.1564 1.1576 1.1564 0 0 0 1.1576 1.1564 1.1576 1.1564 0 0 0 1.1577-1.1564zM20.748 13.888a1.1534 1.157 0 0 0-1.1533-1.157 1.1534 1.157 0 0 0-1.1534 1.157 1.1534 1.157 0 0 0 1.1534 1.1571 1.1534 1.157 0 0 0 1.1533-1.157zm3.2512.0619a1.1542 1.1538 0 0 0-1.1542-1.1538 1.1542 1.1538 0 0 0-1.1542 1.1538 1.1542 1.1538 0 0 0 1.1542 1.1538 1.1542 1.1538 0 0 0 1.1542-1.1538zm-3.279-3.883a1.1561 1.1535 0 0 0-1.156-1.1535 1.1561 1.1535 0 0 0-1.1562 1.1535 1.1561 1.1535 0 0 0 1.1561 1.1535 1.1561 1.1535 0 0 0 1.1562-1.1535zm3.2798.045a1.1614 1.157 0 0 0-1.1614-1.157 1.1614 1.157 0 0 0-1.1613 1.157 1.1614 1.157 0 0 0 1.1613 1.1572A1.1614 1.157 0 0 0 24 10.1119zm-1.626-3.631a1.1575 1.1601 0 0 0-1.1575-1.16 1.1575 1.1601 0 0 0-1.1575 1.16 1.1575 1.1601 0 0 0 1.1575 1.1602A1.1575 1.1601 0 0 0 22.374 6.481zM11.6171.3832c-3.1098 0-6.029 1.2063-8.2197 3.3974C1.206 5.9822 0 8.9007 0 11.9998c0 3.109 1.2067 6.0279 3.3974 8.2193 2.2028 2.1922 5.1213 3.3978 8.2197 3.3978 2.578 0 5.0176-.8252 7.055-2.386l-1.4196-1.8524c-1.6263 1.246-3.5748 1.9048-5.6354 1.9048-2.4776 0-4.8112-.9641-6.5717-2.7154-1.748-1.7488-2.7118-4.0828-2.7118-6.568 0-2.4784.9645-4.812 2.7158-6.5703 1.7484-1.7488 4.0817-2.713 6.5677-2.713 2.058 0 4.0069.659 5.6365 1.9057l1.4179-1.854C16.6314 1.2083 14.1922.3831 11.617.3831Z"/>',
       "packer": '<path d="M7.844 0v3.38l5.75 3.32v10.148l2.705 1.552c1.676.967 3.045.388 3.045-1.285V9.668c-.014-1.687-1.382-3.832-3.059-4.799L7.844 0zM4.656 2.932v16.574L12.436 24V7.426l-7.78-4.494Z"/>',
       "envoyproxy": '<path d="m23.351 7.593-7.068-4.379a1.034 1.034 0 0 0-.84-.117c-.02.01-.052.021-.074.032L8.471 6.105a.695.695 0 0 0-.435.68l.17 7.355c.01.298.191.595.478.765l7.068 4.38c.255.159.574.201.84.116.02-.01.053-.021.074-.032l6.898-2.976a.705.705 0 0 0 .436-.68l-.17-7.355c-.011-.297-.192-.584-.479-.765m-7.185 10.044-6.143-3.805-.149-6.388 5.995-2.583 6.143 3.805.149 6.388zm.011-6.027a.832.832 0 0 0-.414-.67l-5.06-3.135-.159.064.032 1.52 4.007 2.487.095 4.06 1.53.946.086-.032zm-6.058 7.132L5.41 15.83l-.116-4.89 2.146-.924-.042-1.69-3.327 1.435a.611.611 0 0 0-.382.595l.138 5.74c0 .265.16.52.414.67l5.516 3.422c.224.138.5.18.734.106a.15.15 0 0 1 .064-.021l3.252-1.403-1.616-1zm-2.615-6.1-1.52-.947.032 1.446 1.52.946zm2.19 5.059-.032-1.414-1.329-.83c-.021-.01-.042-.031-.053-.042l.032 1.425zm-4.751 1.902-3.476-2.158-.085-3.613 1.7-.734-.031-1.445-2.72 1.17a.527.527 0 0 0-.33.51l.106 4.336c0 .223.138.446.35.574l4.167 2.582a.822.822 0 0 0 .627.096c.021-.01.043-.01.064-.021l2.561-1.106-1.392-.86Z"/>',
@@ -9385,6 +10026,9 @@ var init_simple_catalog_generated = __esm({
       "logstash": '<path d="M13.745 24h8.291v-9.164h-8.29zm-2.618 0h.437v-9.164h-9.6A9.163 9.163 0 0011.127 24m.438-9.164h-9.6V0h.873a8.727 8.727 0 018.727 8.727z"/>',
       "kibana": '<path d="M2.625 0v21.591L21.375 0zm10.864 12.47L3.477 24h17.522a18.755 18.755 0 0 0-7.51-11.53z"/>',
       "newrelic": '<path d="M8.0015 14.3091v7.384L12.0008 24V12.0008L1.6078 5.9996v4.6167ZM12.0008 0 2.8232 5.2976 6.8209 7.606l5.1799-2.9893 6.3936 3.6913v7.384l-5.1783 2.9908v4.6167l9.176-5.2991V5.9996Z"/>',
+      "splunk": '<path d="M23.348 11.911l-2.241-1.091v-.65L24 11.621v.593l-2.893 1.438v-.636zm-5.397 1.841h-.961v-5.31h.961v3.116h.102l1.28-1.481.723.31-1.23 1.316 1.453 1.809-.888.311-1.44-1.996zm-2.577-.002v-2.068a2.685 2.685 0 0 0-.026-.42.791.791 0 0 0-.09-.26c-.113-.202-.308-.304-.59-.304a.888.888 0 0 0-.461.113.673.673 0 0 0-.286.33 1.012 1.012 0 0 0-.07.263c-.012.13-.019.262-.017.395v1.95h-.961v-3.614h.961l.002.485c.185-.2.373-.348.566-.437.192-.089.418-.134.673-.134.286 0 .527.058.721.177a1.016 1.016 0 0 1 .475.665 1.972 1.972 0 0 1 .054.448c.002.1.004.22.004.358v2.053zm-4.115.002l-.002-.485a1.783 1.783 0 0 1-.565.437 1.597 1.597 0 0 1-.674.135c-.285 0-.524-.057-.72-.17a.972.972 0 0 1-.425-.504.75.75 0 0 1-.054-.167 1.918 1.918 0 0 1-.033-.199 2.033 2.033 0 0 1-.017-.258 15.516 15.516 0 0 1-.005-.355V10.13h.956v2.07c-.003.141.006.282.026.42.015.092.045.18.09.26.113.204.308.306.59.306.36 0 .606-.15.74-.449.035-.082.06-.168.074-.257.017-.134.024-.269.022-.403v-1.95h.955v3.624zM7.184 8.44h.955v5.31h-.955zM5.759 11.9c0-.396-.08-.708-.24-.937a.759.759 0 0 0-.657-.345.804.804 0 0 0-.693.366c-.171.245-.256.574-.253.99 0 .405.084.723.25.957a.796.796 0 0 0 .69.347.685.685 0 0 0 .433-.135.985.985 0 0 0 .277-.34c.071-.14.121-.292.147-.448.03-.151.043-.3.046-.455m1.01-.036c.003.266-.04.532-.129.786-.082.23-.204.441-.364.626-.31.361-.764.567-1.24.563a1.67 1.67 0 0 1-.313-.028 1.041 1.041 0 0 1-.275-.098 1.33 1.33 0 0 1-.257-.178 2.379 2.379 0 0 1-.265-.268v2.293h-.929v-5.425h.93l.004.529c.169-.212.353-.368.55-.468.197-.1.426-.15.688-.147a1.509 1.509 0 0 1 1.156.507c.148.166.259.361.33.571.08.236.12.485.115.737m-4.21.89a.946.946 0 0 1-.102.441 1.007 1.007 0 0 1-.282.345c-.13.1-.275.173-.43.22a1.8 1.8 0 0 1-.546.08 1.985 1.985 0 0 1-.637-.097 1.964 1.964 0 0 1-.563-.32l.312-.505c.15.126.284.217.405.275.115.057.24.087.368.087a.557.557 0 0 0 .373-.12.396.396 0 0 0 .14-.322.475.475 0 0 0-.12-.318 1.306 1.306 0 0 0-.187-.173 9.231 9.231 0 0 0-.308-.232 6.787 6.787 0 0 1-.281-.21 2.11 2.11 0 0 1-.252-.232 1.039 1.039 0 0 1-.18-.275.826.826 0 0 1-.069-.347.893.893 0 0 1 .094-.409.935.935 0 0 1 .255-.314 1.22 1.22 0 0 1 .39-.203c.16-.05.327-.074.494-.072.184 0 .368.026.545.076.174.05.338.123.488.219l-.282.454a1.05 1.05 0 0 0-.608-.201.504.504 0 0 0-.323.102.307.307 0 0 0-.126.253c0 .098.041.193.113.26.074.078.203.186.385.325.185.136.336.253.457.355.104.085.202.182.286.286.065.08.115.173.145.273a.808.808 0 0 1 .046.299Z"/>',
+      "dynatrace": '<path d="M9.372 0c-.31.006-.93.09-1.521.654-.872.824-5.225 4.957-6.973 6.617-.79.754-.72 1.595-.72 1.664v.377c.067-.292.187-.5.427-.825.496-.616 1.3-.788 1.627-.822a64.238 64.238 0 01.002 0 64.238 64.238 0 016.528-.55c4.335-.136 7.197.226 7.197.226l6.085-5.794s-3.188-.6-6.82-1.027a93.4 93.4 0 00-5.64-.514c-.02 0-.09-.008-.192-.006zm13.56 2.508l-6.066 5.79s.222 2.881-.137 7.2c-.189 2.45-.584 4.866-.875 6.494-.052.326-.256 1.114-.925 1.594-.29.198-.49.295-.748.363 1.546-.51 1.091-7.047 1.091-7.047-4.335.137-7.214-.223-7.214-.223l-6.085 5.793s3.223.634 6.856 1.045c2.056.24 4.833.429 5.227.463.023 0 .045-.007.068-.012-.013.003-.022.009-.035.012.138 0 .26.015.38.015.084 0 .924.105 1.712-.648 1.748-1.663 6.084-5.81 6.94-6.634.789-.754.72-1.594.72-1.68a81.846 81.846 0 00-.206-5.654 101.75 101.75 0 00-.701-6.872zM3.855 8.306c-1.73.002-3.508.208-3.696 1.021.017 1.216.05 3.137.205 5.28.24 3.65.703 6.887.703 6.887l6.083-5.79c-.017.016-.24-2.88.12-7.2 0 0-1.684-.201-3.416-.2z"/>',
+      "opsgenie": '<path d="M12.002 0a5.988 5.988 0 1 1 0 11.975 5.988 5.988 0 0 1 0-11.975zm9.723 13.026h-.03l-4.527-2.242a.671.671 0 0 0-.876.268 22.408 22.408 0 0 1-4.306 5.217 22.407 22.407 0 0 1-4.286-5.2.671.671 0 0 0-.876-.269l-4.535 2.226h-.03a.671.671 0 0 0-.248.902 28.85 28.85 0 0 0 4.55 5.933l-.002.001c.024.025.05.048.075.072.335.335.676.664 1.027.981.081.074.165.144.247.217.315.278.632.555.96.82.144.117.295.227.441.341.277.216.552.434.837.639.44.318.888.625 1.346.917a.963.963 0 0 0 1.007.017c.487-.312.962-.64 1.428-.98.068-.05.132-.103.2-.153.358-.266.713-.537 1.06-.82.234-.19.46-.39.688-.588.17-.147.34-.291.506-.442.295-.268.58-.545.864-.825.061-.06.127-.118.188-.179l-.004-.002a28.852 28.852 0 0 0 4.565-5.949.671.671 0 0 0-.269-.902z"/>',
       "betterstack": '<path d="m.7792 10.7479-.7654 6.6384a2.0957 2.0957 0 0 0 .696 1.8122l1.8965 1.672c.6494.5725 1.658.0145 1.5185-.84L2.6039 10.705c-.1723-1.056-1.7022-1.02-1.8247.0429Zm12.3733 8.714L8.63 6.431c-.5023-1.4472-2.6082-1.3845-3.0203.0898l-1.376 4.9234c-.156.559-.216.8822.0005 1.4212h.5225l1.8993 6.0694c.294.7324.9017 1.3009 1.6611 1.5538l2.8315.9435c1.2417.4137 2.4268-.7513 2.004-1.97zm10.6297-1.0332L15.7907 3.4433c-.6971-1.3072-2.5779-1.2727-3.227.0589l-1.9652 3.9555c-.2375.487-.1274.6608.07.9435.1585.2268.526.2447.6758.012.147-.2287.488-.2076.6058.0375l5.1379 10.687a2.735 2.735 0 0 0 2.1416 1.6016l2.7183.3476c1.4628.1924 2.5299-1.3539 1.8343-2.6582z"/>',
       "kong": '<path d="M7.88 18.96h4.405l2.286 2.876-.393.979h-5.69l.139-.979-1.341-2.117.594-.759Zm3.152-12.632 2.36-.004L24 18.97l-.824 3.845h-4.547l.283-1.083L9 9.912l2.032-3.584Zm4.17-5.144 4.932 3.876-.632.651.855 1.191v1.273l-2.458 2.004-4.135-4.884h-2.407l.969-1.777 2.876-2.334ZM4.852 13.597l3.44-2.989 4.565 5.494-1.296 2.012h-4.21l-2.912 3.822-.665.879H0v-4.689l3.517-4.529h1.335Z"/>',
       "1password": '<path d="M12 0c6.627 0 12 5.373 12 12 0 6.628-5.373 12-12 12S0 18.628 0 12C0 5.373 5.373 0 12 0m-.893 4.86c-.485 0-.727.001-.913.095a.87.87 0 0 0-.378.379c-.094.185-.095.428-.095.912v2.747c0 .12 0 .182.016.238q.02.075.065.138a1 1 0 0 0 .175.162l.695.564c.113.092.17.139.19.194a.22.22 0 0 1 0 .15c-.02.056-.077.102-.19.194l-.695.564a1 1 0 0 0-.175.162.4.4 0 0 0-.065.138 1 1 0 0 0-.016.238v6.019c0 .485 0 .728.095.913a.87.87 0 0 0 .378.378c.186.094.428.094.913.094h1.786c.485 0 .727 0 .913-.094a.87.87 0 0 0 .378-.378c.095-.185.095-.428.095-.913v-2.747c0-.12 0-.182-.016-.238a.4.4 0 0 0-.065-.138 1 1 0 0 0-.175-.162l-.695-.564c-.113-.092-.17-.138-.191-.193a.22.22 0 0 1 0-.152c.02-.055.078-.1.19-.193l.696-.564a1 1 0 0 0 .175-.162.4.4 0 0 0 .065-.138 1 1 0 0 0 .016-.238V6.246c0-.484 0-.727-.095-.912a.87.87 0 0 0-.378-.379c-.186-.094-.428-.094-.913-.094Z"/>',
@@ -9426,12 +10070,19 @@ var init_simple_catalog_generated = __esm({
       "fortinet": '<path d="M0 9.785h6.788v4.454H0zm8.666-6.33h6.668v4.453H8.666zm0 12.637h6.668v4.454H8.666zm8.522-6.307H24v4.454h-6.812zM2.792 3.455C1.372 3.814.265 5.404 0 7.425v.506h6.788V3.454zM0 16.091v.554c.24 1.926 1.276 3.466 2.624 3.9h4.188v-4.454zm24-8.184v-.506c-.265-1.998-1.372-3.587-2.792-3.972h-4.02v4.454H24zM21.376 20.57c1.324-.458 2.36-1.974 2.624-3.9v-.554h-6.812v4.454Z"/>',
       "nutanix": '<path d="M.394 3.617a.395.395 0 0 0-.393.395c0 .12.054.225.14.297l8.506 7.404a.39.39 0 0 1-.013.588l-8.52 7.412a.393.393 0 0 0 .28.67h4.86a.39.39 0 0 0 .265-.104l9.17-7.98a.396.396 0 0 0 0-.596L5.52 3.721a.386.386 0 0 0-.264-.104zm18.358 0a.389.389 0 0 0-.273.113l-4.716 4.106a.392.392 0 0 0-.04.564l2.427 2.114a.393.393 0 0 0 .291.13.394.394 0 0 0 .278-.119l7.127-6.203a.389.389 0 0 0 .154-.31.395.395 0 0 0-.393-.395zm-2.31 9.742c-.116 0-.22.05-.292.13l-2.426 2.113a.392.392 0 0 0 .039.564l4.716 4.104c.07.07.166.113.273.113h4.855a.393.393 0 0 0 .239-.705l-7.127-6.203a.393.393 0 0 0-.278-.116z"/>',
       "proxmox": '<path d="M4.928 1.825c-1.09.553-1.09.64-.07 1.78 5.655 6.295 7.004 7.782 7.107 7.782.139.017 7.971-8.542 8.058-8.801.034-.07-.208-.312-.519-.536-.415-.312-.864-.433-1.712-.467-1.59-.104-2.144.242-4.115 2.455-.899 1.003-1.66 1.833-1.66 1.833-.017 0-.76-.813-1.642-1.798S8.473 2.1 8.127 1.91c-.796-.45-2.421-.484-3.2-.086zM1.297 4.367C.45 4.695 0 5.007 0 5.248c0 .121 1.331 1.678 2.94 3.459 1.625 1.78 2.939 3.268 2.939 3.302 0 .035-1.331 1.522-2.94 3.303C1.314 17.11.017 18.683.035 18.822c.086.467 1.504 1.055 2.541 1.055 1.678-.018 2.058-.312 5.603-4.202 1.78-1.954 3.233-3.614 3.233-3.666 0-.069-1.435-1.694-3.199-3.63-2.3-2.508-3.423-3.632-3.96-3.874-.812-.398-2.126-.467-2.956-.138zm18.467.12c-.502.26-1.764 1.505-3.943 3.891-1.763 1.937-3.199 3.562-3.199 3.631 0 .07 1.453 1.712 3.234 3.666 3.544 3.89 3.925 4.184 5.602 4.202 1.038 0 2.455-.588 2.542-1.055.017-.156-1.28-1.712-2.905-3.493-1.608-1.78-2.94-3.285-2.94-3.32 0-.034 1.332-1.539 2.94-3.32C22.72 6.91 24.017 5.352 24 5.214c-.087-.45-1.366-.968-2.473-1.038-.795-.034-1.21.035-1.763.312zM7.954 16.973c-2.144 2.369-3.908 4.374-3.943 4.46-.034.07.208.312.52.537.414.311.864.432 1.711.467 1.574.103 2.161-.26 4.15-2.508.864-.968 1.608-1.78 1.625-1.78s.761.812 1.643 1.798c2.023 2.248 2.559 2.576 4.132 2.49.848-.035 1.297-.156 1.712-.467.311-.225.553-.467.519-.536-.087-.26-7.92-8.819-8.058-8.801-.069 0-1.867 1.954-4.011 4.34z"/>',
+      "dell": '<path d="M17.963 14.6V9.324h1.222v4.204h2.14v1.07h-3.362zm-9.784-3.288l2.98-2.292c.281.228.56.458.841.687l-2.827 2.14.611.535 2.827-2.216c.281.228.56.458.841.688a295.83 295.83 0 0 1-2.827 2.216l.61.536 2.83-2.295-.001-1.986h1.223v4.204h2.216v1.07h-3.362v-1.987c-.995.763-1.987 1.529-2.981 2.292l-2.981-2.292c-.144.729-.653 1.36-1.312 1.694-.285.147-.597.24-.915.276-.183.022-.367.017-.551.017H3.516V9.325H5.69a2.544 2.544 0 0 1 1.563.557c.454.36.778.872.927 1.43m-3.516-.917v3.21l.953-.001a1.377 1.377 0 0 0 1.036-.523 1.74 1.74 0 0 0 .182-1.889 1.494 1.494 0 0 0-.976-.766c-.166-.04-.338-.03-.507-.032h-.688zM11.82 0h.337a11.94 11.94 0 0 1 5.405 1.373 12.101 12.101 0 0 1 4.126 3.557A11.93 11.93 0 0 1 24 11.82v.36a11.963 11.963 0 0 1-3.236 8.033A11.967 11.967 0 0 1 12.182 24h-.361a11.993 11.993 0 0 1-4.145-.806 12.04 12.04 0 0 1-4.274-2.836A12.057 12.057 0 0 1 .576 15.67 12.006 12.006 0 0 1 0 12.181v-.361a11.924 11.924 0 0 1 1.992-6.396 12.211 12.211 0 0 1 4.71-4.172A11.875 11.875 0 0 1 11.82 0m-.153 1.23a10.724 10.724 0 0 0-6.43 2.375 10.78 10.78 0 0 0-3.319 4.573 10.858 10.858 0 0 0 .193 8.12 10.788 10.788 0 0 0 3.546 4.421 10.698 10.698 0 0 0 4.786 1.946c1.456.209 2.955.124 4.376-.26a10.756 10.756 0 0 0 5.075-3.062 10.742 10.742 0 0 0 2.686-5.28 10.915 10.915 0 0 0-.122-4.682 10.77 10.77 0 0 0-7.098-7.626 10.78 10.78 0 0 0-3.693-.525z"/>',
       "flux": '<path d="M11.402 23.747c.154.075.306.154.454.238.181.038.37.004.525-.097l.386-.251c-1.242-.831-2.622-1.251-3.998-1.602l2.633 1.712Zm-7.495-5.783a8.088 8.088 0 0 1-.222-.236.696.696 0 0 0 .112 1.075l2.304 1.498c1.019.422 2.085.686 3.134.944 1.636.403 3.2.79 4.554 1.728l.697-.453c-1.541-1.158-3.327-1.602-5.065-2.03-2.039-.503-3.965-.977-5.514-2.526Zm1.414-1.322-.665.432c.023.024.044.049.068.073 1.702 1.702 3.825 2.225 5.877 2.731 1.778.438 3.469.856 4.9 1.982l.682-.444c-1.612-1.357-3.532-1.834-5.395-2.293-2.019-.497-3.926-.969-5.467-2.481Zm7.502 2.084c1.596.412 3.096.904 4.367 2.036l.67-.436c-1.484-1.396-3.266-1.953-5.037-2.403v.803Zm.698-2.337a64.695 64.695 0 0 1-.698-.174v.802l.512.127c2.039.503 3.965.978 5.514 2.526l.007.009.663-.431c-.041-.042-.079-.086-.121-.128-1.702-1.701-3.824-2.225-5.877-2.731Zm-.698-1.928v.816c.624.19 1.255.347 1.879.501 2.039.502 3.965.977 5.513 2.526.077.077.153.157.226.239a.704.704 0 0 0-.238-.911l-3.064-1.992c-.744-.245-1.502-.433-2.251-.618a31.436 31.436 0 0 1-2.065-.561Zm-1.646 3.049c-1.526-.4-2.96-.888-4.185-1.955l-.674.439c1.439 1.326 3.151 1.88 4.859 2.319v-.803Zm0-1.772a8.543 8.543 0 0 1-2.492-1.283l-.686.446c.975.804 2.061 1.293 3.178 1.655v-.818Zm0-1.946a7.59 7.59 0 0 1-.776-.453l-.701.456c.462.337.957.627 1.477.865v-.868Zm3.533.269-1.887-1.226v.581c.614.257 1.244.473 1.887.645Zm5.493-8.863L12.381.112a.705.705 0 0 0-.762 0L3.797 5.198a.698.698 0 0 0 0 1.171l7.38 4.797V7.678a.414.414 0 0 0-.412-.412h-.543a.413.413 0 0 1-.356-.617l1.777-3.079a.412.412 0 0 1 .714 0l1.777 3.079a.413.413 0 0 1-.356.617h-.543a.414.414 0 0 0-.412.412v3.488l7.38-4.797a.7.7 0 0 0 0-1.171Z"/>',
+      "jfrog": '<path d="M10.655 15.631l-1.268.353c.11.32.2.893.2 1.665v3.795h1.421v-4.015c.265-.32.552-.474.86-.474.156 0 .277.033.409.11l.386-1.312a1.05 1.05 0 00-.53-.122 1.22 1.22 0 00-.463.09c-.265.131-.596.43-.805.715 0-.32-.077-.573-.21-.805zM5.76 13.757h-.154v7.676h1.477v-3.398h1.864v-1.268H7.082v-1.764H9.41l.088-.673c-1.4-.1-2.668-.32-3.738-.573zm-3.452 8.7l.684.796c.662-.265 1.49-.86 1.71-1.81.077-.308.1-.506.1-1.51v-6.165H3.308v6.33c0 .828-.032 1.136-.142 1.423-.144.32-.486.695-.86.938zm13.422-3.892c0 1.346-.264 1.92-.871 1.92a.782.782 0 01-.717-.464c-.11-.286-.176-.773-.176-1.434 0-.563.055-.96.143-1.268.11-.353.386-.574.728-.574.254 0 .474.11.606.298.199.265.287.76.287 1.522zm.87 2.206c.465-.551.674-1.225.674-2.195 0-.916-.187-1.544-.617-2.073-.464-.574-1.06-.85-1.831-.85-1.456 0-2.426 1.18-2.426 2.967 0 1.787.96 2.934 2.426 2.934.827.01 1.367-.297 1.775-.783zm4.038-3.177c0 .52-.31.805-.86.805-.497 0-.828-.23-.828-.805 0-.529.31-.838.838-.838.53 0 .85.31.85.838zm2.503-1.213l-.585-.937c-.33.31-.727.485-1.113.485-.177 0-.276-.022-.662-.12a3.282 3.282 0 00-.97-.145c-1.38 0-2.272.75-2.272 1.92 0 .837.375 1.367 1.158 1.576-.32.077-.662.243-.816.43a.79.79 0 00-.166.52c0 .176.044.33.11.463a.68.68 0 00.31.275c.253.1.66.166 1.29.177.33 0 .529.01.595.01.386.023.584.09.739.166.143.089.253.287.253.508 0 .22-.132.44-.341.573-.188.132-.497.188-.894.188-.65 0-1.014-.243-1.014-.695 0-.2.022-.243.066-.364h-1.301c-.055.11-.122.265-.122.573 0 .386.144.717.442 1.004.485.474 1.279.606 2.04.606.838 0 1.654-.198 2.128-.727.298-.331.43-.695.43-1.17 0-.507-.143-.893-.463-1.212-.375-.364-.805-.497-1.632-.508l-.761-.01c-.143 0-.232-.056-.232-.133 0-.154.199-.288.563-.464.11.01.143.01.21.01 1.146 0 1.984-.705 1.984-1.686 0-.375-.11-.662-.32-.927.177.022.232.033.364.033.375 0 .673-.12.982-.419zM5.384 7.085c-1.764.43-2.966 1.279-2.966 2.25 0 .606.463 1.157 1.224 1.587a2.155 2.155 0 01-.353-1.157c.01-1.004.794-1.941 2.095-2.68zM24 10.889c0-.64-.397-1.224-1.059-1.709.055.2.1.397.1.596 0 1.82-2.548 3.385-6.165 4.036.408.044.827.066 1.268.066 3.23-.01 5.856-1.345 5.856-2.989zm-2.084-.992c0-.673-.574-1.29-1.555-1.798.23.276.353.574.353.883 0 1.62-3.44 2.933-7.698 2.933-4.246 0-7.698-1.312-7.698-2.933 0-.21.055-.408.165-.596-.683.452-1.07.97-1.07 1.522 0 1.753 3.916 3.176 8.747 3.176 4.83 0 8.756-1.445 8.756-3.187zM18.1 9.81c-1.786 1.147-7.279 1.588-9.639.11-1.853-1.158-1.213-3-6.518-7.036-.694-.53.133-1.092.651-.728.518.364.044.453 1.092 1.5 2.117 2.118 2.095.21 2.426.938.706 1.51 2.25 3.032 2.25 3.032 1.555 1.015 2.79 1.235 5.084-.32 1.456-.981.86 1.566 4.423-.275 1.3-.673 1.246-.22 2.569-2.063.55-.76 1.6.585.408.772-.474.078-1.28.596-1.621 1.412-.496 1.224-.287 2.128-1.125 2.658zM8.196 6.7c-.44-.199-.904-.95-1.08-1.246.496-.486.297-1.29.01-1.732-.275-.44-.617-.32-.98-.727-.376-.41.142-1.467.617-.651 1.775 3.055 2.944 1.786 4.39 1.599 1.39-.177 2.624.584 3-1.566.065-.353.407-.43.44.143.033.585.254 1.996 1.015 2.173.76.187 1.378-.177 1.555-.375.176-.2.275-.177.353.33.077.497.275 1.192 1.345.42 2.195-1.566 1.566-2.173 2.426-2.58.485-.232 1.257.518.144 1.08-1.588.805-1.754 1.797-2.757 2.426-1.688 1.059-1.17.044-3.882-.342-1.048-.143-1.38 1.015-2.195.684-1.864-.772-3.177-.618-4.4.364zm5.879-5.657c.066.463.143.452.309.485.165.044.375-.22.375-.463.01-.254-.11-.408-.353-.397-.254.01-.342.132-.331.375zm8.16.827c.2.187.728.066.85-.078.32-.352.33-.562.165-.805-.165-.231-.507-.198-.85.056-.341.253-.275.727-.164.827zm-.143 2.338c-.165.22-.176.386-.055.507.132.132.397.242.585.1.187-.155.187-.376.033-.563-.166-.2-.386-.2-.563-.044zM5.352 1.45c.253.077.374.32.584.044.11-.133.12-.32-.023-.52-.088-.12-.507-.21-.683-.032-.177.177-.01.464.121.508zM.178 1.295c.463.287.76.717 1.114.33.121-.131.264-.363.01-.826C1.117.457.511.325.301.457c-.22.12-.485.618-.121.838zM4.447 3.49c.143.154.397.143.551.055.144-.088.121-.32-.022-.518-.088-.122-.353-.188-.53 0-.176.187-.098.352 0 .463z"/>',
+      "sonatype": '<path d="M2.4568 20.5995c0 .5118-.4275.9032-1.2103.9032-.4938 0-.9454-.1565-1.2465-.4516l.289-.4577c.2048.2109.6082.4095.9876.4095.3794 0 .572-.1385.572-.3553 0-.2528-.307-.3432-.6624-.4215-.4997-.1083-1.0959-.2408-1.0959-.8912 0-.4756.4095-.8851 1.1441-.8851.4938 0 .8672.1745 1.1321.4095l-.265.4455c-.1745-.1987-.4998-.3492-.861-.3492-.3313 0-.542.1204-.542.3251 0 .2228.289.301.6323.3794.5058.1084 1.126.253 1.126.9394zm3.3115-.6263c0 .8371-.566 1.5295-1.4994 1.5295-.9214 0-1.4934-.6924-1.4934-1.5295 0-.831.572-1.5235 1.4934-1.5235.9334 0 1.4994.6926 1.4994 1.5235zm-.6564 0c0-.5118-.3011-.9634-.843-.9634-.536 0-.837.4516-.837.9634 0 .5179.301.9695.837.9695.5419 0 .843-.4516.843-.9695zm2.8117-1.5234c-.4577 0-.831.2408-1.0236.4696v-.3974h-.6323v2.9085H6.9v-2.0294c.1445-.1986.4215-.3913.7467-.3913.3553 0 .584.1505.584.6021v1.8186h.6323v-2.0474c0-.5962-.313-.9333-.9394-.9333zm4.0744 1.0537v1.927h-.6323v-.3132c-.2168.247-.554.3855-.9393.3855-.4757 0-1.0117-.3192-1.0117-.9635 0-.6685.536-.9454 1.0117-.9454.3913 0 .7286.1264.9393.3733v-.4336c0-.3371-.2769-.5419-.6804-.5419-.3251 0-.6082.1204-.861.3673l-.259-.4396c.3372-.3192.7587-.4697 1.2224-.4697.6443 0 1.2103.271 1.2103 1.0538zm-.6323.825c-.1444-.1987-.4154-.3011-.6924-.3011-.3553 0-.6203.2048-.6203.524 0 .313.265.5178.6203.5178.277 0 .548-.1024.6924-.3011v-.4395zm2.487.6142c-.1806 0-.277-.1445-.277-.3432V19.076h.5902v-.554h-.5902v-.7949h-.6322v.7949h-.4817v.554h.4817v1.68c0 .4817.259.7468.7467.7468.295 0 .4817-.0783.5961-.1867l-.1505-.4757c-.0482.0541-.1626.1023-.283.1023zm2.1175-.2409-.8491-2.1798h-.6744l1.1923 2.9446-.1445.3313c-.0843.1926-.2169.2528-.4155.2528-.0722 0-.1746-.018-.241-.0481l-.0962.566c.0903.0241.265.0422.3552.0422.4517-.006.801-.1626.9997-.6564l1.403-3.4324h-.6804l-.849 2.1798zm4.6887-.7286c0 .9575-.536 1.5295-1.2887 1.5295-.3674 0-.6986-.1626-.9334-.4757v1.5115h-.6323V18.522h.6323v.3974c.2168-.289.554-.4697.9334-.4697.7527 0 1.2887.566 1.2887 1.5235zm-.6565 0c0-.56-.3191-.9634-.819-.9634-.295 0-.608.1746-.7466.3913v1.1502c.1385.2108.4516.3914.7467.3914.4998 0 .819-.4034.819-.9695zM24 20.184h-2.2462c.0483.4396.3794.8009.9274.8009.283 0 .6203-.1144.825-.3192l.289.4155c-.289.277-.7165.4215-1.1802.4215-.8732 0-1.5234-.6081-1.5234-1.5295 0-.843.6141-1.5234 1.4752-1.5234.8732 0 1.4332.6684 1.4332 1.5836v.1506zm-.6142-.4457c-.012-.3432-.247-.7707-.819-.7707-.542 0-.7888.4155-.819.7707h1.638zm-5.4338-8.0399L12 15.1348l-5.952-3.4364V4.8256L12 1.3892l5.952 3.4364v6.8728zm-1.7072-5.8871L12 3.3607 7.7553 5.8113v4.9014L12 13.1635l4.2448-2.4506V5.8112z"/>',
       "opentofu": '<path d="m10.184 23.25.002-.01-.033-.017-8.388-4.611a1.6841 1.6841 0 0 1-.873-1.475V6.864c0-.614.335-1.18.873-1.476l9.424-5.18a1.6868 1.6868 0 0 1 1.622 0l8.31 4.568.022.012.006.002-.004-.001 1.09.599c.538.296.873.862.873 1.476v10.273c0 .614-.335 1.179-.873 1.475l-8.388 4.611-.03.016-1.006.553c-.505.277-1.117.277-1.622 0l-1.003-.552-.002.01Zm.603-1.158-.005-.001.012.006c.252.123.55-.055.558-.338l.001-9.147c0-.141-.078-.272-.202-.34L2.763 7.661c-.259-.142-.576.045-.576.341v9.135c0 .141.077.272.201.34l8.394 4.613.005.002Zm.556-.327Zm0 0Zm-2.539-4.802-.005.003-1.959-1.031-.003-.004c.001-.003.001-.007.001-.01.023-.305.153-.525.346-.632.194-.107.45-.101.72.041.272.143.508.397.671.691.163.293.252.628.229.935v.007ZM5.71 15.177l-.005.002-1.96-1.031-.002-.004.001-.01c.022-.304.152-.524.346-.632.194-.107.449-.101.72.042.271.143.508.396.671.69.162.294.252.628.229.935v.008Zm14.981-8.999-.003-.018a.382.382 0 0 0-.191-.25l-8.31-4.567a.3883.3883 0 0 0-.374 0L3.503 5.91c-.162.089-.226.265-.193.423l.009.007-.009-.007c.022.1.083.194.183.253l8.32 4.572c.116.064.258.064.374 0l8.321-4.573c.151-.089.212-.256.183-.407Zm-17.37.16Zm-.002.002c0-.001-.003-.003-.005-.006-.002-.002-.004-.004-.004-.003l.009.009Zm-.467-1.56-.003.002c.002.004.005.006.005.006l-.002-.008Zm.007.007c-.001.001-.002.001-.003.001h-.002l.005-.001Z"/>',
+      "saltproject": '<path d="M0 12v10.56h12L18 12h6V1.44H12L6 12Z"/>',
+      "elastic": '<path d="M20.345 16.33l-3.959-.926-1.05-2.01 5.177-4.535a3.962 3.962 0 012.559 3.702 4.006 4.006 0 01-2.727 3.77m-2.976 4.68c-.616 0-1.22-.207-1.714-.587l.782-4.077 3.596.841c.115.31.172.642.172.987a2.839 2.839 0 01-2.836 2.836m-2.637-.586a5.92 5.92 0 01-4.908 2.6A5.947 5.947 0 014 15.905l5.167-4.67 5.272 2.403 1.167 2.23zM.928 11.443a4.007 4.007 0 012.726-3.77l3.95.933.927 1.98-5.05 4.565a3.97 3.97 0 01-2.553-3.708m5.703-8.45a2.841 2.841 0 011.723.58l-.789 4.092-3.598-.85a2.842 2.842 0 01-.172-.986A2.84 2.84 0 016.63 2.992m2.66.59A5.92 5.92 0 0120.1 6.93c0 .4-.038.781-.114 1.164l-5.299 4.643-5.251-2.394-1.026-2.19zM24 12.571a4.723 4.723 0 00-3.124-4.454 6.695 6.695 0 00.126-1.29A6.789 6.789 0 0014.22.047 6.769 6.769 0 008.727 2.86a3.586 3.586 0 00-2.204-.754A3.604 3.604 0 003.15 6.959 4.786 4.786 0 000 11.431 4.727 4.727 0 003.139 15.9a6.876 6.876 0 00-.124 1.289 6.773 6.773 0 006.765 6.765c2.19 0 4.22-1.052 5.49-2.824a3.568 3.568 0 002.207.769 3.603 3.603 0 003.374-4.854A4.785 4.785 0 0024 12.572"/>',
       "elasticstack": '<path d="M1.875 0C.839 0 0 .84 0 1.875v4.792h24V1.875C24 .839 23.16 0 22.125 0zM0 8.889v6.222h24V8.89zm0 8.444v4.792C0 23.161.84 24 1.875 24h9v-6.667zm13.125 0V24h9C23.161 24 24 23.16 24 22.125v-4.792z"/>',
+      "elasticcloud": '<path d="M13.318 0c-6.628 0-12 5.372-12 12 0 2.008.495 3.9 1.368 5.563a14.299 14.299 0 0 1 5.09-3.664c.307-.13.624-.22.948-.28A4.842 4.842 0 0 1 8.443 12a4.875 4.875 0 0 1 7.494-4.11 2.218 2.218 0 0 0 2.055.164 12.047 12.047 0 0 0 4.69-3.554A11.975 11.975 0 0 0 13.318 0zM9.426 15.77c-.266.01-.531.069-.783.175a12.044 12.044 0 0 0-4.69 3.555c2.2 2.742 5.576 4.5 9.365 4.5 3.789 0 7.165-1.758 9.364-4.5a12.048 12.048 0 0 0-4.69-3.555 2.217 2.217 0 0 0-2.055.165 4.845 4.845 0 0 1-2.62.765 4.846 4.846 0 0 1-2.618-.765 2.193 2.193 0 0 0-1.273-.34z"/>',
       "apachehadoop": '<path d="M12.098 3.01c-1.133.277-1.466.474-1.842 1.787.478-.962.84-1.315 1.842-1.787zm3.228.076c-.834-.053-1.715.177-2.756.615a3.97 3.97 0 00-1.199.76c-.31.287-.576.62-.866 1.006a1.312 1.312 0 00-.468.095 1.868 1.868 0 00-.539.356c-.141.124-.28.252-.416.383v.002c-.123.12-.244.241-.363.365-.945.152-1.72.32-2.41.588a6.314 6.314 0 00-1.97 1.217c-.252.222-.482.469-.687.736a5.435 5.435 0 00-.503.803c-.13.142-.26.288-.399.414a1.45 1.45 0 01-.441.285c-.093.035-.133.058-.137.056-.004-.001-.008-.033-.012-.047.235-.21.267-.55.289-.86.03.034.053.068.082.113.031.047.062.095.1.142l.158.2.055-.249c.046-.208.081-.484.027-.724-.034-.153-.117-.315-.235-.393l.036-.09c.04-.1.08-.204.115-.303l.069-.193-.204.035c-.27.047-.852.366-1.261.791-.152.158-.284.33-.37.514a.984.984 0 00-.093.59.91.91 0 00.272.498c.03.12.058.223.087.316.033.104.068.198.112.29.119.247.31.398.529.468.182.059.369.066.566.02a3.83 3.83 0 00-.072.69 8.911 8.911 0 00.07 1.394c.013.093.028.184.045.275l-.107.291-.166.455-.37.365-.343.34a9.22 9.22 0 01-.082.08c-.232.224-.279.27-.213.662.04.241.119.484.242.72.114.216.267.427.463.624.245.245.647.55 1.066.71.245.092.488.138.723.097l-.039.11a4.046 4.046 0 01-.123.3c-.285.624.008.95.463 1.158.227.104.497.173.748.238l.168.045c.298.08.812.228 1.281.258.513.033.974-.073 1.098-.533.049-.182.078-.322.09-.459a2.33 2.33 0 00-.01-.406c.144-.32.21-.423.316-.578l.053-.08c.115-.17.168-.29.188-.426.018-.131.004-.262-.02-.461l-.011-.084a6.822 6.822 0 001.338.05l-.118.061-.055.03c-.395.203-.413.587-.289.984.112.357.343.723.487.945.303.467.592.861.943 1.076.368.226.786.253 1.328-.04.276-.15.363-.302.48-.507.038-.066.08-.133.126-.204.101-.05.382-.296.67-.534l.296-.242c.073.053.164.09.27.115.14.034.305.05.504.065.149.01.635.01.949.01h.227c.324.001.585-.016.783-.128.21-.119.334-.331.361-.71a1.28 1.28 0 00-.008-.378.946.946 0 00-.136-.312l-.014-.502-.016-.521a2.372 2.372 0 00-.068-.536 3.558 3.558 0 00-.18-.505c-.053-.127-.096-.245-.138-.36a5.756 5.756 0 00-.229-.547l.018-.123.181.174.266.258c.203.196.39.373.607.502.226.133.479.21.807.195a1.925 1.925 0 001.016-.385c.293-.216.528-.509.627-.832l.084-.279.07-.225c.482.082.998.11 1.498.057a3.7 3.7 0 001.351-.389 3.406 3.406 0 001.35-1.33h.002v-.002c.355-.616.555-1.34.63-2.088.062-.599.028-1.415-.097-2.2-.11-.701-.295-1.38-.55-1.87a.736.736 0 00-.137-.178 1.413 1.413 0 00-.51-.31c-.206-.07-.422-.084-.594.006a.485.485 0 00-.123.09 2.793 2.793 0 00-.3.388c-.106.153-.21.307-.337.414-.149.128-.327.202-.502.272a3.454 3.454 0 00-.261-.508 4.81 4.81 0 00-.399-.54 2.21 2.21 0 00-.365-.349 5.357 5.357 0 00-.41-.275c-.407-.255-.754-.559-1.108-.87-.16-.14-.323-.282-.482-.413-.842-.695-1.628-1.031-2.469-1.084zm-4.129.004c-.57.137-.68.245-.851.804.273-.41.43-.545.851-.804zm3.952.465c.829-.001 1.587.303 2.431 1.013.412.347.774.684 1.192.983-.152.013-.283.04-.455.107.21-.04.451 0 .67.04.06.039.124.078.189.116.295.174.463.27.662.547.21.294.386.589.541.912-.101-.036-.186-.067-.262-.09a.566.566 0 00-.533.034l-.012.006c-.163.079-.416.17-.586.197a.7.7 0 00.405-.006.565.565 0 00-.018.539.269.269 0 01-.02-.12.228.228 0 01.249-.208.233.233 0 01.187.33c-.117.02-.233.055-.353.1a4.41 4.41 0 00-.237.095 3.722 3.722 0 011.084-.02c.025.117.05.24.073.366l-.137.01-.012.002c-.174-.14-.367-.117-.633-.057-.806.184-.617.637-.988 1.318.385-.47.357-.962.984-1.11.147-.036.247-.078.346-.063-.178.09-.333.237-.394.41-.173.486-.065.895-.254 1.35.234-.407.249-.802.459-1.23.075-.153.354-.4.525-.403l.14-.002c.042.27.068.539.052.761a8.535 8.535 0 01-.198 1.24c.213-.272.31-.85.403-1.257.097-.424.07-.934-.014-1.389-.117-.625.527-.522.9-.816.275-.217.463-.564.715-.809.25-.243.644.114.742.352.426 1.03.62 2.65.508 3.69-.126 1.164-.69 2.437-1.719 3.01-1.31.732-2.854.285-4.156-.154-.278-.093-.47-.229-.715-.382.067.3.097.615.008.914-.14.474-.367 1.251.277 1.394.246.055.357.048.704-.13a1.3 1.3 0 01-.616.011.397.397 0 01-.314-.273c.06.044.16.066.33.107.478.115.932-.114 1.021-.445.052-.194.043-.295.153-.559.099.03.202.059.306.084l-.177.578c-.154.501-.752.904-1.28.895-.488-.009-.797-.314-1.134-.613l-.678-.6a5.228 5.228 0 01-1.658-.834c.4.472.673.732 1.232.967-.081.83-.37 1.436-.615 2.23-.111.36-.991 1.8-1.234 1.94-.174.1-1.26 1.016-1.465 1.136-.153.203-.287.483-.516.604-.698.37-1.148-.339-1.523-.936-.171-.272-.645-1.054-.23-1.273.39-.208.61-.357 1.009-.62.059.108.159.212.225.32l-.043-.352a2.752 2.752 0 01-.008-.596c.016-.206.03-.413.047-.62-.06.21-.179.42-.239.63-.024.084-.045.152-.056.214a7.05 7.05 0 01-2.682.034 16.76 16.76 0 00-.185-.926c-.018.278-.007 1.047-.008 1.476-.001.333-.016.448-.188.731-.16.265-.228.325-.453.773.019.283.019.47-.057.739-.125.446-1.386.098-1.718.007-.41-.112-1.256-.278-1.043-.824.187-.48.307-.986.398-1.658-.75-1.08-1.448-2.56-1.582-3.873-.104-1.019-.04-1.646.18-2.27.35-.987.837-1.843 1.62-2.53C5.778 7.89 6.767 7.516 8.316 7.28c-.373.417-.741.858-1.143 1.33-.406.479-.648.963-.906 1.487-.357.722-.348.996.125 1.63.407.547.627.794.804 1.328-.146.303-.2.56-.25.973.5.545.87.918 1.354 1.033.475.113.872.093 1.297-.125.944-.482 1.816-1.107 2.88-1.132.493-1.211.444-2.222.208-3.393-.162-.8-.227-1.557-.278-2.373-.2.84-.236 1.577-.088 2.414.18 1.008.318 2.124-.18 3.01-.962.073-1.788.658-2.655 1.107-.35.18-.712.198-1.098.092-.358-.098-.6-.334-.986-.78-.006-.446.095-.653.3-1.058.33-.65.695-1.255 1.094-1.894-.49.59-.953 1.084-1.338 1.677-.147-.419-.358-.633-.707-1.105-.34-.461-.375-.662-.12-1.196.255-.536.472-1.008.907-1.478.753-.813 1.443-1.717 2.266-2.518.447-.434.628-.42 1.22-.51a20.768 20.768 0 001.606-.31 22.5 22.5 0 01-1.553.08h-.015c.506-.646.799-1.006 1.62-1.363.95-.412 1.738-.652 2.47-.652zm.556 2.79c-1.101.276-1.307.739-1.166 1.45.121-.535.335-1.05 1.166-1.45zm-3.263.061c-.446.05-.89.096-1.336.139-.375.035-.436.03-.702.293-.403.399-.794 1.768-.92 2.316.198-.455.69-1.729 1.069-2.053.105-.09.18-.143.258-.183-.271.455-.252.566-.157 1.176.081-.62.295-.859.647-1.32a9.287 9.287 0 001.14-.368zm10.226.053c-.255.517-.65.95-1.185 1.215-.288.142-.47.093-.791.062.326.094.533.21.853.096.652-.233.967-.756 1.123-1.373zm-2.28.834c.023.047.046.096.067.144a.602.602 0 00-.05.041.572.572 0 00-.126-.181l.11-.004zm-3.26.4c-.36.166-.779.126-1.087.334-.271.184-.646.764-.922 1.01.2-.078.394-.212.57-.354.002.22.101.426.27.565a.31.31 0 01.092-.492.312.312 0 01.432.191c-.148.11-.284.238-.397.387a1.666 1.666 0 00-.24.44 4.222 4.222 0 012.002-1.294c-.2-.003-.437.034-.678.114a.732.732 0 00-.482-.614c.16-.085.316-.175.44-.287zm-1.042 1.64a.735.735 0 01-.125-.083.35.35 0 00.125.084zM1.32 8.34c-.953.672-1.19.978-1.062 2.338C.352 9.608.56 9.145 1.32 8.34zm-.808.404c-.482.336-.545.475-.5 1.059.105-.482.203-.664.5-1.059zm1.779.195c-.07.15-.118.264-.152.381-.147.508.066.962-.395 1.33.217.438.207.612.711.41.195-.078.355-.187.498-.316-.07.18-.133.361-.191.545l-.03.094c-.36.153-.834.25-1.015-.13a3.458 3.458 0 01-.203-.595c-.594-.615.294-1.427.777-1.719zm.123.276c.123.071.156.2.17.375-.073-.074-.132-.122-.227-.112.008-.06.019-.119.034-.177.007-.03.014-.058.023-.086zm14.87 3.267c-.131.022-.365.07-.495.092-.348.059-.387.142-.441.484l-.086.524a9.16 9.16 0 01.228-.568c.084-.184.132-.202.31-.3.127-.068.357-.163.483-.232zm-14.47 2.4c.274.946.738 1.876 1.255 2.657v.014a.993.993 0 01-.149.369c-.369.493-1.306-.23-1.578-.508-.297-.303-.496-.662-.543-.998-.034-.246-.001-.252.17-.426l.693-.701.153-.406zm12.405.62c.056.183.101.364.183.558.138.326.205.526.215.875l.032 1.106c.117.206.136.249.115.484-.043.481-.203.513-.625.506-.192-.003-.957-.007-1.15-.023-.274-.024-.429-.05-.512-.112.43-.316 1.162-1.619 1.304-2.068.151-.474.315-.888.438-1.326z"/>',
       "trino": '<path d="M14.124 16.8529a.1615.1615 0 1 1 .1576.1614.1577.1577 0 0 1-.1576-.1614zm-5.607-.1576a.1614.1614 0 1 0 0 .3228.1614.1614 0 0 0 0-.3228zm10.1341-.6648v1.9869c-.031.5788-.524 1.0237-1.1029.9954h-.3843a5.0596 5.0596 0 0 1-1.1298 1.7178.3192.3192 0 0 0 0 .465l.2382.2191a.3036.3036 0 0 1 .0385.4304c-1.126 1.3835-2.9669 2.1521-5.0498 2.1521a6.575 6.575 0 0 1-4.8192-1.8985c-.0029-.0032-.0059-.0063-.0087-.0096a.6302.6302 0 0 1 .0548-.8896c.137-.1265.1371-.3462 0-.4727a4.944 4.944 0 0 1-1.126-1.714h-.3497c-.5797.0284-1.0737-.416-1.1068-.9954v-1.9869c.0351-.5779.5286-1.02 1.1068-.9915h.2728a5.7648 5.7648 0 0 1 2.0791-3.0936c-.4227-1.0991-1.1529-3.2551-1.226-5.0075C6.0229 4.4705 6.2189.078 7.8253.001c1.6064-.0768 1.3719 4.0275 1.0991 6.6946a32.732 32.732 0 0 0-.123 4.4503 6.994 6.994 0 0 1 2.4826-.4304 7.2414 7.2414 0 0 1 1.7371.2075c.2614-1.2682.8762-3.574 2.0292-5.1958 1.6717-2.352 3.4357-4.7808 4.6116-4.1006 1.176.6802-.3074 3.1398-1.3297 4.4272-1.0222 1.2874-2.7862 3.2089-3.3742 4.2274-.2114.3843-.4304.8032-.5956 1.1529a5.7375 5.7375 0 0 1 2.9169 3.6125h.073v-2.3058a.3075.3075 0 0 0-.1806-.2844.9148.9148 0 0 1-.5573-.8148 1.0184 1.0184 0 0 1 .9045-.9044c.5593-.0598 1.061.3452 1.1208.9044a.9187.9187 0 0 1-.5534.8148.3074.3074 0 0 0-.1691.2844v2.1522a.3113.3113 0 0 0 .1691.2805.9724.9724 0 0 1 .5648.857zm-1.0222-3.9737a.4345.4345 0 0 0 .4612-.4151.4151.4151 0 1 0-.4612.4151zm-.4227 3.4779c.0978.4794.148.9672.1498 1.4565v.3651h.4113a.3228.3228 0 0 0 .3228-.319v-1.0069c-.0111-.2967-.2733-.5256-.5688-.4957h-.3151zm-3.7278-4.481.611.2383a36.6046 36.6046 0 0 1 2.3828-3.8661c1.2874-1.7255 2.3365-3.5817 1.8715-3.8699-.465-.2883-1.6179 1.2297-2.7708 3.109a34.8978 34.8978 0 0 0-2.0945 4.3887zm-4.0544.6726.0154 1.3335c-.0039.2007.1881.3587.3843.3152a6.4317 6.4317 0 0 1 1.4565-.1653 5.995 5.995 0 0 1 1.4527.1729c.1956.0398.3853-.1153.3843-.3151v-1.3412a.319.319 0 0 0-.2421-.3113 6.664 6.664 0 0 0-1.6026-.1845 6.7093 6.7093 0 0 0-1.6025.1845.3188.3188 0 0 0-.246.3113zm1.7063 6.8637v.3843a.6878.6878 0 0 1-.4996.269c-.3074 0-.538-.4189-.538-.4189a.073.073 0 0 0-.1-.0307l-.0024.0013a.0693.0693 0 0 0-.0245.0947c.0115.0231.2806.4957.6649.4957a.7144.7144 0 0 0 .3843-.1268.3267.3267 0 0 1 .3612 0 .8332.8332 0 0 0 .4727.1345.957.957 0 0 0 .6572-.4803.0692.0692 0 0 0-.0269-.0961.0692.0692 0 0 0-.0999.0269c0 .0231-.2191.3843-.5419.4074a.8036.8036 0 0 1-.5765-.269v-.3843a.3154.3154 0 0 1 .1268-.2537c.196-.1499.415-.3958.415-.4919a.538.538 0 0 0-.5764-.4189c-.3766 0-.6533.2498-.6533.4573 0 .1345.2536.3382.4227.4612a.3226.3226 0 0 1 .1346.2383zM7.783 11.6455l.5765-.3074c-.0192-1.126-.0346-3.1436 0-4.5425.0538-2.0368.1537-4.5732-.5226-4.5463S6.6877 4.2285 6.949 7.007a33.0562 33.0562 0 0 0 .834 4.6385zm-3.305 5.3919a.319.319 0 0 0 .319.319h.3997a3.046 3.046 0 0 1 0-.3651 7.546 7.546 0 0 1 .1461-1.4565c-.0493.0002-.34.0005-.3866-.0021a.4881.4881 0 0 0-.4781.4979v1.0068zm.9184 1.4718a5.3254 5.3254 0 0 1-.123-.5573.3228.3228 0 0 0-.319-.2728h-.4957c.0007.0163-.0015.34.0009.355a.5188.5188 0 0 0 .5526.4827l.3842-.0076zm10.1265 2.917-.0884-.0807a.3229.3229 0 0 0-.3843-.0269 6.9823 6.9823 0 0 1-3.8046 1.0068 6.995 6.995 0 0 1-3.7932-1.0068.3228.3228 0 0 0-.3843.0269l-.0884.0807a.3154.3154 0 0 0 0 .4573 6.0305 6.0305 0 0 0 4.2927 1.5988 6.0453 6.0453 0 0 0 4.2889-1.5988.315.315 0 0 0-.0384-.4573zm1.4488-4.4158c0-2.4557-1.1529-4.3273-3.0245-5.2266-.2081-.1022-.4673.0594-.465.2921v1.3297a.3269.3269 0 0 0 .2037.296c1.7332.7109 2.9284 2.1866 2.9284 3.8776 0 2.2712-2.1559 3.8085-5.3419 3.8085-3.1859 0-5.3419-1.5411-5.3419-3.8085 0-1.691 1.1952-3.1667 2.9284-3.8776a.319.319 0 0 0 .2037-.296v-1.322c.0048-.2315-.2536-.3963-.4612-.2921-1.887.8839-3.0399 2.767-3.0399 5.2073 0 2.9899 2.2866 4.996 5.7108 4.996 3.4282.0001 5.6994-2.0098 5.6994-4.9844zm-8.6084-.538h-.0038a.5842.5842 0 1 0 .0038 0zm5.1614.5919c.0063.3226.2615.5789.584.5725a.5842.5842 0 1 0-.584-.5725zm4.5692.6225h-.4996a.3227.3227 0 0 0-.3151.2728c-.0346.173-.0768.3766-.1268.5573.0163.0007.3861-.0014.4012.0009a.5188.5188 0 0 0 .5366-.5004l.0037-.3306z"/>',
       "cockroachlabs": '<path d="M17.645 16.155a13.013 13.013 0 0 0-4.479-13.287 11.617 11.617 0 0 1 5.815-1.546c.774 0 1.545.075 2.304.226l.32-1.282A13.092 13.092 0 0 0 18.98 0 12.93 12.93 0 0 0 12 2.03 12.933 12.933 0 0 0 5.021 0C4.139 0 3.26.089 2.396.266l.319 1.282a11.83 11.83 0 0 1 2.306-.226 11.64 11.64 0 0 1 5.817 1.544 13.01 13.01 0 0 0 .792 20.877l.375.257.373-.257c2.624-1.801 4.5-4.5 5.27-7.588zm-6.305 5.7A11.687 11.687 0 0 1 7.825 9.519a13.08 13.08 0 0 0 2.457 2.977 3.202 3.202 0 0 1 1.058 2.383zm.661-9.657a11.717 11.717 0 0 1-2.343-2.315 3.23 3.23 0 0 1 0-3.912 11.67 11.67 0 0 1 2.347-2.333c.9.671 1.697 1.468 2.37 2.366a3.197 3.197 0 0 1 0 3.832 11.816 11.816 0 0 1-2.374 2.362zm.659 9.657v-6.976a3.202 3.202 0 0 1 1.06-2.383 13.026 13.026 0 0 0 2.455-2.977 11.694 11.694 0 0 1-3.515 12.336Z"/>',
+      "timescale": '<path d="M5.537.763c-1.167.7-2.21 1.582-3.08 2.61L3.79 4.836a10.422 10.422 0 013.627-2.881zm13.028.085l-1.991 1.12a10.381 10.381 0 013.762 3.07l1.18-1.654a12.371 12.371 0 00-2.95-2.536zm-6.564.752a9.788 9.788 0 00-4.131.91l.59 1.011a8.542 8.542 0 013.541-.762c1.261 0 2.457.274 3.534.76l.59-1.012a9.81 9.81 0 00-4.124-.907zM11.4 3.535l-.55 6.626h.003l-.002.04c.003.111.013.216.033.318.01.112.043.227.097.342.114.289.298.505.516.607.05.04.105.075.158.111a.98.98 0 01.033.02v.004l6.68 3.596.348-.476-6.058-4.6c-.007 0-.01-.005-.014-.008L12 3.535zm1.423.052c.19.234.361.523.502.855 3.155.604 5.54 3.325 5.54 6.596 0 .877-.176 1.712-.484 2.48a3.7 3.7 0 01.52.76 7.314 7.314 0 00.754-3.24c0-3.868-2.99-7.05-6.832-7.45zm-2.284.095c-3.527.667-6.19 3.708-6.19 7.356 0 2.584 1.335 4.863 3.367 6.21a9.84 9.84 0 01.295-.743c-1.74-1.219-2.874-3.214-2.874-5.467 0-3.054 2.082-5.632 4.932-6.45.128-.351.289-.656.47-.906zm9.15 1.675l-.801.893a8.101 8.101 0 011.551 4.777c0 2.916-1.542 5.481-3.872 6.952.104.388.188.792.251 1.209 2.87-1.632 4.802-4.677 4.802-8.16a9.224 9.224 0 00-1.93-5.67zm-15.38.007a9.25 9.25 0 00-1.93 5.665c0 3.507 1.954 6.567 4.858 8.19.063-.418.144-.822.248-1.206-2.36-1.468-3.923-4.045-3.923-6.984 0-1.777.573-3.422 1.549-4.772zm9.314.043c.044.203.08.416.107.64a5.332 5.332 0 013.213 2.912l.577-.148a5.942 5.942 0 00-3.897-3.404zm-3.816.187a5.939 5.939 0 00-3.319 3.198l.58.148A5.324 5.324 0 019.73 6.257c.017-.227.04-.45.077-.663zM6.733 9.672l-.62.63.315.614 1.727.618.942-.618-.312-.923zm10.615 0l-2.048.321-.315.923.942.618 1.73-.618.315-.614zM6.1 11.869A5.824 5.824 0 008.42 15.7c.1-.17.204-.335.315-.493a5.252 5.252 0 01-2.038-3.34zm11.206 0c-.03.18-.071.355-.118.529.174.138.338.272.493.41.097-.302.174-.617.22-.94zm-15.679.217L0 14.158c.966 3.661 3.638 6.65 7.132 8.111a9.399 9.399 0 01-.05-1.031c0-.375.017-.747.05-1.111-3.024-1.563-5.166-4.544-5.505-8.041zm20.707.055c-.352 3.45-2.464 6.394-5.441 7.957.033.374.05.755.053 1.136 0 .377-.017.71-.05 1.005 3.506-1.488 6.175-4.522 7.104-8.223zm-6.544 2.617a5.31 5.31 0 01-.486.42c.11.158.218.322.318.493.265-.2.513-.42.74-.66a10.61 10.61 0 01-.572-.253zm1.502.559a6.9 6.9 0 01-1.25 1.156c.106.236.207.485.294.741a7.667 7.667 0 001.857-1.772 3.554 3.554 0 01-.9-.125zm-2.988.63l-2.303.913-2.307-.91-.587 1.435 2.448.946c-.134.46-.568.798-1.08.798-.034 0-.07-.004-.104-.007l-.5.686c.188.063.39.096.6.096.621 0 1.17-.289 1.52-.738a1.924 1.924 0 002.183.62l-.49-.67a1.122 1.122 0 01-1.26-.805l2.47-.926zm1.156 4.775c-1.09.377-2.256.58-3.476.58-1.17 0-2.29-.186-3.34-.534.231.88.59 1.654 1.05 2.262.743.134 1.509.207 2.294.207.835 0 1.65-.082 2.437-.236.453-.61.807-1.39 1.035-2.28z"/>',
       "apachecouchdb": '<path d="M19.5 14.625c0 .995-.524 1.482-1.5 1.5H6c-.976-.018-1.5-.505-1.5-1.5s.524-1.482 1.5-1.5h12c.976.018 1.5.505 1.5 1.5m-1.5 2.25H6c-.976.018-1.5.505-1.5 1.5s.524 1.482 1.5 1.5h12c.976-.018 1.5-.505 1.5-1.5s-.524-1.482-1.5-1.5m3.75-8.248v-.001c-.976.017-1.5.504-1.5 1.499v8.25c0 .995.524 1.482 1.5 1.5v-.002c1.464-.052 2.25-1.514 2.25-4.498v-3.75c0-1.99-.786-2.964-2.25-2.998m-19.5-.001C.786 8.662 0 9.637 0 11.626v3.75c0 2.984.786 4.446 2.25 4.498v.001c.976-.017 1.5-.504 1.5-1.499v-8.25c0-.995-.524-1.482-1.5-1.5m19.5-.75c0-2.486-1.31-3.705-3.75-3.748v-.002H6v.002c-2.44.043-3.75 1.262-3.75 3.748v.001c1.464.026 2.25.757 2.25 2.249s.786 2.223 2.25 2.249v.001h10.5v-.001c1.464-.026 2.25-.757 2.25-2.249s.786-2.223 2.25-2.249z"/>',
       "apachehbase": '<path d="M23.429 20.977c-.0185-.0485-.0335-.1343-.0335-.1905 0-.153-.1178-.3548-.292-.5004-.0853-.0713-.2084-.21-.2736-.3082-.1388-.209-.2892-.291-.8447-.46-.609-.1853-.7962-.3443-.8511-.7232l-.0274-.1889-.111.1608c-.217.3145-.3606.3648-.6549.2291-.1868-.0861-.323-.094-.478-.0276-.0989.0423-.1173.0405-.182-.018-.069-.0625-.076-.0627-.1739-.0048-.0772.0456-.1396.0546-.2566.037-.187-.028-.287.0266-.4121.2249-.237.3755-.4059.2037-.405-.4122.0009-.684.3229-1.0716 1.2512-1.5058.4777-.2235.694-.3683.8272-.5536.1025-.1429.1116-.1479.1562-.0868.095.13.4224.7998.5787 1.1843.1781.438.232.5193.2995.4517.057-.057-.081-.4606-.3487-1.0205-.6645-1.3894-1.6463-2.3832-2.8717-2.9068-.5624-.2402-.8388-.2913-1.569-.29-.555.001-.6912.013-1.0662.0927-.5484.1165-1.1617.3128-1.9435.6217-.7875.3113-.7882.3113-1.5823.027-.3217-.115-.7072-.2405-.8569-.2787-.3058-.078-.7573-.0916-1.0112-.0305-.2928.0704-.7047.2907-1.2106.6473-.607.4278-.9336.5974-1.3687.7104-.3767.0979-.536.1831-.6298.337-.0749.1228-.0822.2215-.0254.346.0388.0852.4104.3564.845.6168.1179.0706.223.1424.2337.1597.0254.0411-.5634.3347-.9934.4954-.7646.2857-1.5864.4664-2.8254.6214-.8255.1032-.9662.1322-1.5824.3256-.246.0772-.602.1724-.7911.2117-.8345.1731-1.5908-.0321-1.7054-.463-.021-.0786-.0583-.1662-.0831-.1946-.1527-.1752-.2093-.5962-.111-.8255.0284-.0662.0856-.3216.127-.5676.143-.8468.2882-1.3048.601-1.8957.5478-1.0352 1.6387-2.3495 2.9601-3.5665.8732-.8041 1.703-1.4225 3.6212-2.6988 1.1856-.7888 1.197-.7989 1.3334-1.1792.0303-.0845.1774-.6285.3269-1.209.4655-1.808.764-2.4904 1.3185-3.0139.3128-.2953.8113-.4793 1.1012-.4066.1653.0415.1735.123.0589.5824-.191.7657-.2555 1.2498-.2573 1.9328-.002.6742.04.935.2 1.2509.2196.4333.3677.5169 1.228.6932 3.0422.6234 5.072 1.5605 6.5143 3.0074 1.3358 1.3401 2.4244 3.4373 3.1326 6.035l.1348.4944.258.1976c.6583.5043 1.027 1.0122 1.2235 1.6851.104.3561.0882 1.113-.0326 1.5595-.1288.4762-.2387.6764-.3715.6764-.0374 0-.0784-.037-.098-.0882zm.0564-.9989c.0124-.0493.0143-.2621.004-.473-.0319-.671-.239-1.1503-.7134-1.6507-.3643-.3844-1.0243-.8481-1.207-.8481-.0697 0-.0738.0122-.0557.1653.0108.091.0837.3339.162.5399s.151.4476.1617.5369c.0169.1425.008.1733-.0696.2513-.1072.1072-.2082.1122-.3625.0181-.0636-.0388-.1232-.063-.1324-.0538-.009.0092-.006.0793.007.1557.0469.2777.2078.3892.8252.572.905.268 1.091.391 1.234.8158.0305.0905.1213.0724.1468-.0294zM1.927 18.7054c.1586-.0285.4759-.1113.7052-.184.4928-.156.8703-.2346 1.9132-.398 1.2235-.1915 1.7158-.2934 2.2612-.4676.3468-.1108.6636-.2533.6614-.2975-.0007-.0139-.103-.0871-.2274-.1628s-.357-.2653-.517-.4214c-.1598-.156-.3056-.2838-.324-.2838-.0866 0-.305.122-.5804.3241-.789.5791-1.0654.6936-2.323.9617-.6239.133-.8454.2086-1.1371.3876-.4035.2475-.4905.2885-.7552.3562-.1477.0378-.3812.0687-.519.0687-.3596 0-.3996.1119-.0614.1717.1994.0352.5074.0165.9035-.0549m17.1388-.0708c.026-.0314.1135-.0866.1946-.1226l.1475-.0653.317.096c.3968.1204.917.1382 1.0578.0362l.2022-.1467c.071-.0515.1425-.0774.1806-.0653.0347.011.063.0147.063.0082 0-.035-.486-1.1468-.532-1.217l-.0546-.0833-.1731.1369c-.0952.0752-.418.284-.7172.464-.7685.462-1.0097.6976-.9515.9294.017.0673.0437.0866.1201.0866.0541 0 .1196-.0257.1455-.0571zM4.5789 16.6537c.0832-.0426.1663-.1024.1847-.1329.1444-.2396-.4315-.2143-.5867.0257-.041.0635-.0399.081.008.129.0771.0771.2154.0695.3938-.0218zm1.0839-.7518c.3703-.0994.7409-.2214.8543-.2812.237-.125.4383-.342.5817-.6267.0572-.1135.1639-.262.2372-.33s.1332-.1488.1332-.1793c0-.2679-.9203-.3896-1.5135-.2002-.719.2294-1.4056.9617-1.4222 1.5166-.0102.3401.1762.3567 1.1293.1008m14.1209-1.051c0-.0624-.2294-.3674-.3916-.5208-.3148-.2978-.6364-.4812-1.256-.7164-.3678-.1396-.5195-.2253-.5195-.2933 0-.016.0309-.06.0688-.0979.1932-.1931 1.1182.0449 1.7707.4556.2577.1622.5518.3912.797.6206.1876.1754.2185.1936.2185.1279 0-.1033-.1702-.415-.3775-.6913-.5186-.691-1.3624-1.2293-2.3065-1.471-.7628-.1955-1.4247-.2066-1.9894-.0335-.522.16-1.128.5373-1.7366 1.081-.8566.7651-1.1103.9784-1.3292 1.1175-.1316.0835-.2346.1669-.229.1852.006.0183.1043.0634.2194.1002l.2094.067.5105-.2346c1.0094-.4638 1.936-.7623 2.626-.846 1.0527-.1278 2.23.2049 3.285.9283.3217.2206.43.2764.43.2214m-9.3219 2.9102c-1.0828-.1338-2.1057-.5122-2.941-1.088-.1893-.1305-.2432-.1868-.252-.2634-.0218-.1903.1525-.3028.6232-.4024.414-.0876.6878-.2264 1.3143-.6665.8468-.595 1.1817-.73 1.7337-.6995.2583.0143.4198.0578 1.2761.3437 1.2836.4286 2.6449.9136 2.7472.9787.2346.1493-.1705.7007-.8057 1.0966-.4788.2984-1.111.5328-1.7605.6527-.3579.0661-1.55.0957-1.9353.0481m-8-5.3414c-.0135-.0349-.0156-.2051-.005-.3784.0476-.7618.4617-1.623 1.0257-2.1334.2161-.1956.5614-.4004.675-.4004.1132 0 .1835.1182.268.4504.0445.175.1142.3632.1549.4182s.0687.1046.0623.1102a56 56 0 0 1-.3556.2833c-.462.367-1.102.9582-1.4863 1.3733-.2623.2833-.319.3295-.3393.2768z"/>',
       "apachesolr": '<path d="M20.741 3.8L8.926 16.573l14.849-6.851A11.979 11.979 0 0 0 20.741 3.8M11.975 0c-1.637 0-3.197.328-4.619.921l-1.585 13.36L13.693.124A12.168 12.168 0 0 0 11.975 0m11.918 10.459l-14.07 7.874 13.201-1.566a11.976 11.976 0 0 0 .869-6.308m-5.188 11.527a12.084 12.084 0 0 0 3.8-4.16l-12.374 2.457 8.574 1.703zM14.417.249L7.53 15.177 20.306 3.36A11.978 11.978 0 0 0 14.417.249M12.98 24a11.938 11.938 0 0 0 3.774-.945l-6.931-.822L12.98 24zM1.016 7.08a11.944 11.944 0 0 0-1.013 3.864l1.867 3.337-.854-7.201zm5.298-5.665a12.076 12.076 0 0 0-4.236 3.784l1.743 8.773L6.314 1.415z"/>',
@@ -9441,13 +10092,29 @@ var init_simple_catalog_generated = __esm({
       "apachegroovy": '<path d="M11.997 6.012S10.315 8.8 9.516 10.155c-.155.058-.172.041-.341.207-.41-.47-.897-.041-1.028.22-.057-.566-.151-.567-.279-.694.074-.496.316-1.305-.241-1.884-1.078-.727-2.326 1.05-3.021 1.982l-.375.622c-1.546-.032-2.763.008-4.231-.021 1.79.67 1.864.686 4.026 1.506 0 .066.161.372.34.552.147.15.308.234.389.284-.106.054-.32.138-.385.258-.292.546.139.672.418 1.107.315.568.382.944 1.126.625.254-.11.562-.148.758-.21-.693 1.094-.87 1.392-2.083 3.274l.012.004c4.85-1.893 4.974-1.942 7.373-2.89 3.448 1.338 3.646 1.448 7.432 2.891-.529-.826-.89-1.343-1.274-1.995.151-.013.483-.046.777-.233.213-.135.463-.288.688-.574.443-.565.551-1.277.39-2.166-.078-.423-.235-.834-.213-.85 2.061-.778 2.304-.862 4.226-1.587-2.31.034-2.422.01-4.591.016-.036-.414-.244-.627-.882-.606-.238.039-.389.12-.5.445-.357-.657-.85-.464-1.06-.14-.275-.282-.917-.377-1.24-.17-.238-.112-.514-.112-.757.177-.175-.146-.23-.188-.614-.342-.886-1.497-1.622-2.692-2.36-3.951zm.012.802c.35.535 1.552 2.61 1.849 3.074-.337.023-.668.202-.918.562-.217-.224-.47-.445-.917-.463-.544-.093-.834.148-1.2.568-.108-.365-.53-.45-.896-.28.327-.519 1.872-3.122 2.082-3.46zM7.45 9.128c-.05 1.434-1.068 2.712-1.798 2.245-.551-.449.149-1.584.59-1.985-.033.307.246.498.023.77-.446.543-.27.936-.078.996.513.162 1.004-1.227 1.004-2.201 0-.625-.366-.613-1.086.136-.983 1.022-1.513 2.012-1.16 2.69.197.38.485.651.959.594.925-.11 1.483-1.254 1.543-1.988.148-.003.109.01.148-.02 0 .129.177.755.317 1.166.183.702.964 2.11-1.369 2.658-.44.11-.614.148-1.05.32-.213-.443-.263-.585-.697-1.013.588-.205.593-.185.972-.317 1.467-.51 1.908-.947 1.857-1.57 0 0 .018-.32-.185-.588a2.613 2.613 0 0 1-.293.645c-.437.68-1.296 1.101-2.06.833-.417-.146-.596-.466-.596-1.015 0-.703 1.601-2.735 2.387-3.08.555-.165.579.293.571.724zm6.502 1.3c.26.006.543.133.735.34.594.64.529 1.417.163 1.905-.435.581-1.532.324-1.791-.488-.12-.378.095-1.312.475-1.624a.628.628 0 0 1 .418-.132zm-2.113.066a.502.502 0 0 1 .117.017c.503.03.61.313.701.56.231.626.173 1.212-.301 1.691-.711.719-1.54.401-1.536-.567.014-.69.443-1.715 1.02-1.7zm1.868.038c-.383.287-.432 1.023-.08 1.296.138.13.215.22.613.256.273.024.704-.253.725-.527.01-.125-.013-.333-.312-.67-.252-.283-.579-.349-.661-.3-.265.156.021.28.125.383.162.163.2.234.125.282a.447.447 0 0 1-.372.057c-.105-.049-.456-.246-.163-.777zm3.759.003c.167.26.215.316.402.965.24.838.546 1.163.816 1.01.74-.418.148-1.476-.113-1.974.167-.002.134.007.286.005.12.471.086.387.407 1.813.385 1.706.442 2.16-.528 2.926-.446.352-1.103.37-1.667.34l-.636-.095c.438-.287.545-.557.542-1.116 1.278.535 1.959.132 2.23-.526.132-.317.086-.735-.04-1.471.008.6-.005.71-.084 1.007-.158.595-.547.76-.812.34-.102-.163-.345-.702-.42-1.282-.075-.58-.132-1.395-.5-1.736.04-.08.082-.17.117-.206zm-1.247.01c.258.068.572.204.74.52.234.436.388.668.376 1.447-.014.832-.34 1.055-.557 1.086-.278.04-.762.034-1.049-1.598-.095-.541-.268-1.056-.45-1.224.09-.11.097-.096.165-.204.091.1.17.27.298.777.202.808.387.975.745 1.02.558.072.778-.78.318-1.391-.1-.134-.365-.307-.503-.236.008.236.113.162.114.318-.026.185-.053.219-.113.32-.142-.056-.21-.078-.334-.291-.157-.31-.055-.6.25-.544zm-4.597.076c-.263.185-.594.8-.304 1.35.143.205.297.372.638.3.245-.051.671-.34.73-.749.052-.35-.456-1.028-.738-.87-.327.183-.128.314.074.511.185.18.052.289-.077.342-.258.106-.403.003-.467-.203-.065-.205-.01-.38.144-.68zm-2.867.064c.056.172.1.402.218.624.028.023.132 0 .269-.157.086-.1.185-.238.357-.463.104.095.113.166.142.219.073.13.225.12.273.106.168-.167.195-.275.306-.29.01.216.021.35-.257.677a.535.535 0 0 1-.501.172c-.12-.034-.199-.108-.389-.205-.258.04-.19.315-.143.546.12.611.5.855.832.675.116-.062.09-.062.312-.153-.038.388-.06.463.01.896-.541.301-.982.25-1.102-.506-.091-.632-.261-1.4-.415-1.556-.145-.147-.205-.195-.205-.195l.293-.39zm-7.114.082c.753.01 1.602.01 2.506.017-.13.318-.175.54-.193.854-.422-.163-1.877-.684-2.313-.871zm20.723.01c-.997.359-1.715.637-2.677 1.004-.105-.45-.124-.588-.219-.994 1.601-.005 1.628-.002 2.896-.01zm-6.978 2.04c.105.43.253.641.253.641.202.348.454.545.84.645.085.136.115.163.148.236.037.457.01.514-.344.774-.209.204-.218.497-.003.769.231.22.474.298 1.375.064.174.3.418.653.776 1.217-1.206-.455-2.868-1.103-6.43-2.49 0 0-4.169 1.62-6.404 2.491.935-1.474 1.012-1.599 1.677-2.63.225-.089.149-.053.349-.155.459-.245.827-.61 1.028-1.145.368.83.779.925 1.636.655.177-.082.38-.2.424-.518.46.413 1.432.49 2.142-.382.612.717 2.001.785 2.533-.171zm2.157.865s.04.129.064.169c-.101.003-.213 0-.213 0a.905.905 0 0 0 .149-.17z"/>',
       "eclipsemosquitto": '<path d="M1.353 11.424c0 2.637.964 5.105 2.636 7.013l-1.007.903A11.968 11.968 0 010 11.424C0 8.065 1.38 5.029 3.604 2.85l.05.045L6.637 5.57a7.942 7.942 0 00-1.433 9.963l1.03-.923a6.59 6.59 0 011.416-8.132l1.02.915.909.814.941.844a2.778 2.778 0 00-1.311 2.367c0 1.23.795 2.273 1.899 2.646l.095 1.297a4.024 4.024 0 01-2.483-6.27l-.9-.809-.004-.003a5.233 5.233 0 00.205 6.546l-3.023 2.71a9.291 9.291 0 01-.21-11.97L3.777 4.66a10.599 10.599 0 00-2.407 6.14l-.006.008.005.004c-.011.203-.017.406-.017.612zm11.54 2.639a2.793 2.793 0 00.588-5.013l.941-.844.908-.814 1.021-.915a6.59 6.59 0 011.417 8.132l1.029.923a7.942 7.942 0 00-1.433-9.963l2.981-2.673.05-.045A11.964 11.964 0 0124 11.424c0 2.98-1.095 5.769-2.982 7.916l-1.007-.903a10.61 10.61 0 002.619-7.625l.005-.004-.006-.007a10.598 10.598 0 00-2.407-6.141l-1.008.904a9.291 9.291 0 01-.211 11.97l-3.023-2.71a5.233 5.233 0 00.205-6.546l-.004.003-.9.808a4.024 4.024 0 01-2.482 6.27zM12 21.149l.335-4.571.271-3.712a1.56 1.56 0 10-1.212 0l.271 3.712Z"/>',
       "enterprisedb": '<path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zM6.44 7.75c.072 0 .148.004.222.012l1.815.18a.384.384 0 0 1 .345.369v6.636c0 .186-.154.32-.345.301l-1.815-.18C5.47 14.95 4.5 13.918 4.5 12.762c0-.62.279-1.15.72-1.49-.441-.428-.72-1.011-.72-1.631 0-1.084.85-1.892 1.94-1.89zm11.12 0c1.09 0 1.94.807 1.94 1.89 0 .62-.278 1.204-.72 1.631.442.34.72.87.72 1.49 0 1.157-.967 2.19-2.16 2.307l-1.817.18c-.191.02-.345-.116-.345-.3V8.31c0-.185.154-.35.345-.369l1.817-.18c.074-.007.148-.011.22-.011zm-7.374 2H12c1.194 0 2.16.93 2.16 2.074v3.09c0 1.145-.972 2.086-2.166 2.086H10.18a.343.343 0 0 1-.34-.344v-.092c0-.34.187-.331.27-.34l.136-.011c1.216-.13 1.735-.404 1.754-.766h-1.82c-.202 0-.34-.195-.34-.388v-4.977c0-.184.154-.332.346-.332z"/>',
+      "celery": '<path d="M2.303 0A2.298 2.298 0 0 0 0 2.303v19.394A2.298 2.298 0 0 0 2.303 24h19.394A2.298 2.298 0 0 0 24 21.697V2.303A2.298 2.298 0 0 0 21.697 0zm8.177 3.072c4.098 0 7.028 1.438 7.68 1.764l-1.194 2.55c-2.442-1.057-4.993-1.41-5.672-1.41-1.574 0-2.17.922-2.17 1.763v8.494c0 .869.596 1.791 2.17 1.791.679 0 3.23-.38 5.672-1.41l1.194 2.496c-.435.271-3.637 1.818-7.68 1.818-1.112 0-4.64-.244-4.64-4.64V7.713c0-4.397 3.528-4.64 4.64-4.64z"/>',
+      "apollographql": '<path d="M12,0C5.372,0 0,5.373 0,12 0,18.628 5.372,24 12,24 18.627,24 24,18.628 24,12A12.014,12.014 0 0 0 23.527,8.657 0.6,0.6 0 0 0 22.4,9.066H22.398C22.663,10.009 22.8,10.994 22.8,12A10.73,10.73 0 0 1 19.637,19.637 10.729,10.729 0 0 1 12,22.8 10.73,10.73 0 0 1 4.363,19.637 10.728,10.728 0 0 1 1.2,12 10.73,10.73 0 0 1 4.363,4.363 10.728,10.728 0 0 1 12,1.2C14.576,1.2 17.013,2.096 18.958,3.74A1.466,1.466 0 1 0 19.82,2.9 11.953,11.953 0 0 0 12,0ZM10.56,5.88 6.36,16.782H8.99L9.677,14.934H13.646L12.927,12.892H10.314L12.014,8.201 15.038,16.781H17.669L13.47,5.88Z"/>',
       "electron": '<path d="M12.0111 0c-.85 0-1.5392.6891-1.5392 1.5392 0 .8501.6891 1.5393 1.5392 1.5393.595 0 1.11-.338 1.3662-.832 2.2208 1.2675 3.847 5.4728 3.847 10.3623 0 2.0715-.2891 4.056-.825 5.7685a.3215.3215 0 0 0 .2107.403.322.322 0 0 0 .4033-.2111c.5558-1.7763.8542-3.8251.8542-5.9604 0-5.1927-1.7717-9.686-4.3206-11.0027.001-.0223.0035-.0443.0035-.0669 0-.85-.6891-1.5392-1.5393-1.5392zm0 .6432a.896.896 0 1 1 0 1.792.896.896 0 1 1 0-1.792zm-5.486 4.3052c-2.067.0074-3.6473.6646-4.3885 1.9485-.7375 1.2774-.5267 2.971.5113 4.7813a.3217.3217 0 0 0 .558-.32C2.271 9.7274 2.089 8.266 2.6938 7.2185c.821-1.422 3.033-1.9552 5.9321-1.4271a.3216.3216 0 0 0 .1153-.6329c-.784-.1428-1.5271-.2125-2.216-.21zm11.0522.0176a.3216.3216 0 0 0-.0084.6432c1.8337.0239 3.1556.5956 3.7502 1.6256.8192 1.419.1798 3.5947-1.7182 5.837a.322.322 0 0 0 .0377.4535.3215.3215 0 0 0 .4532-.0377c2.0535-2.426 2.7708-4.8661 1.7845-6.5744-.7257-1.257-2.26-1.9207-4.299-1.9472zm-2.6984.2924a.3225.3225 0 0 0-.0647.0072c-1.8568.3979-3.8333 1.1755-5.7314 2.2714-4.5699 2.6384-7.5924 6.4948-7.3601 9.3717-.4726.2628-.7928.7664-.7928 1.3455 0 .85.6892 1.5392 1.5393 1.5392.85 0 1.5392-.6891 1.5392-1.5392 0-.8501-.6891-1.5393-1.5392-1.5393-.038 0-.0754.003-.1128.0057-.1002-2.5597 2.7434-6.1412 7.048-8.6265 1.8413-1.063 3.7551-1.8163 5.5445-2.1997a.3217.3217 0 0 0-.07-.636zm-2.8787 6.2364a1.1192 1.1192 0 0 0-.2243.0255c-.6012.1301-.983.7225-.8533 1.3238.1302.6012.7226.9832 1.3238.8533.6012-.1302.9832-.7226.8533-1.3238-.1139-.526-.5816-.8844-1.0995-.8788zM4.532 13.341a.321.321 0 0 0-.2318.0835.3214.3214 0 0 0-.0214.4542c1.2682 1.3936 2.9157 2.701 4.7946 3.7857 4.4146 2.5489 9.1056 3.2849 11.5608 1.8392a1.53 1.53 0 0 0 .8966.2899c.8501 0 1.5392-.6891 1.5392-1.5392 0-.8501-.689-1.5393-1.5392-1.5393-.85 0-1.5392.6892-1.5392 1.5393 0 .276.0737.5344.201.7584-2.2448 1.214-6.631.5002-10.7976-1.9054-1.8228-1.0524-3.418-2.3181-4.6404-3.6614a.3206.3206 0 0 0-.2226-.1049zm-2.0628 4.0172a.896.896 0 1 1 0 1.792.896.896 0 1 1 0-1.792zm19.0616 0a.896.896 0 1 1 0 1.792.891.891 0 0 1-.5864-.2194c-.0025-.004-.0039-.0083-.0066-.0123a.3195.3195 0 0 0-.0957-.0914.896.896 0 0 1 .6887-1.4689zm-14.0045 1.368a.3215.3215 0 0 0-.3207.4296C8.2793 22.154 10.036 24 12.0111 24c1.4406 0 2.7735-.9822 3.8128-2.711a.3215.3215 0 0 0-.11-.4413.3219.3219 0 0 0-.4415.11c-.934 1.5537-2.0812 2.399-3.2613 2.399-1.6407 0-3.2075-1.6465-4.2-4.4179a.3216.3216 0 0 0-.2848-.2126z"/>',
       "aspire": '<path d="M2.625 22.7445C1.1775 22.7445 0 21.567 0 20.1195c0-.472.1245-.931.36-1.3284L6.6137 7.959l.0255-.0382L9.7264 2.568c.4687-.81 1.3395-1.3125 2.274-1.3125s1.8052.5025 2.2732 1.3118L23.649 18.806c.2265.3817.351.8407.351 1.3125 0 1.4475-1.1775 2.625-2.625 2.625zm20.2508-2.625q0-.4114-.2003-.75l-3.3525-5.8123v-.0004l-.0002-.0004-2.8875-4.995q-.0062-.0105-.0127-.0204l-.0025-.0036q-.0035-.0067-.0075-.0133l-3.1123-5.3929q-.4331-.75-1.2997-.75t-1.2998.75l-3.127 5.414-.0005.0009-.0004.0003q-.0078.014-.0146.0282l-.0026.0039q-.0066.01-.0126.0204l-2.8657 4.9587-.3206.5593-.0014.0024-.0005.001L1.327 19.366q-.2021.342-.2021.7532 0 .6223.439 1.0613.4387.4387 1.0612.4387h18.7506q.622 0 1.061-.4387.4388-.439.4388-1.0613zM8.876 7.7897l2.474-4.2834q.2168-.375.6503-.375t.6502.375l3.1069 5.383.0026.0051q.0103.0208.0235.0403l.0082.0126 2.5564 4.422h-5.3884l-.6345-1.1021-.0002-.0004-2.1525-3.7275-.001-.0017-.0008-.0017q-.209-.3532-.5505-.5405-.3569-.209-.7442-.2053zm7.002 12.3294q0 .3117-.2194.5308-.2192.2194-.5306.2194h-4.9513q.0127-.022.0245-.0439.1716-.3174.1716-.7063 0-.3911-.183-.72l-.0023-.0047q-.0198-.0427-.051-.082l-.974-1.5867-.0002-.0004-2.2086-3.6064h5.574l.1228.21.0011.002.0117.02.0825.143 3.03 5.2461q.1022.1892.1022.3791m6.2475 0q0 .3117-.2192.5308-.2192.2194-.5307.2194H16.432q.0128-.022.0246-.0439.1716-.3174.1716-.7063 0-.383-.1958-.742l-.0045-.008-.0139-.0238-3.0183-5.2264h5.3859l3.2443 5.625q.1.1692.1.3752zm-12.5027 0q0 .3117-.2194.5308-.2192.2194-.5306.2194H2.625q-.3114 0-.5306-.2194-.2194-.2191-.2194-.5306 0-.2062.0979-.3718l3.0307-5.2511.0013-.0025.0006-.0009q.2076-.3506.5968-.3726.026-.0015.0529-.0015.4187 0 .6401.361l.0002.0002 2.2275 3.6375.0002.0001.99 1.6125q.007.0115.0148.0224.0949.1636.0949.3665m-3.9703-6.75 2.5336-4.3847.0233-.035q.0195-.029.033-.0608.1573-.2434.4399-.3195.2989-.0806.5617.075l.0124.007q.1626.088.2674.2645l.001.0015 2.1503 3.7238.0002.0005.4187.7275h-6.439zm3.8679 6.3705-.0028-.0047q-.045-.0766-.045-.178 0 .0502.0133.0987.0122.0443.0345.084"/>',
+      "apache": '<path d="M17.805 2.197v.066h.156v.44h.072v-.44h.156v-.066zm.9 0l-.175.353-.172-.353h-.087v.506h.067V2.3l.172.35h.045l.172-.35v.404h.066v-.506zm-4.257 1c-.204.31-.424.66-.66 1.06l-.04.062a44.457 44.457 0 00-1.265 2.29c-.187.36-.38.742-.577 1.146l2.267-.25c.66-.302.955-.578 1.242-.976a15.5 15.5 0 00.23-.342c.23-.363.46-.763.663-1.16.197-.386.37-.767.505-1.11.083-.22.15-.422.198-.6.042-.158.074-.307.1-.45-.884.15-1.965.295-2.668.33zM11.894 7.78l-.077.16c-.078.16-.157.32-.236.488-.086.18-.172.364-.26.552l-.132.287a75.265 75.265 0 00-1.427 3.3c-.163.397-.327.807-.493 1.23-.15.38-.297.765-.45 1.164l-.02.06c-.15.396-.3.802-.453 1.22l-.01.027.72-.08a.213.213 0 01-.042-.006c.863-.106 2.01-.75 2.75-1.547.342-.367.652-.8.94-1.306.213-.377.413-.795.604-1.258.168-.405.328-.843.48-1.318-.196.105-.423.18-.673.235a2.184 2.184 0 01-.273.046c.806-.31 1.314-.905 1.683-1.64a2.816 2.816 0 01-.968.428c-.06.012-.116.022-.174.03l-.043.006h.002c.278-.118.514-.248.718-.403a2.571 2.571 0 00.637-.698l.063-.104.077-.154a8.107 8.107 0 00.367-.85l.03-.088a3.04 3.04 0 00.123-.463.733.733 0 01-.094.065c-.243.145-.66.277-.996.34l.663-.074-.664.073h-.017l-.1.017c.006-.003.01-.006.017-.008l-2.265.25-.013.022zM8.27 16.45c-.117.323-.236.654-.355.992l-.005.015c-.016.046-.032.094-.05.142-.08.227-.15.432-.31.9.264.12.475.435.675.793a1.44 1.44 0 00-.466-.99c1.293.06 2.41-.27 2.99-1.217.05-.084.096-.173.14-.268-.26.333-.59.474-1.2.44 0 0-.004 0-.005.002l.004-.002c.9-.404 1.354-.79 1.754-1.433.094-.153.186-.32.28-.503-.788.81-1.702 1.04-2.664.865l-.72.078a6.43 6.43 0 00-.067.183zM15.42.112c-.376.222-1 .85-1.748 1.763l.686 1.294c.48-.687.97-1.307 1.462-1.836l.058-.062c-.02.02-.04.04-.057.062-.16.176-.644.74-1.375 1.863.703-.035 1.784-.18 2.666-.33.262-1.47-.258-2.142-.258-2.142s-.66-1.07-1.436-.61zm-3.084 6.402a40.253 40.253 0 011.306-2.26l.04-.064c.224-.352.45-.693.677-1.02l-.685-1.293-.157.192c-.197.245-.403.51-.613.79a39.853 39.853 0 00-2.016 2.97l-.022.038.893 1.763c.19-.378.38-.752.575-1.118zm-3.73 8.32c.158-.406.319-.81.483-1.225.156-.394.32-.79.484-1.19a91.133 91.133 0 011.6-3.604l.205-.424c.12-.243.237-.485.36-.724a.125.125 0 01.02-.04l-.895-1.763-.044.07c-.207.34-.414.687-.617 1.042a38.056 38.056 0 00-1.092 2.04l-.094.193a24.573 24.573 0 00-1.258 3.087 18.492 18.492 0 00-.52 1.997l.896 1.77c.117-.317.24-.638.364-.963zm-1.376-.476a13.38 13.38 0 00-.234 1.692c0 .02-.004.04-.005.06-.28-.45-1.03-.888-1.026-.884.537.778.944 1.55 1.005 2.31-.29.058-.684-.027-1.14-.195.475.436.83.556.97.588-.434.03-.89.328-1.346.67.668-.27 1.21-.38 1.596-.29-.61 1.74-1.23 3.655-1.843 5.69a.538.538 0 00.364-.354c.11-.368.84-2.786 1.978-5.965l.097-.27.028-.078c.12-.332.246-.672.374-1.02l.09-.237v-.004L7.24 14.3c-.003.02-.01.04-.012.06z"/>',
       "nuget": '<path d="M1.998.342a1.997 1.997 0 1 0 0 3.995 1.997 1.997 0 0 0 0-3.995zm9.18 4.34a6.156 6.156 0 0 0-6.153 6.155v6.667c0 3.4 2.756 6.154 6.154 6.154h6.667c3.4 0 6.154-2.755 6.154-6.154v-6.667a6.154 6.154 0 0 0-6.154-6.155zm-1.477 2.8a2.496 2.496 0 1 1 0 4.993 2.496 2.496 0 0 1 0-4.993zm7.968 6.16a3.996 3.996 0 1 1-.002 7.992 3.996 3.996 0 0 1 .002-7.992z"/>',
       "fastlane": '<path d="M8.144 19.182a1.445 1.445 0 00-1.237-.868l-1.615-4.976-.37-1.135c-.017.01-.112.052-.13.06-.008.01-.025.01-.033.018a.366.366 0 00-.07.037.472.472 0 01-.102.043c-.043.016-.078.034-.12.042-.035.01-.07.027-.104.036-.04.01-.083.025-.126.034-.034.01-.068.017-.103.026a.584.584 0 01-.137.017c-.035.01-.07.01-.103.017-.028 0-.054 0-.08.01h-.16c-.052 0-.095 0-.146-.01-.035 0-.07 0-.095-.01l-.165-.025c-.026-.01-.052-.01-.086-.017a2.456 2.456 0 01-.25-.06 2.498 2.498 0 01-1.633-3.137C1.7 7.97 3.102 7.23 4.417 7.65l.344-1.1A3.673 3.673 0 00.167 8.94a3.674 3.674 0 002.39 4.59 3.877 3.877 0 001.624.128l1.634 5.035a1.432 1.432 0 00-.232.267 1.47 1.47 0 00.387 2.053 1.47 1.47 0 002.2-.662 1.572 1.572 0 00-.03-1.167zM11.901.412a3.656 3.656 0 00-3.62 3.697c.01.54.147 1.09.38 1.58L4.381 8.8a1.468 1.468 0 00-.327-.138 1.47 1.47 0 00-1.83.997c-.233.78.214 1.596.996 1.83.103.032.207.05.31.05.404.025.8-.11 1.09-.38.2-.18.354-.4.43-.678a1.44 1.44 0 00.018-.764l4.237-3.08.962-.702c-.017-.018-.077-.086-.094-.103l-.026-.026c-.017-.018-.035-.036-.052-.06a.46.46 0 01-.07-.087 1.952 1.952 0 00-.076-.103c-.026-.026-.043-.06-.07-.086a1.027 1.027 0 01-.068-.11.56.56 0 00-.06-.096.746.746 0 01-.06-.12c-.017-.034-.034-.06-.043-.095l-.026-.07c-.006-.017-.014-.042-.023-.06-.01-.034-.025-.07-.034-.094-.016-.044-.025-.096-.042-.147l-.025-.096c-.01-.05-.017-.11-.026-.163 0-.025-.01-.05-.018-.085a2.269 2.269 0 01-.017-.26 2.502 2.502 0 012.475-2.526 2.502 2.502 0 012.526 2.475l1.152-.01C15.576 2.01 13.92.386 11.9.41zm11.908 8.664a3.664 3.664 0 00-4.632-2.303 3.803 3.803 0 00-1.385.851l-4.28-3.109c.026-.113.034-.233.034-.354a1.483 1.483 0 00-1.512-1.435 1.483 1.483 0 00-1.436 1.513 1.47 1.47 0 00.744 1.23c.232.128.5.205.782.197.267-.01.525-.086.73-.224l4.239 3.077.962.705.07-.12c.008-.008.008-.025.016-.034.008-.027.025-.044.034-.07.017-.034.034-.06.05-.094a.46.46 0 00.07-.112l.06-.085c.026-.035.052-.07.086-.104.026-.026.043-.05.07-.086l.094-.095.077-.078c.018-.017.035-.034.06-.05.018-.018.036-.027.053-.044a.282.282 0 01.086-.06c.04-.026.084-.052.12-.078a.528.528 0 01.084-.05c.052-.027.094-.053.146-.08.026-.008.052-.025.077-.033a2.51 2.51 0 013.412 1.477 2.507 2.507 0 01-1.572 3.17l.37 1.09c1.9-.627 2.93-2.7 2.294-4.615zm-2.166.62a1.474 1.474 0 00-1.881-.895 1.532 1.532 0 00-.284.14c-.344.214-.584.56-.662.945-.05.258-.043.533.052.8.094.257.24.463.438.627l-1.616 4.976-.37 1.134c.018 0 .112.026.138.026.017 0 .026 0 .043.01.028.008.054.008.08.017.035.01.07.017.104.025.043.01.086.026.13.035.033.01.068.017.102.034l.12.05c.035.018.07.027.103.044.04.017.076.043.12.06.033.017.06.034.093.052.026.01.043.025.06.043.018.01.035.024.052.033.026.018.06.035.086.06a.58.58 0 01.113.096c.025.016.05.042.077.06.043.033.077.076.12.12.02.016.043.034.06.06.06.06.11.13.164.197a2.505 2.505 0 01-.516 3.497 2.507 2.507 0 01-3.5-.515l-.927.686c1.205 1.616 3.5 1.96 5.116.757 1.615-1.203 1.96-3.497.756-5.112a3.82 3.82 0 00-1.237-1.058l1.632-5.036a1.479 1.479 0 001.238-1.968zM18.2 18.905a1.446 1.446 0 00-1.315-.558 1.38 1.38 0 00-.748.3c-.215.163-.37.378-.465.61H9.243c0 .017.01.12.02.137 0 .018 0 .026.01.043 0 .026.01.052.01.078 0 .034.007.07.007.112 0 .043 0 .086.01.128v.112c0 .043-.01.086-.01.13 0 .034-.01.068-.01.11-.01.044-.02.087-.02.138-.007.035-.007.07-.015.103-.01.025-.01.05-.017.08-.01.014-.01.04-.018.06-.01.03-.017.066-.026.1-.017.043-.034.095-.052.14-.01.032-.025.06-.034.092a2.771 2.771 0 01-.077.146c-.016.025-.024.05-.033.077a2.132 2.132 0 01-.138.215 2.504 2.504 0 01-3.49.583 2.501 2.501 0 01-.585-3.489l-.937-.67a3.658 3.658 0 00.86 5.096 3.656 3.656 0 005.095-.86c.318-.445.524-.97.628-1.502h5.294a1.479 1.479 0 002.252.567c.61-.508.73-1.436.232-2.08z"/>',
       "bazel": '<path d="m11.7473 23.8198-5.4987-5.4987v-5.5349l5.4987 5.4986v5.535zm-.1036-17.6412-.0001-.0001.1768-.1768L5.9986.1799.1768 6.0018l.0001.0001 5.8217 5.8271 5.6451-5.6504zM0 6.5323v5.5347l5.7486 5.7539v-5.5347l-.1035-.1035.0001-.0001L0 6.5323zm17.6478 5.6504-5.6505-5.6505-5.6452 5.6504 5.6452 5.6453 5.6505-5.6452zm.1036 5.8885v-5.2853l-5.5042 5.4991v5.5351l5.5042-5.4991v-.2498zM24 6.5323l-5.6451 5.6503.0001.0001-.1036.1035v5.5346L24 12.067V6.5323zm-.1769-.5304.0001-.0001L18.0014.18l-5.8273 5.822 5.8273 5.8272 5.8217-5.8273z"/>',
       "cmake": '<path d="M11.769.066L.067 23.206l12.76-10.843zM23.207 23.934L7.471 17.587 0 23.934zM24 23.736L12.298.463l1.719 19.24zM12.893 12.959l-5.025 4.298 5.62 2.248z"/>',
-      "serverless": '<path d="M0 17.57h4.248l-1.316 3.974H0zm0-7.557h6.75l-1.316 3.974H0zm0-7.557h9.252L7.936 6.431H0zm13.44 0H24v3.975H12.123zM9.62 13.987l1.317-3.974H24v3.974zM8.436 17.57H24v3.975H7.119Z"/>'
+      "sonarqubecloud": '<path d="M12.2656.168c-.4273 0-.7676.3551-.7676.7773 0 .4222.3513.7676.7735.7676.0268-.0144.062-.004.0918-.0059 3.9749 0 7.3782 2.9452 7.9394 6.879.0567.3861.3859.664.7618.664.4676 0 .8328-.4084.7636-.8809C21.1588 3.6786 17.0963.168 12.3594.168Zm-.3027 3.0566c-1.7538 0-3.5063.6678-4.8399 2.004-1.3747 1.3747-2.0765 3.2193-1.994 5.1347-1.1431.2935-2.2292.8795-3.125 1.7754-2.6723 2.6722-2.6723 7.0184 0 9.6855 1.3335 1.3336 3.0899 2.002 4.8456 2.002 1.7558 0 3.505-.6684 4.8438-2.002.108-.1081.2075-.2266.3105-.3398 1.2563 1.4365 3.094 2.3476 5.1484 2.3476 3.7793 0 6.8477-3.0735 6.8477-6.8476 0-3.1511-2.1943-5.9-5.2012-6.6465.0721-1.8433-.5865-3.7089-1.9922-5.1094-1.336-1.3361-3.0899-2.0039-4.8437-2.0039Zm3.752 3.1074c2.0698 2.0699 2.0698 5.4354 0 7.5-.3038.3038-.3038.7932 0 1.0918.2973.2974.7873.3045 1.0918 0 .8753-.8753 1.4572-1.925 1.7558-3.037 2.2552.628 3.8926 2.7183 3.8926 5.1073 0 2.9246-2.3782 5.3028-5.3027 5.3008-2.9245-.002-5.3027-2.382-5.3027-5.3066 0-.4274-.3461-.7715-.7735-.7715a.7699.7699 0 0 0-.7715.7715c0 1.1482.2877 2.231.7871 3.1836-.1493.2008-.308.39-.4882.5703-2.0699 2.0698-5.4373 2.0698-7.502 0-2.0698-2.0698-2.0698-5.4321 0-7.502 2.0698-2.0698 5.4321-2.0698 7.502 0 .3037.3038.7912.3038 1.0898 0 .2986-.3037.3038-.7931 0-1.0918-1.385-1.385-3.2177-2.0436-5.0352-1.9922-.0206-1.4313.525-2.7996 1.5547-3.8242 1.035-1.0349 2.394-1.5527 3.752-1.5527 1.358 0 2.715.5178 3.75 1.5527zm-3.5566.0508c-.4274 0-.7676.3552-.7676.7774 0 .4388.3555.7675.7988.7675 1.0452 0 1.9038.8494 1.914 1.8946 0 .4222.3513.7675.778.7675s.767-.3551.767-.7773c-.0103-.9216-.3761-1.792-1.0352-2.441-.659-.6492-1.5231-.999-2.455-.9887Z"/>',
+      "serverless": '<path d="M0 17.57h4.248l-1.316 3.974H0zm0-7.557h6.75l-1.316 3.974H0zm0-7.557h9.252L7.936 6.431H0zm13.44 0H24v3.975H12.123zM9.62 13.987l1.317-3.974H24v3.974zM8.436 17.57H24v3.975H7.119Z"/>',
+      "equinixmetal": '<path d="M22.399 7.789v7.005l-1.599.56V7.231L16 5.557v11.472l-1.601.557V4.996L12 4.16l-2.4.836v12.59l-1.599-.557V5.557L3.2 7.232v8.121l-1.599-.56V7.79L0 8.349v7.582l4.801 1.676v-9.24l1.6-.558v10.356L11.2 19.84V6.133l.8-.28.8.28v13.708l4.801-1.676V7.809l1.599.558v9.24L24 15.93V8.349z"/>',
+      "metaai": '<path d="M10.73.032c-1.333 0-2.032 1.016-2.032 2.285 0 2.223 2.127 4.953 4.318 4.953 1.301 0 2-.953 2-2.254 0-2.254-2.095-4.984-4.286-4.984m8.413 2.984c-1.968 0-3.397 2.73-3.397 4.825 0 1.556.794 3.016 2.254 3.016 2 0 3.365-2.762 3.365-4.794 0-1.523-.762-3.047-2.222-3.047M4.857 4.159c-1.968 0-3.778 1.016-3.778 2.54 0 1.65 2.16 2.793 4.254 2.793 1.873 0 3.778-.92 3.778-2.508 0-1.682-2.159-2.825-4.254-2.825m-.222 6.476C2.413 10.635 0 13.175 0 15.397c0 1.301.825 2.159 2.095 2.159 2.19 0 4.603-2.508 4.603-4.794 0-1.27-.761-2.127-2.063-2.127m16.667.698c-2.223 0-5.016 1.62-5.016 3.651 0 1.238 1.047 2.19 2.698 2.19 2.159 0 5.016-1.587 5.016-3.682 0-1.302-1.08-2.159-2.698-2.159M7.619 16c-1.524 0-2.38 1.746-2.38 3.429 0 2.063 1.269 4.54 3.047 4.54 1.524 0 2.38-1.81 2.38-3.461C10.667 18.57 9.46 16 7.62 16m6.571 1.016c-1.333 0-2.476.667-2.476 2.032 0 2.095 2.667 4.063 4.92 4.063 1.366 0 2.54-.73 2.54-2.063 0-2.032-2.698-4.032-4.984-4.032"/>',
+      "openapiinitiative": '<path d="M21.039 0a2.959 2.959 0 00-2.65 4.274l-6.447 6.447a2.96 2.96 0 101.335 1.336l6.447-6.447A2.959 2.959 0 1021.04 0zM10.628 2.745c-.072 0-.143.003-.214.004-.072.002-.143.002-.215.005-.447.018-.893.064-1.335.138l-.03.005-.185.033-.105.02a7.718 7.718 0 00-.289.062l-.032.008a10.69 10.69 0 00-2.55.95l-.155.089c-.063.034-.125.07-.187.105-.046.027-.093.051-.14.079H5.19l-.01.005-.036.02v.002l.111.184 3.15 5.23a4.168 4.168 0 01.38-.202 4.294 4.294 0 011.628-.413c.071-.004.143-.008.214-.008zm.428.01v6.333c.325.034.647.103.96.209l4.66-4.66c-.173-.12-.348-.237-.528-.347l-.026-.015c-.056-.035-.112-.067-.168-.1l-.098-.056-.099-.055a12.735 12.735 0 00-.171-.092l-.027-.014a10.628 10.628 0 00-1.425-.617c-.69-.241-1.403-.41-2.128-.505l-.089-.012-.09-.01a6.56 6.56 0 00-.17-.019l-.049-.004-.204-.017a6.44 6.44 0 00-.255-.015c-.031-.003-.062-.003-.093-.004zM4.782 4.498a9.92 9.92 0 00-1.36 1.062l4.461 4.461.018.018c.049-.04.098-.078.149-.116l-.011-.018zm-1.67 1.36c-.05.05-.098.103-.147.154l-.149.155c-.33.357-.63.73-.902 1.118l-.039.056a10.588 10.588 0 00-.216.326 10.6 10.6 0 00-1.65 5.276l-.006.215-.003.214h6.317c0-.072.007-.143.01-.214.005-.072.006-.144.013-.215.081-.822.399-1.625.952-2.3.045-.055.096-.106.144-.16.048-.052.093-.107.144-.158zm16.255 1.464l-4.663 4.663c.106.312.175.634.21.959h6.332l-.004-.094a11.579 11.579 0 00-.032-.456l-.005-.052a13.044 13.044 0 00-.026-.241v-.009l-.033-.24v-.009a10.618 10.618 0 00-.327-1.493l-.003-.01a15.839 15.839 0 00-.07-.228l-.01-.03a14.111 14.111 0 00-.069-.204l-.02-.055a5.65 5.65 0 00-.153-.405 7.84 7.84 0 00-.093-.227 16.67 16.67 0 00-.063-.144l-.037-.081a13.776 13.776 0 00-.08-.171l-.024-.052-.096-.194-.014-.027a11.2 11.2 0 00-.112-.212l-.004-.008a10.615 10.615 0 00-.604-.98zm-4.43 6.05c0 .071-.006.142-.01.214-.003.072-.005.143-.012.214a4.29 4.29 0 01-.952 2.301c-.045.055-.096.107-.144.16-.048.053-.093.108-.144.159l4.467 4.467c.051-.051.099-.104.148-.155.05-.052.1-.103.148-.155.331-.358.633-.733.905-1.122l.032-.046.098-.144.085-.13.04-.063a10.597 10.597 0 001.647-5.272c.003-.071.004-.143.006-.214.001-.071.004-.143.004-.214zM.01 13.8l.004.093.01.179.005.076.017.206.005.046c.007.076.015.153.024.228l.003.022a9.605 9.605 0 00.033.248c.072.505.182 1.005.327 1.497l.002.006c.022.077.047.154.071.23l.004.014.005.014a15.737 15.737 0 00.153.439l.03.08.059.148a7.702 7.702 0 00.093.228l.062.14.038.084.078.169.027.054a10.677 10.677 0 00.225.441l.025.043 5.408-3.258.02-.012a4.314 4.314 0 01-.395-1.414h-.025zm.505 2.846l-.206.058.002.005zm6.425-1.052l-5.415 3.262c.083.139.17.273.259.406l.008.014.004.005.008.014h.001c.007.012.014.022.022.032l.001.002v.001a10.634 10.634 0 00.298.417l.006.008a9.963 9.963 0 00.29.368l.033.04c.043.052.086.103.13.153l.057.065.112.127.064.069.029.031.083.09.035.035c.049.051.098.103.149.153L7.58 16.42a3.86 3.86 0 01-.285-.321 4.422 4.422 0 01-.356-.505zm6.416 1.111c-.05.04-.1.079-.15.116l.011.018 3.257 5.407c.151-.099.3-.2.446-.307.315-.232.62-.484.914-.756l-4.46-4.46zm-5.457.003l-.015.015-4.46 4.46a8.966 8.966 0 00.195.176c.022.02.043.04.065.058l.152.13a10.622 10.622 0 00.215.174l.023.017.191.148.008.005c.268.2.547.389.834.564l.03.018.164.097.101.057a5.458 5.458 0 00.27.148c.008.004.016.01.025.013.162.085.327.164.493.24l.158-.385 2.243-5.448.009-.02a4.328 4.328 0 01-.701-.467zm4.951.353c-.061.037-.124.07-.187.104a4.318 4.318 0 01-3.271.336c-.069-.02-.135-.047-.203-.071-.067-.024-.136-.044-.202-.072l-2.242 5.444-.088.213-.075.183v.001l.017.007a.137.137 0 00.019.007l.005.003c.052.021.106.04.159.06.067.027.133.053.2.077l.102.04c.702.247 1.43.42 2.168.518l.087.012.09.01.172.019a7.173 7.173 0 00.252.022c.023.001.048.001.071.003l.184.011.112.005a7.06 7.06 0 00.358.007h.05a10.667 10.667 0 001.793-.15l.185-.034.105-.02.109-.023.18-.04.032-.008a10.684 10.684 0 002.55-.95c.052-.028.104-.06.156-.089.063-.034.125-.07.187-.105.043-.024.087-.047.13-.073h.001l.002-.002.002-.001.002-.001.007-.004.042-.025-.11-.183-.11-.184zm3.262 5.414l-.042.025.042-.024zm-.05.029zm-.005.004h-.002z"/>',
+      "d3": '<path d="M13.312 12C13.312 5.718 8.22.625 1.937.625H0v5h1.938c3.521 0 6.375 2.854 6.375 6.375s-2.854 6.375-6.375 6.375H0v5h1.938c6.281 0 11.374-5.093 11.374-11.375zM24 7.563C24 3.731 20.893.625 17.062.625h-8a13.4154 13.4154 0 0 1 4.686 5h3.314c1.069 0 1.938.868 1.938 1.938 0 1.07-.869 1.938-1.938 1.938h-1.938c.313 1.652.313 3.348 0 5h1.938c1.068 0 1.938.867 1.938 1.938s-.869 1.938-1.938 1.938h-3.314a13.4154 13.4154 0 0 1-4.686 5h8c1.621 0 3.191-.568 4.438-1.605 2.943-2.45 3.346-6.824.895-9.77A6.9459 6.9459 0 0 0 24 7.563z"/>',
+      "rstudioide": '<path d="M12.178.002a12.002 12.002 0 0 0-8.662 3.515 12.002 12.002 0 0 0 0 16.97 12.002 12.002 0 0 0 16.97 0 12.002 12.002 0 0 0 0-16.97A12.002 12.002 0 0 0 12.179.002zM7.77 5.995c.562.128 1.05.217 1.663.217.921 0 1.863-.217 2.786-.217 1.79 0 3.45.814 3.45 2.8 0 1.54-.921 2.517-2.35 2.93l2.788 4.107h1.301v1.01h-1.986l-3.293-4.934h-1.757v3.924h1.718v1.01H7.77v-1.01h1.483V7.134L7.77 6.951v-.957zm4.466 1.012c-.596 0-1.213.053-1.864.127v3.798l.941.02c2.298.034 3.183-.85 3.183-2.026 0-1.376-.997-1.919-2.26-1.919z"/>',
+      "eclipsejetty": '<path d="M4.9847 2.7514a.842.842 0 00-.8203.6525l-.617 2.673a.842.842 0 00.023.4591.842.842 0 00-.222.403L.986 17.1715c-.0428.0033-.0642.0065-.1198.0087a.842.842 0 00-.8086.821l-.0575 2.3853a.842.842 0 00.8446.8622c1.3542-.0049 2.7158-.0093 4.0669-.0156.543-.0142 1.0992-.2356 1.5074-.6331.4083-.3976.6578-.921.842-1.548a.8442.8442 0 00.0127-.048l.093-.4032a.842.842 0 00.8083.6073h2.5182a.842.842 0 00.763-.486l6.8882-14.773c.26-.558-.1472-1.1974-.7628-1.1976h-2.5181a.842.842 0 00-.763.4862L12.8664 6.313a.842.842 0 00-.209-.0265h-2.4478l.578-2.5039c.1216-.5275-.279-1.031-.8203-1.0312zm15.6543 0a.842.842 0 00-.763.4862l-6.8883 14.7728c-.26.5581.1473 1.1974.763 1.1976h2.518a.842.842 0 00.763-.486l6.8884-14.773c.26-.5581-.1473-1.1974-.763-1.1976zm-15.6543.842h4.9827l-.617 2.6729H4.3679zm10.0789 0h2.518l-6.8883 14.7728H8.1751l.3446-.739h1.9084a.842.842 0 00.8202-.6524l.856-3.7076c.1216-.5275-.279-1.031-.8202-1.0312h-.2506l.2603-.5581h.5077a.842.842 0 00.8202-.6526l.856-3.7075a.842.842 0 00.008-.3403zm5.5754 0h2.5182l-6.8885 14.7728h-2.518zM4.1685 7.1284h2.6244l-.8122 3.5182c-.1217.5275.2788 1.0311.8202 1.0313H8.101l-.129.558H6.2835a.842.842 0 00-.8203.6525l-.856 3.7076c-.1215.5275.279 1.031.8202 1.0312h1.3003l-.2741 1.1874c-.321 1.0921-.8075 1.5347-1.5882 1.5778l-4.0236.0144.0575-2.3855c.4885-.0192.7073.0034.851-.4182zm3.4882 0h5.0008l-.8559 3.7077H6.801zm1.3083 4.5495h1.4l-.2604.558H8.8361zm-2.6816 1.3999h5.0008l-.856 3.7076H5.4272Z"/>',
+      "eclipsevertdotx": '<path d="M3.356.01C1.566.01.027 1.269 0 2.938v1.436h2.515l3.861 8.896 4.028-8.791h5.078l2.182 3.986 2.56-3.986H24V2.946C24 1.281 22.44.011 20.645.011zM24 5.668l-8.874 13.56H12.44c-.02-.629-.188-1.237-.503-1.74l3.609-5.708-2.744-4.36-3.829 8.42-.036-.002a3.443 3.443 0 0 0-3.434 3.433c0 .021.003.042.004.063h-.263L0 7.5v13.553c0 1.665 1.56 2.935 3.356 2.935h17.289c1.812 0 3.355-1.276 3.355-2.935v-1.826h-3.587l-1.594-2.874 2.224-3.378L24 17.638zm-15.066 11.5a2.102 2.102 0 0 1 2.109 2.103 2.106 2.106 0 1 1-4.212 0c0-1.16.937-2.1 2.103-2.103Z"/>',
+      "gotomeeting": '<path d="M21.3 13.72a3.158 3.158 0 0 0-3.462.124.632.632 0 0 1-.682.035l-3.137-1.81a.08.08 0 0 1 0-.137l3.12-1.8a.632.632 0 0 1 .685.036 3.158 3.158 0 0 0 3.47.139A3.194 3.194 0 0 0 22.442 6.1a3.158 3.158 0 0 0-5.924 1.773.633.633 0 0 1-.311.606l-3.136 1.811a.08.08 0 0 1-.118-.068V6.6a.632.632 0 0 1 .372-.573 3.158 3.158 0 1 0-2.64 0 .632.632 0 0 1 .373.573v3.622a.08.08 0 0 1-.119.068L7.804 8.48a.632.632 0 0 1-.311-.605 3.157 3.157 0 1 0-1.307 2.294.633.633 0 0 1 .687-.038l3.12 1.8a.08.08 0 0 1 0 .137L6.854 13.88a.632.632 0 0 1-.683-.035 3.158 3.158 0 0 0-3.461-.124 3.194 3.194 0 0 0-1.143 4.202 3.159 3.159 0 0 0 5.924-1.792.633.633 0 0 1 .31-.61l3.137-1.81a.08.08 0 0 1 .119.068V17.4a.632.632 0 0 1-.372.573 3.158 3.158 0 1 0 2.64 0 .633.633 0 0 1-.373-.573v-3.621a.08.08 0 0 1 .118-.069l3.137 1.812a.631.631 0 0 1 .31.609 3.159 3.159 0 0 0 5.924 1.792A3.194 3.194 0 0 0 21.3 13.72Z"/>',
+      "arcgis": '<path d="M12 0a.84923.84923 0 0 0-.33766.07031l-8.5183 3.69444C2.1458 4.19776 1.4997 5.1816 1.4997 6.2697v13.2521l10.16264 4.40783c.21517.09333.46015.09407.67532.00073l8.5183-3.6959c.99824-.43301 1.64434-1.41685 1.64434-2.50495V4.47814L12.33766.06958C12.23007.02291 12.11516-.00005 12 0Zm0 4.83705c4.16294 0 7.53757 3.3746 7.53757 7.53757S16.163 19.91218 12 19.91218c-4.163 0-7.53757-3.37462-7.53757-7.53756S7.837 4.83705 12 4.83705zm-.3501 1.38871c-.89685-.02267-2.32742.2409-3.74645 1.6143.34958.55454.64544.97782.49 1.41801-.23127.65503-.5139.51378-1.07083.99466-.39567.34169.2067 1.01292-.31275 1.30595-.51945.29306-1.21315.6636-.94925 1.17557.2639.51196 1.4691.83013 1.95929 1.07522.49018.2451.92812.70605.6072 1.2371-.31403.51948-.53713 1.13083-.60134 1.60917 1.0549.94423 2.44706 1.51909 3.97423 1.51909 3.2928 0 5.81772-2.71048 5.96208-6.00017.04062-.92531-.93924-.93972-1.53447-.93972 0 0 .34061.92356.01831 1.43632-.3223.51278-.84968.76166-.83498 1.37699.01464.61533-.93743 1.5967-1.2598 1.9483-.32223.35163-.9228.74718-1.12796-.0586-.2051-.80579-.12596-1.47799.1084-2.04938.23442-.57136-.2174-.74707-.92068-.76174-.7032-.01463-1.0798-.10795-1.18656-1.19315-.08787-.89369 1.2429-1.84356 1.81426-1.84356.33406 0 1.45485.21963 1.50737-.34058.08056-.8593-.8204-1.04164-1.03934-1.60185C13.2877 7.58747 14.98596 6.60707 12 6.24993c-.10475-.01253-.22199-.02093-.3501-.02417z"/>',
+      "googlechronicle": '<path d="m2.719 4.812 4.812 3v4l-4.812 3Zm0 10 4.812-3v9.375l-3.914-2.389a1.875 1.875 0 0 1-.898-1.6ZM2.719 0h18.562v4.812H2.719Zm4.812 21.188 13.75-8.594v4.618c0 .626-.323 1.208-.854 1.539L12 24Z"/>',
+      "bmcsoftware": '<path d="M6.375 23.999c-.95 0-1.95-.749-1.95-2.2v-3.4c0-1.349.85-2.899 2.05-3.548l4.75-2.8-4.75-2.8C5.325 8.5 4.425 7 4.425 5.65V2.2c0-1.45 1-2.2 2.002-2.2.4 0 .849.1 1.249.35l10.7 6.35c.75.45 1.15 1.149 1.15 1.849 0 .75-.452 1.45-1.15 1.85l-2.55 1.5 2.55 1.501c.75.45 1.2 1.15 1.2 1.85 0 .75-.452 1.45-1.2 1.85L7.674 23.65c-.45.25-.85.35-1.3.35zm7.15-10.599l-5.85 3.45c-.45.25-.9 1.05-.9 1.55v3.05l10.15-6zM6.775 2.6v3.05c0 .5.45 1.3.9 1.55l5.85 3.45 3.45-2.05z"/>',
+      "unrealengine": '<path d="M12 0a12 12 0 1012 12A12 12 0 0012 0zm0 23.52A11.52 11.52 0 1123.52 12 11.52 11.52 0 0112 23.52zm7.13-9.791c-.206.997-1.126 3.557-4.06 4.942l-1.179-1.325-1.988 2a7.338 7.338 0 01-5.804-2.978 2.859 2.859 0 00.65.123c.326.006.678-.114.678-.66v-5.394a.89.89 0 00-1.116-.89c-.92.212-1.656 2.509-1.656 2.509a7.304 7.304 0 012.528-5.597 7.408 7.408 0 013.73-1.721c-1.006.573-1.57 1.507-1.57 2.29 0 1.262.76 1.109.984.923v7.28a1.157 1.157 0 00.148.256 1.075 1.075 0 00.88.445c.76 0 1.747-.868 1.747-.868V9.172c0-.6-.452-1.324-.905-1.572 0 0 .838-.149 1.484.346a5.537 5.537 0 01.387-.425c1.508-1.48 2.929-1.902 4.112-2.112 0 0-2.151 1.69-2.151 3.96 0 1.687.043 5.801.043 5.801.799.771 1.986-.342 3.059-1.441Z"/>'
     };
   }
 });
@@ -9597,6 +10264,7 @@ var init_core_art_generated = __esm({
         "1f37dad74544fe1e4d5f10d40a11e71b8026d5b11993539f9f19416224097a08": '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="f6607f9a-6e3a-4339-acc9-d6f3ae1a2c0d" x1="9" y1="15.799" x2="9" y2="5.316" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#a67af4" /><stop offset="0.775" stop-color="#b796f9" /></linearGradient></defs><title>MsPortalFx.base.images-3</title><g id="f3784f80-3379-4e66-8e32-fca3fab0f4d7"><g><path d="M.544,5.316H17.456a0,0,0,0,1,0,0v9.918a.565.565,0,0,1-.565.565H1.109a.565.565,0,0,1-.565-.565V5.316A0,0,0,0,1,.544,5.316Z" fill="url(#f6607f9a-6e3a-4339-acc9-d6f3ae1a2c0d)" /><path d="M1.112,2.2H16.888a.565.565,0,0,1,.565.565v2.55a0,0,0,0,1,0,0H.547a0,0,0,0,1,0,0V2.766A.565.565,0,0,1,1.112,2.2Z" fill="#773adc" /><g><rect x="2.625" y="6.435" width="3.683" height="7.933" rx="0.274" fill="#fff" /><rect x="7.158" y="6.435" width="3.683" height="7.933" rx="0.274" fill="#fff" opacity="0.75" /><rect x="11.692" y="6.435" width="3.683" height="7.933" rx="0.274" fill="#fff" opacity="0.5" /></g></g></g></svg>',
         "2142871284eceb5dca35e9dc384b89c1a28f81afad6adf50f30177900117c376": '<svg id="e887b19d-8fdd-48fe-a67e-f86d20cca434" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="a116d8d6-6f2d-4ed7-b0bf-e3b4f053bb39" x1="2525.57" y1="-412.026" x2="2525.544" y2="-402.136" gradientTransform="matrix(0.5, 0.001, 0.001, -0.5, -1257.171, -191.917)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ef7100" /><stop offset="1" stop-color="#faa21d" /></linearGradient><linearGradient id="ba80b0e0-7012-4f27-b08f-9ea64784ace3" x1="12.79" y1="17.38" x2="12.79" y2="12.44" gradientTransform="matrix(1, 0, 0, 1, 0, 0)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ef7100" /><stop offset="1" stop-color="#faa21d" /></linearGradient><linearGradient id="a946587f-c511-47b7-914a-0a734f8d64d7" x1="15.3" y1="9.98" x2="15.3" y2="5.04" gradientTransform="matrix(1, 0, 0, 1, 0, 0)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ef7100" /><stop offset="1" stop-color="#faa21d" /></linearGradient><linearGradient id="f2de30ee-07c3-4e10-ac30-e581c2e8ce50" x1="2.7" y1="9.98" x2="2.7" y2="5.04" gradientTransform="matrix(1, 0, 0, 1, 0, 0)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ef7100" /><stop offset="1" stop-color="#faa21d" /></linearGradient><linearGradient id="fddbf243-2b2d-4e50-b263-924d85a1b87c" x1="9" y1="5.56" x2="9" y2="0.62" gradientTransform="matrix(1, 0, 0, 1, 0, 0)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ef7100" /><stop offset="1" stop-color="#faa21d" /></linearGradient></defs><path d="M16,7.2,10.24,3.09h0L9,2.18H9l-1.22.9h0L2,7.2H2L4.25,14h0l.47,1.44h8.6L13.77,14h0L16,7.25h0ZM5.76,14l-2-6.22L9,4l5.28,3.79-2,6.22Z" fill="#e27908" /><circle cx="5.07" cy="14.91" r="2.47" fill="url(#a116d8d6-6f2d-4ed7-b0bf-e3b4f053bb39)" /><circle cx="12.79" cy="14.91" r="2.47" fill="url(#ba80b0e0-7012-4f27-b08f-9ea64784ace3)" /><circle cx="15.3" cy="7.51" r="2.47" fill="url(#a946587f-c511-47b7-914a-0a734f8d64d7)" /><circle cx="2.7" cy="7.51" r="2.47" fill="url(#f2de30ee-07c3-4e10-ac30-e581c2e8ce50)" /><circle cx="9" cy="3.09" r="2.47" fill="url(#fddbf243-2b2d-4e50-b263-924d85a1b87c)" /></svg>',
         "23ab6fbba1cd0ac5ffdc6ee7084e7cac3029c402dc18b8896331626f135c9513": '<svg id="fe62c4da-ab98-4bb3-a1a5-9a22b229614c" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="f36136e6-f568-4134-ab6f-c0fefbc04f83" x1="9" y1="16.795" x2="9" y2="1.205" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5e9624" /><stop offset="0.321" stop-color="#639d26" /><stop offset="0.794" stop-color="#6fb12a" /><stop offset="0.999" stop-color="#76bc2d" /></linearGradient></defs><g><path d="M16.083,8.438c0,4.571-5.626,8.25-6.85,9a.449.449,0,0,1-.466,0c-1.224-.747-6.85-4.426-6.85-9v-5.5A.44.44,0,0,1,2.351,2.5C6.728,2.386,5.72.5,9,.5s2.272,1.886,6.649,2a.44.44,0,0,1,.434.435Z" fill="#76bc2d" /><path d="M15.5,8.485c0,4.191-5.16,7.566-6.282,8.25a.412.412,0,0,1-.428,0C7.664,16.051,2.5,12.676,2.5,8.485V3.441a.4.4,0,0,1,.4-.4C6.916,2.935,5.992,1.205,9,1.205s2.084,1.73,6.1,1.837a.4.4,0,0,1,.4.4Z" fill="url(#f36136e6-f568-4134-ab6f-c0fefbc04f83)" /><path d="M11.853,7.66h-.408l0-1.417a2.652,2.652,0,0,0-.7-1.809,2.358,2.358,0,0,0-3.483,0,2.606,2.606,0,0,0-.7,1.808V7.66H6.147a.328.328,0,0,0-.326.32v3.682a.329.329,0,0,0,.326.32h5.706a.329.329,0,0,0,.326-.32V7.98A.328.328,0,0,0,11.853,7.66Zm-1.549,0H7.7V6.219a1.434,1.434,0,0,1,.41-.99,1.2,1.2,0,0,1,1.788,0,1.394,1.394,0,0,1,.153.2h0a1.445,1.445,0,0,1,.258.791Z" fill="#fff" /><path d="M6.148,7.658h5.705a.328.328,0,0,1,.21.08L5.938,11.9a.313.313,0,0,1-.116-.241V7.979A.328.328,0,0,1,6.148,7.658Z" fill="#b3b3b3" opacity="0.15" /><path d="M11.853,7.658H6.147a.328.328,0,0,0-.209.08L12.062,11.9a.314.314,0,0,0,.117-.241V7.979A.329.329,0,0,0,11.853,7.658Z" fill="#a3a3a3" opacity="0.09" /></g></svg>',
+        "2634e1d403837c75a0a70c35faaf5885a66c049732e63611278f69018f43f5a8": '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="a4852e6f-4e48-47a6-8cb7-c54017c43896" x1="9.282" y1="12.079" x2="16.974" y2="7.637" gradientUnits="userSpaceOnUse"><stop offset="0.384" stop-color="#005ba1" /><stop offset="0.829" stop-color="#0078d4" /></linearGradient><linearGradient id="e9ec38c7-14e5-4f51-830b-8f784d857a1c" x1="5.573" y1="12.94" x2="14.846" y2="7.422" gradientUnits="userSpaceOnUse"><stop offset="0.392" stop-color="#0078d4" /><stop offset="0.961" stop-color="#5ea0ef" /></linearGradient><linearGradient id="be37cc05-c8f6-46a5-965b-6b22ddf4e748" x1="7.118" y1="784.39" x2="7.118" y2="775.34" gradientTransform="matrix(1, 0, 0, -1, 0, 791.516)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#83b9f9" /><stop offset="1" stop-color="#5ea0ef" /></linearGradient><linearGradient id="e2db3f99-97fd-4415-9052-5130a97f875b" x1="6.919" y1="788.428" x2="7.502" y2="781.18" gradientTransform="matrix(1, 0, 0, -1, 0, 791.516)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#83b9f9" /><stop offset="0.9" stop-color="#5ea0ef" /></linearGradient></defs><g id="fb2dd499-27de-4c23-b64f-536384c41986"><g><path d="M16.235,12.663a3.93,3.93,0,0,0-2.49-3.53,2.045,2.045,0,1,0-2.295-.017c-1.483.423-2.3,1.712-2.49,3.547a.661.661,0,0,0,.587.717l6.053.032a.644.644,0,0,0,.652-.635v-.008A.226.226,0,0,0,16.235,12.663Z" fill="url(#a4852e6f-4e48-47a6-8cb7-c54017c43896)" /><path d="M14.524,13.255C14.275,11.247,13.3,9.54,11.5,8.966a2.485,2.485,0,1,0-2.789-.021c-1.8.514-2.8,2.081-3.025,4.31a.8.8,0,0,0,.713.872l7.355.039a.781.781,0,0,0,.792-.772v-.01A.284.284,0,0,0,14.524,13.255Z" fill="url(#e9ec38c7-14e5-4f51-830b-8f784d857a1c)" /><path d="M11.6,15.029a.97.97,0,0,0,.97-.97.543.543,0,0,0,0-.114c-.383-3.05-2.12-5.528-5.43-5.528s-5.121,2.1-5.479,5.5a.977.977,0,0,0,.872,1.068Z" fill="url(#be37cc05-c8f6-46a5-965b-6b22ddf4e748)" /><path d="M7.185,9.142a3.036,3.036,0,0,1-1.631-.489l1.631,4.281,1.63-4.248A3.105,3.105,0,0,1,7.185,9.142Z" fill="#fff" opacity="0.8" /><circle cx="7.16" cy="6.085" r="3.058" fill="url(#e2db3f99-97fd-4415-9052-5130a97f875b)" /><g><rect x="1.715" width="2.086" height="0.604" fill="#0078d4" /><polygon points="17.079 0.604 17.418 0.604 17.418 0.932 18 0.932 18 0 17.079 0 17.079 0.604" fill="#0078d4" /><polygon points="0.964 17.354 0.667 17.354 0.667 17.015 0 17.015 0 18 0.964 18 0.964 17.354" fill="#0078d4" /><polygon points="17.418 17.047 17.418 17.354 17.079 17.354 17.079 18 18 18 18 17.047 17.418 17.047" fill="#0078d4" /><polygon points="0.667 0.911 0.667 0.604 0.964 0.604 0.964 0 0 0 0 0.911 0.667 0.911" fill="#0078d4" /><rect x="4.839" width="2.086" height="0.604" fill="#0078d4" /><rect x="7.952" width="2.086" height="0.604" fill="#0078d4" /><rect x="11.075" width="2.086" height="0.604" fill="#0078d4" /><rect x="14.199" width="2.086" height="0.604" fill="#0078d4" /><rect x="1.736" y="17.354" width="2.086" height="0.604" fill="#0078d4" /><rect x="4.849" y="17.354" width="2.086" height="0.604" fill="#0078d4" /><rect x="7.973" y="17.354" width="2.086" height="0.604" fill="#0078d4" /><rect x="11.096" y="17.354" width="2.086" height="0.604" fill="#0078d4" /><rect x="14.209" y="17.354" width="2.086" height="0.604" fill="#0078d4" /><rect x="17.396" y="1.641" width="0.604" height="2.086" fill="#0078d4" /><rect x="17.396" y="4.754" width="0.604" height="2.086" fill="#0078d4" /><rect x="17.396" y="7.878" width="0.604" height="2.086" fill="#0078d4" /><rect x="17.396" y="10.991" width="0.604" height="2.086" fill="#0078d4" /><rect x="17.396" y="14.114" width="0.604" height="2.086" fill="#0078d4" /><rect y="1.62" width="0.604" height="2.086" fill="#0078d4" /><rect y="4.744" width="0.604" height="2.086" fill="#0078d4" /><rect y="7.856" width="0.604" height="2.086" fill="#0078d4" /><rect y="10.98" width="0.604" height="2.086" fill="#0078d4" /><rect y="14.093" width="0.604" height="2.086" fill="#0078d4" /></g></g></g></svg>',
         "2822df77f0501416c268c4884043f6c15c60ae053b59007def2fc156721c427a": '<svg id="bfe7cacd-ee25-481f-8f5e-25c9c27c3227" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="a3e5dfd8-a5f0-49b4-8cf9-1d0f89138e2c" x1="-3071.86" y1="6711.69" x2="-3071.86" y2="6747.69" gradientTransform="matrix(0.35, 0.35, 0.35, -0.35, -1284.32, 3474.58)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#005ba1" /><stop offset="0.1" stop-color="#0060a9" /><stop offset="0.52" stop-color="#0071c8" /><stop offset="0.75" stop-color="#0078d4" /></linearGradient></defs><title>Icon-databases-134</title><rect x="2.46" y="2.46" width="13.08" height="13.08" rx="0.61" transform="translate(-3.73 9) rotate(-45)" fill="url(#a3e5dfd8-a5f0-49b4-8cf9-1d0f89138e2c)" /><path d="M9,3.41c-.95,0-1.71-.24-1.71-.55V5.77c0,.29.75.54,1.68.54H9c.94,0,1.71-.24,1.71-.54V2.86C10.72,3.17,10,3.41,9,3.41Z" fill="#50e6ff" /><path d="M10.72,2.86c0,.31-.77.55-1.71.55S7.3,3.17,7.3,2.86,8.06,2.32,9,2.32s1.71.24,1.71.54" fill="#eaeaea" /><path d="M10.32,2.82c0,.19-.59.35-1.31.35S7.7,3,7.7,2.82,8.28,2.47,9,2.47s1.31.16,1.31.35" fill="#50e6ff" /><path d="M9,2.9A3.57,3.57,0,0,0,8,3a3.52,3.52,0,0,0,1,.14,3.52,3.52,0,0,0,1-.14A3.62,3.62,0,0,0,9,2.9Z" fill="#32bedd" /><path d="M9,12.82c-.95,0-1.71-.24-1.71-.55v2.91c0,.29.75.54,1.68.54H9c.94,0,1.71-.24,1.71-.54V12.27C10.72,12.58,10,12.82,9,12.82Z" fill="#50e6ff" /><path d="M10.72,12.27c0,.31-.77.55-1.71.55s-1.71-.24-1.71-.55.76-.54,1.71-.54,1.71.24,1.71.54" fill="#eaeaea" /><path d="M10.32,12.23c0,.19-.59.35-1.31.35s-1.31-.16-1.31-.35.58-.35,1.31-.35,1.31.16,1.31.35" fill="#50e6ff" /><path d="M9,12.31a3.57,3.57,0,0,0-1,.13,3.52,3.52,0,0,0,1,.14,3.52,3.52,0,0,0,1-.14A3.62,3.62,0,0,0,9,12.31Z" fill="#32bedd" /><path d="M13.22,8.09c-1,0-1.71-.24-1.71-.54v2.9c0,.3.75.54,1.69.55h0c.94,0,1.71-.25,1.71-.55V7.55C14.93,7.85,14.16,8.09,13.22,8.09Z" fill="#50e6ff" /><path d="M14.93,7.55c0,.3-.77.54-1.71.54s-1.71-.24-1.71-.54S12.27,7,13.22,7s1.71.25,1.71.55" fill="#eaeaea" /><path d="M14.53,7.5c0,.2-.59.35-1.31.35s-1.31-.15-1.31-.35.58-.34,1.31-.34,1.31.15,1.31.34" fill="#50e6ff" /><path d="M13.22,7.58a3.52,3.52,0,0,0-1,.14,3.57,3.57,0,0,0,1,.13,3.57,3.57,0,0,0,1-.13A3.57,3.57,0,0,0,13.22,7.58Z" fill="#32bedd" /><path d="M4.92,8.09c-.95,0-1.71-.24-1.71-.54v2.9c0,.3.75.54,1.68.55h0c.94,0,1.71-.25,1.71-.55V7.55C6.63,7.85,5.86,8.09,4.92,8.09Z" fill="#50e6ff" /><path d="M6.63,7.55c0,.3-.77.54-1.71.54s-1.71-.24-1.71-.54S4,7,4.92,7s1.71.25,1.71.55" fill="#eaeaea" /><path d="M6.23,7.5c0,.2-.59.35-1.31.35S3.61,7.7,3.61,7.5s.58-.34,1.31-.34,1.31.15,1.31.34" fill="#50e6ff" /><path d="M4.92,7.58a3.52,3.52,0,0,0-1,.14,3.57,3.57,0,0,0,1,.13,3.57,3.57,0,0,0,1-.13A3.57,3.57,0,0,0,4.92,7.58Z" fill="#32bedd" /></svg>',
         "285737fc53f9df8d8e133f003163ffab77749b2802fa6decba4c8820d60ac496": '<svg id="e0050721-e8d8-4c79-ae50-d8fc2871d932" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="fcad3287-b71c-44fa-971a-6a18bcf384a0" x1="9.01" y1="16.5" x2="9.01" y2="1.5" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5e9641" /><stop offset="0.34" stop-color="#6baa42" /><stop offset="0.67" stop-color="#73b743" /><stop offset="1" stop-color="#76bb43" /></linearGradient></defs><title>Icon-networking-80</title><path d="M15.89,2.91h1.27a.34.34,0,0,1,.34.34v3.5a.34.34,0,0,1-.34.34H15.89a0,0,0,0,1,0,0V2.91A0,0,0,0,1,15.89,2.91Z" fill="#ffca00" /><path d="M15.89,9h1.27a.34.34,0,0,1,.34.34v5.86a.34.34,0,0,1-.34.34H15.89a0,0,0,0,1,0,0V9A0,0,0,0,1,15.89,9Z" fill="#ffca00" /><rect x="2.13" y="1.5" width="13.76" height="15" rx="0.69" fill="url(#fcad3287-b71c-44fa-971a-6a18bcf384a0)" /><path d="M5.9,12.9H5.19A.2.2,0,0,1,5,12.69V4.34a.19.19,0,0,1,.19-.2H7.12a.19.19,0,0,1,.19.2.2.2,0,0,1-.19.21H5.38v7.93H5.9a.2.2,0,0,1,.19.21A.21.21,0,0,1,5.9,12.9Z" fill="#b4ec36" /><path d="M6,13.92H4.4a.2.2,0,0,1-.19-.21L4.08,3.38a.2.2,0,0,1,.06-.15.16.16,0,0,1,.13-.06H7.12v.41H4.47l.12,9.92H6Z" fill="#b4ec36" /><path d="M12,13H10.41a.19.19,0,0,1-.14-.07.18.18,0,0,1-.06-.14V7.9a.19.19,0,0,1,.19-.2l.91,0,0-2.25h.38l0,2.44a.2.2,0,0,1-.18.21l-.91,0v4.42H12Z" fill="#b4ec36" /><rect x="7.07" y="2.29" width="6.14" height="3.11" rx="0.26" fill="#365615" /><rect x="5.86" y="12.69" width="4.9" height="1.09" rx="0.26" transform="translate(21.54 4.93) rotate(90)" fill="#365615" /><rect x="3.99" y="12.71" width="4.9" height="1.09" rx="0.26" transform="translate(19.7 6.82) rotate(90)" fill="#365615" /><rect x="9.98" y="12.71" width="4.9" height="1.09" rx="0.26" transform="translate(25.68 0.83) rotate(90)" fill="#f2f2f2" /><ellipse cx="8.11" cy="8.06" rx="1.04" ry="1.12" fill="#f2f2f2" /><path d="M.5,5.7H1.77A.34.34,0,0,1,2.11,6v5.86a.34.34,0,0,1-.34.34H.5a0,0,0,0,1,0,0V5.7A0,0,0,0,1,.5,5.7Z" transform="translate(2.61 17.95) rotate(180)" fill="#3b3b3b" /></svg>',
         "29ba844f09608b89b5cff192f4945c509431519ea26f98bf29cfec52c6aaaeaa": '<svg id="ae78fa9f-2a6b-4528-985f-6c78d466c8a8" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="b0a57204-70db-4b1e-b103-570cf855855d" x1="2.59" y1="8.18" x2="15.4" y2="8.18" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#005ba1" /><stop offset="0.07" stop-color="#0060a9" /><stop offset="0.36" stop-color="#0071c8" /><stop offset="0.52" stop-color="#0078d4" /><stop offset="0.64" stop-color="#0074cd" /><stop offset="0.82" stop-color="#006abb" /><stop offset="1" stop-color="#005ba1" /></linearGradient></defs><title>Icon-databases-128</title><path d="M9,5.15c-3.54,0-6.4-1-6.4-2.32v8.38c0,1.27,2.82,2.31,6.32,2.32H9c3.54,0,6.41-1,6.41-2.32V2.83C15.4,4.11,12.53,5.15,9,5.15Z" fill="url(#b0a57204-70db-4b1e-b103-570cf855855d)" /><path d="M15.4,2.83c0,1.28-2.87,2.32-6.41,2.32s-6.4-1-6.4-2.32S5.45.51,9,.51s6.41,1,6.41,2.32" fill="#eaeaea" /><path d="M13.91,2.64c0,.82-2.2,1.48-4.92,1.48S4.08,3.46,4.08,2.64,6.28,1.17,9,1.17s4.92.66,4.92,1.47" fill="#50e6ff" /><path d="M9,3a11.93,11.93,0,0,0-3.89.56A11.47,11.47,0,0,0,9,4.12a11.39,11.39,0,0,0,3.89-.58A11.84,11.84,0,0,0,9,3Z" fill="#198ab3" /><ellipse cx="13.53" cy="5.09" rx="3.97" ry="3.92" fill="#32bedd" /><circle cx="13.53" cy="5.08" r="3.05" fill="#fff" /><path d="M13.53,5.37h0a.29.29,0,0,1-.28-.28V2.83a.29.29,0,0,1,.57,0V5.09A.29.29,0,0,1,13.53,5.37Z" fill="#9f9f9f" /><rect x="13.89" y="4.71" width="0.56" height="2.01" rx="0.28" transform="translate(28.23 -0.26) rotate(135)" fill="#9f9f9f" /><circle cx="13.53" cy="5.08" r="0.59" fill="#5e5e5e" /><path d="M11.66,14.8,9.2,17.26a.28.28,0,0,1-.41,0L6.33,14.8a.13.13,0,0,1,.09-.22H7.93a.13.13,0,0,0,.13-.13V11.37a.11.11,0,0,1,.11-.1H9.82a.1.1,0,0,1,.1.1v3.08a.13.13,0,0,0,.14.13h1.51A.13.13,0,0,1,11.66,14.8Z" fill="#50e6ff" /><path d="M4.29,15.21H.81a.29.29,0,0,1-.29-.29V11.44a.13.13,0,0,1,.22-.09l1,1,.06.07a.14.14,0,0,0,.19,0l2.17-2.18a.11.11,0,0,1,.15,0l1.17,1.17a.11.11,0,0,1,0,.15L3.32,13.73a.12.12,0,0,0,0,.19l.06.07,1,1A.13.13,0,0,1,4.29,15.21Z" fill="#50e6ff" /><path d="M13.6,15l1-1,.06-.07a.14.14,0,0,0,0-.19L12.5,11.56a.11.11,0,0,1,0-.15l1.17-1.17a.1.1,0,0,1,.14,0L16,12.42a.13.13,0,0,0,.18,0l.07-.07,1-1a.13.13,0,0,1,.23.09v3.48a.29.29,0,0,1-.3.29H13.69A.13.13,0,0,1,13.6,15Z" fill="#50e6ff" /></svg>',
@@ -9611,6 +10279,7 @@ var init_core_art_generated = __esm({
         "3b54fedd835468f4834fa7a138aa89cf63838854835e7ae809d12f5acf249ca4": '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="bd9dd92d-9e34-4cab-857e-a2a2fdebfa6c" x1="9" y1="17.052" x2="9" y2="10.292" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0078d4" /><stop offset="1" stop-color="#5ea0ef" /></linearGradient><linearGradient id="aad0839e-83c1-45ac-aa97-068c800d9ea6" x1="8.82" y1="15.612" x2="8.82" y2="0.528" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fea11b" /><stop offset="0.734" stop-color="#ffd70f" /></linearGradient></defs><g id="fe1f9649-1eed-45d1-a7ad-8e63013a7d88"><path d="M17.4,10.292H10.245v5.17a.676.676,0,0,1-.675.675H8.07a.676.676,0,0,1-.675-.675V14.7H6.27a.676.676,0,0,1-.675-.675v-1.5a.676.676,0,0,1,.675-.675H7.4V10.292H.6a.6.6,0,0,0-.6.6v5.56a.6.6,0,0,0,.6.6H17.4a.6.6,0,0,0,.6-.6v-5.56A.6.6,0,0,0,17.4,10.292Z" fill="url(#bd9dd92d-9e34-4cab-857e-a2a2fdebfa6c)" /><path d="M15.63,11.652h.78a.15.15,0,0,1,.15.15v.78a.15.15,0,0,1-.15.15h-.78a.15.15,0,0,1-.15-.15V11.8A.15.15,0,0,1,15.63,11.652Zm-2.16,0h.78a.15.15,0,0,1,.15.15v.78a.15.15,0,0,1-.15.15h-.78a.15.15,0,0,1-.15-.15V11.8A.15.15,0,0,1,13.47,11.652Zm-2.16,0h.78a.15.15,0,0,1,.15.15v.78a.15.15,0,0,1-.15.15h-.78a.15.15,0,0,1-.15-.15V11.8A.15.15,0,0,1,11.31,11.652Z" fill="#c3f1ff" /><path d="M12.564,4.272A3.744,3.744,0,1,0,7.92,7.9v4.319a.15.15,0,0,1-.15.15H6.27a.15.15,0,0,0-.15.15v1.5a.15.15,0,0,0,.15.15h1.5a.15.15,0,0,1,.15.15v1.14a.15.15,0,0,0,.15.15h1.5a.15.15,0,0,0,.15-.15V7.9A3.743,3.743,0,0,0,12.564,4.272ZM9.076,6.217a1.962,1.962,0,1,1,1.689-1.689A1.963,1.963,0,0,1,9.076,6.217Z" fill="url(#aad0839e-83c1-45ac-aa97-068c800d9ea6)" /></g></svg>',
         "3cf4ba9242e31496f778a27e92c9c2b2a09664f105c58325d5e2dcb142d3c3b9": '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="a3a44093-b157-426e-a8fe-cec9f9c23978" x1="11.729" y1="4.88" x2="11.729" y2="13.099" gradientUnits="userSpaceOnUse"><stop offset="0.001" stop-color="#773adc" /><stop offset="0.528" stop-color="#6635bb" /><stop offset="1" stop-color="#552f99" /></linearGradient><linearGradient id="ad838859-03f4-472f-81bc-ebc921d71335" x1="6.35" y1="13.914" x2="6.35" y2="4.198" gradientUnits="userSpaceOnUse"><stop offset="0.001" stop-color="#773adc" /><stop offset="0.307" stop-color="#793ddd" /><stop offset="0.532" stop-color="#8046e1" /><stop offset="0.731" stop-color="#8c56e7" /><stop offset="0.915" stop-color="#9c6def" /><stop offset="1" stop-color="#a67af4" /></linearGradient></defs><g id="ae82470d-7a6c-4dfe-8533-59d8ff948629"><g><path d="M8.617,8.644H.639V1.784A1.16,1.16,0,0,1,1.788.624H8.617ZM1.63,7.653h6V1.594H1.788a.158.158,0,0,0-.158.158h0Z" fill="#949494" /><path d="M17.5,8.644H9.523V.624h6.828A1.16,1.16,0,0,1,17.5,1.784Zm-6.987-.991h6V1.784a.157.157,0,0,0-.123-.187.2.2,0,0,0-.035,0H10.513Z" fill="#949494" /><path d="M8.617,17.485H1.788A1.149,1.149,0,0,1,.639,16.347V9.476H8.617ZM1.63,10.467v5.88a.158.158,0,0,0,.158.158H7.626V10.467Z" fill="#949494" /><path d="M16.351,17.485H9.523V9.476H17.5v6.871A1.149,1.149,0,0,1,16.351,17.485Zm-5.838-.991h5.838a.157.157,0,0,0,.158-.158V10.467h-6Z" fill="#949494" /><path d="M14.6,6.294a.294.294,0,0,0-.2-.278L9.044,4.205A.128.128,0,0,0,9,4.2H9a.132.132,0,0,0-.133.133v9.445A.133.133,0,0,0,9,13.911H9a.138.138,0,0,0,.049-.01l5.365-2.145a.292.292,0,0,0,.184-.272Z" fill="url(#a3a44093-b157-426e-a8fe-cec9f9c23978)" /><path d="M8.966,4.2l-5.293.966a.161.161,0,0,0-.13.158V12.63a.16.16,0,0,0,.126.157L8.962,13.91a.161.161,0,0,0,.191-.121.22.22,0,0,0,0-.036V4.358A.16.16,0,0,0,9,4.2.163.163,0,0,0,8.966,4.2Z" fill="url(#ad838859-03f4-472f-81bc-ebc921d71335)" /><path d="M6.52,5.656v6.8l1.842.3V5.335Zm-2.262.367v5.955l1.6.326V5.754Z" fill="#b796f9" opacity="0.5" /></g></g></svg>',
         "3dd848e0ca0331fae7db72d700e73a927445f0d19fcc89cb83deff3605b3b236": '<svg id="uuid-2a57d3d0-4991-466e-9a94-c89748173b8d" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="uuid-9468b865-eac4-4ff2-b5b6-2babfb3374f2" x1="5.909" y1="2.691" x2="5.909" y2="13.239" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5ea0ef" /><stop offset=".178" stop-color="#559cec" /><stop offset=".472" stop-color="#3c91e5" /><stop offset=".844" stop-color="#1380da" /><stop offset="1" stop-color="#0078d4" /></linearGradient><linearGradient id="uuid-3ad1fb1c-b576-4203-8afc-a0b652002d39" x1="10.12" y1="13.294" x2="10.12" y2="7.819" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#46a0de" /><stop offset="1" stop-color="#8dc8e8" /></linearGradient><linearGradient id="uuid-8bf92bc2-af51-4860-95b1-96ac950961e9" x1="15.96" y1="13.294" x2="15.96" y2="7.819" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#46a0de" /><stop offset="1" stop-color="#8dc8e8" /></linearGradient><linearGradient id="uuid-39eb49ae-4371-40af-be57-402d26cef923" x1="13.04" y1="12.564" x2="13.04" y2="8.549" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#155ea1" /><stop offset="1" stop-color="#0078d4" /></linearGradient></defs><path d="M7.652,13.165c.004-.352.014-.58.03-.677.123-.733.602-1.294,1.244-1.502.005-.002.008-.006.008-.011v-2.377c0-.602.427-1.145,1.024-1.224.56-.075,1.058.245,1.257.719h.407l-.484-.485c-.326-.326-.326-.854,0-1.179l.68-.681c-.516-1.816-2.213-3.116-4.181-3.055-1.835-.033-3.49,1.096-4.129,2.816-1.959.237-3.45,1.87-3.508,3.842.088,2.228,1.962,3.966,4.19,3.885.124,0,.251-.006.368-.016h3.096c0-.019-.003-.037-.003-.056Z" fill="url(#uuid-9468b865-eac4-4ff2-b5b6-2babfb3374f2)" /><g><path d="M14.915,13.958l-1.091-1.091c-.074-.074-.185-.096-.282-.056s-.16.134-.16.239v.64h-3.903c-.289,0-.523-.235-.523-.523,0-.091.006-.427.014-.48.052-.3.247-.487.509-.487h.458l-.062-.23c-.039-.146-.067-.298-.084-.452l-.019-.163h-.294c-.674.002-1.228.499-1.346,1.209-.02.114-.024.602-.024.607,0,.366.143.71.402.969.259.258.603.401.968.401h3.904v.692c0,.105.063.199.16.239.032.013.066.02.099.02.067,0,.133-.026.183-.076l1.091-1.091c.101-.101.101-.266,0-.367Z" fill="#155ea1" /><path d="M17.781,7.021c-.259-.258-.603-.401-.968-.401h-3.904v-.692c0-.105-.063-.199-.16-.239-.098-.04-.208-.018-.282.056l-1.091,1.091c-.101.101-.101.266,0,.367l1.091,1.091c.074.075.185.097.282.056.097-.04.16-.134.16-.239v-.64h3.903c.288,0,.523.235.523.523,0,.085-.007.429-.014.48-.052.301-.247.487-.509.487h-.458l.061.23c.039.149.068.302.084.453l.019.163h.294c.674-.002,1.228-.499,1.347-1.21.018-.11.024-.6.024-.606,0-.366-.143-.71-.402-.969Z" fill="#155ea1" /><g><path d="M9.39,8.549c0-.427.366-.768.802-.727.38.036.658.377.658.758v3.952c0,.381-.279.722-.658.758-.435.042-.802-.3-.802-.727v-4.015Z" fill="url(#uuid-3ad1fb1c-b576-4203-8afc-a0b652002d39)" /><path d="M15.23,8.549c0-.427.366-.768.802-.727.38.036.658.377.658.758v3.952c0,.381-.279.722-.658.758-.435.042-.802-.3-.802-.727v-4.015Z" fill="url(#uuid-8bf92bc2-af51-4860-95b1-96ac950961e9)" /><rect x="11.398" y="8.549" width="3.285" height="4.015" fill="url(#uuid-39eb49ae-4371-40af-be57-402d26cef923)" /></g></g></svg>',
+        "4588ec82b09e6b48ea889c0a38b3fb3ff81ac67b2ddad0adac464b0fee1e6280": '<svg id="a760b6f1-1e55-4349-bcad-563b81ab52cb" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="b715ec20-95db-414c-982b-71456fb0c9ab" x1="-6784.85" y1="1118.78" x2="-6784.85" y2="1089.98" gradientTransform="matrix(0.5, 0, 0, -0.5, 3400.41, 559.99)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5ea0ef" /><stop offset="0.18" stop-color="#589eed" /><stop offset="0.41" stop-color="#4897e9" /><stop offset="0.66" stop-color="#2e8ce1" /><stop offset="0.94" stop-color="#0a7cd7" /><stop offset="1" stop-color="#0078d4" /></linearGradient><linearGradient id="f7e46209-f134-49aa-a850-2e9a1b04fba6" x1="-1.47" y1="14.91" x2="17.16" y2="14.8" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#449cdd" stop-opacity="0.15" /><stop offset="0.16" stop-color="#2870ab" stop-opacity="0" /><stop offset="0.18" stop-color="#2469a3" stop-opacity="0.06" /><stop offset="0.23" stop-color="#1a5991" stop-opacity="0.19" /><stop offset="0.28" stop-color="#144f86" stop-opacity="0.27" /><stop offset="0.34" stop-color="#124c82" stop-opacity="0.3" /><stop offset="0.76" stop-color="#002851" stop-opacity="0.35" /><stop offset="0.9" stop-color="#2f7ab6" stop-opacity="0" /><stop offset="1" stop-color="#449cdd" stop-opacity="0" /></linearGradient><clipPath id="b36c7b72-34c8-47c6-ac8b-a96783f174f2"><circle cx="13.26" cy="13.27" r="4.16" fill="none" /></clipPath></defs><title>Icon-identity-225</title><path d="M5.61,10.65H9.94V15H5.61Zm-5-5.76H4.89V.57H1.17a.6.6,0,0,0-.6.6ZM1.17,15H4.89V10.65H.57v3.72A.6.6,0,0,0,1.17,15Zm-.6-5H4.89V5.61H.57Zm10.09,5h3.72a.6.6,0,0,0,.6-.6V10.65H10.66Zm-5-5H9.94V5.61H5.61Zm5.05,0H15V5.61H10.66Zm0-9.36V4.89H15V1.17a.6.6,0,0,0-.6-.6Zm-5,4.32H9.94V.57H5.61Z" fill="url(#b715ec20-95db-414c-982b-71456fb0c9ab)" /><path d="M10.66,15h4.15a.59.59,0,0,1-.18-.29h-4Z" opacity="0.95" fill="url(#f7e46209-f134-49aa-a850-2e9a1b04fba6)" /><circle cx="13.26" cy="13.27" r="4.16" fill="#32bedd" /><g clip-path="url(#b36c7b72-34c8-47c6-ac8b-a96783f174f2)"><path d="M17.06,13.87c-.21.11-.51.05-.65.16a1.6,1.6,0,0,0-.63.66c0,.06,0,.15-.07.18-.28.19-.56.39-.3.81-.3,0-.2-.27-.34-.35a.77.77,0,0,0-1.06.54.34.34,0,0,0,.16.37.26.26,0,0,0,.36-.12.18.18,0,0,1,.26-.06c0,.16-.28.45.18.46.12,0,.09.14.06.23s.06.24.19.3,0,0,0,.05,0,0,0,0c-.37,0-.45-.45-.81-.5a4.28,4.28,0,0,1-.43-.14c-.27-.09-.58-.14-.64-.54a.77.77,0,0,0-.36-.49c-.12-.08-.19-.23-.31-.32a1,1,0,0,0-.22-.36.94.94,0,0,1-.14-.87,2.32,2.32,0,0,0-.1-1.68c-.1-.32-.12-.65-.48-.86s-.3.12-.44.05-.22.13-.26.15c-.29.08-.54.33-.91.29.14-.07.25-.11.35-.17s.29-.14.07-.38-.14-.59.45-.83c-.05-.14-.41-.11-.25-.37s.28-.13.43,0c.1-.19-.12-.43.05-.54a2.86,2.86,0,0,1,.72-.29.25.25,0,0,1,.34.11c.18.28.54.33.72.61.05.09.15,0,.22,0,.41-.14.68.12,1,.33s.27.34.53.31a.49.49,0,0,1,.21,0c.16.07.31.11.43-.06a.3.3,0,0,0,.26-.23c.06-.09.09-.22.24-.16A1.15,1.15,0,0,0,16,11c.13-.1.26-.16.11-.39a.37.37,0,0,1,.25-.56.54.54,0,0,1,.63.23c.19.34.25.73.47,1,.07.09,0,.13,0,.2s-.18,0-.28-.06l.07.43a.66.66,0,0,1-.82-.25c0-.12,0-.17.12-.23s.19-.11.19-.24a.19.19,0,0,0-.1-.2c-.08,0-.13,0-.15.09s-.33.25-.28.53-.19.22-.33.14c-.33-.17-.45.13-.59.29s0,.34.16.46.31.21.37.4a.88.88,0,0,0,.29-.58c0-.18.07-.43.32-.46a.43.43,0,0,1,.44.28c.05.11.13.12.23.13a8.79,8.79,0,0,1,.54,1.52l-.37-.05c0-.29-.25-.16-.39-.22C16.84,13.64,17.07,13.69,17.06,13.87Z" fill="#b4ec36" /><path d="M15.62,10.27c-.13-.12-.27-.23-.06-.4s.2-.29.3,0A.37.37,0,0,1,15.62,10.27Z" fill="#b4ec36" /><path d="M15.93,9.87c.11-.11.25-.1.27,0s-.13.19-.26.23S15.85,10,15.93,9.87Z" fill="#b4ec36" /><path d="M15.16,8.94,14.81,9c0-.25.25-.27.42-.23S15.21,8.89,15.16,8.94Z" fill="#b4ec36" /></g></svg>',
         "45faaba277e3fc9e3b26c9307759e5b1b78712b58b9b8c2b59c6fd1c47ec4636": '<svg id="b5aac633-5e4e-4ba3-b79d-874030b01628" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="f5aba28d-a61e-4c5e-a881-77250d6754cf" x1="14.18" y1="12.41" x2="14.2" y2="12.41" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0078d4" /><stop offset="0.14" stop-color="#1782da" /><stop offset="0.37" stop-color="#368fe3" /><stop offset="0.59" stop-color="#4c98ea" /><stop offset="0.8" stop-color="#599eee" /><stop offset="0.99" stop-color="#5ea0ef" /></linearGradient><linearGradient id="bdc9aa5d-e4d2-4d75-91df-453ede2d7944" x1="9.01" y1="11.69" x2="9.01" y2="2.48" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0078d4" /><stop offset="0.54" stop-color="#358ee3" /><stop offset="1" stop-color="#5ea0ef" /></linearGradient></defs><title>Icon-compute-26</title><ellipse cx="9.01" cy="11.12" rx="6.07" ry="2.49" fill="#76bc2d" /><ellipse cx="9.16" cy="11.1" rx="2.02" ry="0.55" fill="#5e9624" /><path d="M14.18,12.4h0Z" fill="url(#f5aba28d-a61e-4c5e-a881-77250d6754cf)" /><ellipse cx="9.01" cy="5.59" rx="6.07" ry="2.49" fill="url(#bdc9aa5d-e4d2-4d75-91df-453ede2d7944)" /><ellipse cx="9.16" cy="5.56" rx="2.02" ry="0.55" fill="#005ba1" /><path d="M3.89.12h-3A.58.58,0,0,0,.29.71v3A.29.29,0,0,0,.58,4H.91a.29.29,0,0,0,.3-.29V1H3.89a.29.29,0,0,0,.3-.29V.42A.29.29,0,0,0,3.89.12Z" fill="#949494" /><path d="M17,.12H14a.3.3,0,0,0-.3.3V.74A.3.3,0,0,0,14,1h2.69v2.7A.29.29,0,0,0,17,4h.33a.29.29,0,0,0,.3-.29v-3h0A.59.59,0,0,0,17,.12Z" fill="#949494" /><path d="M3.89,17.21H1.21v-2.7a.29.29,0,0,0-.3-.29H.58a.29.29,0,0,0-.29.29v3h0a.58.58,0,0,0,.58.59h3a.29.29,0,0,0,.3-.29v-.32A.3.3,0,0,0,3.89,17.21Z" fill="#949494" /><path d="M17.29,14.22H17a.29.29,0,0,0-.29.29v2.7H14a.31.31,0,0,0-.3.3v.32a.3.3,0,0,0,.3.29h3a.59.59,0,0,0,.59-.59v-3A.29.29,0,0,0,17.29,14.22Z" fill="#949494" /><path d="M9,13.56c3.35,0,6.07-1.11,6.07-2.49h0v1.47h0C15,13.88,12.29,15,9,15s-6.07-1.12-6.07-2.49V11.07C2.94,12.45,5.66,13.56,9,13.56Z" fill="#5e9624" /><path d="M14.18,12.4h0Z" fill="url(#f5aba28d-a61e-4c5e-a881-77250d6754cf)" /><path d="M9,8c3.35,0,6.07-1.12,6.07-2.49h0V7h0C15,8.35,12.29,9.42,9,9.42S2.94,8.3,2.94,6.92V5.54C2.94,6.91,5.66,8,9,8Z" fill="#0078d4" /></svg>',
         "4859f2c78b6b81acbbaf94e7348cb7dcbe97955a038be903de01cf46a7206aad": '<svg id="uuid-adbdae8e-5a41-46d1-8c18-aa73cdbfee32" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><radialGradient id="uuid-2a7407aa-b787-48dd-a96a-0d81ab6e93bb" cx="-67.981" cy="793.199" r=".45" gradientTransform="translate(-17939.03 20368.029) rotate(45) scale(25.091 -34.149)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#83b9f9" /><stop offset="1" stop-color="#0078d4" /></radialGradient></defs><path d="m0,2.7v12.6c0,1.491,1.209,2.7,2.7,2.7h12.6c1.491,0,2.7-1.209,2.7-2.7V2.7c0-1.491-1.209-2.7-2.7-2.7H2.7C1.209,0,0,1.209,0,2.7ZM10.8,0v3.6c0,3.976,3.224,7.2,7.2,7.2h-3.6c-3.976,0-7.199,3.222-7.2,7.198v-3.598c0-3.976-3.224-7.2-7.2-7.2h3.6c3.976,0,7.2-3.224,7.2-7.2Z" fill="url(#uuid-2a7407aa-b787-48dd-a96a-0d81ab6e93bb)" stroke-width="0" /></svg>',
         "4a3377b4e4100ed087bd659abd8d22a014703947a74cb33b3b5cffb1a3803ca0": '<svg id="bcf59632-8add-4163-98ab-f4b84940e447" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="bf1f93aa-5175-40a2-82a6-8b8653d30d7a" x1="11.08" y1="31.2" x2="11.08" y2="15.71" gradientTransform="translate(0 -14.32) scale(1 0.99)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#949494" /><stop offset="0.33" stop-color="#9b9b9b" /><stop offset="0.82" stop-color="#aeafb0" /><stop offset="1" stop-color="#b6b8b9" /></linearGradient></defs><title>Icon-analytics-147</title><g><path d="M18,9.69V7.9l-.1-.09-1.84-.62L15.59,6l.91-1.88.1-.21L16,3.3l-.7-.69-.24.12-1.8.91L12.05,3.3l-.78-2H9.48l-.09.09L8.77,3.22l-1.26.47-2.08-1L4.15,3.94l.12.24L5.23,6a6,6,0,0,1,3.2-.86A6.26,6.26,0,0,1,12,6.28a3.32,3.32,0,0,1,.36.26l0,0a3.25,3.25,0,0,1,.93,1.35h0A3,3,0,0,1,13.5,9a3.23,3.23,0,0,1-3.25,3.23,3.27,3.27,0,0,1-1.87-.59,6.31,6.31,0,0,1-4,1.75l-.19.39,1.28,1.29L5.73,15,7.53,14l1.24.51.79,2.16h1.8l.07-.25.64-1.91L13.29,14l2.11,1,1.27-1.26-.12-.24-.93-1.79L16,10.46Z" fill="url(#bf1f93aa-5175-40a2-82a6-8b8653d30d7a)" /><path d="M4,10.65H4A3.6,3.6,0,0,1,1.44,9.6.46.46,0,1,1,2.09,9,2.65,2.65,0,0,0,4,9.73H4A2.62,2.62,0,0,0,5.88,9a3.55,3.55,0,0,1,2.55-1A3.64,3.64,0,0,1,11,9a.46.46,0,1,1-.65.65,2.69,2.69,0,0,0-1.89-.78h0a2.61,2.61,0,0,0-1.88.78A3.61,3.61,0,0,1,4,10.65Z" fill="#50e6ff" /><path d="M4,8.82H4A1.79,1.79,0,0,1,2.74,8.3a.46.46,0,0,1,.65-.65A.84.84,0,0,0,4,7.9H4a1.08,1.08,0,0,0,.6-.25,5.46,5.46,0,0,1,7.67,0,.46.46,0,0,1-.65.65,4.55,4.55,0,0,0-6.41,0A1.94,1.94,0,0,1,4,8.82Z" fill="#50e6ff" /><path d="M4,12.48A5.41,5.41,0,0,1,.13,10.89a.47.47,0,0,1,0-.64.47.47,0,0,1,.66,0A4.47,4.47,0,0,0,4,11.57,4.5,4.5,0,0,0,7.2,10.24a1.94,1.94,0,0,1,1.21-.49,1.83,1.83,0,0,1,1.25.52.46.46,0,0,1,0,.65.47.47,0,0,1-.66,0,.83.83,0,0,0-.59-.25h0a1,1,0,0,0-.6.26A5.41,5.41,0,0,1,4,12.48Z" fill="#32bedd" /></g></svg>',
@@ -9624,6 +10293,7 @@ var init_core_art_generated = __esm({
         "537959ec4773a1132c66eb111a7596cf2670297b4f04ca3a7c1b5ef978f3b235": '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="f90ce3b9-9916-46d2-8fed-0378b3b04de6" x1="9" y1="13.48" x2="9" y2="7.019" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0078d4" /><stop offset="0.775" stop-color="#5ea0ef" /></linearGradient><linearGradient id="b0e25b5b-69ba-4262-b874-3340d1e311f0" x1="9.017" y1="9.518" x2="9.017" y2="10.495" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff" /><stop offset="1" stop-color="#fff" stop-opacity="0.6" /></linearGradient></defs><g id="a101d3be-9418-4282-9372-6812b304013b"><polygon points="14.288 9.453 14.288 9.459 16.993 9.397 16.974 8.553 14.286 8.615 14.286 8.599 12.042 8.341 12.042 5.899 12.036 5.888 13.624 1.826 12.836 1.524 11.237 5.613 11.239 5.614 9.521 7.597 6.815 5.597 6.78 5.568 5.198 1.524 4.41 1.826 6.01 5.916 6.031 5.908 7.482 9.083 3.996 8.599 3.979 8.627 3.979 8.615 1.304 8.553 1.284 9.397 3.959 9.459 3.966 9.17 5.733 9.733 6.084 10.923 6.05 12.291 4.45 16.38 5.238 16.683 6.838 12.593 6.708 12.543 7.969 11.319 11.254 12.096 11.665 12.444 11.277 12.593 12.876 16.683 13.664 16.38 12.065 12.291 12.036 12.302 12.271 10.601 14.288 9.453" fill="#9cebff" /><path d="M18,9.037a1.294,1.294,0,1,1-1.294-1.294A1.294,1.294,0,0,1,18,9.037ZM1.294,7.743A1.294,1.294,0,1,0,2.588,9.037,1.294,1.294,0,0,0,1.294,7.743Zm3.479,7.646a1.294,1.294,0,1,0,1.293,1.294A1.294,1.294,0,0,0,4.773,15.389Zm8.68,0a1.294,1.294,0,1,0,1.293,1.294A1.294,1.294,0,0,0,13.453,15.389ZM4.632.024A1.294,1.294,0,1,0,5.926,1.317,1.293,1.293,0,0,0,4.632.024Zm8.916,0a1.294,1.294,0,1,0,1.293,1.293A1.293,1.293,0,0,0,13.548.024Z" fill="#86d633" /><path d="M3.533,7.019H14.467a0,0,0,0,1,0,0v6.1a.365.365,0,0,1-.365.365H3.9a.365.365,0,0,1-.365-.365v-6.1A0,0,0,0,1,3.533,7.019Z" fill="url(#f90ce3b9-9916-46d2-8fed-0378b3b04de6)" /><path d="M3.9,4.689H14.1a.365.365,0,0,1,.365.365V7.019a0,0,0,0,1,0,0H3.535a0,0,0,0,1,0,0V5.054A.365.365,0,0,1,3.9,4.689Z" fill="#0078d4" /><path d="M10.57,9.515a.487.487,0,1,1-.487.487A.487.487,0,0,1,10.57,9.515Zm-2.039.491a.487.487,0,1,0,.486-.487A.487.487,0,0,0,8.531,10.006Zm-1.553,0a.487.487,0,1,0,.487-.487A.487.487,0,0,0,6.978,10.006Z" fill="url(#b0e25b5b-69ba-4262-b874-3340d1e311f0)" /><path d="M7.818,11.952l-.278.279a.126.126,0,0,1-.178,0h0L5.3,10.175a.251.251,0,0,1,0-.356h0l.278-.279h0l2.24,2.234a.126.126,0,0,1,0,.178Zm4.605-2.416-2.24,2.234h0a.125.125,0,0,0,0,.178l.279.279h0a.125.125,0,0,0,.178,0L12.7,10.171h0a.252.252,0,0,0,0-.356l-.278-.279Z" fill="#fff" /><path d="M7.5,7.786l.279.278a.126.126,0,0,1,0,.178l-2.2,2.208h0L5.3,10.171a.251.251,0,0,1,0-.356h0L7.32,7.786A.126.126,0,0,1,7.5,7.786Zm5.2,2.379h0a.251.251,0,0,0,0-.356L10.68,7.78h0a.126.126,0,0,0-.178,0l-.282.282h0a.126.126,0,0,0,0,.178l2.2,2.207h0l.279-.279Z" fill="#fff" opacity="0.8" /></g></svg>',
         "549fbcf643129dd913c8aa3424a51beb6b718c412ac4c7963214f00ef839c50b": '<svg id="b90f7485-edb8-49cc-9118-bc054cf5c18e" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="ad52e31e-75de-46af-9bdc-bea038ab4209" x1="9" y1="15.83" x2="9" y2="5.79" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#32bedd" /><stop offset="0.18" stop-color="#32caea" /><stop offset="0.41" stop-color="#32d2f2" /><stop offset="0.78" stop-color="#32d4f5" /></linearGradient></defs><title>Icon-networking-69</title><path d="M.5,5.79h17a0,0,0,0,1,0,0v9.48a.57.57,0,0,1-.57.57H1.07a.57.57,0,0,1-.57-.57V5.79A0,0,0,0,1,.5,5.79Z" fill="url(#ad52e31e-75de-46af-9bdc-bea038ab4209)" /><path d="M1.07,2.17H16.93a.57.57,0,0,1,.57.57V5.79a0,0,0,0,1,0,0H.5a0,0,0,0,1,0,0V2.73A.57.57,0,0,1,1.07,2.17Z" fill="#767676" /><circle cx="12.82" cy="10.19" r="1.38" fill="#f2f2f2" /><circle cx="9.06" cy="10.19" r="1.38" fill="#f2f2f2" /><circle cx="5.18" cy="10.19" r="1.38" fill="#f2f2f2" /><rect x="2.79" y="3.25" width="12.43" height="1.46" rx="0.28" fill="#f2f2f2" /></svg>',
         "55187fecea1de7b135e53cc100bc765ad06ab419365263456bf548906c3107f8": '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><title>Icon-analytics-144</title><g><g id="a53a4de8-371c-49da-a662-c4631299fc03"><path d="M10.83,8.42a.26.26,0,0,1-.24.27H8.5a.26.26,0,0,1-.27-.24V6.89a.26.26,0,0,1,.24-.27h2.09a.26.26,0,0,1,.27.24V8.42Z" fill="#76bc2d" /><path d="M14.54,10a.26.26,0,0,1-.24.27H12.21a.26.26,0,0,1-.27-.24V8.48a.26.26,0,0,1,.24-.27h2.09a.26.26,0,0,1,.27.24V10Z" fill="#76bc2d" /><path d="M10.83,11.6a.26.26,0,0,1-.24.27H8.5a.26.26,0,0,1-.27-.24V10.07a.26.26,0,0,1,.24-.27h2.09a.26.26,0,0,1,.27.24V11.6Z" fill="#76bc2d" /><path d="M7.12,6.84a.25.25,0,0,1-.23.26H4.74a.26.26,0,0,1-.27-.23V5.25A.26.26,0,0,1,4.71,5H6.8c.22,0,.32.11.32.27Z" fill="#86d633" /><path d="M7.12,10a.25.25,0,0,1-.23.27H4.74A.26.26,0,0,1,4.47,10V8.42a.26.26,0,0,1,.24-.26H6.8c.22,0,.32.11.32.26Z" fill="#76bc2d" /><path d="M7.12,13.19a.25.25,0,0,1-.23.27H4.74a.26.26,0,0,1-.27-.24V11.6a.25.25,0,0,1,.24-.26H6.8c.22,0,.32.1.32.26Z" fill="#76bc2d" /><g><path d="M1.07,1.51H2.36a0,0,0,0,1,0,0v3.6a.29.29,0,0,1-.29.29H.79A.29.29,0,0,1,.5,5.11v-3A.57.57,0,0,1,1.07,1.51Z" fill="#999" /><path d="M1.07,1.51H2.36a0,0,0,0,1,0,0v3.6a.29.29,0,0,1-.29.29H.79A.29.29,0,0,1,.5,5.11v-3A.57.57,0,0,1,1.07,1.51Z" fill="#999" opacity="0.5" /></g><g><path d="M15.64,1.51h1.29a.57.57,0,0,1,.57.57v3a.29.29,0,0,1-.29.29H15.92a.29.29,0,0,1-.29-.29V1.51A0,0,0,0,1,15.64,1.51Z" fill="#999" /><path d="M15.64,1.51h1.29a.57.57,0,0,1,.57.57v3a.29.29,0,0,1-.29.29H15.92a.29.29,0,0,1-.29-.29V1.51A0,0,0,0,1,15.64,1.51Z" fill="#999" opacity="0.5" /></g><path d="M8.66-6.08H9.91a0,0,0,0,1,0,0v17a0,0,0,0,1,0,0H8.66a.57.57,0,0,1-.57-.57V-5.52A.57.57,0,0,1,8.66-6.08Z" transform="translate(11.42 -6.58) rotate(90)" fill="#949494" /><g><path d="M.79,12.76H2.08a.29.29,0,0,1,.29.29v3.6a0,0,0,0,1,0,0H1.07a.57.57,0,0,1-.57-.57V13A.29.29,0,0,1,.79,12.76Z" fill="#999" /><path d="M.79,12.76H2.08a.29.29,0,0,1,.29.29v3.6a0,0,0,0,1,0,0H1.07a.57.57,0,0,1-.57-.57V13A.29.29,0,0,1,.79,12.76Z" fill="#999" opacity="0.5" /></g><g><path d="M15.92,12.76h1.29a.29.29,0,0,1,.29.29v3a.57.57,0,0,1-.57.57H15.64a0,0,0,0,1,0,0V13A.29.29,0,0,1,15.92,12.76Z" fill="#999" /><path d="M15.92,12.76h1.29a.29.29,0,0,1,.29.29v3a.57.57,0,0,1-.57.57H15.64a0,0,0,0,1,0,0V13A.29.29,0,0,1,15.92,12.76Z" fill="#999" opacity="0.5" /></g><path d="M8.66,7.24H9.91a0,0,0,0,1,0,0v17a0,0,0,0,1,0,0H8.66a.57.57,0,0,1-.57-.57V7.81A.57.57,0,0,1,8.66,7.24Z" transform="translate(-6.74 24.74) rotate(-90)" fill="#949494" /></g></g></svg>',
+        "59a0b74114519c446d6914f014d4a3858b41d81cedef36b75011664fb1effaa3": '<svg id="uuid-534fdcde-2428-418f-b0ce-c8534e2e8795" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="uuid-2efb4a2c-8d8d-4538-ad2e-59e73ae649ad" x1="-555" y1="1012.773" x2="-555" y2="1025.516" gradientTransform="translate(564 1025.516) scale(1 -1)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0294e4" /><stop offset="1" stop-color="#6df" /></linearGradient><linearGradient id="uuid-f4f24ac3-c211-417d-bb6c-99231414a968" x1="-558.241" y1="1020.123" x2="-558.241" y2="1007.516" gradientTransform="translate(564 1025.516) scale(1 -1)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#b3b2b3" /><stop offset=".375" stop-color="#afaeaf" /><stop offset=".763" stop-color="#a2a2a2" /><stop offset="1" stop-color="#979797" /></linearGradient><linearGradient id="uuid-79bc2215-6a94-48f4-a0d4-423271d529f3" x1="-550.507" y1="1007.516" x2="-550.507" y2="1016.502" gradientTransform="translate(564 1025.516) scale(1 -1)" gradientUnits="userSpaceOnUse"><stop offset=".001" stop-color="#773adc" /><stop offset=".342" stop-color="#8b55e6" /><stop offset=".756" stop-color="#9f70f0" /><stop offset="1" stop-color="#a67af4" /></linearGradient></defs><path d="m17.986,8.75c-.059-1.978-1.543-3.621-3.504-3.88C14.361,2.086,12.025-.084,9.24.002c-2.216-.04-4.217,1.324-4.988,3.402C1.886,3.691.084,5.664.014,8.046c.106,2.692,2.37,4.791,5.062,4.694.15,0,.303-.007.445-.019h8.195c.073-.001.146-.012.216-.032,2.188-.015,3.975-1.752,4.054-3.938Z" fill="url(#uuid-2efb4a2c-8d8d-4538-ad2e-59e73ae649ad)" /><g><path d="m9.851,17.572c-.013.248-.224.439-.472.427H2.139c-.248.012-.459-.179-.472-.427V5.821c.013-.248.224-.439.472-.427h7.24c.248-.012.459.179.472.427v11.751Z" fill="url(#uuid-f4f24ac3-c211-417d-bb6c-99231414a968)" /><path d="m2.87,10.786c-.024-.516.373-.954.889-.98h4.073c.516.026.913.465.889.98h0c.024.516-.374.954-.889.98H3.759c-.516-.026-.914-.464-.889-.98Z" fill="#003067" /><path d="m2.87,7.871c-.024-.516.373-.954.889-.98h4.073c.516.026.913.465.889.98h0c.024.516-.374.954-.889.98H3.759c-.516-.026-.914-.464-.889-.98Z" fill="#003067" /><circle cx="4.014" cy="7.871" r=".658" fill="#50e6ff" /><circle cx="4.014" cy="10.783" r=".658" fill="#50e6ff" /></g><g><circle cx="13.493" cy="13.507" r="4.493" fill="url(#uuid-79bc2215-6a94-48f4-a0d4-423271d529f3)" /><g><path d="m15.257,12.903h-.685c-.223.004-.402.187-.398.411.003.218.18.395.398.398h1.483c.223,0,.404-.181.404-.404v-1.752c.004-.223-.175-.407-.398-.411s-.407.175-.411.398c0,.004,0,.009,0,.013v.404c-.509-.679-1.308-1.079-2.157-1.078-.796-.008-1.554.343-2.063.955-.14.174-.114.428.06.569.17.138.42.115.562-.052.356-.427.886-.67,1.441-.663.783,0,1.484.482,1.764,1.213Z" fill="#fff" /><path d="m11.337,15.599v-.404c.897,1.193,2.591,1.433,3.783.536.159-.12.305-.257.434-.408.145-.17.124-.425-.046-.57-.17-.145-.425-.124-.57.046h0c-.678.796-1.873.892-2.669.214-.203-.173-.367-.386-.481-.627h.627c.223.004.407-.175.411-.398s-.175-.407-.398-.411c-.004,0-.009,0-.013,0h-1.483c-.223,0-.404.181-.404.404h0v1.618c-.004.223.175.407.398.411s.407-.175.411-.398c0-.004,0-.009,0-.013h0Z" fill="#fff" /></g></g></svg>',
         "5e88e52170776cc04df1ad5ffe86f0c76db85c29535a09433654368590bccb3c": '<svg id="ed8fbe5c-618b-47ce-8d68-3dbd1e10f81a" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="e78519cd-36d2-4ee5-987f-be84be24d95e" x1="7.93" y1="17.95" x2="7.93" y2="5.62" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5e9624" /><stop offset="1" stop-color="#b4ec36" /></linearGradient><linearGradient id="ac3f95ec-6391-4f34-b431-9534d4cdf013" x1="7.95" y1="9.21" x2="7.95" y2="-2.02" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5e9624" /><stop offset="1" stop-color="#b4ec36" /></linearGradient></defs><path d="M14,16.85a1.3,1.3,0,0,0,1.32-1.31.81.81,0,0,0,0-.16c-.52-4.15-2.88-7.53-7.4-7.53S1,10.71.51,15.39A1.34,1.34,0,0,0,1.7,16.85H14Z" fill="url(#e78519cd-36d2-4ee5-987f-be84be24d95e)" /><path d="M8,8.83a4.16,4.16,0,0,1-2.26-.66L7.92,14l2.22-5.79A4.2,4.2,0,0,1,8,8.83Z" fill="#fff" /><circle cx="7.95" cy="4.67" r="4.17" fill="url(#ac3f95ec-6391-4f34-b431-9534d4cdf013)" /><polygon points="17.49 11.13 17.49 15.37 13.85 17.5 13.85 13.26 17.49 11.13" fill="#32bedd" /><polygon points="17.49 11.13 13.85 13.26 10.21 11.13 13.85 9 17.49 11.13" fill="#9cebff" /><polygon points="13.85 13.26 13.85 17.5 10.21 15.37 10.21 11.13 13.85 13.26" fill="#50e6ff" /><polygon points="10.21 15.37 13.85 13.26 13.85 17.5 10.21 15.37" fill="#9cebff" /><polygon points="17.49 15.37 13.85 13.26 13.85 17.5 17.49 15.37" fill="#50e6ff" /></svg>',
         "5ed14416dafff4e946fae5b68b9c86e8c9a9bbaa37ab94324a5d94c5cfbcb106": '<svg id="b6f74ca5-3ae6-426f-9ef1-9ff6bbaa7f1c" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="bd7305f8-8789-4600-a1f2-6594e60eefcc" x1="8.59" y1="-7.79" x2="9.12" y2="20.05" gradientUnits="userSpaceOnUse"><stop offset="0.22" stop-color="#32d4f5" /><stop offset="0.47" stop-color="#31d1f3" /><stop offset="0.63" stop-color="#2ec9eb" /><stop offset="0.77" stop-color="#29bade" /><stop offset="0.89" stop-color="#22a5cb" /><stop offset="1" stop-color="#198ab3" /><stop offset="1" stop-color="#198ab3" /></linearGradient></defs><title>Icon-networking-63</title><path d="M15.06,8.67h-1V5.59a5.81,5.81,0,0,0-1.49-3.92A4.79,4.79,0,0,0,8.91,0a4.79,4.79,0,0,0-3.7,1.67A5.73,5.73,0,0,0,3.72,5.59V8.67H2.91a.7.7,0,0,0-.69.69v8a.7.7,0,0,0,.69.69H15.06a.71.71,0,0,0,.7-.69V9.36A.71.71,0,0,0,15.06,8.67Zm-3.37,0H6.13V5.54A3.18,3.18,0,0,1,7,3.39a2.51,2.51,0,0,1,1.88-.86,2.54,2.54,0,0,1,1.89.86,3.19,3.19,0,0,1,.32.43h0a3,3,0,0,1,.61,1.71Z" fill="url(#bd7305f8-8789-4600-a1f2-6594e60eefcc)" /><path d="M15.09,8.67H2.92a.66.66,0,0,0-.44.17l13.05,9a.67.67,0,0,0,.25-.52v-8A.71.71,0,0,0,15.09,8.67Z" fill="#50e6ff" /><path d="M2.94,8.67H15.1a.7.7,0,0,1,.45.17l-13.06,9a.7.7,0,0,1-.25-.52v-8A.72.72,0,0,1,2.94,8.67Z" fill="#fff" opacity="0.2" /><path d="M7.8,10.6,9,9.4a.07.07,0,0,1,.09,0l1.19,1.2a.06.06,0,0,1,0,.1h-.7a.06.06,0,0,0-.06.06V12.3a.06.06,0,0,1-.06.06H8.67a.05.05,0,0,1-.06-.06V10.76a.07.07,0,0,0-.07-.06h-.7A.06.06,0,0,1,7.8,10.6Zm2.47,5.48L9.08,17.27a.06.06,0,0,1-.09,0L7.8,16.08a.06.06,0,0,1,0-.1h.7a.07.07,0,0,0,.07-.06V14.37a.06.06,0,0,1,.06-.06h.74a.06.06,0,0,1,.06.06v1.55a.06.06,0,0,0,.06.06h.7A.06.06,0,0,1,10.27,16.08Zm-4.7-1.55v-.7a.06.06,0,0,0-.06-.06H4a.06.06,0,0,1-.06-.06V13A.06.06,0,0,1,4,12.91H5.51a.06.06,0,0,0,.06-.06v-.7a.07.07,0,0,1,.11-.05l1.19,1.2a.06.06,0,0,1,0,.08l-1.19,1.2A.07.07,0,0,1,5.57,14.53Zm6.93-2.38v.7a.06.06,0,0,0,.06.06H14.1s.07,0,.07.06v.74a.07.07,0,0,1-.07.06H12.56a.06.06,0,0,0-.06.06v.7a.06.06,0,0,1-.1.05l-1.19-1.2a0,0,0,0,1,0-.08l1.19-1.2S12.5,12.09,12.5,12.15Z" fill="#fff" /></svg>',
         "64a5e75ecef2f9f69067faa2eb131266cb8f2858706f8ab74bfea5ad0d98b14d": '<svg id="a1606a52-fb14-4637-87de-4d524bba1829" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="f020fb7e-2243-4501-8153-5d69bd3c34f7" x1="9.88" y1="8.59" x2="11.52" y2="10.23" gradientTransform="translate(2.03 -0.4) rotate(-0.08)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#86d633" /><stop offset="1" stop-color="#5e9624" /></linearGradient><linearGradient id="b3c2bc94-8c7c-48a2-9719-6ee899a43a97" x1="6.18" y1="8.59" x2="7.81" y2="10.23" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#86d633" /><stop offset="1" stop-color="#5e9624" /></linearGradient><linearGradient id="e900c35d-0958-4d4f-b28f-302eeaaf52f5" x1="2.48" y1="8.59" x2="4.11" y2="10.23" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#86d633" /><stop offset="1" stop-color="#5e9624" /></linearGradient></defs><title>Icon-networking-61</title><circle cx="12.74" cy="8.99" r="1.16" fill="url(#f020fb7e-2243-4501-8153-5d69bd3c34f7)" /><circle cx="9.04" cy="9" r="1.16" fill="url(#b3c2bc94-8c7c-48a2-9719-6ee899a43a97)" /><circle cx="5.34" cy="9" r="1.16" fill="url(#e900c35d-0958-4d4f-b28f-302eeaaf52f5)" /><path d="M2.61,7.28h.94a.3.3,0,0,1,.3.3v6.94a.6.6,0,0,1-.6.6H2.31a0,0,0,0,1,0,0V7.58a.3.3,0,0,1,.3-.3Z" transform="translate(13.18 16.93) rotate(134.92)" fill="#50e6ff" /><path d="M2.56,2.91H3.5a.3.3,0,0,1,.3.3v7.43a0,0,0,0,1,0,0H2.86a.6.6,0,0,1-.6-.6V3.21a.3.3,0,0,1,.3-.3Z" transform="translate(5.66 -0.16) rotate(44.92)" fill="#1490df" /><path d="M14.15,7.28h.94a.6.6,0,0,1,.6.6v6.94a.3.3,0,0,1-.3.3h-.94a.3.3,0,0,1-.3-.3V7.28a0,0,0,0,1,0,0Z" transform="translate(12.32 -7.28) rotate(45.08)" fill="#50e6ff" /><path d="M14.81,2.91h.94a0,0,0,0,1,0,0v7.43a.3.3,0,0,1-.3.3H14.5a.3.3,0,0,1-.3-.3V3.51a.6.6,0,0,1,.6-.6Z" transform="translate(30.36 0.99) rotate(135.08)" fill="#1490df" /></svg>',
@@ -9643,6 +10313,7 @@ var init_core_art_generated = __esm({
         "7a244a8d7260e84be5c904185db7b04994fe6ed345e2b224163bc5f7e3d97ce0": '<svg id="b388e944-5509-49c9-84d7-f38bffa995b2" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="a997e203-1d7d-4cb9-b131-5dc44e029b46" x1="5.23" y1="17.45" x2="5.23" y2="8.09" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#1988d9" /><stop offset="0.9" stop-color="#54aef0" /></linearGradient><linearGradient id="e122e9d8-aee5-4f1a-a60e-b1eae355daa5" x1="11.5" y1="12.45" x2="11.5" y2="0.55" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#198ab3" /><stop offset="0.01" stop-color="#198bb4" /><stop offset="0.44" stop-color="#27b2d7" /><stop offset="0.79" stop-color="#2fcbed" /><stop offset="1" stop-color="#32d4f5" /></linearGradient></defs><title>Icon-manage-307</title><path d="M5.59,13.13H9.91v4.32H5.59ZM1.15,17.45H4.87V13.13H.55v3.72A.6.6,0,0,0,1.15,17.45Zm-.6-5H4.87V8.09H.55Z" fill="url(#a997e203-1d7d-4cb9-b131-5dc44e029b46)" /><path d="M11.5.55a5.89,5.89,0,0,1,5.95,6,5.89,5.89,0,0,1-5.95,5.95H5.55V6.5A5.89,5.89,0,0,1,11.5.55Z" fill-rule="evenodd" fill="url(#e122e9d8-aee5-4f1a-a60e-b1eae355daa5)" /><rect x="7.59" y="5.65" width="1.36" height="4.08" fill="#fff" /><rect x="10.31" y="7.01" width="1.36" height="2.72" fill="#fff" /><rect x="13.03" y="4.29" width="1.36" height="5.44" fill="#fff" /></svg>',
         "7ab5cc684d995ff898448b32424a55bbb5c6669a83a0bb7c547047fec21f292f": '<svg id="ea317b31-b31a-44fd-a7c4-260774575363" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="a3aecb5c-11f5-4ece-99f7-9672f3236156" x1="15.35" y1="13.41" x2="15.37" y2="13.41" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0078d4" /><stop offset="0.14" stop-color="#1782da" /><stop offset="0.37" stop-color="#368fe3" /><stop offset="0.59" stop-color="#4c98ea" /><stop offset="0.8" stop-color="#599eee" /><stop offset="0.99" stop-color="#5ea0ef" /></linearGradient><linearGradient id="b4dfb3ab-25fe-416c-a6fa-f33fcfbf22dc" x1="5.51" y1="802.5" x2="12.94" y2="810.58" gradientTransform="translate(0 -1278.76) scale(1 1.59)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0078d4" /><stop offset="0.02" stop-color="#0d7ed8" /><stop offset="0.08" stop-color="#2b8ae0" /><stop offset="0.15" stop-color="#4194e7" /><stop offset="0.22" stop-color="#519beb" /><stop offset="0.29" stop-color="#5b9fee" /><stop offset="0.4" stop-color="#5ea0ef" /><stop offset="0.55" stop-color="#5b9fee" /><stop offset="0.68" stop-color="#509aeb" /><stop offset="0.8" stop-color="#3f92e6" /><stop offset="0.91" stop-color="#2688df" /><stop offset="0.99" stop-color="#127fd9" /></linearGradient></defs><title>Icon-compute-32</title><ellipse cx="8.96" cy="11.82" rx="7.5" ry="3.08" fill="#76bc2d" /><ellipse cx="9.15" cy="11.79" rx="2.49" ry="0.68" fill="#5e9624" /><path d="M15.35,13.4l0,0Z" fill="url(#a3aecb5c-11f5-4ece-99f7-9672f3236156)" /><ellipse cx="8.96" cy="4.99" rx="7.5" ry="3.08" fill="url(#b4dfb3ab-25fe-416c-a6fa-f33fcfbf22dc)" /><ellipse cx="9.15" cy="4.95" rx="2.49" ry="0.68" fill="#005ba1" /><path d="M9,14.84c4.15,0,7.5-1.38,7.5-3.08h0v1.82h0c-.14,1.65-3.44,3-7.5,3s-7.5-1.38-7.5-3.08V11.76C1.46,13.46,4.82,14.84,9,14.84Z" fill="#5e9624" /><path d="M15.35,13.4l0,0Z" fill="url(#a3aecb5c-11f5-4ece-99f7-9672f3236156)" /><path d="M9,8c4.15,0,7.5-1.38,7.5-3.08h0V6.74h0c-.14,1.65-3.44,3-7.5,3s-7.5-1.38-7.5-3.08V4.92C1.46,6.62,4.82,8,9,8Z" fill="#0078d4" /></svg>',
         "7aef6aec8edcee33270555d2ed7cbaa65737266beced0649de3f484623512bc9": '<svg id="a9f56b4e-2a51-4471-9488-d461408ae4eb" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="e4e1e494-21f1-4e9c-a6fa-0993efff08d3" x1="9" y1="17.2" x2="9" y2="-3.28" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5e9624" /><stop offset="0.18" stop-color="#629c25" /><stop offset="0.44" stop-color="#6dae2a" /><stop offset="0.73" stop-color="#7fcb30" /><stop offset="0.82" stop-color="#86d633" /></linearGradient></defs><g><path d="M17.5,2.5V13.33a.58.58,0,0,1-.58.58H12.4a.15.15,0,0,0-.15.14V15.8a.28.28,0,0,1-.45.23L9.08,13.94l-.09,0H1.08a.58.58,0,0,1-.58-.58V2.5a.58.58,0,0,1,.58-.59H16.92A.58.58,0,0,1,17.5,2.5Z" fill="url(#e4e1e494-21f1-4e9c-a6fa-0993efff08d3)" /><path d="M9.54,9.63H8.38A.36.36,0,0,1,8,9.29L7.8,3.43a.35.35,0,0,1,.35-.36h1.7a.35.35,0,0,1,.35.37L9.89,9.3A.35.35,0,0,1,9.54,9.63Z" fill="#fff" /><rect x="8.13" y="10.62" width="1.69" height="1.69" rx="0.61" fill="#fff" /></g></svg>',
+        "7c08aa6365b41e7f0b74833bfd420f174081f6e90ba278e0c01cd988027eb3ca": '<svg id="e24671f6-f501-4952-a2db-8b0b1d329c17" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="be92901b-ec33-4c65-adf1-9b0eed06d677" x1="9" y1="6.88" x2="9" y2="20.45" gradientUnits="userSpaceOnUse"><stop offset="0.22" stop-color="#32d4f5" /><stop offset="1" stop-color="#198ab3" /></linearGradient><linearGradient id="b46fc246-25d8-4398-8779-1042e8cacae7" x1="8.61" y1="-0.4" x2="9.6" y2="11.92" gradientUnits="userSpaceOnUse"><stop offset="0.22" stop-color="#32d4f5" /><stop offset="1" stop-color="#198ab3" /></linearGradient></defs><title>Icon-identity-230</title><path d="M15.72,18a1.45,1.45,0,0,0,1.45-1.45.47.47,0,0,0,0-.17C16.59,11.81,14,8.09,9,8.09S1.34,11.24.83,16.39A1.46,1.46,0,0,0,2.14,18H15.72Z" fill="url(#be92901b-ec33-4c65-adf1-9b0eed06d677)" /><path d="M9,9.17a4.59,4.59,0,0,1-2.48-.73L9,14.86l2.44-6.38A4.53,4.53,0,0,1,9,9.17Z" fill="#fff" opacity="0.8" /><circle cx="9.01" cy="4.58" r="4.58" fill="url(#b46fc246-25d8-4398-8779-1042e8cacae7)" /></svg>',
         "7d8c8ebd6a298a2cbc892b1ec73e9c379bd97ea5715ac5923d816bc132db7d77": '<svg id="beb440f5-d017-4dda-989a-ddd425fce02e" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="f7543904-4a89-435e-96cd-11521c829faa" x1="9" y1="11.95" x2="9" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0078d4" /><stop offset="0.16" stop-color="#1380da" /><stop offset="0.53" stop-color="#3c91e5" /><stop offset="0.82" stop-color="#559cec" /><stop offset="1" stop-color="#5ea0ef" /></linearGradient></defs><title>Icon-containers-104</title><path d="M17.43,8.21a3.78,3.78,0,0,0-3.29-3.64A4.77,4.77,0,0,0,9.22,0,4.91,4.91,0,0,0,4.54,3.19a4.52,4.52,0,0,0-4,4.35A4.6,4.6,0,0,0,5.32,12l.42,0h7.68l.21,0A3.84,3.84,0,0,0,17.43,8.21Z" fill="url(#f7543904-4a89-435e-96cd-11521c829faa)" /><path d="M6.36,6.46,9,3.87a.3.3,0,0,1,.43,0L12,6.46a.13.13,0,0,1-.1.23H10.28a.15.15,0,0,0-.14.14v3.24a.11.11,0,0,1-.11.11H8.29a.11.11,0,0,1-.11-.11V6.83a.14.14,0,0,0-.13-.14H6.45A.13.13,0,0,1,6.36,6.46Z" fill="#f2f2f2" /><path d="M14,11.37a.13.13,0,0,0-.09-.13L9.16,9.65H9V18h.13l4.71-1.88A.13.13,0,0,0,14,16Z" fill="#a67af4" /><path d="M9,9.68l-4.51.83a.14.14,0,0,0-.12.13v6.23a.15.15,0,0,0,.11.14L9,18a.13.13,0,0,0,.16-.13v-8A.14.14,0,0,0,9,9.68Z" fill="#552f99" /><polygon points="6.92 10.92 6.92 16.73 8.49 16.98 8.49 10.65 6.92 10.92" fill="#b77af4" opacity="0.75" /><polygon points="4.98 11.24 4.98 16.32 6.35 16.6 6.35 11.01 4.98 11.24" fill="#b77af4" opacity="0.75" /></svg>',
         "7eacb3ab0ffd5b76cc06e34ff41333aed79db0d41852397468486ddb63c2c314": '<svg id="f2f5701e-cb3b-4d6f-b407-5866ec5b7784" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="a891901b-79ae-490a-8568-9c4334417d35" x1="9" y1="5.38" x2="9" gradientUnits="userSpaceOnUse"><stop offset="0.199" stop-color="#005ba1" /><stop offset="1" stop-color="#0078d4" /></linearGradient><linearGradient id="bbdaa009-2281-4da8-9e89-6f41689e91a7" x1="9" y1="12.713" x2="9" y2="5.287" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#198ab3" /><stop offset="0.172" stop-color="#32bedd" /><stop offset="0.5" stop-color="#50e6ff" /><stop offset="0.5" stop-color="#4fe4fd" /><stop offset="0.5" stop-color="#4bddf8" /><stop offset="0.5" stop-color="#44d2ee" /><stop offset="0.5" stop-color="#3ac1e0" /><stop offset="0.5" stop-color="#2dabce" /><stop offset="0.5" stop-color="#1d90b8" /><stop offset="0.5" stop-color="#198ab3" /><stop offset="0.662" stop-color="#32bedd" /><stop offset="0.975" stop-color="#50e6ff" /></linearGradient></defs><path d="M9,0,1.15,4.49v8.97L9,18l7.85-4.49v-9Zm6.4,12.57L9,16.27,2.6,12.609V5.38L9,1.68l6.4,3.71Z" fill="#0078d4" /><polygon points="9 0 9 0 1.15 4.49 2.6 5.38 9 1.68 9 1.68 15.4 5.38 16.85 4.49 9 0" fill="url(#a891901b-79ae-490a-8568-9c4334417d35)" /><path d="M12.74,10.475a.73.73,0,0,0-.323-.286A5.835,5.835,0,0,0,7.939,6.843L14.416,3.1,12.91,2.236,5.534,6.5A.75.75,0,0,0,5.91,7.9.684.684,0,0,0,6,7.877l.125.523a4.319,4.319,0,0,1,4.837,2.238L3.613,14.885l1.5.866L12.466,11.5a.729.729,0,0,0,.242-.236l.075-.018c-.007-.029-.018-.055-.025-.084A.735.735,0,0,0,12.74,10.475Z" fill="#50e6ff" /><path d="M12.091,9.013a1.85,1.85,0,1,0,1.85,1.85A1.85,1.85,0,0,0,12.091,9.013ZM5.909,5.267a1.85,1.85,0,1,0,1.85,1.85A1.85,1.85,0,0,0,5.909,5.267Z" fill="url(#bbdaa009-2281-4da8-9e89-6f41689e91a7)" /></svg>',
         "7f1365272db14dd84c3cadd21f87b208dd42210ad5c0b39052209873d7b27c0a": '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><title>Icon-analytics-149</title><g><g id="b4faf691-c548-4dca-a19b-147ca62db43a"><g><g><path d="M9.18,8.24h.65a0,0,0,0,1,0,0v1.81a.14.14,0,0,1-.14.14H9a.14.14,0,0,1-.14-.14V8.53A.29.29,0,0,1,9.18,8.24Z" fill="#b3b3b3" /><path d="M9.18,8.24h.65a0,0,0,0,1,0,0v1.81a.14.14,0,0,1-.14.14H9a.14.14,0,0,1-.14-.14V8.53A.29.29,0,0,1,9.18,8.24Z" fill="#b3b3b3" opacity="0.5" /></g><g><path d="M16.56,8.24h.65a.29.29,0,0,1,.29.29v1.53a.14.14,0,0,1-.14.14H16.7a.14.14,0,0,1-.14-.14V8.24A0,0,0,0,1,16.56,8.24Z" fill="#b3b3b3" /><path d="M16.56,8.24h.65a.29.29,0,0,1,.29.29v1.53a.14.14,0,0,1-.14.14H16.7a.14.14,0,0,1-.14-.14V8.24A0,0,0,0,1,16.56,8.24Z" fill="#b3b3b3" opacity="0.5" /></g><path d="M13,4.4h.63a0,0,0,0,1,0,0V13a0,0,0,0,1,0,0H13a.29.29,0,0,1-.29-.29v-8A.29.29,0,0,1,13,4.4Z" transform="translate(21.9 -4.5) rotate(90)" fill="#b3b3b3" /></g><g><g><path d="M9,14h.65a.14.14,0,0,1,.14.14v1.81a0,0,0,0,1,0,0H9.18a.29.29,0,0,1-.29-.29V14.11A.14.14,0,0,1,9,14Z" fill="#b3b3b3" /><path d="M9,14h.65a.14.14,0,0,1,.14.14v1.81a0,0,0,0,1,0,0H9.18a.29.29,0,0,1-.29-.29V14.11A.14.14,0,0,1,9,14Z" fill="#b3b3b3" opacity="0.5" /></g><g><path d="M16.7,14h.65a.14.14,0,0,1,.14.14v1.53a.29.29,0,0,1-.29.29h-.65a0,0,0,0,1,0,0V14.11A.14.14,0,0,1,16.7,14Z" fill="#b3b3b3" /><path d="M16.7,14h.65a.14.14,0,0,1,.14.14v1.53a.29.29,0,0,1-.29.29h-.65a0,0,0,0,1,0,0V14.11A.14.14,0,0,1,16.7,14Z" fill="#b3b3b3" opacity="0.5" /></g><path d="M13,11.17h.63a0,0,0,0,1,0,0v8.61a0,0,0,0,1,0,0H13a.29.29,0,0,1-.29-.29v-8A.29.29,0,0,1,13,11.17Z" transform="translate(-2.27 28.67) rotate(-90)" fill="#b3b3b3" /></g><path d="M14.09,11.74a.13.13,0,0,1-.11.13H13a.12.12,0,0,1-.13-.12h0V11a.14.14,0,0,1,.11-.13h1a.12.12,0,0,1,.13.12h0Z" fill="#76bc2d" /><path d="M15.88,12.5a.13.13,0,0,1-.11.13h-1a.12.12,0,0,1-.13-.12h0v-.74a.11.11,0,0,1,.11-.12h1a.11.11,0,0,1,.13.11h0Z" fill="#5e9624" /><path d="M14.09,13.26a.12.12,0,0,1-.11.13H13a.12.12,0,0,1-.13-.11v-.75A.12.12,0,0,1,13,12.4h1a.11.11,0,0,1,.13.11v.75Z" fill="#5e9624" /><path d="M12.3,11a.11.11,0,0,1-.11.12h-1A.11.11,0,0,1,11,11h0v-.77a.11.11,0,0,1,.11-.12h1c.1,0,.15.05.15.12Z" fill="#86d633" /><path d="M12.3,12.5a.12.12,0,0,1-.11.13h-1a.12.12,0,0,1-.12-.12h0v-.76a.12.12,0,0,1,.11-.13h1c.1,0,.15.05.15.13Z" fill="#76bc2d" /><path d="M12.3,14a.11.11,0,0,1-.11.13h-1A.12.12,0,0,1,11,14v-.78a.12.12,0,0,1,.11-.13h1a.13.13,0,0,1,.15.13Z" fill="#5e9624" /><g><path d="M13.31,5.8h0A.28.28,0,0,0,13,5.52H5a.28.28,0,0,0-.29.28h0V7.33a.15.15,0,0,0,.15.14H5.5a.14.14,0,0,0,.14-.14v-.9h6.72v.9a.15.15,0,0,0,.15.14h.65a.15.15,0,0,0,.15-.14V5.8Z" fill="#949494" /><path d="M5.64,11.32a.14.14,0,0,0-.14-.14H4.85a.15.15,0,0,0-.15.14v1.53h0a.25.25,0,0,0,.21.28H8.39v-.91H5.64Z" fill="#949494" /></g><g><path d="M9.11,2.36h0a.29.29,0,0,0-.29-.29h-8a.29.29,0,0,0-.29.29h0V3.89A.14.14,0,0,0,.64,4H1.3a.14.14,0,0,0,.14-.14V3H8.16v.91A.15.15,0,0,0,8.31,4H9a.15.15,0,0,0,.15-.14V2.36Z" fill="#949494" /><path d="M1.44,7.88a.15.15,0,0,0-.14-.15H.64a.15.15,0,0,0-.14.15V9.4h0c0,.15.1.28.21.28H4.19V8.78H1.44Z" fill="#949494" /></g><path d="M7.82,8.32a.11.11,0,0,1-.11.12h-1a.11.11,0,0,1-.13-.11h0V7.56a.11.11,0,0,1,.11-.13h1c.1,0,.15.05.15.13Zm0,.76C7.82,9,7.77,9,7.67,9h-1a.12.12,0,0,0-.11.13v.78a.12.12,0,0,0,.13.11h1a.12.12,0,0,0,.11-.13Zm0,1.52c0-.07-.05-.12-.15-.12h-1a.11.11,0,0,0-.11.12v.78a.11.11,0,0,0,.13.11h1a.11.11,0,0,0,.11-.13ZM3.62,4.11A.13.13,0,0,0,3.47,4h-1a.12.12,0,0,0-.11.13v.78A.12.12,0,0,0,2.47,5h1a.11.11,0,0,0,.11-.13Zm0,1.52c0-.07-.05-.12-.15-.12h-1a.11.11,0,0,0-.11.12V6.4h0a.11.11,0,0,0,.12.11h1a.11.11,0,0,0,.11-.12Zm0,1.53c0-.08-.05-.13-.15-.13h-1a.12.12,0,0,0-.11.13v.76h0a.12.12,0,0,0,.12.12h1a.12.12,0,0,0,.11-.13Z" fill="#76bc2d" /></g></g></svg>',
@@ -9672,6 +10343,7 @@ var init_core_art_generated = __esm({
         "b684188aefa0eaacc079d7f428f32edcf560fd48bb0b572774910a5f8ff81f20": '<svg id="uuid-54c9be04-bbab-4c24-a3df-11bd0e28ca85" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="uuid-80fd62f5-d182-4403-8456-6923e7e033bb" x1="7.997" y1="14.863" x2="7.997" y2="2.057" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0078d4" /><stop offset=".82" stop-color="#5ea0ef" /></linearGradient><linearGradient id="uuid-f6289940-e1be-4e56-904f-ba5a1586dc17" x1="-558.124" y1="1021.188" x2="-558.124" y2="1019.083" gradientTransform="translate(564 1025.516) scale(1 -1)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff" stop-opacity=".7" /><stop offset="1" stop-color="#fff" stop-opacity=".6" /></linearGradient></defs><path d="m.362,3.138C.162,3.138,0,2.976,0,2.777h0V.361C0,.162.162,0,.362,0h2.266c.2,0,.362.162.362.361,0,.199-.162.361-.362.361H.724v2.053c0,.199-.161.362-.361.362,0,0,0,0-.001,0Zm17.638-.361V.361C18,.162,17.838,0,17.638,0h-2.266c-.2,0-.362.162-.362.361s.162.361.362.361h1.904v2.053c0,.199.162.361.362.361.2,0,.361-.162.362-.361h0ZM2.99,17.639c0-.199-.162-.361-.362-.361H.724v-2.053c0-.199-.162-.361-.362-.361-.2,0-.362.162-.362.361v2.415c0,.199.163.36.362.36h2.266c.2,0,.362-.162.362-.361Zm15.01.001v-2.415c0-.199-.162-.361-.362-.361-.2,0-.361.162-.362.361v2.053h-1.904c-.2,0-.362.162-.362.362,0,.199.162.361.362.361h2.266c.199,0,.361-.161.362-.36Z" fill="#76bc2d" /><g><path d="m13.864,8.047c0,3.822-4.627,6.907-5.632,7.544-.12.066-.265.066-.386,0-1.073-.687-5.716-3.772-5.716-7.544V3.386c0-.197.155-.36.352-.369,3.604-.101,2.783-1.676,5.482-1.676s1.861,1.576,5.465,1.676c.197.009.352.171.352.369l.084,4.66Z" fill="#0078d4" /><path d="m8.04,14.863c-4.683-3.064-5.194-5.781-5.194-6.816V3.719c1.873-.106,2.625-.637,3.236-1.068.489-.345.843-.594,1.881-.594s1.387.249,1.872.593c.607.431,1.355.962,3.235,1.069l.078,4.34c0,.817-.372,3.733-5.109,6.804Z" fill="url(#uuid-80fd62f5-d182-4403-8456-6923e7e033bb)" /></g><g><rect x="8.155" y="4.328" width="3.721" height=".691" rx=".141" ry=".141" fill="#fff" opacity=".7" /><rect x="8.155" y="5.742" width="3.721" height=".691" rx=".141" ry=".141" fill="#fff" opacity=".6" /><rect x="4.117" y="9.983" width="4.472" height=".691" rx=".141" ry=".141" fill="#fff" opacity=".3" /><rect x="4.117" y="8.57" width="7.76" height=".691" rx=".141" ry=".141" fill="#fff" opacity=".4" /><rect x="4.117" y="7.156" width="7.076" height=".691" rx=".14" ry=".14" fill="#fff" opacity=".5" /><g id="uuid-69ff294d-4d54-4881-9832-ea140e19e0d2"><path d="m4.235,4.328h3.282c.065,0,.118.046.118.102v1.901c0,.057-.053.102-.118.102h-3.282c-.065,0-.118-.046-.118-.102v-1.901c0-.057.053-.102.118-.102Z" fill="url(#uuid-f6289940-e1be-4e56-904f-ba5a1586dc17)" /></g></g><g><circle cx="12.449" cy="13.203" r="3.442" fill="#76bc2d" /><g><path d="m12.096,14.356l-.316.316c-.054.054-.141.054-.195,0h0l-1.256-1.256c-.054-.054-.054-.141,0-.195h0l.219-.219c.054-.054.141-.054.195,0h0l1.353,1.353h0Z" fill="#fff" /><path d="m11.591,14.676l-.316-.316h0l2.888-2.888c.054-.054.141-.054.195,0h0l.219.219c.054.054.054.141,0,.195h0l-2.791,2.791c-.054.054-.141.054-.195,0h0Z" fill="#f0f0f0" /></g></g></svg>',
         "b6f1f2afac15762d1de44366d34984c5a3e6e58f94d9e81407ac01565212e8e3": '<svg id="b089cfca-0de1-451c-a1ca-6680ea50cb4f" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><radialGradient id="b25d0836-964a-4c84-8c20-855f66e8345e" cx="-105.006" cy="-10.409" r="5.954" gradientTransform="translate(117.739 19.644) scale(1.036 1.027)" gradientUnits="userSpaceOnUse"><stop offset="0.183" stop-color="#5ea0ef" /><stop offset="1" stop-color="#0078d4" /></radialGradient><clipPath id="b36c7f5d-2ef1-4760-8a25-eeb9661f4e47"><path d="M14.969,7.53A6.137,6.137,0,1,1,7.574,2.987,6.137,6.137,0,0,1,14.969,7.53Z" fill="none" /></clipPath></defs><title>Icon-databases-121</title><path d="M2.954,5.266a.175.175,0,0,1-.176-.176h0A2.012,2.012,0,0,0,.769,3.081a.176.176,0,0,1-.176-.175h0a.176.176,0,0,1,.176-.176A2.012,2.012,0,0,0,2.778.72.175.175,0,0,1,2.954.544h0A.175.175,0,0,1,3.13.72h0A2.012,2.012,0,0,0,5.139,2.729a.175.175,0,0,1,.176.176h0a.175.175,0,0,1-.176.176h0A2.011,2.011,0,0,0,3.13,5.09.177.177,0,0,1,2.954,5.266Z" fill="#50e6ff" /><path d="M15.611,17.456a.141.141,0,0,1-.141-.141h0a1.609,1.609,0,0,0-1.607-1.607.141.141,0,0,1-.141-.14h0a.141.141,0,0,1,.141-.141h0a1.608,1.608,0,0,0,1.607-1.607.141.141,0,0,1,.141-.141h0a.141.141,0,0,1,.141.141h0a1.608,1.608,0,0,0,1.607,1.607.141.141,0,1,1,0,.282h0a1.609,1.609,0,0,0-1.607,1.607A.141.141,0,0,1,15.611,17.456Z" fill="#50e6ff" /><g><path d="M14.969,7.53A6.137,6.137,0,1,1,7.574,2.987,6.137,6.137,0,0,1,14.969,7.53Z" fill="url(#b25d0836-964a-4c84-8c20-855f66e8345e)" /><g clip-path="url(#b36c7f5d-2ef1-4760-8a25-eeb9661f4e47)"><path d="M5.709,13.115A1.638,1.638,0,1,0,5.714,9.84,1.307,1.307,0,0,0,5.721,9.7,1.651,1.651,0,0,0,4.06,8.064H2.832a6.251,6.251,0,0,0,1.595,5.051Z" fill="#f2f2f2" /><path d="M15.045,7.815c0-.015,0-.03-.007-.044a5.978,5.978,0,0,0-1.406-2.88,1.825,1.825,0,0,0-.289-.09,1.806,1.806,0,0,0-2.3,1.663,2,2,0,0,0-.2-.013,1.737,1.737,0,0,0-.581,3.374,1.451,1.451,0,0,0,.541.1h2.03A13.453,13.453,0,0,0,15.045,7.815Z" fill="#f2f2f2" /></g></g><path d="M17.191,3.832c-.629-1.047-2.1-1.455-4.155-1.149a14.606,14.606,0,0,0-2.082.452,6.456,6.456,0,0,1,1.528.767c.241-.053.483-.116.715-.151A7.49,7.49,0,0,1,14.3,3.662a2.188,2.188,0,0,1,1.959.725h0c.383.638.06,1.729-.886,3a16.723,16.723,0,0,1-4.749,4.051A16.758,16.758,0,0,1,4.8,13.7c-1.564.234-2.682,0-3.065-.636s-.06-1.73.886-2.995c.117-.157.146-.234.279-.392a6.252,6.252,0,0,1,.026-1.63A11.552,11.552,0,0,0,1.756,9.419C.517,11.076.181,12.566.809,13.613a3.165,3.165,0,0,0,2.9,1.249,8.434,8.434,0,0,0,1.251-.1,17.855,17.855,0,0,0,6.219-2.4,17.808,17.808,0,0,0,5.061-4.332C17.483,6.369,17.819,4.88,17.191,3.832Z" fill="#50e6ff" /></svg>',
         "b790e4e7b7617c8155025ab238cfab39a303df74dc030dbe9943a6eef2732255": '<svg id="bc5816c9-c40c-4700-a3cd-6054b6abe2f7" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><radialGradient id="bb8edb14-0b70-46fb-997d-f3a277915c9b" cx="15013.284" cy="4584.191" r="56.626" gradientTransform="translate(-2243.333 -678.832) scale(0.15)" gradientUnits="userSpaceOnUse"><stop offset="0.183" stop-color="#5ea0ef" /><stop offset="1" stop-color="#0078d4" /></radialGradient><linearGradient id="a6f3c115-b661-478c-8384-79eca0b050eb" x1="4.022" y1="171.297" x2="3.991" y2="167.338" gradientTransform="translate(0 -160)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ccc" /><stop offset="0.123" stop-color="#d7d7d7" /><stop offset="0.421" stop-color="#ebebeb" /><stop offset="0.716" stop-color="#f8f8f8" /><stop offset="1" stop-color="#fcfcfc" /></linearGradient></defs><title>Icon-362Artboard 1</title><path id="a365ed42-c10c-4d6b-b8da-5311b6818174" d="M13.9,15.5A8.512,8.512,0,0,1,3.4,2.1L3.5,2A8.521,8.521,0,0,1,13.9,15.5" fill="url(#bb8edb14-0b70-46fb-997d-f3a277915c9b)" /><path d="M2.1,10.5a25.824,25.824,0,0,0-.8,2.6l.6.9.6.6a14.249,14.249,0,0,1,1.1-3.5A2.529,2.529,0,0,1,2.1,10.5Z" fill="#83b9f9" /><path d="M3.1,5.9A13.655,13.655,0,0,1,2.4,3,7.551,7.551,0,0,0,1.3,4.4a10.548,10.548,0,0,0,.6,2.4A2.73,2.73,0,0,1,3.1,5.9Z" fill="#83b9f9" /><circle cx="4" cy="8.5" r="2.7" fill="url(#a6f3c115-b661-478c-8384-79eca0b050eb)" /><path d="M8,13.5a2.106,2.106,0,0,1,.5-1.3A9.2,9.2,0,0,1,6,10.3a2.751,2.751,0,0,1-1.5.8A19.2,19.2,0,0,0,6,12.5a8.175,8.175,0,0,0,2,1.2Z" fill="#83b9f9" /><path d="M14.3,13.7a13.329,13.329,0,0,1-2.8-.3v.1a1.656,1.656,0,0,1-.5,1.2,12.967,12.967,0,0,0,3.4.2c.4-.4.8-.9,1.2-1.3A5.283,5.283,0,0,1,14.3,13.7Z" fill="#83b9f9" /><circle cx="9.8" cy="13.5" r="1.8" fill="none" /><path d="M9.3,4.9a13.468,13.468,0,0,1,5.9-1.4,6.73,6.73,0,0,0-1.5-1.4A15.335,15.335,0,0,0,9,3.2a9.25,9.25,0,0,0-1,.5A18.723,18.723,0,0,1,6,.8a1.9,1.9,0,0,0-.9.3A21.123,21.123,0,0,0,7.2,4.2,9.841,9.841,0,0,0,5,5.9,2.85,2.85,0,0,1,6.3,7,8.961,8.961,0,0,1,8.2,5.5a22.363,22.363,0,0,0,3.7,3.2,2.075,2.075,0,0,1,.6-1A27.892,27.892,0,0,1,9.3,4.9Z" fill="#83b9f9" /><circle cx="13.8" cy="9.1" r="1.9" fill="#f2f2f2" /><path d="M17,10.4c-.1-.1-.2-.1-.3-.2h0c-.1-.1-.2-.1-.3-.2h-.1L16,9.8h-.1l-.3-.2a1.456,1.456,0,0,1-.6.9c.1.1.2.1.4.2h.1c.1.1.2.1.3.2h0c.3.2.6.3.9.5h0c.1-.3.2-.7.3-1Z" fill="#83b9f9" /><circle cx="4" cy="8.5" r="2.7" fill="#f2f2f2" /><circle cx="9.8" cy="13.5" r="1.8" fill="#f2f2f2" /><path d="M5.2,10.5H17.3c.2,0,.5.2.5.4v6.4a.536.536,0,0,1-.5.5H5.2a.458.458,0,0,1-.4-.5V11A.458.458,0,0,1,5.2,10.5Z" fill="#821010" /><rect x="5.3" y="11.3" width="3.6" height="1.6" fill="#e62323" /><rect x="9.5" y="11.3" width="3.6" height="1.6" fill="#ff7381" /><rect x="13.6" y="11.3" width="3.6" height="1.6" fill="#e62323" /><rect x="5.3" y="13.4" width="1.5" height="1.6" fill="#e62323" /><rect x="15.7" y="13.4" width="1.5" height="1.6" fill="#ff7381" /><rect x="7.4" y="13.4" width="3.6" height="1.6" fill="#ff7381" /><rect x="11.5" y="13.4" width="3.6" height="1.6" fill="#e62323" /><rect x="5.3" y="15.5" width="3.6" height="1.6" fill="#e62323" /><rect x="9.5" y="15.5" width="3.6" height="1.6" fill="#ff7381" /><rect x="13.6" y="15.5" width="3.6" height="1.6" fill="#e62323" /></svg>',
+        "b7ee3e3b80f9b98788c35efe95a57fac6abc65ad7bdf3fc6d4d2d659639cb269": '<svg id="uuid-1a6d3e4d-0a01-44d3-92c5-394fe9e3e899" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="uuid-9013fdd0-e916-4daa-b2f6-81a75ae64975" x1="4.34" y1="774.565" x2="4.34" y2="784.665" gradientTransform="translate(4 785.516) scale(1 -1)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#d2ebff" /><stop offset="1" stop-color="#f0fffd" /></linearGradient><linearGradient id="uuid-307f03b6-d2a8-4c40-a3d5-4597e6001bae" x1="10.15" y1="764.096" x2="10.15" y2="782.166" gradientTransform="translate(4 785.516) scale(1 -1)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0078d4" /><stop offset=".17" stop-color="#1c84dc" /><stop offset=".38" stop-color="#3990e4" /><stop offset=".59" stop-color="#4d99ea" /><stop offset=".8" stop-color="#5a9eee" /><stop offset="1" stop-color="#5ea0ef" /></linearGradient><linearGradient id="uuid-ab22557f-a545-4bda-aa34-5920761d8169" x1="14.155" y1="16.539" x2="14.155" y2="6.209" gradientTransform="matrix(1, 0, 0, 1, 0, 0)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#d2ebff" /><stop offset="1" stop-color="#f0fffd" /></linearGradient></defs><rect y=".021" width="16.68" height="11.87" rx=".6" ry=".6" fill="#0078d4" /><rect x=".97" y=".851" width="14.74" height="10.1" rx=".3" ry=".3" fill="url(#uuid-9013fdd0-e916-4daa-b2f6-81a75ae64975)" isolation="isolate" opacity=".9" /><rect x="10.3" y="5.129" width="7.7" height="12.85" rx=".3" ry=".3" fill="url(#uuid-307f03b6-d2a8-4c40-a3d5-4597e6001bae)" /><rect x="13.27" y="5.559" width="1.77" height=".24" rx=".11" ry=".11" fill="#f2f2f2" /><rect x="7.48" y=".391" width="1.77" height=".24" rx=".11" ry=".11" fill="#f2f2f2" /><rect x="13.72" y="16.969" width=".86" height=".73" rx=".2" ry=".2" fill="#f2f2f2" /><rect x="11.03" y="6.209" width="6.25" height="10.33" rx=".14" ry=".14" fill="url(#uuid-ab22557f-a545-4bda-aa34-5920761d8169)" isolation="isolate" opacity=".9" /><g><circle cx="8.365" cy="11.904" r="4.288" fill="#86d633" /><g><path d="M7.926,13.341l-.394,.394c-.067,.067-.176,.067-.243,0h0l-1.565-1.565c-.067-.067-.067-.176,0-.243h0l.272-.272c.067-.067,.176-.067,.243,0h0l1.686,1.686h0Z" fill="#fff" /><path d="M7.296,13.739l-.394-.394h0l3.598-3.598c.067-.067,.176-.067,.243,0h0l.272,.272c.067,.067,.067,.176,0,.243h0l-3.477,3.477c-.067,.067-.176,.067-.243,0h0Z" fill="#f0f0f0" /></g></g></svg>',
         "b90934a8b965334d25af050f044a8c3a802c62fa91f81b3f43540ef3ed4e0e75": '<svg id="f6a79126-a7ef-4190-b01b-e34b5ccb7977" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="efc95f57-28bf-41de-a09e-d4f8c25449a4" x1="9" y1="13.51" x2="9" y2="0.76" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f78d1e" /><stop offset="0.44" stop-color="#f8911e" /><stop offset="0.85" stop-color="#f99c1d" /><stop offset="1" stop-color="#faa21d" /></linearGradient></defs><title>Icon-web-49</title><rect y="0.76" width="18" height="12.75" rx="0.6" fill="url(#efc95f57-28bf-41de-a09e-d4f8c25449a4)" /><rect x="1.05" y="1.88" width="15.9" height="10.5" rx="0.3" fill="#fff" /><path id="bcc3d4fb-2f67-48ef-b6e7-f3c11ba0061b" d="M14.94,9.34a.29.29,0,0,1-.28.29H8.16a.29.29,0,0,1,0-.58h6.5a.28.28,0,0,1,.28.29" fill="#d15900" /><path id="e696babd-447d-4e2b-bc61-f978fd3ed1bc" d="M14.94,7.54a.29.29,0,0,1-.28.29H8.16a.29.29,0,0,1,0-.58h6.5a.28.28,0,0,1,.28.29" fill="#d15900" /><path id="b5d2bd6a-dd0a-43be-bfa5-16266f75812c" d="M14.94,4.93a.28.28,0,0,1-.28.29H3.77a.29.29,0,1,1,0-.58H14.66a.28.28,0,0,1,.28.29" fill="#d15900" /><path id="aad840c2-43d5-415e-a865-328ca9d53f36" d="M5.13,12.69a2.52,2.52,0,0,1-3.37,0l-.21,4.19a.33.33,0,0,0,.57.25l1.3-1.32,1.31,1.33a.33.33,0,0,0,.57-.24Z" fill="#b31b1b" /><ellipse id="beae3214-3e24-4a7c-af86-a4353a2d1797" cx="3.48" cy="10.54" rx="3.01" ry="3.02" fill="#e62323" /><ellipse id="f1e213df-20de-4eb9-9bf3-0c6690c16a0a" cx="3.48" cy="10.54" rx="2.29" ry="2.29" fill="#ffb34d" /></svg>',
         "bad6673e76100221dfeb7adaebb4a6778c255c07afbdef742bf18527fe5115ab": '<svg id="a76a0103-ce03-4d58-859d-4c27e02925d2" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="efeb8e96-2af0-4681-9a6a-45f9b0262f19" x1="-6518.78" y1="1118.86" x2="-6518.78" y2="1090.06" gradientTransform="matrix(0.5, 0, 0, -0.5, 3267.42, 559.99)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5ea0ef" /><stop offset="0.18" stop-color="#589eed" /><stop offset="0.41" stop-color="#4897e9" /><stop offset="0.66" stop-color="#2e8ce1" /><stop offset="0.94" stop-color="#0a7cd7" /><stop offset="1" stop-color="#0078d4" /></linearGradient></defs><path d="M5.67,10.61H10v4.32H5.67Zm-5-5.76H5V.53H1.23a.6.6,0,0,0-.6.6Zm.6,10.08H5V10.61H.63v3.72A.6.6,0,0,0,1.23,14.93Zm-.6-5H5V5.57H.63Zm10.08,5h3.72a.6.6,0,0,0,.6-.6V10.61H10.71Zm-5-5H10V5.57H5.67Zm5,0H15V5.57H10.71Zm0-9.36V4.85H15V1.13a.6.6,0,0,0-.6-.6Zm-5,4.32H10V.53H5.67Z" fill="url(#efeb8e96-2af0-4681-9a6a-45f9b0262f19)" /><polygon points="17.37 10.7 17.37 15.21 13.5 17.47 13.5 12.96 17.37 10.7" fill="#32bedd" /><polygon points="17.37 10.7 13.5 12.97 9.63 10.7 13.5 8.44 17.37 10.7" fill="#9cebff" /><polygon points="13.5 12.97 13.5 17.47 9.63 15.21 9.63 10.7 13.5 12.97" fill="#50e6ff" /><polygon points="9.63 15.21 13.5 12.96 13.5 17.47 9.63 15.21" fill="#9cebff" /><polygon points="17.37 15.21 13.5 12.96 13.5 17.47 17.37 15.21" fill="#50e6ff" /></svg>',
         "bec7a3e3920c8dc5e9bb509224afea24cd42cb35b98523fa1278d19e3152f9d1": '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="50358913-a3f3-4ca9-bc32-c82c3eb7e3ee" x1="8.15" y1="17.5" x2="8.15" y2="2.1" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#773adc" /><stop offset=".25" stop-color="#9255e6" /><stop offset=".5" stop-color="#a669ee" /><stop offset=".76" stop-color="#b376f2" /><stop offset="1" stop-color="#b77af4" /></linearGradient></defs><path d="M1.93 2.1L3.15.7A.58.58 0 0 1 3.59.5h11.6a.81.81 0 0 1 .88.83v14.5a.6.6 0 0 1-.19.44l-1.3 1.2H2.72l-.8-.34z" fill="#773adc" /><path d="M2.9 2.1l.74-.85A.53.53 0 0 1 4 1.08h10.88a.52.52 0 0 1 .52.52v13.78a.52.52 0 0 1-.17.39l-1.15 1.05z" fill="#fff" /><path d="M14,2.1H2a0,0,0,0,0-.05,0v15a.39.39,0,0,0,.38.39H14a.39.39,0,0,0,.38-.39V2.48A.38.38,0,0,0,14,2.1Z" fill="url(#50358913-a3f3-4ca9-bc32-c82c3eb7e3ee)" /><g fill="#fff"><path d="M8.35 11.18l-1.6-.88a.05.05 0 0 1 0 0V8.5a.05.05 0 0 1 0 0l1.57.87v1.75M6.3 10l-1.6-.85a.08.08 0 0 1 0 0v-1.8a.05.05 0 0 1 0 0 0 0 0 0 1 0 0l1.57.87V10a.05.05 0 0 1 0 0" /><path d="M7 8l1.57-.85 1.6.85a.05.05 0 0 1 0 0l-1.56.85L7 8" opacity=".8" /><path d="M5 6.87L6.52 6h.05l1.53.84a.05.05 0 0 1 0 .08l-1.55.85L5 6.93m4.08-.03l1.56-.9a0 0 0 0 1 0 0l1.53.84a.05.05 0 0 1 0 0 .08.08 0 0 1 0 0l-1.55.85h-.05L9.1 7a0 0 0 0 1 0 0M7 5.8l1.56-.84h.05l1.55.83a.05.05 0 0 1 0 0l-1.57.84L7 5.86" opacity=".8" /><path d="M8.82 11.18l1.57-.87V8.5l-1.58.87a.05.05 0 0 0 0 0v1.75a.05.05 0 0 0 0 0zm3.63-3.86a0 0 0 0 0 0 0l-1.58.87a.05.05 0 0 0 0 0V10a.05.05 0 0 0 0 0h.05l1.57-.87a.05.05 0 0 0 0 0V7.36s-.02-.04-.04-.04zM9 12.2c.32 0 .65.1.67.5a.57.57 0 0 1 0 .23l.8-.33a.05.05 0 0 0 0 0v-1.8a.05.05 0 0 0 0 0l-1.58.87v.53zm3.4-2.58l-1.58.87v1.75a.05.05 0 0 0 0 0h.05l1.57-.87v-1.7z" opacity=".6" /><path d="M7.32 11.9c.1.15.2.3.3.32h.78v-.54a.05.05 0 0 0 0 0l-1.6-.9v.5a2.07 2.07 0 0 1 .52.63zm-1.17-.76a1.3 1.3 0 0 1 .21 0v-.65a.05.05 0 0 0 0 0l-1.6-.87a.05.05 0 0 0 0 0v1.68a2.57 2.57 0 0 0 .5-.08 4.36 4.36 0 0 1 .89-.08z" /><path d="M11.88 13l-1 .6-1.1.65a1.56 1.56 0 0 1-.86.11h-.33l-1 .05h-.53c-.43 0-1.06-.45-1.4-.76l-.17-.16A2 2 0 0 0 4.1 13h-.58v-1.47H4.7a2.21 2.21 0 0 0 .54-.08 4.28 4.28 0 0 1 .92-.11 1.24 1.24 0 0 1 1 .67c.14.2.26.37.43.4s.58 0 .95 0H9c.4 0 .48.12.5.3a.43.43 0 0 1-.11.33 2.41 2.41 0 0 1-.69.11c-.33 0-1.2.1-1.42-.1l-.6-.53-.12.15.6.52a1.21 1.21 0 0 0 .81.19c.16 0 .54 0 .75-.05a3.24 3.24 0 0 0 .67-.09.12.12 0 0 0 .08 0c.06 0 1.4-.6 1.77-.77s1-.22 1.05 0-.1.36-.4.52z" /></g></svg>',
@@ -9695,11 +10367,13 @@ var init_core_art_generated = __esm({
         "d8371735319fa4971c01e682810d0b67207c2c901f4fd19c2374a80c3e328829": '<svg id="a400848c-c804-486a-8905-f23f1ce1f264" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="fe3a1fdc-489c-4216-9288-95641230895c" x1="9" y1="2.95" x2="9" y2="6.34" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#c69aeb" /><stop offset="1" stop-color="#6f4bb2" /></linearGradient><linearGradient id="bef6728f-6d46-4a54-b219-6b3352c89329" x1="8.99" y1="6.76" x2="8.99" y2="9.22" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#54aef0" /><stop offset="1" stop-color="#1988d9" /></linearGradient></defs><title>Icon-general-11</title><g><polygon points="13.69 11.22 12.19 7.92 9 4.2 5.79 7.91 4.28 11.2 4.81 11.45 6.04 8.77 7.25 11.45 7.79 11.21 6.39 8.12 9 5.1 11.6 8.13 10.18 11.21 10.71 11.46 11.94 8.79 13.15 11.47 13.69 11.22" fill="#949494" /><circle cx="9" cy="4.65" r="1.69" fill="url(#fe3a1fdc-489c-4216-9288-95641230895c)" /><path d="M6,6.76A1.23,1.23,0,1,1,4.82,8,1.23,1.23,0,0,1,6,6.76ZM10.72,8a1.22,1.22,0,0,0,1.22,1.22A1.23,1.23,0,1,0,10.72,8Z" fill="url(#bef6728f-6d46-4a54-b219-6b3352c89329)" /><g><g><circle cx="4.54" cy="11.32" r="0.97" fill="#37c2b1" /><circle cx="7.52" cy="11.33" r="0.97" fill="#37c2b1" /></g><g><circle cx="10.44" cy="11.34" r="0.97" fill="#37c2b1" /><circle cx="13.42" cy="11.35" r="0.97" fill="#37c2b1" /></g></g><path d="M.5,15.22a.16.16,0,0,0,.08.14L1.73,16l2,1.14a.18.18,0,0,0,.23-.06L4.57,16a.15.15,0,0,0-.06-.22L2.22,14.41a.16.16,0,0,1-.08-.14V3.73a.16.16,0,0,1,.08-.14L4.51,2.26A.15.15,0,0,0,4.57,2L3.92.89A.18.18,0,0,0,3.69.83L1.77,1.94l-1.19.7a.16.16,0,0,0-.08.14V15.22Z" fill="#949494" /><path d="M4.57,2,3.92.89A.18.18,0,0,0,3.75.81l-.08,0L1.75,1.94l-1.19.7a.1.1,0,0,0-.06,0h0a.24.24,0,0,0,0,.08l1.64,1a.16.16,0,0,1,.08-.14L4.51,2.26A.15.15,0,0,0,4.57,2Z" fill="#a3a3a3" /><path d="M4.57,16l-.65,1.15a.18.18,0,0,1-.17.08.12.12,0,0,1-.08,0L1.75,16.06l-1.19-.7a.1.1,0,0,1-.06,0h0a.24.24,0,0,1,0-.08l1.64-1a.16.16,0,0,0,.08.14l2.29,1.33A.16.16,0,0,1,4.57,16Z" fill="#a3a3a3" /><path d="M17.5,2.78a.16.16,0,0,0-.08-.14L16.27,2l-2-1.14a.18.18,0,0,0-.23.06L13.43,2a.15.15,0,0,0,.06.22l2.29,1.33a.16.16,0,0,1,.08.14V14.27a.16.16,0,0,1-.08.14l-2.29,1.33a.15.15,0,0,0-.06.22l.65,1.15a.18.18,0,0,0,.23.06l1.92-1.11,1.19-.7a.16.16,0,0,0,.08-.14V2.78Z" fill="#949494" /><path d="M13.43,16l.65,1.15a.18.18,0,0,0,.17.08l.08,0,1.92-1.11,1.19-.7a.1.1,0,0,0,.06,0h0a.24.24,0,0,0,0-.08l-1.64-1a.16.16,0,0,1-.08.14l-2.29,1.33A.15.15,0,0,0,13.43,16Z" fill="#a3a3a3" /><path d="M13.43,2,14.08.89a.18.18,0,0,1,.17-.08.12.12,0,0,1,.08,0l1.92,1.11,1.19.7a.1.1,0,0,1,.06,0h0a.24.24,0,0,1,0,.08l-1.64,1a.16.16,0,0,0-.08-.14L13.49,2.26A.16.16,0,0,1,13.43,2Z" fill="#a3a3a3" /></g></svg>',
         "d948e243d40be6d13aae1c10c2c5841e254dac0544efa46978aa1902ca274506": '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="b4eb0015-cafa-4d8b-b104-a3c009ec6f5e" x1="-278" y1="852.647" x2="-278" y2="865.218" gradientTransform="matrix(1, 0, 0, -1, 287, 869.516)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0078d4" /><stop offset="0.156" stop-color="#1380da" /><stop offset="0.528" stop-color="#3c91e5" /><stop offset="0.822" stop-color="#559cec" /><stop offset="1" stop-color="#5ea0ef" /></linearGradient><linearGradient id="a28b34d2-dab7-4a7e-a509-984215a8d620" x1="307" y1="388.577" x2="307" y2="397.288" gradientTransform="matrix(1, 0, 0, -1, -298, 403.516)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ef7100" /><stop offset="1" stop-color="#faa21d" /></linearGradient></defs><g id="b71d3a06-bb1f-46fe-a42d-67137596a0d5"><g><path d="M13.378,4.4h-.9V2.035a.122.122,0,0,0-.027,0H5.659a.122.122,0,0,0-.027,0V4.4h-.9V1.99a.9.9,0,0,1,.927-.858h6.792a.9.9,0,0,1,.927.858Z" fill="#a3a3a3" /><rect y="4.298" width="18" height="12.57" rx="0.6" fill="url(#b4eb0015-cafa-4d8b-b104-a3c009ec6f5e)" /><g><path d="M11.359,6.235a2.307,2.307,0,0,0-2.366,1.55A2.317,2.317,0,0,0,6.612,6.251c-2.138.175-2.244,2.291-2.206,3.1.018.578.137,2.4,4.565,5.56l.038.027.038-.027c4.428-3.187,4.536-5.044,4.55-5.645C13.624,8.479,13.5,6.4,11.359,6.235Z" fill="url(#a28b34d2-dab7-4a7e-a509-984215a8d620)" /><g><path d="M13.483,8.07a3.447,3.447,0,0,1-.323,1.883,5.379,5.379,0,0,1-3.167,2.412.728.728,0,0,0-.529-.264.742.742,0,1,0,.691.8A7.412,7.412,0,0,0,13,11.075a3.326,3.326,0,0,0,.592-1.8A4.141,4.141,0,0,0,13.483,8.07Z" fill="#fff" opacity="0.9" /><path d="M7.107,12.472l.188.216a.286.286,0,0,0,.4.023l.428-.382a.287.287,0,0,0,.023-.4.281.281,0,0,0-.393-.063.3.3,0,0,0-.027.023l-.223.2C6.1,10.543,5.7,9.355,6.346,8.785S8.121,8.751,9.513,10.3l-.223.2a.282.282,0,0,0-.025.4h0a.276.276,0,0,0,.388.033h0l.012-.009.422-.377a.287.287,0,0,0,.023-.4L9.921,9.94c-.943-1.062-2.576-2.375-3.7-1.717a1.756,1.756,0,0,1-.477-1.112,1.242,1.242,0,0,1,.2-.726,1.911,1.911,0,0,0-.738.437A1.917,1.917,0,0,0,5.814,8.6C5.051,9.644,6.164,11.41,7.107,12.472Z" fill="#fff" opacity="0.9" /></g></g></g></g></svg>',
         "da4f4acfaab5e6dc330bd1ef74a78895b80f4d54da9263cad0cc0eef981791e5": '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="a005d9e9-7e29-4ef4-b995-a79dce2e9bf8" x1="9" y1="15.427" x2="9" y2="5.973" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#32bedd" /><stop offset="0.175" stop-color="#32caea" /><stop offset="0.41" stop-color="#32d2f2" /><stop offset="0.775" stop-color="#32d4f5" /></linearGradient></defs><title>MsPortalFx.base.images-60</title><g id="f12b48ce-114c-4425-96be-0112b3f7d9c3"><g><path d="M1,5.973H17a0,0,0,0,1,0,0v8.92a.535.535,0,0,1-.535.535H1.535A.535.535,0,0,1,1,14.893V5.973A0,0,0,0,1,1,5.973Z" fill="url(#a005d9e9-7e29-4ef4-b995-a79dce2e9bf8)" /><path d="M1.538,2.563H16.462A.535.535,0,0,1,17,3.1V5.973a0,0,0,0,1,0,0H1a0,0,0,0,1,0,0V3.1A.535.535,0,0,1,1.538,2.563Z" fill="#198ab3" /><path d="M1,5.973H5.194a0,0,0,0,1,0,0v9.455a0,0,0,0,1,0,0H1.536A.532.532,0,0,1,1,14.895V5.973A0,0,0,0,1,1,5.973Z" fill="#9cebff" /><path d="M5.194,13.356H17a0,0,0,0,1,0,0V14.9a.532.532,0,0,1-.532.532H5.194a0,0,0,0,1,0,0V13.356a0,0,0,0,1,0,0Z" fill="#32bedd" /></g></g></svg>',
+        "dc24256babf9e22aaa67c539e71fb88c0bc67d075826455ed191446c7a924f2c": '<svg id="uuid-26c86e8c-6afd-469c-8eba-c099edd8fa6b" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="uuid-a95f546c-1bab-45e3-a992-32e1ccdf3207" x1="-85" y1="777.516" x2="-85" y2="795.516" gradientTransform="translate(94 795.516) scale(1 -1)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#773adc" /><stop offset=".82" stop-color="#a67af4" /></linearGradient><linearGradient id="uuid-d4ff18b4-5d19-4aff-aed3-936108a6fc93" x1="7.996" y1="779.969" x2="12.911" y2="785.714" gradientTransform="translate(0 791.516) scale(1 -1)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#225086" /><stop offset="1" stop-color="#0055c5" /></linearGradient><linearGradient id="uuid-fd3c4ed0-a5ff-43c4-b07e-a43aa771cccb" x1="9" y1="777.497" x2="9" y2="792.036" gradientTransform="translate(0 791.516) scale(1 -1)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#44dbf9" /><stop offset="1" stop-color="#cbf8ff" /></linearGradient><linearGradient id="uuid-1b86b618-fe52-4a1e-ba50-a1aad60142c3" x1="6.97" y1="779.196" x2="6.97" y2="791.703" gradientTransform="translate(0 791.516) scale(1 -1)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#6df" /><stop offset="1" stop-color="#0294e4" /></linearGradient><linearGradient id="uuid-b51ef80d-2cfc-478a-a38f-46c743bfb91d" x1="12.463" y1="776.546" x2="12.463" y2="788.909" gradientTransform="translate(0 791.516) scale(1 -1)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#041642" /><stop offset="1" stop-color="#041642" stop-opacity=".25" /></linearGradient></defs><circle cx="9" cy="9" r="9" fill="url(#uuid-a95f546c-1bab-45e3-a992-32e1ccdf3207)" stroke-width="0" /><g><path d="m15.655,9.667l-5.773-6.512c-.461-.52-1.304-.52-1.766,0l-5.773,6.512c-.446.503-.329,1.263.249,1.625l5.773,3.609c.385.241.884.241,1.269,0l5.773-3.609c.578-.361.694-1.122.249-1.625h0Z" fill="url(#uuid-d4ff18b4-5d19-4aff-aed3-936108a6fc93)" stroke-width="0" /><polygon points="5.64 9.845 5.68 9.87 9 11.945 9 11.945 12.359 9.845 12.36 9.845 12.359 9.845 9 6.055 5.64 9.845" fill="url(#uuid-fd3c4ed0-a5ff-43c4-b07e-a43aa771cccb)" stroke-width="0" /><g><path d="m9.883,3.154c-.461-.52-1.304-.52-1.766,0l-5.773,6.512c-.446.503-.329,1.263.249,1.625,0,0,2.137,1.336,2.406,1.504.299.186.795.393,1.32.393.478,0,.921-.139,1.29-.375,0,0,0,0,.002,0l1.389-.868-3.359-2.1,3.444-3.885c.423-.483,1.06-.79,1.772-.79.363,0,.706.082,1.012.225l-1.985-2.239v-.002Z" fill="url(#uuid-1b86b618-fe52-4a1e-ba50-a1aad60142c3)" stroke-width="0" /><path d="m9,15.081c.221,0,.442-.06.634-.18l5.773-3.609c.578-.361.694-1.122.249-1.625l-5.773-6.512c-.231-.26-.557-.39-.883-.39v12.317Z" fill="url(#uuid-b51ef80d-2cfc-478a-a38f-46c743bfb91d)" fill-opacity=".5" isolation="isolate" opacity=".5" stroke-width="0" /></g></g></svg>',
         "dcc1d690bc18e7c7401fb545c51790b4974a69c9d997b27c4fbd9f1f26fe6815": '<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.33492 1.37491C5.44717 1.04229 5.75909 0.818359 6.11014 0.818359H11.25L5.91513 16.6255C5.80287 16.9581 5.49095 17.182 5.13991 17.182H1.13968C0.579936 17.182 0.185466 16.6325 0.364461 16.1022L5.33492 1.37491Z" fill="url(#paint0_linear_6102_134469)" /><path d="M13.5517 11.4546H5.45126C5.1109 11.4546 4.94657 11.8715 5.19539 12.1037L10.4005 16.9618C10.552 17.1032 10.7515 17.1819 10.9587 17.1819H15.5453L13.5517 11.4546Z" fill="#0078D4" /><path d="M6.11014 0.818359C5.75909 0.818359 5.44717 1.04229 5.33492 1.37491L0.364461 16.1022C0.185466 16.6325 0.579936 17.182 1.13968 17.182H5.13991C5.49095 17.182 5.80287 16.9581 5.91513 16.6255L6.90327 13.6976L10.4005 16.9617C10.552 17.1032 10.7515 17.1818 10.9588 17.1818H15.5454L13.5517 11.4545H7.66032L11.25 0.818359H6.11014Z" fill="url(#paint1_linear_6102_134469)" /><path d="M12.665 1.37478C12.5528 1.04217 12.2409 0.818237 11.8898 0.818237H6.13629H6.16254C6.51358 0.818237 6.82551 1.04217 6.93776 1.37478L11.9082 16.1021C12.0872 16.6324 11.6927 17.1819 11.133 17.1819H11.0454H16.8603C17.42 17.1819 17.8145 16.6324 17.6355 16.1021L12.665 1.37478Z" fill="url(#paint2_linear_6102_134469)" /><defs><linearGradient id="paint0_linear_6102_134469" x1="6.07512" y1="1.38476" x2="0.738178" y2="17.1514" gradientUnits="userSpaceOnUse"><stop stop-color="#114A8B" /><stop offset="1" stop-color="#0669BC" /></linearGradient><linearGradient id="paint1_linear_6102_134469" x1="10.3402" y1="11.4564" x2="9.107" y2="11.8734" gradientUnits="userSpaceOnUse"><stop stop-opacity="0.3" /><stop offset="0.0711768" stop-opacity="0.2" /><stop offset="0.321031" stop-opacity="0.1" /><stop offset="0.623053" stop-opacity="0.05" /><stop offset="1" stop-opacity="0" /></linearGradient><linearGradient id="paint2_linear_6102_134469" x1="9.45858" y1="1.38467" x2="15.3168" y2="16.9926" gradientUnits="userSpaceOnUse"><stop stop-color="#3CCBF4" /><stop offset="1" stop-color="#2892DF" /></linearGradient></defs></svg>',
         "de6e71cae727dddf77ca2fe38b77f636fd9aebbeaccb7bcd6fd43d13ca87fa06": '<svg id="b39a805c-23ec-4c18-b115-22ce85a589f3" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="abcca3e9-b94e-41fe-a92a-6f6cddbb1654" x1="7.12" y1="17.44" x2="7.12" y2="0.56" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#32bedd" /><stop offset="0.36" stop-color="#34c1e0" /><stop offset="0.63" stop-color="#3ccbe8" /><stop offset="0.88" stop-color="#48dbf6" /><stop offset="1" stop-color="#50e6ff" /></linearGradient></defs><title>Icon-compute-37</title><g><rect x="0.38" y="0.56" width="13.49" height="16.88" rx="0.56" fill="url(#abcca3e9-b94e-41fe-a92a-6f6cddbb1654)" /><path d="M17.58,12.38,14.71,9.51a.15.15,0,0,0-.25.1v1.68c-3.45,0-6.9,1.84-6.9,5.16.49-.74,3-2.71,6.9-2.71v1.61a.15.15,0,0,0,.25.1l2.87-2.87A.15.15,0,0,0,17.58,12.38Z" fill="#773adc" /><g><polygon points="11.06 5.6 11.06 10.18 7.13 12.48 7.13 7.89 11.06 5.6" fill="#50e6ff" /><polygon points="11.06 5.6 7.13 7.9 3.19 5.6 7.13 3.3 11.06 5.6" fill="#c3f1ff" /><polygon points="7.13 7.9 7.13 12.48 3.19 10.18 3.19 5.6 7.13 7.9" fill="#9cebff" /><polygon points="3.19 10.18 7.13 7.89 7.13 12.48 3.19 10.18" fill="#c3f1ff" /><polygon points="11.06 10.18 7.13 7.89 7.13 12.48 11.06 10.18" fill="#9cebff" /></g></g></svg>',
         "df1d3d5d84d2f1fa27ccbbd5198cec7e67834b3cd1d7a58d7e4343f128a55ea8": '<svg id="eccfbced-10ca-487a-a425-bf34f9e15139" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><radialGradient id="b915730c-dc69-4cd4-8cf3-619882b8e8ab" cx="55.71" cy="71.92" r="9" gradientTransform="translate(-43.61 -58.92) scale(0.94 0.94)" gradientUnits="userSpaceOnUse"><stop offset="0.67" stop-color="#6bb9f2" /><stop offset="0.74" stop-color="#61b4f1" /><stop offset="0.85" stop-color="#47a8ef" /><stop offset="0.99" stop-color="#1d94eb" /><stop offset="1" stop-color="#1b93eb" /></radialGradient></defs><title>Icon-machinelearning-165</title><path id="f6a29e1b-194b-4d8d-8529-49edea7bbba0" d="M9,.5A8.5,8.5,0,1,0,17.5,9,8.5,8.5,0,0,0,9,.5Z" fill="url(#b915730c-dc69-4cd4-8cf3-619882b8e8ab)" /><circle cx="9" cy="9" r="7.03" fill="#fff" /><circle cx="7.45" cy="9" r="0.77" fill="#32bedd" /><path d="M5.26,6.8H4.88a.29.29,0,0,0-.29.29v5.72a.59.59,0,0,0,.59.59h5.57a.29.29,0,0,0,.29-.3v-.38a.29.29,0,0,0-.29-.29h-5a.14.14,0,0,1-.14-.15V7.09A.29.29,0,0,0,5.26,6.8Z" fill="#32bedd" /><circle cx="10.55" cy="9" r="0.77" fill="#32bedd" /><path d="M12.42,4.6H7.23a.29.29,0,0,0-.29.3v.38a.29.29,0,0,0,.29.29h5a.15.15,0,0,1,.15.15v5.19a.29.29,0,0,0,.29.29h.38a.29.29,0,0,0,.29-.29V5.19a.59.59,0,0,0-.58-.59Z" fill="#32bedd" /></svg>',
         "e4d80cb3b9fb0822ef486047de1ee3a550442ab9d56d6fa5b4368e257f8cb12d": '<svg id="uuid-a815531c-1d66-4632-9102-133243f5f218" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="uuid-f832d61b-a779-4b0e-ba77-62b0dec3acb7" x1="11.408" y1="11.369" x2="11.408" y2="16.364" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5ea0ef" /><stop offset="1" stop-color="#005ba1" /></linearGradient><linearGradient id="uuid-b3e5a0b4-d362-4c10-a15f-9eee82f3029b" x1="9.829" y1="1.255" x2="9.829" y2="6.251" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5ea0ef" /><stop offset="1" stop-color="#005ba1" /></linearGradient><linearGradient id="uuid-2cdf2580-a280-4b81-b79a-869196ced73d" x1="9.829" y1="6.312" x2="9.829" y2="11.307" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5ea0ef" /><stop offset="1" stop-color="#005ba1" /></linearGradient><linearGradient id="uuid-8e95990e-9017-4a4b-8114-3cc1bda6531f" x1="2.749" y1="13.627" x2="2.749" y2="16.969" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#32bedd" /><stop offset="1" stop-color="#50e6ff" /></linearGradient><linearGradient id="uuid-387251c8-82ea-44a7-9154-9a48108bb488" x1="2.8" y1="9.129" x2="2.8" y2="13.562" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#32bedd" /><stop offset="1" stop-color="#198ab3" /></linearGradient><linearGradient id="uuid-d61e6d0d-f67a-4597-94d3-40bed935dfad" x1="2.8" y1="9.502" x2="2.8" y2="12.863" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#9cebff" /><stop offset="1" stop-color="#50e6ff" /></linearGradient></defs><g><g><path d="m17.453,11.204H6.015c-.131.801-.556,1.527-1.198,2.035l.098,2.432h12.54c.301,0,.546-.244.546-.546v-3.376h0c0-.302-.245-.546-.547-.546Z" fill="url(#uuid-f832d61b-a779-4b0e-ba77-62b0dec3acb7)" /><path d="m17.453,1.091H2.203c-.301,0-.546.244-.546.546v3.376c0,.301.244.546.546.546h15.251c.301,0,.546-.244.546-.546V1.637h0c0-.302-.245-.546-.547-.546Z" fill="url(#uuid-b3e5a0b4-d362-4c10-a15f-9eee82f3029b)" /><path d="m17.453,6.148H2.203c-.301,0-.546.244-.546.546v.919c.356-.134.741-.208,1.142-.208,1.777,0,3.226,1.435,3.257,3.21h11.397c.301,0,.546-.244.546-.546v-3.376h0c0-.302-.245-.546-.547-.546Z" fill="url(#uuid-2cdf2580-a280-4b81-b79a-869196ced73d)" /></g><g><rect x="15.524" y="11.986" width="1.221" height="1.221" rx=".273" ry=".273" fill="#fff" /><rect x="15.524" y="13.669" width="1.221" height="1.221" rx=".273" ry=".273" fill="#fff" /><rect x="15.524" y="6.93" width="1.221" height="1.221" rx=".273" ry=".273" fill="#fff" /><rect x="15.524" y="8.613" width="1.221" height="1.221" rx=".273" ry=".273" fill="#fff" /><rect x="15.524" y="1.873" width="1.221" height="1.221" rx=".273" ry=".273" fill="#fff" /><rect x="15.524" y="3.556" width="1.221" height="1.221" rx=".273" ry=".273" fill="#fff" /></g></g><g><path d="m4.335,12.673c-.43.387-.989.601-1.568.601s-1.137-.214-1.568-.601l-.195,3.898c-.005.063.01.127.043.181.033.054.082.097.14.123.058.025.123.032.185.02.062-.013.119-.044.162-.091l1.209-1.228,1.219,1.237c.043.046.099.077.16.09.061.013.125.007.183-.017.058-.024.107-.066.14-.119.034-.053.05-.115.047-.177l-.158-3.916Z" fill="url(#uuid-8e95990e-9017-4a4b-8114-3cc1bda6531f)" /><path d="m2.8,13.482c1.546,0,2.8-1.258,2.8-2.809s-1.254-2.809-2.8-2.809-2.8,1.258-2.8,2.809,1.254,2.809,2.8,2.809Z" fill="url(#uuid-387251c8-82ea-44a7-9154-9a48108bb488)" /><path d="m2.8,12.803c1.177,0,2.13-.954,2.13-2.13s-.954-2.13-2.13-2.13-2.13.954-2.13,2.13.954,2.13,2.13,2.13Z" fill="url(#uuid-d61e6d0d-f67a-4597-94d3-40bed935dfad)" /></g><rect width="18" height="18" fill="none" /></svg>',
         "e6aaa1380e974af7d0aba1bb8380ecfab3f95182a595a28692aa3f963bcf9fac": '<svg id="a542cf39-2ba6-4206-8278-6a4f1c2452f5" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><radialGradient id="e7579f4d-36a3-4693-a726-7a6050ac5671" cx="-6811.4" cy="6729.69" r="17" gradientTransform="matrix(0.5, 0, 0, -0.5, 3414.91, 3374.05)" gradientUnits="userSpaceOnUse"><stop offset="0.18" stop-color="#5ea0ef" /><stop offset="1" stop-color="#0078d4" /></radialGradient></defs><title>Icon-networking-64</title><path id="f57e105d-6d2d-4ad7-b8c3-c10684c9f9b8" d="M14.21,15.72A8.5,8.5,0,0,1,3.79,2.28l.09-.06a8.5,8.5,0,0,1,10.33,13.5" fill="url(#e7579f4d-36a3-4693-a726-7a6050ac5671)" /><path d="M9,1.31A7.69,7.69,0,1,0,16.69,9,7.7,7.7,0,0,0,9,1.31ZM14.15,3.9A7.37,7.37,0,0,1,12,4.7,8.83,8.83,0,0,0,10.75,2,7.2,7.2,0,0,1,14.15,3.9ZM9,1.74a6.59,6.59,0,0,1,1.09.09h0a7.48,7.48,0,0,1,1.53,3,15.12,15.12,0,0,1-5.45,0A7.38,7.38,0,0,1,7.68,1.89l0,0A7.34,7.34,0,0,1,9,1.74ZM7,2A8.72,8.72,0,0,0,5.73,4.68a5.58,5.58,0,0,1-1.9-.77A7.35,7.35,0,0,1,7,2ZM3.72,14a5.27,5.27,0,0,1,1.78-.76,7.08,7.08,0,0,0,1.35,2.72A7.25,7.25,0,0,1,3.72,14Zm6.41,2.2A7.08,7.08,0,0,1,9,16.26a6.83,6.83,0,0,1-1.44-.15l0,0a6,6,0,0,1-1.67-3,14.73,14.73,0,0,1,5.88,0,6,6,0,0,1-1.69,3Zm.73-.16a7.13,7.13,0,0,0,1.38-2.8,6.68,6.68,0,0,1,2,.83A7.13,7.13,0,0,1,10.86,16Zm1.48-3.22c.08-.36.15-.73.2-1.12l-.46.11c-.05.31-.1.62-.17.91a15.23,15.23,0,0,0-6.09,0c-.07-.27-.12-.56-.17-.86a.28.28,0,0,1,0-.09l-.46-.13a2.36,2.36,0,0,0,0,.28c0,.32.11.62.17.91a5.9,5.9,0,0,0-2,.85,7.24,7.24,0,0,1,.11-9.4,6.29,6.29,0,0,0,2.08.86c-.07.24-.13.5-.18.76s0,.25-.08.37l.47-.11,0-.17c.06-.26.12-.51.19-.75A14.89,14.89,0,0,0,9,5.48a15,15,0,0,0,2.78-.26c.07.27.14.56.2.85l.46.11q-.11-.54-.24-1a7.73,7.73,0,0,0,2.3-.91,7.22,7.22,0,0,1,.06,9.49A7.28,7.28,0,0,0,12.34,12.79Z" fill="#5ea0ef" /><path d="M3.69,7a7.92,7.92,0,0,1,1.16-.08,2.44,2.44,0,0,1,1.71.52A2,2,0,0,1,7.15,8.9a2.21,2.21,0,0,1-.61,1.64,2.6,2.6,0,0,1-1.86.61,9.17,9.17,0,0,1-1-.05Zm.55,3.73a4,4,0,0,0,.55,0A1.62,1.62,0,0,0,6.58,8.92,1.5,1.5,0,0,0,4.87,7.3a3.17,3.17,0,0,0-.63,0Z" fill="#fff" /><path d="M7.86,11.11V6.9h.59L9.8,9a12.18,12.18,0,0,1,.76,1.37h0c-.05-.56-.06-1.07-.06-1.73V6.9H11v4.21h-.55L9.13,9c-.29-.47-.57-1-.79-1.4h0c0,.53,0,1,0,1.74v1.8Z" fill="#fff" /><path d="M11.89,10.45a2,2,0,0,0,1,.27c.56,0,.88-.29.88-.72s-.22-.62-.79-.83-1.12-.6-1.12-1.2a1.22,1.22,0,0,1,1.37-1.14,2,2,0,0,1,.93.2L14,7.48a1.63,1.63,0,0,0-.8-.2c-.58,0-.8.34-.8.63s.26.59.84.81,1.08.62,1.08,1.24-.48,1.21-1.48,1.21a2.16,2.16,0,0,1-1.07-.27Z" fill="#fff" /></svg>',
+        "e9a41be8418dd01a39a810f2a1f7afec638171cc35f51dbeeeefa96d5e876564": '<svg id="a5c2c34a-a5f9-4043-a084-e51b74497895" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="f97360fa-fd13-420b-9b43-74b8dde83a11" x1="6.7" y1="7.26" x2="6.7" y2="18.36" gradientUnits="userSpaceOnUse"><stop offset="0.22" stop-color="#32d4f5" /><stop offset="1" stop-color="#198ab3" /></linearGradient><linearGradient id="b2ab4071-529d-4450-9443-e6dc0939cc4e" x1="6.42" y1="1.32" x2="7.23" y2="11.39" gradientUnits="userSpaceOnUse"><stop offset="0.22" stop-color="#32d4f5" /><stop offset="1" stop-color="#198ab3" /></linearGradient></defs><title>Icon-identity-223</title><path d="M17.22,13.92a.79.79,0,0,0,.8-.79A.28.28,0,0,0,18,13c-.31-2.5-1.74-4.54-4.46-4.54S9.35,10.22,9.07,13a.81.81,0,0,0,.72.88h7.43Z" fill="#0078d4" /><path d="M13.55,9.09a2.44,2.44,0,0,1-1.36-.4l1.35,3.52,1.33-3.49A2.54,2.54,0,0,1,13.55,9.09Z" fill="#fff" opacity="0.8" /><circle cx="13.55" cy="6.58" r="2.51" fill="#0078d4" /><path d="M12.19,16.36a1.19,1.19,0,0,0,1.19-1.19.66.66,0,0,0,0-.14c-.47-3.74-2.6-6.78-6.66-6.78S.44,10.83,0,15a1.2,1.2,0,0,0,1.07,1.31h11.1Z" fill="url(#f97360fa-fd13-420b-9b43-74b8dde83a11)" /><path d="M6.77,9.14a3.72,3.72,0,0,1-2-.6l2,5.25,2-5.21A3.81,3.81,0,0,1,6.77,9.14Z" fill="#fff" opacity="0.8" /><circle cx="6.74" cy="5.39" r="3.75" fill="url(#b2ab4071-529d-4450-9443-e6dc0939cc4e)" /></svg>',
         "ea499005b9f8ed811d14e5e048fe6138ca2aa89250373c71e32f39793acb8dc4": '<svg id="b1e71479-2138-44e0-adf0-02fe9fed5c1e" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><path d="M1.155,4.93v.512L9,9.868l7.006-3.957,0,1.6L9,11.491,1.55,7.258l-.395.22V10.54L9,14.955l7.006-3.942,0,1.586L9,16.581,1.55,12.347l-.395.22v.519L9,17.5l7.845-4.414V10.021l-.4-.218L9,14.036,1.992,10.054V8.476L9,12.414,16.845,8V4.978l-.4-.219L9,8.993,2.352,5.215,9,1.46l5.476,3.094.479-.269V3.863L9,.5Z" fill="#ff3621" /></svg>',
         "eaf42cb87aedf608f60d40b601eb86491daaa71b8eab40a935e8e7fa2e62a2cf": '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="bbd02878-309a-4490-8196-946338d0f593" x1="8.995" y1="10.299" x2="8.995" y2="13.199" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#005ba1" /><stop offset="0.258" stop-color="#00589d" /><stop offset="0.525" stop-color="#004f90" /><stop offset="0.796" stop-color="#003f7c" /><stop offset="1" stop-color="#003067" /></linearGradient></defs><g><g id="b532e600-3623-4be6-9fa6-30d05fff56b1"><polygon points="13.387 7.4 13.382 7.396 13.382 7.384 13.363 7.384 8.997 4.405 4.631 7.384 4.612 7.384 4.612 7.396 4.606 7.4 4.612 7.4 4.612 13.201 13.382 13.201 13.382 7.4 13.387 7.4" fill="#50e6ff" /><path d="M4.606,7.4c0-.1.008,5.681.008,5.8L8.995,10.3Z" fill="#32bedd" /><path d="M13.384,7.4,8.995,10.3,13.376,13.2C13.376,13.083,13.384,7.3,13.384,7.4Z" fill="#198ab3" /><polygon points="8.995 10.299 4.614 13.194 4.614 13.199 13.376 13.199 13.376 13.194 8.995 10.299" fill="url(#bbd02878-309a-4490-8196-946338d0f593)" /><g><path d="M1.072,1.43h1.29a0,0,0,0,1,0,0v3.6a.286.286,0,0,1-.286.286H.786A.286.286,0,0,1,.5,5.035V2A.572.572,0,0,1,1.072,1.43Z" fill="#999" /><path d="M1.072,1.43h1.29a0,0,0,0,1,0,0v3.6a.286.286,0,0,1-.286.286H.786A.286.286,0,0,1,.5,5.035V2A.572.572,0,0,1,1.072,1.43Z" fill="#999" opacity="0.5" /></g><g><path d="M15.638,1.43h1.29A.572.572,0,0,1,17.5,2V5.035a.286.286,0,0,1-.286.286h-1.29a.286.286,0,0,1-.286-.286V1.43A0,0,0,0,1,15.638,1.43Z" fill="#999" /><path d="M15.638,1.43h1.29A.572.572,0,0,1,17.5,2V5.035a.286.286,0,0,1-.286.286h-1.29a.286.286,0,0,1-.286-.286V1.43A0,0,0,0,1,15.638,1.43Z" fill="#999" opacity="0.5" /></g><path d="M8.66-6.163H9.907a0,0,0,0,1,0,0v17a0,0,0,0,1,0,0H8.66a.567.567,0,0,1-.567-.567V-5.6A.567.567,0,0,1,8.66-6.163Z" transform="translate(11.337 -6.663) rotate(90)" fill="#949494" /><g><path d="M.786,12.679h1.29a.286.286,0,0,1,.286.286v3.6a0,0,0,0,1,0,0H1.072A.572.572,0,0,1,.5,16V12.965A.286.286,0,0,1,.786,12.679Z" fill="#999" /><path d="M.786,12.679h1.29a.286.286,0,0,1,.286.286v3.6a0,0,0,0,1,0,0H1.072A.572.572,0,0,1,.5,16V12.965A.286.286,0,0,1,.786,12.679Z" fill="#999" opacity="0.5" /></g><g><path d="M15.924,12.679h1.29a.286.286,0,0,1,.286.286V16a.572.572,0,0,1-.572.572h-1.29a0,0,0,0,1,0,0v-3.6A.286.286,0,0,1,15.924,12.679Z" fill="#999" /><path d="M15.924,12.679h1.29a.286.286,0,0,1,.286.286V16a.572.572,0,0,1-.572.572h-1.29a0,0,0,0,1,0,0v-3.6A.286.286,0,0,1,15.924,12.679Z" fill="#999" opacity="0.5" /></g><path d="M8.66,7.163H9.907a0,0,0,0,1,0,0v17a0,0,0,0,1,0,0H8.66a.567.567,0,0,1-.567-.567V7.73A.567.567,0,0,1,8.66,7.163Z" transform="translate(-6.663 24.663) rotate(-90)" fill="#949494" /></g></g></svg>',
         "ecf79797b7a8f7825eb4c987b1269d035fe3408f999149f29106fc24a62b0452": '<svg id="a5c93a83-9fd9-4ccb-ba77-53d6c609a7d3" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><defs><linearGradient id="acf2da4b-8aca-4b58-b995-ca6956cf663e" x1="5.41" y1="17.33" x2="5.41" y2="0.61" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#949494" /><stop offset="0.53" stop-color="#a2a2a2" /><stop offset="1" stop-color="#b3b3b3" /></linearGradient><linearGradient id="b152b416-25c2-4a4a-9d7f-a0bb2a13f84a" x1="10.04" y1="17.39" x2="10.04" y2="6.82" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0078d4" /><stop offset="0.16" stop-color="#1380da" /><stop offset="0.53" stop-color="#3c91e5" /><stop offset="0.82" stop-color="#559cec" /><stop offset="1" stop-color="#5ea0ef" /></linearGradient></defs><title>Icon-databases-136</title><path d="M10.32,16.76a.58.58,0,0,1-.57.57H1.07a.57.57,0,0,1-.57-.57V1.18A.56.56,0,0,1,1.07.61H9.75a.57.57,0,0,1,.57.57Z" fill="url(#acf2da4b-8aca-4b58-b995-ca6956cf663e)" /><path d="M1.94,6.47A1.07,1.07,0,0,1,3,5.41H7.9A1.07,1.07,0,0,1,9,6.47H9A1.07,1.07,0,0,1,7.9,7.54H3A1.07,1.07,0,0,1,1.94,6.47Z" fill="#003067" /><path d="M1.94,3.31A1.07,1.07,0,0,1,3,2.24H7.9A1.07,1.07,0,0,1,9,3.31H9A1.07,1.07,0,0,1,7.9,4.37H3A1.07,1.07,0,0,1,1.94,3.31Z" fill="#003067" /><circle cx="3.06" cy="3.31" r="0.72" fill="#50e6ff" /><circle cx="3.06" cy="6.47" r="0.72" fill="#50e6ff" /><path d="M17.5,14.08a3.36,3.36,0,0,0-2.91-3.22,4.22,4.22,0,0,0-4.35-4A4.32,4.32,0,0,0,6.1,9.64a4,4,0,0,0-3.52,3.85,4.06,4.06,0,0,0,4.2,3.9l.37,0H14l.17,0A3.39,3.39,0,0,0,17.5,14.08Z" fill="url(#b152b416-25c2-4a4a-9d7f-a0bb2a13f84a)" /><path d="M13.61,14.45V11.09h-.93v4.12h2.45v-.76ZM6.51,12.8A2.23,2.23,0,0,1,6,12.49a.44.44,0,0,1-.12-.32.34.34,0,0,1,.15-.3.66.66,0,0,1,.42-.12,1.66,1.66,0,0,1,1,.29v-.86a2.89,2.89,0,0,0-1-.15,1.69,1.69,0,0,0-1.09.33,1.1,1.1,0,0,0-.41.89,1.34,1.34,0,0,0,.94,1.2,2.51,2.51,0,0,1,.61.36.42.42,0,0,1,.15.32.34.34,0,0,1-.15.3.75.75,0,0,1-.45.12,1.63,1.63,0,0,1-1.08-.42v.92A2.25,2.25,0,0,0,6,15.28,1.91,1.91,0,0,0,7.15,15a1.07,1.07,0,0,0,.43-.91,1,1,0,0,0-.25-.7A2.36,2.36,0,0,0,6.51,12.8Zm5.16,1.58A2.37,2.37,0,0,0,12,13.12,2.28,2.28,0,0,0,11.75,12a1.77,1.77,0,0,0-.69-.74A1.94,1.94,0,0,0,10,11,2.21,2.21,0,0,0,9,11.29a1.87,1.87,0,0,0-.73.77A2.52,2.52,0,0,0,8,13.2a2.26,2.26,0,0,0,.24,1.05,1.87,1.87,0,0,0,.68.74,2,2,0,0,0,1,.29l.85,1h1.2l-1.19-1.1A1.82,1.82,0,0,0,11.67,14.38Zm-.93-.25a.92.92,0,0,1-.76.35.91.91,0,0,1-.75-.36,1.5,1.5,0,0,1-.28-1,1.46,1.46,0,0,1,.29-1,.92.92,0,0,1,.77-.37.86.86,0,0,1,.74.37,1.54,1.54,0,0,1,.28,1A1.47,1.47,0,0,1,10.74,14.13Z" fill="#f2f2f2" /></svg>',
@@ -9758,7 +10432,7 @@ var init_manifest_generated = __esm({
       aws: ["69da81b985927d64", "5282404e5c2d99f3", "173849580e0137b7", "401a550dc39d50cf", "32dd530bf1b2ffda", "9970bc0e154f7fa6", "fd381aeadf455c41", "b2fe0d79a4e5c5b3", "6cc34b07d2641648", "fef6457d55700680", "f492bb7f146528a5"],
       azure: ["57ba8eac0bfb7533", "856438a822c39df9", "2d8d2317e80dc9bd", "c39bff2b4ff90c6e", "f7d2aab6a79e32bf", "37258764cc0b855f", "d83610362ccf5cd7", "22e285c6f3a73de1"],
       gcp: ["a2cb5378fdc60c38"],
-      simple: ["eac86620a5e8f5b2", "95fbd9f6af06d985", "1cbe140810cc6c5d", "a400d24136e9f3e7", "011df385ba3ca790", "5a92ccd99699089d", "2b5330e372f04696", "77e6e84d6e53201c", "b0216160139dc862", "5817964cb0384c72", "06a1028953281a79", "3a95c528785a6469", "01d7572c39535b90", "cc5b055c78a97839", "54e9122075fc5e4f", "e4c5df6db7253960", "2a72d1eadd85c5c9", "cf8e47e15533dcb7", "5c5a1282f3655b12", "d0d96c1000caf09b", "7b197adbf016e6c3", "b0babd2b68c790b2", "9d7fd9fd5819442f", "462686d5f43c498e", "7b04264922220031", "53a707eac76de68c", "c741b16a783a2bc5", "d6a53e52ea5ba8e1", "8436109216836112", "1884fce4be74d53a", "143116c47ba9fab8", "e23ab85a9aaa575d", "60ac33142e463bd8", "15ab6fadccf21c08", "dcbf8dac2d8ab2a2", "ce297a2920ea23ed", "0b3be2bb61bd9877", "0c6c2152b7f09f6c", "42cd34935157a155", "73e0568cc44c46b4", "3edf799dc8226ba9", "962b300e1deb542f", "67ddb22ac35b5686", "6105d1a100a53100", "612f382c3e19c3fa", "4e710725a8904179"],
+      simple: ["52a9a29e25e38dbd", "4cd319657bb54c99", "0e8d1703f350ab1f", "dbd72d668fe4ee7e", "4d3ede6cde078727", "6adde891685ca110", "6c443f93b9607be1", "51a213b39766d783", "c225b03e21f4d02d", "c740c3891144bf44", "3ad09576c26b65d0", "88923a730b0f29ec", "69ae3357260b04a7", "a1228f91a028ba47", "e891a7d1860e12a2", "3f18b2331cb1067a", "7f5f05668da7b75e", "c2ef578c94e45ac3", "7f70aba2a2d1218c", "351f4de267c60462", "306249e105b4bc5e", "45a42dc5dd721ed8", "f5e5c7141ee99e98", "b195585a0f99858a", "6b39fa0871db7424", "3fa3ce02a432a9c0", "c1bbe3f0b5113a47", "b59179af5364e8f4", "5c9723f260f58451", "59dec1b2c07af2a2", "1b973bf0c4ddb0b3", "873524b9da5e5caf", "4cd9d7f732956ed7", "af1178d176c312da", "0dae1c9f3dfe92bc", "f25c3ba21ade89a3", "cee3fb521472ed68", "570acb11a0529291", "1718d31ff0de4fdf", "425a9cc5a2ff42bf", "302d2fb02676aef2", "a11e6d0b581d62ba", "df9e32d6848511e3", "0d0b64e787cb83f1", "748827b839ee5458", "aa90703f052c8d13", "a1a6d650fe88cf3a"],
       k8s: ["aeb85bfd5ff8be71"]
     };
   }
@@ -9999,15 +10673,21 @@ var init_lucide_generated = __esm({
       "arrow-right-left": { viewBox: "0 0 24 24", body: '<path d="m16 3 4 4-4 4"/><path d="M20 7H4"/><path d="m8 21-4-4 4-4"/><path d="M4 17h16"/>', style: "stroke", brandHex: null, tags: ["bidirectional", "two-way", "2-way", "swap", "switch", "transaction", "reorder", "move"] },
       "arrow-up": { viewBox: "0 0 24 24", body: '<path d="m5 12 7-7 7 7"/><path d="M12 19V5"/>', style: "stroke", brandHex: null, tags: ["forward", "direction", "north"] },
       "arrow-up-right": { viewBox: "0 0 24 24", body: '<path d="M7 7h10v10"/><path d="M7 17 17 7"/>', style: "stroke", brandHex: null, tags: ["direction", "north-east", "diagonal"] },
+      "audio-lines": { viewBox: "0 0 24 24", body: '<path d="M2 10v3"/><path d="M6 6v11"/><path d="M10 3v18"/><path d="M14 8v7"/><path d="M18 5v13"/><path d="M22 10v3"/>', style: "stroke", brandHex: null, tags: ["graphic equaliser", "sound", "noise", "listen", "hearing", "hertz", "frequency", "wavelength", "vibrate", "sine", "synthesizer", "synthesiser", "levels", "track", "music", "playback", "radio", "broadcast", "airwaves", "voice", "vocals", "singer", "song"] },
+      "audio-waveform": { viewBox: "0 0 24 24", body: '<path d="M2 13a2 2 0 0 0 2-2V7a2 2 0 0 1 4 0v13a2 2 0 0 0 4 0V4a2 2 0 0 1 4 0v13a2 2 0 0 0 4 0v-4a2 2 0 0 1 2-2"/>', style: "stroke", brandHex: null, tags: ["sound", "noise", "listen", "hearing", "hertz", "frequency", "wavelength", "vibrate", "sine", "synthesizer", "synthesiser", "levels", "track", "music", "playback", "radio", "broadcast", "airwaves", "voice", "vocals", "singer", "song"] },
+      "award": { viewBox: "0 0 24 24", body: '<path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"/><circle cx="12" cy="8" r="6"/>', style: "stroke", brandHex: null, tags: ["achievement", "badge", "rosette", "prize", "winner"] },
       "badge": { viewBox: "0 0 24 24", body: '<path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/>', style: "stroke", brandHex: null, tags: ["check", "verified", "unverified"] },
       "badge-alert": { viewBox: "0 0 24 24", body: '<path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/>', style: "stroke", brandHex: null, tags: ["check", "verified", "unverified", "security", "safety", "issue"] },
       "badge-check": { viewBox: "0 0 24 24", body: '<path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m16 9-5.5 5.5L8 12"/>', style: "stroke", brandHex: null, tags: ["verified", "check"] },
+      "badge-dollar-sign": { viewBox: "0 0 24 24", body: '<path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/>', style: "stroke", brandHex: null, tags: ["discount", "offer", "sale", "voucher", "tag", "monetization", "marketing", "finance", "financial", "exchange", "transaction", "payment", "usd"] },
       "badge-x": { viewBox: "0 0 24 24", body: '<path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><line x1="15" x2="9" y1="9" y2="15"/><line x1="9" x2="15" y1="9" y2="15"/>', style: "stroke", brandHex: null, tags: ["verified", "unverified", "lost", "delete", "remove"] },
       "ban": { viewBox: "0 0 24 24", body: '<circle cx="12" cy="12" r="10"/><path d="M4.929 4.929 19.07 19.071"/>', style: "stroke", brandHex: null, tags: ["cancel", "no", "stop", "forbidden", "prohibited", "error", "incorrect", "mistake", "wrong", "failure", "circle", "slash", "null", "void"] },
       "banknote": { viewBox: "0 0 24 24", body: '<rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/>', style: "stroke", brandHex: null, tags: ["currency", "money", "payment"] },
+      "battery-charging": { viewBox: "0 0 24 24", body: '<path d="m11 7-3 5h4l-3 5"/><path d="M14.856 6H16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.935"/><path d="M22 14v-4"/><path d="M5.14 18H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2.936"/>', style: "stroke", brandHex: null, tags: ["power", "electricity", "energy", "accumulator", "charge"] },
       "bell": { viewBox: "0 0 24 24", body: '<path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/>', style: "stroke", brandHex: null, tags: ["alarm", "notification", "sound", "reminder"] },
       "bell-ring": { viewBox: "0 0 24 24", body: '<path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M22 8c0-2.3-.8-4.3-2-6"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/><path d="M4 2C2.8 3.7 2 5.7 2 8"/>', style: "stroke", brandHex: null, tags: ["alarm", "notification", "sound", "reminder"] },
       "binary": { viewBox: "0 0 24 24", body: '<rect x="14" y="14" width="4" height="6" rx="2"/><rect x="6" y="4" width="4" height="6" rx="2"/><path d="M6 20h4"/><path d="M14 10h4"/><path d="M6 14h2v6"/><path d="M14 4h2v6"/>', style: "stroke", brandHex: null, tags: ["code", "digits", "computer", "zero", "one", "boolean"] },
+      "bitcoin": { viewBox: "0 0 24 24", body: '<path d="M11.767 19.089c4.924.868 6.14-6.025 1.216-6.894m-1.216 6.894L5.86 18.047m5.908 1.042-.347 1.97m1.563-8.864c4.924.869 6.14-6.025 1.215-6.893m-1.215 6.893-3.94-.694m5.155-6.2L8.29 4.26m5.908 1.042.348-1.97M7.48 20.364l3.126-17.727"/>', style: "stroke", brandHex: null, tags: ["cryptocurrency", "digital", "blockchain", "finance", "coin", "market", "decentralized", "investment", "crypto", "currency", "money", "payment"] },
       "blocks": { viewBox: "0 0 24 24", body: '<path d="M10 22V7a1 1 0 0 0-1-1H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5a1 1 0 0 0-1-1H2"/><rect x="14" y="2" width="8" height="8" rx="1"/>', style: "stroke", brandHex: null, tags: ["addon", "plugin", "integration", "extension", "package", "build", "stack", "toys", "kids", "children", "learning", "squares", "corner"] },
       "book-open": { viewBox: "0 0 24 24", body: '<path d="M12 5v16"/><path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z"/>', style: "stroke", brandHex: null, tags: ["reading", "pages", "booklet", "magazine", "leaflet", "pamphlet", "library", "writing", "written", "writer", "author", "story", "script", "screenplay", "fiction", "novel", "information", "knowledge", "education", "high school", "university", "college", "academy", "student", "study", "learning", "homework", "research", "documentation", "revealed", "blank", "plain"] },
       "book-open-check": { viewBox: "0 0 24 24", body: '<path d="M12 5v16"/><path d="m16 12 2 2 4-4"/><path d="M22 6V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2h4.001A2 2 0 0022 17v-1.344"/>', style: "stroke", brandHex: null, tags: ["read", "pages", "booklet", "magazine", "leaflet", "pamphlet", "library", "written", "authored", "published", "informed", "knowledgeable", "educated", "schooled", "homework", "examined", "tested", "marked", "passed", "graduated", "studied", "learned", "lesson", "researched", "documented", "revealed", "blank", "plain language", "true", "truth", "verified", "corrected", "task", "todo", "done", "completed", "finished", "ticked"] },
@@ -10025,12 +10705,21 @@ var init_lucide_generated = __esm({
       "bug-off": { viewBox: "0 0 24 24", body: '<path d="M12 20v-8"/><path d="M12.656 7H14a4 4 0 0 1 4 4v1.344"/><path d="M14.12 3.88 16 2"/><path d="M17.123 17.123A6 6 0 0 1 6 14v-3a4 4 0 0 1 1.72-3.287"/><path d="m2 2 20 20"/><path d="M21 5a4 4 0 0 1-3.55 3.97"/><path d="M22 13h-3.344"/><path d="M3 21a4 4 0 0 1 3.81-4"/><path d="M3 5a4 4 0 0 0 3.55 3.97"/><path d="M6 13H2"/><path d="m8 2 1.88 1.88"/><path d="M9.712 4.06A3 3 0 0 1 15 6v1.13"/>', style: "stroke", brandHex: null, tags: ["issue", "fixed", "resolved", "testing", "debug", "code", "insect", "kill", "exterminate", "pest control"] },
       "bug-play": { viewBox: "0 0 24 24", body: '<path d="M10 19.655A6 6 0 0 1 6 14v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 3.97"/><path d="M14 15.003a1 1 0 0 1 1.517-.859l4.997 2.997a1 1 0 0 1 0 1.718l-4.997 2.997a1 1 0 0 1-1.517-.86z"/><path d="M14.12 3.88 16 2"/><path d="M21 5a4 4 0 0 1-3.55 3.97"/><path d="M3 21a4 4 0 0 1 3.81-4"/><path d="M3 5a4 4 0 0 0 3.55 3.97"/><path d="M6 13H2"/><path d="m8 2 1.88 1.88"/><path d="M9 7.13V6a3 3 0 1 1 6 0v1.13"/>', style: "stroke", brandHex: null, tags: ["issue", "testing", "debug", "reproduce", "code", "insect"] },
       "building": { viewBox: "0 0 24 24", body: '<path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M12 6h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M16 6h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/><path d="M8 6h.01"/><path d="M9 22v-3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3"/><rect x="4" y="2" width="16" height="20" rx="2"/>', style: "stroke", brandHex: null, tags: ["organisation", "organization"] },
+      "building-complex": { viewBox: "0 0 24 24", body: '<path d="M10 12h4"/><path d="M10 8h4"/><path d="M14 21v-3a2 2 0 0 0-4 0v3"/><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"/><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/>', style: "stroke", brandHex: null, tags: ["business", "company", "enterprise", "skyscraper", "organisation", "organization", "city"] },
       "cable": { viewBox: "0 0 24 24", body: '<path d="M17 19a1 1 0 0 1-1-1v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2a1 1 0 0 1-1 1z"/><path d="M17 21v-2"/><path d="M19 14V6.5a1 1 0 0 0-7 0v11a1 1 0 0 1-7 0V10"/><path d="M21 21v-2"/><path d="M3 5V3"/><path d="M4 10a2 2 0 0 1-2-2V6a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2a2 2 0 0 1-2 2z"/><path d="M7 5V3"/>', style: "stroke", brandHex: null, tags: ["cord", "wire", "connector", "connection", "link", "signal", "console", "computer", "equipment", "electricity", "energy", "electronics", "recharging", "charger", "power", "supply", "disconnected", "unplugged", "plugs", "interface", "input", "output", "audio video", "av", "rca", "scart", "tv", "television", "optical"] },
       "calculator": { viewBox: "0 0 24 24", body: '<rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/>', style: "stroke", brandHex: null, tags: ["count", "calculating machine"] },
       "calendar": { viewBox: "0 0 24 24", body: '<path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/>', style: "stroke", brandHex: null, tags: ["date", "month", "year", "event", "birthday", "birthdate"] },
+      "calendar-check": { viewBox: "0 0 24 24", body: '<path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="m9 15 2 2 4-4"/>', style: "stroke", brandHex: null, tags: ["date", "day", "month", "year", "event", "confirm", "subscribe", "schedule", "done", "todo", "tick", "complete", "task"] },
       "calendar-clock": { viewBox: "0 0 24 24", body: '<path d="M16 14v2.2l1.6 1"/><path d="M16 2v3"/><path d="M21 7.338V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h2.338"/><path d="M3 9h5.859"/><path d="M8 2v3"/><circle cx="16" cy="16" r="6"/>', style: "stroke", brandHex: null, tags: ["date", "day", "month", "year", "event", "clock", "hour"] },
+      "camera": { viewBox: "0 0 24 24", body: '<path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"/><circle cx="12" cy="13" r="3"/>', style: "stroke", brandHex: null, tags: ["photography", "lens", "focus", "capture", "shot", "visual", "image", "device", "equipment", "photo", "webcam", "video"] },
+      "car": { viewBox: "0 0 24 24", body: '<path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/>', style: "stroke", brandHex: null, tags: ["vehicle", "drive", "trip", "journey"] },
+      "cctv": { viewBox: "0 0 24 24", body: '<path d="M16.75 12h3.632a1 1 0 0 1 .894 1.447l-2.034 4.069a1 1 0 0 1-1.708.134l-2.124-2.97"/><path d="M17.106 9.053a1 1 0 0 1 .447 1.341l-3.106 6.211a1 1 0 0 1-1.342.447L3.61 12.3a2.92 2.92 0 0 1-1.3-3.91L3.69 5.6a2.92 2.92 0 0 1 3.92-1.3z"/><path d="M2 19h3.76a2 2 0 0 0 1.8-1.1L9 15"/><path d="M2 21v-4"/><path d="M7 9h.01"/>', style: "stroke", brandHex: null, tags: ["camera", "surveillance", "recording", "film", "videotape", "crime", "watching"] },
+      "chart-area": { viewBox: "0 0 24 24", body: '<path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M7 11.207a.5.5 0 0 1 .146-.353l2-2a.5.5 0 0 1 .708 0l3.292 3.292a.5.5 0 0 0 .708 0l4.292-4.292a.5.5 0 0 1 .854.353V16a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1z"/>', style: "stroke", brandHex: null, tags: ["statistics", "analytics", "diagram", "graph", "area"] },
       "chart-bar": { viewBox: "0 0 24 24", body: '<path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M7 16h8"/><path d="M7 11h12"/><path d="M7 6h3"/>', style: "stroke", brandHex: null, tags: ["statistics", "analytics", "diagram", "graph"] },
+      "chart-candlestick": { viewBox: "0 0 24 24", body: '<path d="M9 5v4"/><rect width="4" height="6" x="7" y="9" rx="1"/><path d="M9 15v2"/><path d="M17 3v2"/><rect width="4" height="8" x="15" y="5" rx="1"/><path d="M17 13v3"/><path d="M3 3v16a2 2 0 0 0 2 2h16"/>', style: "stroke", brandHex: null, tags: ["trading", "trader", "financial", "markets", "portfolio", "assets", "prices", "value", "valuation", "commodities", "currencies", "currency", "stocks", "exchange", "hedge fund", "statistics", "analytics", "diagram", "graph"] },
+      "chart-column": { viewBox: "0 0 24 24", body: '<path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>', style: "stroke", brandHex: null, tags: ["statistics", "analytics", "diagram", "graph"] },
       "chart-line": { viewBox: "0 0 24 24", body: '<path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="m19 9-5 5-4-4-3 3"/>', style: "stroke", brandHex: null, tags: ["statistics", "analytics", "diagram", "graph"] },
+      "chart-network": { viewBox: "0 0 24 24", body: '<path d="m13.11 7.664 1.78 2.672"/><path d="m14.162 12.788-3.324 1.424"/><path d="m20 4-6.06 1.515"/><path d="M3 3v16a2 2 0 0 0 2 2h16"/><circle cx="12" cy="6" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="9" cy="15" r="2"/>', style: "stroke", brandHex: null, tags: ["statistics", "analytics", "diagram", "graph", "topology", "cluster", "web", "nodes", "connections", "edges"] },
       "chart-pie": { viewBox: "0 0 24 24", body: '<path d="M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z"/><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/>', style: "stroke", brandHex: null, tags: ["statistics", "analytics", "diagram", "presentation"] },
       "check": { viewBox: "0 0 24 24", body: '<path d="M20 6 9 17l-5-5"/>', style: "stroke", brandHex: null, tags: ["done", "todo", "tick", "complete", "task"] },
       "check-check": { viewBox: "0 0 24 24", body: '<path d="M18 6 7 17l-5-5"/><path d="m22 10-7.5 7.5L13 16"/>', style: "stroke", brandHex: null, tags: ["done", "received", "double", "todo", "tick", "complete", "task"] },
@@ -10047,6 +10736,7 @@ var init_lucide_generated = __esm({
       "circle-stop": { viewBox: "0 0 24 24", body: '<circle cx="12" cy="12" r="10"/><rect x="9" y="9" width="6" height="6" rx="1"/>', style: "stroke", brandHex: null, tags: ["media", "music"] },
       "circle-user": { viewBox: "0 0 24 24", body: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/>', style: "stroke", brandHex: null, tags: ["person", "account", "contact"] },
       "circle-x": { viewBox: "0 0 24 24", body: '<circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/>', style: "stroke", brandHex: null, tags: ["cancel", "close", "delete", "remove", "times", "clear", "error", "incorrect", "wrong", "mistake", "failure", "linter", "multiply", "multiplication"] },
+      "clapperboard": { viewBox: "0 0 24 24", body: '<path d="m12.296 3.464 3.02 3.956"/><path d="M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3z"/><path d="M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="m6.18 5.276 3.1 3.899"/>', style: "stroke", brandHex: null, tags: ["movie", "film", "video", "camera", "cinema", "cut", "action", "television", "tv", "show", "entertainment"] },
       "clipboard-check": { viewBox: "0 0 24 24", body: '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>', style: "stroke", brandHex: null, tags: ["copied", "pasted", "done", "todo", "tick", "complete", "task"] },
       "clipboard-list": { viewBox: "0 0 24 24", body: '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/>', style: "stroke", brandHex: null, tags: ["copy", "paste", "tasks"] },
       "clock": { viewBox: "0 0 24 24", body: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>', style: "stroke", brandHex: null, tags: ["time", "watch", "alarm"] },
@@ -10061,7 +10751,9 @@ var init_lucide_generated = __esm({
       "cog": { viewBox: "0 0 24 24", body: '<path d="M11 10.27 7 3.34"/><path d="m11 13.73-4 6.93"/><path d="M12 22v-2"/><path d="M12 2v2"/><path d="M14 12h8"/><path d="m17 20.66-1-1.73"/><path d="m17 3.34-1 1.73"/><path d="M2 12h2"/><path d="m20.66 17-1.73-1"/><path d="m20.66 7-1.73 1"/><path d="m3.34 17 1.73-1"/><path d="m3.34 7 1.73 1"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="12" r="8"/>', style: "stroke", brandHex: null, tags: ["computing", "settings", "cog", "edit", "gear", "preferences", "controls", "configuration", "fixed", "build", "construction", "parts"] },
       "coins": { viewBox: "0 0 24 24", body: '<path d="M13.744 17.736a6 6 0 1 1-7.48-7.48"/><path d="M15 6h1v4"/><path d="m6.134 14.768.866-.5 2 3.464"/><circle cx="16" cy="8" r="6"/>', style: "stroke", brandHex: null, tags: ["money", "cash", "finance", "gamble"] },
       "compass": { viewBox: "0 0 24 24", body: '<circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/>', style: "stroke", brandHex: null, tags: ["direction", "north", "east", "south", "west", "browser"] },
+      "contact": { viewBox: "0 0 24 24", body: '<path d="M16 2v2"/><path d="M7 21v-2a2 2 0 012-2h6a2 2 0 012 2v2"/><path d="M8 2v2"/><circle cx="12" cy="10" r="3"/><rect x="3" y="3" width="18" height="18" rx="2"/>', style: "stroke", brandHex: null, tags: ["user", "person", "family", "friend", "acquaintance", "listing", "networking"] },
       "container": { viewBox: "0 0 24 24", body: '<path d="M22 7.7c0-.6-.4-1.2-.8-1.5l-6.3-3.9a1.72 1.72 0 0 0-1.7 0l-10.3 6c-.5.2-.9.8-.9 1.4v6.6c0 .5.4 1.2.8 1.5l6.3 3.9a1.72 1.72 0 0 0 1.7 0l10.3-6c.5-.3.9-1 .9-1.5Z"/><path d="M10 21.9V14L2.1 9.1"/><path d="m10 14 11.9-6.9"/><path d="M14 19.8v-8.1"/><path d="M18 17.5V9.4"/>', style: "stroke", brandHex: null, tags: ["storage", "shipping", "freight", "supply chain", "environment", "devops", "code", "coding"] },
+      "cookie": { viewBox: "0 0 24 24", body: '<path d="M11 17h.01"/><path d="M11.496 2c.324-.016.558.292.529.615a4 4 0 004.235 4.368.713.713 0 01.758.757 4 4 0 004.366 4.237c.323-.03.63.204.614.527a10 10 0 01-2.915 6.566A1 1 0 114.93 4.918 10 10 0 0111.496 2"/><path d="M12 12h.01"/><path d="M16 16h.01"/><path d="M16 3h.01"/><path d="M21 4h.01"/><path d="M21 8h.01"/><path d="M7 14h.01"/><path d="M9 8h.01"/>', style: "stroke", brandHex: null, tags: ["biscuit", "snack", "dessert", "food", "sweet", "bakery", "consent", "privacy", "legal", "tracking", "browser", "website"] },
       "copy": { viewBox: "0 0 24 24", body: '<rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>', style: "stroke", brandHex: null, tags: ["clone", "duplicate", "multiple"] },
       "corner-down-right": { viewBox: "0 0 24 24", body: '<path d="m15 10 5 5-5 5"/><path d="M4 4v7a4 4 0 0 0 4 4h12"/>', style: "stroke", brandHex: null, tags: ["arrow", "indent", "tab"] },
       "cpu": { viewBox: "0 0 24 24", body: '<path d="M12 20v2"/><path d="M12 2v2"/><path d="M17 20v2"/><path d="M17 2v2"/><path d="M2 12h2"/><path d="M2 17h2"/><path d="M2 7h2"/><path d="M20 12h2"/><path d="M20 17h2"/><path d="M20 7h2"/><path d="M7 20v2"/><path d="M7 2v2"/><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="8" y="8" width="8" height="8" rx="1"/>', style: "stroke", brandHex: null, tags: ["processor", "cores", "technology", "computer", "chip", "circuit", "memory", "ram", "specs", "gigahertz", "ghz"] },
@@ -10072,6 +10764,7 @@ var init_lucide_generated = __esm({
       "database-backup": { viewBox: "0 0 24 24", body: '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 12a9 3 0 0 0 5 2.69"/><path d="M21 9.3V5"/><path d="M3 5v14a9 3 0 0 0 6.47 2.88"/><path d="M12 12v4h4"/><path d="M13 20a5 5 0 0 0 9-3 4.5 4.5 0 0 0-4.5-4.5c-1.33 0-2.54.54-3.41 1.41L12 16"/>', style: "stroke", brandHex: null, tags: ["storage", "memory", "bytes", "servers", "backup", "timemachine", "rotate", "arrow", "left"] },
       "database-search": { viewBox: "0 0 24 24", body: '<path d="M21 11.693V5"/><path d="m22 22-1.875-1.875"/><path d="M3 12a9 3 0 0 0 8.697 2.998"/><path d="M3 5v14a9 3 0 0 0 9.28 2.999"/><circle cx="18" cy="18" r="3"/><ellipse cx="12" cy="5" rx="9" ry="3"/>', style: "stroke", brandHex: null, tags: ["storage", "memory", "container", "tin", "pot", "bytes", "servers"] },
       "database-zap": { viewBox: "0 0 24 24", body: '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 15 21.84"/><path d="M21 5V8"/><path d="M21 12L18 17H22L19 22"/><path d="M3 12A9 3 0 0 0 14.59 14.87"/>', style: "stroke", brandHex: null, tags: ["cache busting", "storage", "memory", "bytes", "servers", "power", "crash"] },
+      "dna": { viewBox: "0 0 24 24", body: '<path d="m10 16 1.5 1.5"/><path d="m14 8-1.5-1.5"/><path d="M15 2c-1.798 1.998-2.518 3.995-2.807 5.993"/><path d="m16.5 10.5 1 1"/><path d="m17 6-2.891-2.891"/><path d="M2 15c6.667-6 13.333 0 20-6"/><path d="m20 9 .891.891"/><path d="M3.109 14.109 4 15"/><path d="m6.5 12.5 1 1"/><path d="m7 18 2.891 2.891"/><path d="M9 22c1.798-1.998 2.518-3.995 2.807-5.993"/>', style: "stroke", brandHex: null, tags: ["gene", "gmo", "helix", "heredity", "chromosome", "nucleic acid"] },
       "door-closed": { viewBox: "0 0 24 24", body: '<path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16"/><path d="M2 21h20"/><path d="M9 12h.01"/>', style: "stroke", brandHex: null, tags: ["entrance", "entry", "exit", "ingress", "egress", "gate", "gateway", "emergency exit"] },
       "door-open": { viewBox: "0 0 24 24", body: '<path d="M10 21H2"/><path d="M10 3H7a2 2 0 00-2 2v16"/><path d="M14 12h.01"/><path d="M19 21V5a2 2 0 00-1.675-1.974l-6.163-1.013A1 1 0 0010 3v18a1 1 0 001.124.992z"/><path d="M22 21h-3"/>', style: "stroke", brandHex: null, tags: ["entrance", "entry", "exit", "ingress", "egress", "gate", "gateway", "emergency exit"] },
       "download": { viewBox: "0 0 24 24", body: '<path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/>', style: "stroke", brandHex: null, tags: ["import", "export", "save"] },
@@ -10089,6 +10782,7 @@ var init_lucide_generated = __esm({
       "fingerprint-pattern": { viewBox: "0 0 24 24", body: '<path d="M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4"/><path d="M14 13.12c0 2.38 0 6.38-1 8.88"/><path d="M17.29 21.02c.12-.6.43-2.3.5-3.02"/><path d="M2 12a10 10 0 0 1 18-6"/><path d="M2 16h.01"/><path d="M21.8 16c.2-2 .131-5.354 0-6"/><path d="M5 19.5C5.5 18 6 15 6 12a6 6 0 0 1 .34-2"/><path d="M8.65 22c.21-.66.45-1.32.57-2"/><path d="M9 6.8a6 6 0 0 1 9 5.2v2"/>', style: "stroke", brandHex: null, tags: ["2fa", "authentication", "biometric", "identity", "security"] },
       "flag": { viewBox: "0 0 24 24", body: '<path d="M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528"/>', style: "stroke", brandHex: null, tags: ["report", "marker", "notification", "warning", "milestone", "goal", "notice", "signal", "attention", "banner"] },
       "flame": { viewBox: "0 0 24 24", body: '<path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4"/>', style: "stroke", brandHex: null, tags: ["heat", "burn", "light", "glow", "ignite", "passion", "ember", "fire", "lit", "burning", "spark", "embers", "smoke", "firefighter", "fireman", "department", "brigade", "station", "emergency"] },
+      "flask-conical": { viewBox: "0 0 24 24", body: '<path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/><path d="M6.453 15h11.094"/><path d="M8.5 2h7"/>', style: "stroke", brandHex: null, tags: ["beaker", "erlenmeyer", "lab", "chemistry", "experiment", "test"] },
       "folder": { viewBox: "0 0 24 24", body: '<path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>', style: "stroke", brandHex: null, tags: ["directory"] },
       "folder-lock": { viewBox: "0 0 24 24", body: '<rect width="8" height="5" x="14" y="17" rx="1"/><path d="M10 20H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v2.5"/><path d="M20 17v-2a2 2 0 1 0-4 0v2"/>', style: "stroke", brandHex: null, tags: ["directory", "lock", "private", "security", "protected"] },
       "forward": { viewBox: "0 0 24 24", body: '<path d="m15 17 5-5-5-5"/><path d="M4 18v-2a4 4 0 0 1 4-4h12"/>', style: "stroke", brandHex: null, tags: ["send", "share", "email"] },
@@ -10099,33 +10793,43 @@ var init_lucide_generated = __esm({
       "git-branch": { viewBox: "0 0 24 24", body: '<path d="M15 6a9 9 0 0 0-9 9V3"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>', style: "stroke", brandHex: null, tags: ["code", "version control", "vcs", "repository"] },
       "git-commit-horizontal": { viewBox: "0 0 24 24", body: '<circle cx="12" cy="12" r="3"/><line x1="3" x2="9" y1="12" y2="12"/><line x1="15" x2="21" y1="12" y2="12"/>', style: "stroke", brandHex: null, tags: ["code", "version control", "waypoint", "stop", "station"] },
       "git-compare-arrows": { viewBox: "0 0 24 24", body: '<circle cx="5" cy="6" r="3"/><path d="M12 6h5a2 2 0 0 1 2 2v7"/><path d="m15 9-3-3 3-3"/><circle cx="19" cy="18" r="3"/><path d="M12 18H7a2 2 0 0 1-2-2V9"/><path d="m9 15 3 3-3 3"/>', style: "stroke", brandHex: null, tags: ["code", "version control", "diff"] },
+      "git-fork": { viewBox: "0 0 24 24", body: '<circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9"/><path d="M12 12v3"/>', style: "stroke", brandHex: null, tags: ["code", "version control"] },
       "git-merge": { viewBox: "0 0 24 24", body: '<circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/>', style: "stroke", brandHex: null, tags: ["code", "version control"] },
       "git-pull-request": { viewBox: "0 0 24 24", body: '<circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" x2="6" y1="9" y2="21"/>', style: "stroke", brandHex: null, tags: ["code", "version control", "open"] },
       "globe": { viewBox: "0 0 24 24", body: '<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>', style: "stroke", brandHex: null, tags: ["world", "browser", "language", "translate"] },
       "globe-lock": { viewBox: "0 0 24 24", body: '<path d="M15.686 15A14.5 14.5 0 0 1 12 22a14.5 14.5 0 0 1 0-20 10 10 0 1 0 9.542 13"/><path d="M2 12h8.5"/><path d="M20 6V4a2 2 0 1 0-4 0v2"/><rect width="8" height="5" x="14" y="6" rx="1"/>', style: "stroke", brandHex: null, tags: ["vpn", "private", "privacy", "network", "world", "browser", "security", "encryption", "protection", "connection"] },
       "graduation-cap": { viewBox: "0 0 24 24", body: '<path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>', style: "stroke", brandHex: null, tags: ["school", "university", "learn", "study", "mortarboard", "education", "ceremony", "academic", "hat", "diploma", "doctorate"] },
+      "hammer": { viewBox: "0 0 24 24", body: '<path d="m15 12-9.373 9.373a1 1 0 0 1-3.001-3L12 9"/><path d="m18 15 4-4"/><path d="m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172v-.344a2 2 0 0 0-.586-1.414l-1.657-1.657A6 6 0 0 0 12.516 3H9l1.243 1.243A6 6 0 0 1 12 8.485V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5"/>', style: "stroke", brandHex: null, tags: ["mallet", "nails", "diy", "toolbox", "build", "construction"] },
+      "hand-coins": { viewBox: "0 0 24 24", body: '<path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17"/><path d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"/><path d="m2 16 6 6"/><circle cx="16" cy="9" r="2.9"/><circle cx="6" cy="5" r="3"/>', style: "stroke", brandHex: null, tags: ["savings", "banking", "money", "finance", "offers", "mortgage", "payment", "received", "wage", "payroll", "allowance", "pocket money", "handout", "pennies"] },
       "handshake": { viewBox: "0 0 24 24", body: '<path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/>', style: "stroke", brandHex: null, tags: ["agreement", "partnership", "deal", "business", "assistance", "cooperation", "friendship", "union", "terms"] },
       "hard-drive": { viewBox: "0 0 24 24", body: '<path d="M10 16h.01"/><path d="M2.212 11.577a2 2 0 0 0-.212.896V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5.527a2 2 0 0 0-.212-.896L18.55 5.11A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><path d="M21.946 12.013H2.054"/><path d="M6 16h.01"/>', style: "stroke", brandHex: null, tags: ["computer", "server", "memory", "data", "ssd", "disk", "hard disk", "storage", "hardware", "backup", "media"] },
       "headset": { viewBox: "0 0 24 24", body: '<path d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M21 16v2a4 4 0 0 1-4 4h-5"/>', style: "stroke", brandHex: null, tags: ["music", "audio", "sound", "gaming", "headphones", "headset", "call", "center", "phone", "telephone", "voip", "video"] },
       "heart": { viewBox: "0 0 24 24", body: '<path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/>', style: "stroke", brandHex: null, tags: ["like", "love", "emotion", "suit", "playing", "cards"] },
+      "heart-pulse": { viewBox: "0 0 24 24", body: '<path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/><path d="M3.22 13H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/>', style: "stroke", brandHex: null, tags: ["heartbeat", "pulse", "health", "medical", "blood pressure", "cardiac", "systole", "diastole"] },
+      "hospital": { viewBox: "0 0 24 24", body: '<path d="M12 7v4"/><path d="M14 21v-3a2 2 0 0 0-4 0v3"/><path d="M14 9h-4"/><path d="M18 11h2a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2h2"/><path d="M18 21V5a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16"/>', style: "stroke", brandHex: null, tags: ["infirmary", "sanatorium", "healthcare", "doctor", "hospice", "clinic", "emergency room", "ward", "building", "medical", "vet"] },
+      "hotel": { viewBox: "0 0 24 24", body: '<path d="M10 22v-6.57"/><path d="M12 11h.01"/><path d="M12 7h.01"/><path d="M14 15.43V22"/><path d="M15 16a5 5 0 0 0-6 0"/><path d="M16 11h.01"/><path d="M16 7h.01"/><path d="M8 11h.01"/><path d="M8 7h.01"/><rect x="4" y="2" width="16" height="20" rx="2"/>', style: "stroke", brandHex: null, tags: ["building", "hostel", "motel", "inn"] },
       "hourglass": { viewBox: "0 0 24 24", body: '<path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>', style: "stroke", brandHex: null, tags: ["timer", "time", "sandglass"] },
       "house": { viewBox: "0 0 24 24", body: '<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>', style: "stroke", brandHex: null, tags: ["home", "living", "building", "residence", "architecture"] },
       "id-card": { viewBox: "0 0 24 24", body: '<path d="M13 19a4 4 0 00-8 0"/><path d="M16 10h2"/><path d="M16 14h2"/><circle cx="9" cy="12" r="3"/><rect x="2" y="5" width="20" height="14" rx="2"/>', style: "stroke", brandHex: null, tags: ["card", "badge", "identity", "authentication", "secure"] },
       "image": { viewBox: "0 0 24 24", body: '<rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>', style: "stroke", brandHex: null, tags: ["picture", "photo"] },
       "inbox": { viewBox: "0 0 24 24", body: '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>', style: "stroke", brandHex: null, tags: ["email"] },
       "info": { viewBox: "0 0 24 24", body: '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>', style: "stroke", brandHex: null, tags: ["about", "advice", "clue", "details", "help", "hint", "indicator", "information", "knowledge", "notice", "status", "support", "tooltip"] },
+      "kanban": { viewBox: "0 0 24 24", body: '<path d="M5 3v14"/><path d="M12 3v8"/><path d="M19 3v18"/>', style: "stroke", brandHex: null, tags: ["projects", "manage", "overview", "board", "tickets", "issues", "roadmap", "plan", "intentions", "productivity", "work", "agile", "code", "coding"] },
       "key": { viewBox: "0 0 24 24", body: '<path d="m2 21 9.6-9.6"/><path d="m7.5 15.5 2.3 2.3a1 1 0 0 1 0 1.4l-2.1 2.1a1 1 0 0 1-1.4 0L4 19"/><circle cx="15.5" cy="7.5" r="5.5"/>', style: "stroke", brandHex: null, tags: ["password", "login", "authentication", "secure", "unlock", "keychain", "key ring", "fob"] },
       "key-round": { viewBox: "0 0 24 24", body: '<path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/>', style: "stroke", brandHex: null, tags: ["password", "login", "authentication", "secure", "unlock"] },
       "key-square": { viewBox: "0 0 24 24", body: '<path d="M12.4 2.7a2.5 2.5 0 0 1 3.4 0l5.5 5.5a2.5 2.5 0 0 1 0 3.4l-3.7 3.7a2.5 2.5 0 0 1-3.4 0L8.7 9.8a2.5 2.5 0 0 1 0-3.4z"/><path d="m14 7 3 3"/><path d="m9.4 10.6-6.814 6.814A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814"/>', style: "stroke", brandHex: null, tags: ["password", "login", "authentication", "secure", "unlock", "car key"] },
       "landmark": { viewBox: "0 0 24 24", body: '<path d="M10 18v-7"/><path d="M11.119 2.205a2 2 0 0 1 1.762 0l7.84 3.846A.5.5 0 0 1 20.5 7h-17a.5.5 0 0 1-.22-.949z"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="M3 22h18"/><path d="M6 18v-7"/>', style: "stroke", brandHex: null, tags: ["bank", "building", "capitol", "finance", "money", "museum", "art gallery", "hall", "institute", "pediment", "portico", "doric", "columns", "pillars", "classical", "architecture", "government", "institution", "monument", "site", "history", "historic", "library", "temple", "ancient", "structure"] },
+      "languages": { viewBox: "0 0 24 24", body: '<path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/>', style: "stroke", brandHex: null, tags: ["translate"] },
       "laptop": { viewBox: "0 0 24 24", body: '<path d="M18 5a2 2 0 0 1 2 2v8.526a2 2 0 0 0 .212.897l1.068 2.127a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45l1.068-2.127A2 2 0 0 0 4 15.526V7a2 2 0 0 1 2-2z"/><path d="M20.054 15.987H3.946"/>', style: "stroke", brandHex: null, tags: ["computer", "screen", "remote"] },
       "layers": { viewBox: "0 0 24 24", body: '<path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/>', style: "stroke", brandHex: null, tags: ["stack", "pile", "pages", "sheets", "paperwork", "copies", "copy"] },
       "layout-dashboard": { viewBox: "0 0 24 24", body: '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>', style: "stroke", brandHex: null, tags: ["masonry", "brick"] },
+      "library": { viewBox: "0 0 24 24", body: '<path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/>', style: "stroke", brandHex: null, tags: ["books", "reading", "written", "authors", "stories", "fiction", "novels", "information", "knowledge", "education", "high school", "university", "college", "academy", "learning", "study", "research", "collection", "vinyl", "records", "albums", "music", "package"] },
       "life-buoy": { viewBox: "0 0 24 24", body: '<circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/><circle cx="12" cy="12" r="4"/>', style: "stroke", brandHex: null, tags: ["preserver", "life belt", "lifesaver", "help", "rescue", "ship", "ring", "raft", "inflatable", "wheel", "donut"] },
       "lightbulb": { viewBox: "0 0 24 24", body: '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>', style: "stroke", brandHex: null, tags: ["idea", "bright", "lights"] },
       "link": { viewBox: "0 0 24 24", body: '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>', style: "stroke", brandHex: null, tags: ["chain", "url"] },
       "link-2": { viewBox: "0 0 24 24", body: '<path d="M9 17H7A5 5 0 0 1 7 7h2"/><path d="M15 7h2a5 5 0 1 1 0 10h-2"/><line x1="8" x2="16" y1="12" y2="12"/>', style: "stroke", brandHex: null, tags: ["chain", "url"] },
       "list-checks": { viewBox: "0 0 24 24", body: '<path d="M13 5h8"/><path d="M13 12h8"/><path d="M13 19h8"/><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/>', style: "stroke", brandHex: null, tags: ["todo", "done", "check", "tick", "complete", "tasks", "items", "pending"] },
+      "list-todo": { viewBox: "0 0 24 24", body: '<path d="M13 5h8"/><path d="M13 12h8"/><path d="M13 19h8"/><path d="m3 17 2 2 4-4"/><rect x="3" y="4" width="6" height="6" rx="1"/>', style: "stroke", brandHex: null, tags: ["todo", "done", "check", "tick", "complete", "tasks", "items", "pending"] },
       "loader": { viewBox: "0 0 24 24", body: '<path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/>', style: "stroke", brandHex: null, tags: ["loading", "wait", "busy", "progress", "spinner", "spinning", "throbber"] },
       "loader-circle": { viewBox: "0 0 24 24", body: '<path d="M21 12a9 9 0 1 1-6.219-8.56"/>', style: "stroke", brandHex: null, tags: ["loading", "wait", "busy", "progress", "spinner", "spinning", "throbber", "circle"] },
       "lock": { viewBox: "0 0 24 24", body: '<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>', style: "stroke", brandHex: null, tags: ["security", "password", "secure", "admin"] },
@@ -10136,33 +10840,49 @@ var init_lucide_generated = __esm({
       "mail": { viewBox: "0 0 24 24", body: '<path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/>', style: "stroke", brandHex: null, tags: ["email", "message", "letter", "unread"] },
       "map": { viewBox: "0 0 24 24", body: '<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/>', style: "stroke", brandHex: null, tags: ["location", "navigation", "travel"] },
       "map-pin": { viewBox: "0 0 24 24", body: '<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/>', style: "stroke", brandHex: null, tags: ["location", "waypoint", "marker", "drop"] },
+      "map-pinned": { viewBox: "0 0 24 24", body: '<path d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 01-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0112 0"/><path d="M4.474 15h-.197a1 1 0 00-.969.753l-1.097 4.35a1.5 1.5 0 001.444 1.898L20.344 22a1.5 1.5 0 001.446-1.897l-1.098-4.35a1 1 0 00-.969-.753h-.197"/><circle cx="12" cy="8" r="2"/>', style: "stroke", brandHex: null, tags: ["location", "waypoint", "marker", "drop"] },
       "megaphone": { viewBox: "0 0 24 24", body: '<path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/><path d="M8 6v8"/>', style: "stroke", brandHex: null, tags: ["advertisement", "announcement", "attention", "alert", "loudspeaker", "megaphone", "notification"] },
       "memory-stick": { viewBox: "0 0 24 24", body: '<path d="M12 12v-2"/><path d="M12 18v-2"/><path d="M16 12v-2"/><path d="M16 18v-2"/><path d="M2 11h1.5"/><path d="M20 18v-2"/><path d="M20.5 11H22"/><path d="M4 18v-2"/><path d="M8 12v-2"/><path d="M8 18v-2"/><rect x="2" y="6" width="20" height="10" rx="2"/>', style: "stroke", brandHex: null, tags: ["ram", "random access", "technology", "computer", "chip", "circuit", "specs", "capacity", "gigabytes", "gb"] },
       "merge": { viewBox: "0 0 24 24", body: '<path d="m8 6 4-4 4 4"/><path d="M12 2v10.3a4 4 0 0 1-1.172 2.872L4 22"/><path d="m20 22-5-5"/>', style: "stroke", brandHex: null, tags: ["combine", "join", "unite"] },
       "message-circle": { viewBox: "0 0 24 24", body: '<path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"/>', style: "stroke", brandHex: null, tags: ["comment", "chat", "conversation", "dialog", "feedback", "speech bubble"] },
       "message-square": { viewBox: "0 0 24 24", body: '<path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/>', style: "stroke", brandHex: null, tags: ["comment", "chat", "conversation", "dialog", "feedback", "speech bubble"] },
+      "message-square-quote": { viewBox: "0 0 24 24", body: '<path d="M14 14a2 2 0 0 0 2-2V8h-2"/><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/><path d="M8 14a2 2 0 0 0 2-2V8H8"/>', style: "stroke", brandHex: null, tags: ["comment", "chat", "conversation", "dialog", "feedback", "speech bubble", "blockquote", "quotation", "indent", "reply", "response"] },
       "message-square-text": { viewBox: "0 0 24 24", body: '<path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/><path d="M7 11h10"/><path d="M7 15h6"/><path d="M7 7h8"/>', style: "stroke", brandHex: null, tags: ["comment", "chat", "conversation", "dialog", "feedback", "speech bubble"] },
       "message-square-warning": { viewBox: "0 0 24 24", body: '<path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/><path d="M12 15h.01"/><path d="M12 7v4"/>', style: "stroke", brandHex: null, tags: ["comment", "chat", "conversation", "dialog", "feedback", "speech bubble", "report", "abuse", "offense", "alert", "danger", "caution", "protected", "exclamation mark"] },
+      "messages-square": { viewBox: "0 0 24 24", body: '<path d="M16 10a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 14.286V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/><path d="M20 9a2 2 0 0 1 2 2v10.286a.71.71 0 0 1-1.212.502l-2.202-2.202A2 2 0 0 0 17.172 19H10a2 2 0 0 1-2-2v-1"/>', style: "stroke", brandHex: null, tags: ["comment", "chat", "conversation", "dialog", "feedback", "speech bubbles", "copy", "multiple", "discussion", "interview", "debate"] },
+      "mic": { viewBox: "0 0 24 24", body: '<path d="M12 19v3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><rect x="9" y="2" width="6" height="13" rx="3"/>', style: "stroke", brandHex: null, tags: ["record", "sound", "listen", "radio", "podcast", "microphone"] },
+      "microchip": { viewBox: "0 0 24 24", body: '<path d="M10 12h4"/><path d="M10 17h4"/><path d="M10 7h4"/><path d="M18 12h2"/><path d="M18 18h2"/><path d="M18 6h2"/><path d="M4 12h2"/><path d="M4 18h2"/><path d="M4 6h2"/><rect x="6" y="2" width="12" height="20" rx="2"/>', style: "stroke", brandHex: null, tags: ["processor", "cores", "technology", "computer", "chip", "integrated circuit", "memory", "ram", "specs", "gpu", "gigahertz", "ghz"] },
+      "microscope": { viewBox: "0 0 24 24", body: '<path d="M6 18h8"/><path d="M3 22h18"/><path d="M14 22a7 7 0 1 0 0-14h-1"/><path d="M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/>', style: "stroke", brandHex: null, tags: ["medical", "education", "science", "imaging", "research"] },
       "monitor": { viewBox: "0 0 24 24", body: '<rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/>', style: "stroke", brandHex: null, tags: ["tv", "computer", "desktop", "screen", "display", "external display", "screen sharing", "virtual machine", "vm"] },
       "monitor-smartphone": { viewBox: "0 0 24 24", body: '<path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"/><path d="M10 19v-3.96 3.15"/><path d="M7 19h5"/><rect width="6" height="10" x="16" y="12" rx="2"/>', style: "stroke", brandHex: null, tags: ["phone", "cellphone", "device", "mobile", "desktop", "screen", "display", "external display", "screen sharing", "responsive", "screens", "sync", "cast"] },
       "network": { viewBox: "0 0 24 24", body: '<rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/>', style: "stroke", brandHex: null, tags: ["tree"] },
+      "newspaper": { viewBox: "0 0 24 24", body: '<path d="M15 18h-5"/><path d="M18 14h-8"/><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="10" y="6" rx="1"/>', style: "stroke", brandHex: null, tags: ["news", "feed", "home", "magazine", "article", "headline"] },
       "notebook-pen": { viewBox: "0 0 24 24", body: '<path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4"/><path d="M2 6h4"/><path d="M2 10h4"/><path d="M2 14h4"/><path d="M2 18h4"/><path d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/>', style: "stroke", brandHex: null, tags: ["pencil", "notepad", "notes", "noted", "stationery", "sketchbook", "organizer", "organiser", "planner", "diary", "journal", "writing", "write", "written", "reading", "high school", "university", "college", "academy", "student", "study", "research", "homework", "eraser", "rubber"] },
       "octagon-alert": { viewBox: "0 0 24 24", body: '<path d="M12 16h.01"/><path d="M12 8v4"/><path d="M15.312 2a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586l-4.688-4.688A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2z"/>', style: "stroke", brandHex: null, tags: ["warning", "alert", "danger", "exclamation mark"] },
       "octagon-x": { viewBox: "0 0 24 24", body: '<path d="m15 9-6 6"/><path d="M2.586 16.726A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2h6.624a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586z"/><path d="m9 9 6 6"/>', style: "stroke", brandHex: null, tags: ["delete", "stop", "alert", "warning", "times", "clear", "math"] },
       "package": { viewBox: "0 0 24 24", body: '<path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><polyline points="3.29 7 12 12 20.71 7"/><path d="m7.5 4.27 9 5.15"/>', style: "stroke", brandHex: null, tags: ["box", "container", "storage", "sealed", "delivery", "undelivered", "unopened", "packed", "archive", "zip", "module"] },
       "package-check": { viewBox: "0 0 24 24", body: '<path d="M12 22V12"/><path d="m16 17 2 2 4-4"/><path d="M21 11.127V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.729l7 4a2 2 0 0 0 2 .001l1.32-.753"/><path d="M3.29 7 12 12l8.71-5"/><path d="m7.5 4.27 8.997 5.148"/>', style: "stroke", brandHex: null, tags: ["confirm", "verified", "done", "todo", "tick", "complete", "task", "delivered"] },
+      "package-search": { viewBox: "0 0 24 24", body: '<path d="M12 22V12"/><path d="M20.27 18.27 22 20"/><path d="M21 10.498V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.729l7 4a2 2 0 0 0 2 .001l.98-.559"/><path d="M3.29 7 12 12l8.71-5"/><path d="m7.5 4.27 8.997 5.148"/><circle cx="18.5" cy="16.5" r="2.5"/>', style: "stroke", brandHex: null, tags: ["find", "product process", "lens"] },
       "package-x": { viewBox: "0 0 24 24", body: '<path d="M12 22V12"/><path d="m16.5 14.5 5 5"/><path d="m16.5 19.5 5-5"/><path d="M21 10.5V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.729l7 4a2 2 0 0 0 2 .001l.13-.074"/><path d="M3.29 7 12 12l8.71-5"/><path d="m7.5 4.27 8.997 5.148"/>', style: "stroke", brandHex: null, tags: ["delete", "remove"] },
+      "palette": { viewBox: "0 0 24 24", body: '<path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/>', style: "stroke", brandHex: null, tags: ["colors", "colours", "theme", "scheme", "paint", "watercolor", "watercolour", "artist"] },
       "pause": { viewBox: "0 0 24 24", body: '<rect x="14" y="3" width="5" height="18" rx="1"/><rect x="5" y="3" width="5" height="18" rx="1"/>', style: "stroke", brandHex: null, tags: ["music", "stop"] },
       "pen-line": { viewBox: "0 0 24 24", body: '<path d="M13 21h8"/><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/>', style: "stroke", brandHex: null, tags: ["pencil", "change", "create", "draw", "writer", "writing", "biro", "ink", "marker", "felt tip", "stationery", "artist"] },
+      "pen-tool": { viewBox: "0 0 24 24", body: '<path d="M15.707 21.293a1 1 0 0 1-1.414 0l-1.586-1.586a1 1 0 0 1 0-1.414l5.586-5.586a1 1 0 0 1 1.414 0l1.586 1.586a1 1 0 0 1 0 1.414z"/><path d="m18 13-1.375-6.874a1 1 0 0 0-.746-.776L3.235 2.028a1 1 0 0 0-1.207 1.207L5.35 15.879a1 1 0 0 0 .776.746L13 18"/><path d="m2.3 2.3 7.286 7.286"/><circle cx="11" cy="11" r="2"/>', style: "stroke", brandHex: null, tags: ["vector", "drawing", "path"] },
       "pencil": { viewBox: "0 0 24 24", body: '<path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/>', style: "stroke", brandHex: null, tags: ["rubber", "edit", "create", "draw", "sketch", "draft", "writer", "writing", "stationery", "artist"] },
+      "percent": { viewBox: "0 0 24 24", body: '<line x1="19" x2="5" y1="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/>', style: "stroke", brandHex: null, tags: ["percentage", "modulo", "modulus", "remainder", "sale", "discount", "offer", "marketing"] },
       "phone": { viewBox: "0 0 24 24", body: '<path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/>', style: "stroke", brandHex: null, tags: ["call"] },
+      "phone-call": { viewBox: "0 0 24 24", body: '<path d="M13 2a9 9 0 0 1 9 9"/><path d="M13 6a5 5 0 0 1 5 5"/><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/>', style: "stroke", brandHex: null, tags: ["ring"] },
       "piggy-bank": { viewBox: "0 0 24 24", body: '<path d="M11 17h3v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-3a3.16 3.16 0 0 0 2-2h1a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1h-1a5 5 0 0 0-2-4V3a4 4 0 0 0-3.2 1.6l-.3.4H11a6 6 0 0 0-6 6v1a5 5 0 0 0 2 4v3a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1z"/><path d="M16 10h.01"/><path d="M2 8v1a2 2 0 0 0 2 2h1"/>', style: "stroke", brandHex: null, tags: ["money", "savings"] },
+      "pill": { viewBox: "0 0 24 24", body: '<path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/>', style: "stroke", brandHex: null, tags: ["medicine", "medication", "drug", "prescription", "tablet", "pharmacy"] },
+      "plane": { viewBox: "0 0 24 24", body: '<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>', style: "stroke", brandHex: null, tags: ["plane", "trip", "airplane"] },
       "play": { viewBox: "0 0 24 24", body: '<path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"/>', style: "stroke", brandHex: null, tags: ["music", "audio", "video", "start", "run"] },
       "plug": { viewBox: "0 0 24 24", body: '<path d="M12 22v-5"/><path d="M15 8V2"/><path d="M17 8a1 1 0 0 1 1 1v4a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1z"/><path d="M9 8V2"/>', style: "stroke", brandHex: null, tags: ["electricity", "energy", "electronics", "socket", "outlet", "power", "voltage", "current", "charger"] },
       "plug-zap": { viewBox: "0 0 24 24", body: '<path d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z"/><path d="m2 22 3-3"/><path d="M7.5 13.5 10 11"/><path d="M10.5 16.5 13 14"/><path d="m18 3-4 4h6l-4 4"/>', style: "stroke", brandHex: null, tags: ["electricity", "energy", "electronics", "charge", "charging", "battery", "connect"] },
       "printer": { viewBox: "0 0 24 24", body: '<path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/>', style: "stroke", brandHex: null, tags: ["fax", "office", "device"] },
       "puzzle": { viewBox: "0 0 24 24", body: '<path d="M15.39 4.39a1 1 0 0 0 1.68-.474 2.5 2.5 0 1 1 3.014 3.015 1 1 0 0 0-.474 1.68l1.683 1.682a2.414 2.414 0 0 1 0 3.414L19.61 15.39a1 1 0 0 1-1.68-.474 2.5 2.5 0 1 0-3.014 3.015 1 1 0 0 1 .474 1.68l-1.683 1.682a2.414 2.414 0 0 1-3.414 0L8.61 19.61a1 1 0 0 0-1.68.474 2.5 2.5 0 1 1-3.014-3.015 1 1 0 0 0 .474-1.68l-1.683-1.682a2.414 2.414 0 0 1 0-3.414L4.39 8.61a1 1 0 0 1 1.68.474 2.5 2.5 0 1 0 3.014-3.015 1 1 0 0 1-.474-1.68l1.683-1.682a2.414 2.414 0 0 1 3.414 0z"/>', style: "stroke", brandHex: null, tags: ["component", "module", "part", "piece"] },
+      "qr-code": { viewBox: "0 0 24 24", body: '<rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/>', style: "stroke", brandHex: null, tags: ["barcode", "scan", "link", "url", "information", "digital"] },
       "radio": { viewBox: "0 0 24 24", body: '<path d="M16.247 7.761a6 6 0 0 1 0 8.478"/><path d="M19.075 4.933a10 10 0 0 1 0 14.134"/><path d="M4.925 19.067a10 10 0 0 1 0-14.134"/><path d="M7.753 16.239a6 6 0 0 1 0-8.478"/><circle cx="12" cy="12" r="2"/>', style: "stroke", brandHex: null, tags: ["signal", "broadcast", "connectivity", "live", "frequency"] },
+      "radio-tower": { viewBox: "0 0 24 24", body: '<path d="M4.9 16.1C1 12.2 1 5.8 4.9 1.9"/><path d="M7.8 4.7a6.14 6.14 0 0 0-.8 7.5"/><circle cx="12" cy="9" r="2"/><path d="M16.2 4.8c2 2 2.26 5.11.8 7.47"/><path d="M19.1 1.9a9.96 9.96 0 0 1 0 14.1"/><path d="M9.5 18h5"/><path d="m8 22 4-11 4 11"/>', style: "stroke", brandHex: null, tags: ["signal", "broadcast", "connectivity", "live", "frequency"] },
       "receipt": { viewBox: "0 0 24 24", body: '<path d="M12 17V7"/><path d="M16 8h-6a2 2 0 0 0 0 4h4a2 2 0 0 1 0 4H8"/><path d="M4 3a1 1 0 0 1 1-1 1.3 1.3 0 0 1 .7.2l.933.6a1.3 1.3 0 0 0 1.4 0l.934-.6a1.3 1.3 0 0 1 1.4 0l.933.6a1.3 1.3 0 0 0 1.4 0l.933-.6a1.3 1.3 0 0 1 1.4 0l.934.6a1.3 1.3 0 0 0 1.4 0l.933-.6A1.3 1.3 0 0 1 19 2a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1 1.3 1.3 0 0 1-.7-.2l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.934.6a1.3 1.3 0 0 1-1.4 0l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-1.4 0l-.934-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-.7.2 1 1 0 0 1-1-1z"/>', style: "stroke", brandHex: null, tags: ["bill", "voucher", "slip", "check", "counterfoil", "currency", "dollar", "usd"] },
       "receipt-text": { viewBox: "0 0 24 24", body: '<path d="M13 16H8"/><path d="M14 8H8"/><path d="M16 12H8"/><path d="M4 3a1 1 0 0 1 1-1 1.3 1.3 0 0 1 .7.2l.933.6a1.3 1.3 0 0 0 1.4 0l.934-.6a1.3 1.3 0 0 1 1.4 0l.933.6a1.3 1.3 0 0 0 1.4 0l.933-.6a1.3 1.3 0 0 1 1.4 0l.934.6a1.3 1.3 0 0 0 1.4 0l.933-.6A1.3 1.3 0 0 1 19 2a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1 1.3 1.3 0 0 1-.7-.2l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.934.6a1.3 1.3 0 0 1-1.4 0l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-1.4 0l-.934-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-.7.2 1 1 0 0 1-1-1z"/>', style: "stroke", brandHex: null, tags: ["bill", "voucher", "slip", "check", "counterfoil", "details", "small print", "terms", "conditions", "contract"] },
       "redo-2": { viewBox: "0 0 24 24", body: '<path d="m15 14 5-5-5-5"/><path d="M20 9H9.5A5.5 5.5 0 0 0 4 14.5A5.5 5.5 0 0 0 9.5 20H13"/>', style: "stroke", brandHex: null, tags: ["undo", "rerun", "history"] },
@@ -10175,14 +10895,20 @@ var init_lucide_generated = __esm({
       "reply": { viewBox: "0 0 24 24", body: '<path d="M20 18v-2a4 4 0 0 0-4-4H4"/><path d="m9 17-5-5 5-5"/>', style: "stroke", brandHex: null, tags: ["email"] },
       "rocket": { viewBox: "0 0 24 24", body: '<path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09"/><path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05"/>', style: "stroke", brandHex: null, tags: ["release", "boost", "launch", "space", "version"] },
       "rotate-ccw": { viewBox: "0 0 24 24", body: '<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>', style: "stroke", brandHex: null, tags: ["arrow", "left", "counter-clockwise", "restart", "reload", "rerun", "refresh", "backup", "undo", "replay", "redo", "retry", "rewind", "reverse"] },
+      "rotate-ccw-clock": { viewBox: "0 0 24 24", body: '<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/>', style: "stroke", brandHex: null, tags: ["history", "time", "redo", "undo", "rewind", "timeline", "version", "time machine", "backup", "ccw"] },
       "rotate-cw": { viewBox: "0 0 24 24", body: '<path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/>', style: "stroke", brandHex: null, tags: ["arrow", "right", "clockwise", "refresh", "reload", "rerun", "redo"] },
       "route": { viewBox: "0 0 24 24", body: '<circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/>', style: "stroke", brandHex: null, tags: ["path", "journey", "planner", "points", "stops", "stations"] },
       "router": { viewBox: "0 0 24 24", body: '<rect width="20" height="8" x="2" y="14" rx="2"/><path d="M6.01 18H6"/><path d="M10.01 18H10"/><path d="M15 10v4"/><path d="M17.84 7.17a4 4 0 0 0-5.66 0"/><path d="M20.66 4.34a8 8 0 0 0-11.31 0"/>', style: "stroke", brandHex: null, tags: ["computer", "server", "cloud"] },
+      "rss": { viewBox: "0 0 24 24", body: '<path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/>', style: "stroke", brandHex: null, tags: ["feed", "subscribe", "news", "updates", "notifications", "content", "blog", "articles", "broadcast", "syndication", "reader", "channels", "posts", "publishing", "digest", "alert", "following", "inbox", "newsletter", "weblog", "podcast"] },
+      "satellite": { viewBox: "0 0 24 24", body: '<path d="m13.5 6.5-3.148-3.148a1.205 1.205 0 0 0-1.704 0L6.352 5.648a1.205 1.205 0 0 0 0 1.704L9.5 10.5"/><path d="M16.5 7.5 19 5"/><path d="m17.5 10.5 3.148 3.148a1.205 1.205 0 0 1 0 1.704l-2.296 2.296a1.205 1.205 0 0 1-1.704 0L13.5 14.5"/><path d="M9 21a6 6 0 0 0-6-6"/><path d="M9.352 10.648a1.205 1.205 0 0 0 0 1.704l2.296 2.296a1.205 1.205 0 0 0 1.704 0l4.296-4.296a1.205 1.205 0 0 0 0-1.704l-2.296-2.296a1.205 1.205 0 0 0-1.704 0z"/>', style: "stroke", brandHex: null, tags: ["space station", "orbit", "transmitter"] },
       "satellite-dish": { viewBox: "0 0 24 24", body: '<path d="M18 12a6 6 0 00-6-6"/><path d="M2.824 10.459a8 8 0 0010.717 10.717c.558-.276.623-1.012.183-1.452l-9.448-9.448c-.44-.44-1.176-.375-1.452.183"/><path d="M22 12A10 10 0 0012 2"/><path d="m9 15 4-4"/>', style: "stroke", brandHex: null, tags: ["antenna", "receiver", "dish aerial", "saucer", "communication", "broadcast", "signal"] },
       "scale": { viewBox: "0 0 24 24", body: '<path d="M12 3v18"/><path d="m19 8 3 8a5 5 0 0 1-6 0zV7"/><path d="M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1"/><path d="m5 8 3 8a5 5 0 0 1-6 0zV7"/><path d="M7 21h10"/>', style: "stroke", brandHex: null, tags: ["balance", "legal", "license", "right", "rule", "law", "justice", "weight", "measure", "compare", "judge", "fair", "ethics", "decision"] },
+      "scan-barcode": { viewBox: "0 0 24 24", body: '<path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M8 7v10"/><path d="M12 7v10"/><path d="M17 7v10"/>', style: "stroke", brandHex: null, tags: ["checkout", "till", "cart", "transaction", "purchase", "buy", "product", "packaging", "retail", "consumer"] },
       "scan-eye": { viewBox: "0 0 24 24", body: '<path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="1"/><path d="M18.944 12.33a1 1 0 0 0 0-.66 7.5 7.5 0 0 0-13.888 0 1 1 0 0 0 0 .66 7.5 7.5 0 0 0 13.888 0"/>', style: "stroke", brandHex: null, tags: ["preview", "zoom", "expand", "fullscreen", "gallery", "image", "camera", "watch", "surveillance", "retina", "focus", "lens", "biometric", "identification", "authentication", "access", "login"] },
       "scan-face": { viewBox: "0 0 24 24", body: '<path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01"/><path d="M15 9h.01"/>', style: "stroke", brandHex: null, tags: ["face", "biometric", "identification", "authentication", "2fa", "access", "login", "dashed"] },
       "scan-search": { viewBox: "0 0 24 24", body: '<path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/><path d="m16 16-1.9-1.9"/>', style: "stroke", brandHex: null, tags: ["preview", "zoom", "expand", "fullscreen", "gallery", "image", "focus", "lens"] },
+      "scan-text": { viewBox: "0 0 24 24", body: '<path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 8h8"/><path d="M7 12h10"/><path d="M7 16h6"/>', style: "stroke", brandHex: null, tags: ["recognition", "read", "translate", "copy", "lines"] },
+      "school": { viewBox: "0 0 24 24", body: '<path d="M14 21v-3a2 2 0 0 0-4 0v3"/><path d="M18 4.933V21"/><path d="m4 6 7.106-3.79a2 2 0 0 1 1.788 0L20 6"/><path d="m6 11-3.52 2.147a1 1 0 0 0-.48.854V19a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5a1 1 0 0 0-.48-.853L18 11"/><path d="M6 4.933V21"/><circle cx="12" cy="9" r="2"/>', style: "stroke", brandHex: null, tags: ["building", "education", "childhood", "university", "learning", "campus", "scholar", "student", "lecture", "degree", "course", "academia", "study", "knowledge", "classroom", "research", "diploma", "graduation", "professor", "tutorial", "homework", "assignment", "exam"] },
       "scroll-text": { viewBox: "0 0 24 24", body: '<path d="M15 12h-5"/><path d="M15 8h-5"/><path d="M19 17V5a2 2 0 0 0-2-2H4"/><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"/>', style: "stroke", brandHex: null, tags: ["paper", "log", "scripture", "document", "notes", "parchment", "list", "long", "script", "story", "code", "coding"] },
       "search": { viewBox: "0 0 24 24", body: '<path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/>', style: "stroke", brandHex: null, tags: ["find", "scan", "magnifier", "magnifying glass", "lens", "locate", "explore", "discover", "enlarge", "zoom"] },
       "search-check": { viewBox: "0 0 24 24", body: '<path d="m8 11 2 2 4-4"/><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>', style: "stroke", brandHex: null, tags: ["find", "scan", "magnifier", "magnifying glass", "found", "correct", "complete", "tick", "lens", "locate", "explore", "discover", "enlarge", "zoom"] },
@@ -10193,6 +10919,7 @@ var init_lucide_generated = __esm({
       "settings": { viewBox: "0 0 24 24", body: '<path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/>', style: "stroke", brandHex: null, tags: ["cog", "edit", "gear", "preferences"] },
       "settings-2": { viewBox: "0 0 24 24", body: '<path d="M14 17H5"/><path d="M19 7h-9"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/>', style: "stroke", brandHex: null, tags: ["cog", "edit", "gear", "preferences", "slider"] },
       "share-2": { viewBox: "0 0 24 24", body: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/>', style: "stroke", brandHex: null, tags: ["network", "connections"] },
+      "sheet": { viewBox: "0 0 24 24", body: '<rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="3" x2="21" y1="9" y2="9"/><line x1="3" x2="21" y1="15" y2="15"/><line x1="9" x2="9" y1="9" y2="21"/><line x1="15" x2="15" y1="9" y2="21"/>', style: "stroke", brandHex: null, tags: ["spreadsheets", "table", "excel"] },
       "shield": { viewBox: "0 0 24 24", body: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>', style: "stroke", brandHex: null, tags: ["cybersecurity", "secure", "safety", "protection", "guardian", "armored", "armoured", "defense", "defence", "defender", "block", "threat", "prevention", "antivirus", "vigilance", "vigilant", "detection", "scan", "find", "strength", "strong", "tough", "invincible", "invincibility", "invulnerable", "undamaged", "audit", "admin", "verification", "crest", "bravery", "knight", "foot soldier", "infantry", "trooper", "pawn", "battle", "war", "military", "army", "cadet", "scout"] },
       "shield-alert": { viewBox: "0 0 24 24", body: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 8v4"/><path d="M12 16h.01"/>', style: "stroke", brandHex: null, tags: ["unshielded", "cybersecurity", "insecure", "unsecured", "safety", "unsafe", "protection", "unprotected", "guardian", "unguarded", "unarmored", "unarmoured", "defenseless", "defenceless", "undefended", "defender", "blocked", "stopped", "intercepted", "interception", "saved", "thwarted", "threat", "prevention", "unprevented", "antivirus", "vigilance", "vigilant", "detection", "detected", "scanned", "found", "exploit", "vulnerability", "vulnerable", "weakness", "infection", "infected", "compromised", "data leak", "audited", "admin", "verification", "unverified", "uncertified", "warning", "emergency", "attention", "urgent", "alarm", "crest", "bravery", "strength", "tough", "attacked", "damaged", "injured", "hit", "expired", "disabled", "inactive", "error", "exclamation mark"] },
       "shield-check": { viewBox: "0 0 24 24", body: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>', style: "stroke", brandHex: null, tags: ["cybersecurity", "secured", "safety", "protection", "protected", "guardian", "guarded", "armored", "armoured", "defense", "defence", "defended", "blocked", "threat", "prevention", "prevented", "antivirus", "vigilance", "vigilant", "active", "activated", "enabled", "detection", "scanned", "found", "strength", "strong", "tough", "invincible", "invincibility", "invulnerable", "undamaged", "audited", "admin", "verification", "verified", "certification", "certified", "tested", "passed", "qualified", "cleared", "cleaned", "disinfected", "uninfected", "task", "completed", "todo", "done", "ticked", "checked", "crest", "bravery"] },
@@ -10201,6 +10928,7 @@ var init_lucide_generated = __esm({
       "shield-user": { viewBox: "0 0 24 24", body: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M6.376 18.91a6 6 0 0 1 11.249.003"/><circle cx="12" cy="11" r="4"/>', style: "stroke", brandHex: null, tags: ["shield", "user", "admin", "protection", "protected", "safety", "guard"] },
       "shield-x": { viewBox: "0 0 24 24", body: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m14.5 9.5-5 5"/><path d="m9.5 9.5 5 5"/>', style: "stroke", brandHex: null, tags: ["unshielded", "cybersecurity", "insecure", "unsecured", "safety", "unsafe", "protection", "unprotected", "guardian", "unguarded", "unarmored", "unarmoured", "defenseless", "defenceless", "undefended", "defender", "blocked", "stopped", "intercepted", "interception", "saved", "thwarted", "threat", "prevention", "prevented", "antivirus", "vigilance", "vigilant", "detection", "detected", "scanned", "found", "exploit", "vulnerability", "vulnerable", "weakness", "infection", "infected", "compromised", "data leak", "audited", "admin", "verification", "unverified", "inactive", "cancel", "error", "wrong", "false", "crest", "bravery", "attacked", "damaged", "injured", "hit", "dead", "deceased", "expired", "eliminated", "exterminated"] },
       "shopping-bag": { viewBox: "0 0 24 24", body: '<path d="M16 10a4 4 0 0 1-8 0"/><path d="M3.103 6.034h17.794"/><path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z"/>', style: "stroke", brandHex: null, tags: ["ecommerce", "cart", "purchase", "store"] },
+      "shopping-basket": { viewBox: "0 0 24 24", body: '<path d="m15 11-1 9"/><path d="m19 11-4-7"/><path d="M2 11h20"/><path d="m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.7-7.4"/><path d="M4.5 15.5h15"/><path d="m5 11 4-7"/><path d="m9 11 1 9"/>', style: "stroke", brandHex: null, tags: ["cart", "e-commerce", "store", "purchase", "products", "items", "ingredients"] },
       "shopping-cart": { viewBox: "0 0 24 24", body: '<path d="m2.05 2.05 1.099-.028a1 1 0 0 1 1.008.815l2.69 14.347A1 1 0 0 0 7.83 18H18"/><path d="M4.563 5h16.435a1 1 0 0 1 .981 1.204l-1.026 6.226A2 2 0 0 1 18.962 14H6.25"/><circle cx="18" cy="20" r="2"/><circle cx="8" cy="20" r="2"/>', style: "stroke", brandHex: null, tags: ["trolley", "cart", "basket", "e-commerce", "store", "purchase", "products", "items", "ingredients"] },
       "signature": { viewBox: "0 0 24 24", body: '<path d="m21 17-2.156-1.868A.5.5 0 0 0 18 15.5v.5a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1c0-2.545-3.991-3.97-8.5-4a1 1 0 0 0 0 5c4.153 0 4.745-11.295 5.708-13.5a2.5 2.5 0 1 1 3.31 3.284"/><path d="M3 21h18"/>', style: "stroke", brandHex: null, tags: ["text", "format", "input", "contract", "autograph", "handwriting", "sign", "cursive", "ink", "scribble", "authorize", "personal", "agreement", "legal", "document", "identity", "authentic", "approval", "verification", "unique"] },
       "signpost": { viewBox: "0 0 24 24", body: '<path d="M12 13v8"/><path d="M12 3v3"/><path d="M2.354 10.354a1.207 1.207 0 0 1 0-1.708l2.06-2.06A2 2 0 0 1 5.828 6h12.344a2 2 0 0 1 1.414.586l2.06 2.06a1.207 1.207 0 0 1 0 1.708l-2.06 2.06a2 2 0 0 1-1.414.586H5.828a2 2 0 0 1-1.414-.586z"/>', style: "stroke", brandHex: null, tags: ["navigation", "direction", "arrow", "wayfinding", "guide", "location", "pointer", "route", "indicator", "marker", "bidirectional", "left", "right", "east", "west"] },
@@ -10208,6 +10936,7 @@ var init_lucide_generated = __esm({
       "skull": { viewBox: "0 0 24 24", body: '<path d="m12.5 17-.5-1-.5 1h1z"/><path d="M15 22a1 1 0 0 0 1-1v-1a2 2 0 0 0 1.56-3.25 8 8 0 1 0-11.12 0A2 2 0 0 0 8 20v1a1 1 0 0 0 1 1z"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="12" r="1"/>', style: "stroke", brandHex: null, tags: ["death", "danger", "bone"] },
       "sliders-horizontal": { viewBox: "0 0 24 24", body: '<path d="M10 5H3"/><path d="M12 19H3"/><path d="M14 3v4"/><path d="M16 17v4"/><path d="M21 12h-9"/><path d="M21 19h-5"/><path d="M21 5h-7"/><path d="M8 10v4"/><path d="M8 12H3"/>', style: "stroke", brandHex: null, tags: ["settings", "filters", "controls"] },
       "smartphone": { viewBox: "0 0 24 24", body: '<rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/>', style: "stroke", brandHex: null, tags: ["phone", "cellphone", "device", "mobile", "screen", "display", "touchscreen", "portable", "responsive"] },
+      "solar-panel": { viewBox: "0 0 24 24", body: '<path d="M11 2h2"/><path d="m14.28 14-4.56 8"/><path d="m21 22-1.558-4H4.558"/><path d="M3 10v2"/><path d="M6.245 15.04A2 2 0 0 1 8 14h12a1 1 0 0 1 .864 1.505l-3.11 5.457A2 2 0 0 1 16 22H4a1 1 0 0 1-.863-1.506z"/><path d="M7 2a4 4 0 0 1-4 4"/><path d="m8.66 7.66 1.41 1.41"/>', style: "stroke", brandHex: null, tags: ["solar panel", "solar", "panel", "sun", "energy", "electricity", "light"] },
       "sparkles": { viewBox: "0 0 24 24", body: '<path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/><path d="M20 2v4"/><path d="M22 4h-4"/><circle cx="4" cy="20" r="2"/>', style: "stroke", brandHex: null, tags: ["stars", "effect", "filter", "night", "magic"] },
       "split": { viewBox: "0 0 24 24", body: '<path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3"/><path d="m15 9 6-6"/>', style: "stroke", brandHex: null, tags: ["break", "disband", "divide", "separate", "branch", "disunite"] },
       "square": { viewBox: "0 0 24 24", body: '<rect width="18" height="18" x="3" y="3" rx="2"/>', style: "stroke", brandHex: null, tags: ["stop", "playback", "music", "audio", "video", "rectangle", "aspect ratio", "shape"] },
@@ -10217,12 +10946,16 @@ var init_lucide_generated = __esm({
       "square-x": { viewBox: "0 0 24 24", body: '<rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/>', style: "stroke", brandHex: null, tags: ["cancel", "close", "delete", "remove", "times", "clear", "math", "multiply", "multiplication"] },
       "stamp": { viewBox: "0 0 24 24", body: '<path d="M14 13V8.5C14 7 15 7 15 5a3 3 0 0 0-6 0c0 2 1 2 1 3.5V13"/><path d="M20 15.5a2.5 2.5 0 0 0-2.5-2.5h-11A2.5 2.5 0 0 0 4 15.5V17a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1z"/><path d="M5 22h14"/>', style: "stroke", brandHex: null, tags: ["mark", "print", "clone", "loyalty", "library"] },
       "star": { viewBox: "0 0 24 24", body: '<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/>', style: "stroke", brandHex: null, tags: ["bookmark", "favorite", "like", "review", "rating"] },
+      "stethoscope": { viewBox: "0 0 24 24", body: '<path d="M11 2v2"/><path d="M5 2v2"/><path d="M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1"/><path d="M8 15a6 6 0 0 0 12 0v-3"/><circle cx="20" cy="10" r="2"/>', style: "stroke", brandHex: null, tags: ["phonendoscope", "medical", "heart", "lungs", "sound"] },
       "store": { viewBox: "0 0 24 24", body: '<path d="M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5"/><path d="M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244"/><path d="M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05"/>', style: "stroke", brandHex: null, tags: ["shop", "supermarket", "stand", "boutique", "building"] },
       "table": { viewBox: "0 0 24 24", body: '<path d="M12 3v18"/><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/>', style: "stroke", brandHex: null, tags: ["spreadsheet", "grid"] },
       "tag": { viewBox: "0 0 24 24", body: '<path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/>', style: "stroke", brandHex: null, tags: ["label", "badge", "ticket", "mark"] },
       "target": { viewBox: "0 0 24 24", body: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>', style: "stroke", brandHex: null, tags: ["logo", "bullseye", "deadline", "projects", "overview", "work", "productivity"] },
       "telescope": { viewBox: "0 0 24 24", body: '<path d="m10.065 12.493-6.18 1.318a.934.934 0 0 1-1.108-.702l-.537-2.15a1.07 1.07 0 0 1 .691-1.265l13.504-4.44"/><path d="m13.56 11.747 4.332-.924"/><path d="m16 21-3.105-6.21"/><path d="M16.485 5.94a2 2 0 0 1 1.455-2.425l1.09-.272a1 1 0 0 1 1.212.727l1.515 6.06a1 1 0 0 1-.727 1.213l-1.09.272a2 2 0 0 1-2.425-1.455z"/><path d="m6.158 8.633 1.114 4.456"/><path d="m8 21 3.105-6.21"/><circle cx="12" cy="13" r="2"/>', style: "stroke", brandHex: null, tags: ["astronomy", "space", "discovery", "exploration", "explore", "vision", "perspective", "focus", "stargazing", "observe", "view"] },
       "terminal": { viewBox: "0 0 24 24", body: '<path d="M12 19h8"/><path d="m4 17 6-6-6-6"/>', style: "stroke", brandHex: null, tags: ["code", "command line", "prompt", "shell"] },
+      "test-tube": { viewBox: "0 0 24 24", body: '<path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5c-1.4 0-2.5-1.1-2.5-2.5V2"/><path d="M8.5 2h7"/><path d="M14.5 16h-5"/>', style: "stroke", brandHex: null, tags: ["tube", "vial", "phial", "flask", "ampoule", "ampule", "lab", "chemistry", "experiment", "test"] },
+      "text-search": { viewBox: "0 0 24 24", body: '<path d="M21 5H3"/><path d="M10 12H3"/><path d="M10 19H3"/><circle cx="17" cy="15" r="3"/><path d="m21 19-1.9-1.9"/>', style: "stroke", brandHex: null, tags: ["find", "data", "copy", "txt", "pdf", "document", "scan", "magnifier", "magnifying glass", "lens"] },
+      "thermometer": { viewBox: "0 0 24 24", body: '<path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/>', style: "stroke", brandHex: null, tags: ["temperature", "celsius", "fahrenheit", "weather"] },
       "ticket": { viewBox: "0 0 24 24", body: '<path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/>', style: "stroke", brandHex: null, tags: ["entry", "pass", "voucher", "event", "concert", "show", "perforated", "dashed"] },
       "ticket-check": { viewBox: "0 0 24 24", body: '<path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="m9 12 2 2 4-4"/>', style: "stroke", brandHex: null, tags: ["entry", "pass", "voucher", "event", "concert", "show", "booked", "purchased", "receipt", "redeemed", "validated", "verified", "certified", "checked", "used"] },
       "ticket-x": { viewBox: "0 0 24 24", body: '<path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="m9.5 14.5 5-5"/><path d="m9.5 9.5 5 5"/>', style: "stroke", brandHex: null, tags: ["entry", "pass", "voucher", "event", "concert", "show", "cancelled", "cancellation", "refunded", "used", "void", "invalidated", "spoiled", "denied", "refused", "banned", "barred", "forbidden", "prohibited", "delete", "remove", "clear", "error", "x"] },
@@ -10231,6 +10964,7 @@ var init_lucide_generated = __esm({
       "toggle-right": { viewBox: "0 0 24 24", body: '<circle cx="15" cy="12" r="3"/><rect width="20" height="14" x="2" y="5" rx="7"/>', style: "stroke", brandHex: null, tags: ["on", "off", "switch", "boolean"] },
       "trash": { viewBox: "0 0 24 24", body: '<path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>', style: "stroke", brandHex: null, tags: ["empty", "deletion", "cleanup", "junk", "clear", "garbage", "delete", "remove", "bin", "waste", "recycle", "discard", "binoculars", "rubbish"] },
       "triangle-alert": { viewBox: "0 0 24 24", body: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>', style: "stroke", brandHex: null, tags: ["warning", "alert", "danger", "exclamation mark", "linter"] },
+      "trophy": { viewBox: "0 0 24 24", body: '<path d="M10 14.66V17a1 1 0 0 1-1 1 2 2 0 0 0-2 2v2"/><path d="M14 14.66V17a1 1 0 0 0 1 1 2 2 0 0 1 2 2v2"/><path d="M17.916 10H19.5A2.5 2.5 0 0 0 22 7.5V5a1 1 0 0 0-1-1h-3"/><path d="M4 22h16"/><path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"/><path d="M6.084 10H4.5A2.5 2.5 0 0 1 2 7.5V5a1 1 0 0 1 1-1h3"/>', style: "stroke", brandHex: null, tags: ["prize", "sports", "winner", "achievement", "award", "champion", "celebration", "victory", "competition", "tournament", "leaderboard", "ranking", "success", "reward", "cup", "first", "gold"] },
       "truck": { viewBox: "0 0 24 24", body: '<path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/>', style: "stroke", brandHex: null, tags: ["delivery", "van", "shipping", "haulage", "lorry"] },
       "undo-2": { viewBox: "0 0 24 24", body: '<path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"/>', style: "stroke", brandHex: null, tags: ["redo", "rerun", "history", "back", "return", "reverse", "revert", "direction", "u-turn"] },
       "unlink": { viewBox: "0 0 24 24", body: '<path d="m18.84 12.25 1.72-1.71h-.02a5.004 5.004 0 0 0-.12-7.07 5.006 5.006 0 0 0-6.95 0l-1.72 1.71"/><path d="m5.17 11.75-1.71 1.71a5.004 5.004 0 0 0 .12 7.07 5.006 5.006 0 0 0 6.95 0l1.71-1.71"/><line x1="8" x2="8" y1="2" y2="5"/><line x1="2" x2="5" y1="8" y2="8"/><line x1="16" x2="16" y1="19" y2="22"/><line x1="19" x2="22" y1="16" y2="16"/>', style: "stroke", brandHex: null, tags: ["url", "unchain"] },
@@ -10245,14 +10979,18 @@ var init_lucide_generated = __esm({
       "user-x": { viewBox: "0 0 24 24", body: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="17" x2="22" y1="8" y2="13"/><line x1="22" x2="17" y1="8" y2="13"/>', style: "stroke", brandHex: null, tags: ["delete", "remove", "unfollow", "unsubscribe", "unavailable"] },
       "users": { viewBox: "0 0 24 24", body: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/>', style: "stroke", brandHex: null, tags: ["group", "people"] },
       "users-round": { viewBox: "0 0 24 24", body: '<path d="M18 21a8 8 0 0 0-16 0"/><circle cx="10" cy="8" r="5"/><path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"/>', style: "stroke", brandHex: null, tags: ["group", "people"] },
+      "utensils": { viewBox: "0 0 24 24", body: '<path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>', style: "stroke", brandHex: null, tags: ["fork", "knife", "cutlery", "flatware", "tableware", "silverware", "food", "restaurant", "meal", "breakfast", "dinner", "supper"] },
       "vault": { viewBox: "0 0 24 24", body: '<rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/><path d="m7.9 7.9 2.7 2.7"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/><path d="m13.4 10.6 2.7-2.7"/><circle cx="7.5" cy="16.5" r=".5" fill="currentColor"/><path d="m7.9 16.1 2.7-2.7"/><circle cx="16.5" cy="16.5" r=".5" fill="currentColor"/><path d="m13.4 13.4 2.7 2.7"/><circle cx="12" cy="12" r="2"/>', style: "stroke", brandHex: null, tags: ["safe", "lockbox", "deposit", "locker", "coffer", "strongbox", "safety", "secure", "storage", "valuables", "bank"] },
+      "video": { viewBox: "0 0 24 24", body: '<path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/>', style: "stroke", brandHex: null, tags: ["camera", "movie", "film", "recording", "motion picture", "camcorder", "reel"] },
       "wallet": { viewBox: "0 0 24 24", body: '<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>', style: "stroke", brandHex: null, tags: ["money", "finance", "pocket"] },
       "wand-sparkles": { viewBox: "0 0 24 24", body: '<path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72"/><path d="m14 7 3 3"/><path d="M5 6v4"/><path d="M19 14v4"/><path d="M10 2v2"/><path d="M7 8H3"/><path d="M21 16h-4"/><path d="M11 3H9"/>', style: "stroke", brandHex: null, tags: ["magic", "wizard", "magician"] },
       "warehouse": { viewBox: "0 0 24 24", body: '<path d="M18 21V10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v11"/><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 1.132-1.803l7.95-3.974a2 2 0 0 1 1.837 0l7.948 3.974A2 2 0 0 1 22 8z"/><path d="M6 13h12"/><path d="M6 17h12"/>', style: "stroke", brandHex: null, tags: ["storage", "storehouse", "depot", "depository", "repository", "stockroom", "logistics", "building"] },
+      "waves-horizontal": { viewBox: "0 0 24 24", body: '<path d="M2 12q2.5 2 5 0t5 0 5 0 5 0"/><path d="M2 19q2.5 2 5 0t5 0 5 0 5 0"/><path d="M2 5q2.5 2 5 0t5 0 5 0 5 0"/>', style: "stroke", brandHex: null, tags: ["water", "sea", "sound", "hertz", "wavelength", "vibrate", "ocean", "swimming", "frequency"] },
       "waypoints": { viewBox: "0 0 24 24", body: '<path d="m10.586 5.414-5.172 5.172"/><path d="m18.586 13.414-5.172 5.172"/><path d="M6 12h12"/><circle cx="12" cy="20" r="2"/><circle cx="12" cy="4" r="2"/><circle cx="20" cy="12" r="2"/><circle cx="4" cy="12" r="2"/>', style: "stroke", brandHex: null, tags: ["indirection", "vpn", "virtual private network", "proxy", "connections", "bounce", "reroute", "path", "journey", "planner", "stops", "stations", "shared", "spread", "viral"] },
       "webhook": { viewBox: "0 0 24 24", body: '<path d="M18 16.98h-5.99c-1.1 0-1.95.94-2.48 1.9A4 4 0 0 1 2 17c.01-.7.2-1.4.57-2"/><path d="m6 17 3.13-5.78c.53-.97.1-2.18-.5-3.1a4 4 0 1 1 6.89-4.06"/><path d="m12 6 3.13 5.73C15.66 12.7 16.9 13 18 13a4 4 0 0 1 0 8"/>', style: "stroke", brandHex: null, tags: ["push api", "interface", "callback"] },
       "wifi": { viewBox: "0 0 24 24", body: '<path d="M12 20h.01"/><path d="M2 8.82a15 15 0 0 1 20 0"/><path d="M5 12.859a10 10 0 0 1 14 0"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/>', style: "stroke", brandHex: null, tags: ["connection", "signal", "wireless"] },
       "wifi-off": { viewBox: "0 0 24 24", body: '<path d="M12 20h.01"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/><path d="M5 12.859a10 10 0 0 1 5.17-2.69"/><path d="M19 12.859a10 10 0 0 0-2.007-1.523"/><path d="M2 8.82a15 15 0 0 1 4.177-2.643"/><path d="M22 8.82a15 15 0 0 0-11.288-3.764"/><path d="m2 2 20 20"/>', style: "stroke", brandHex: null, tags: ["disabled"] },
+      "wind": { viewBox: "0 0 24 24", body: '<path d="M12.8 19.6A2 2 0 1 0 14 16H2"/><path d="M17.5 8a2.5 2.5 0 1 1 2 4H2"/><path d="M9.8 4.4A2 2 0 1 1 11 8H2"/>', style: "stroke", brandHex: null, tags: ["weather", "air", "blow"] },
       "workflow": { viewBox: "0 0 24 24", body: '<rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/>', style: "stroke", brandHex: null, tags: ["action", "continuous integration", "ci", "automation", "devops", "network", "node", "connection"] },
       "x": { viewBox: "0 0 24 24", body: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>', style: "stroke", brandHex: null, tags: ["cancel", "close", "cross", "delete", "ex", "remove", "times", "clear", "math", "multiply", "multiplication"] },
       "zap": { viewBox: "0 0 24 24", body: '<path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z"/>', style: "stroke", brandHex: null, tags: ["flash", "camera", "lightning", "electricity", "energy", "power", "quick"] },
@@ -35155,7 +35893,20 @@ function productIconFor(text5, provider) {
   if (PLAIN_WORD_NAMES.has(normalized)) return null;
   const ref2 = iconNamedBy(text5, provider);
   if (ref2 !== null) return isGuessOutsideProvider(ref2, normalized, provider) ? null : ref2;
-  return brandBeforeSuffix(normalized);
+  return brandOverCloudProduct(normalized, provider) ?? brandBeforeSuffix(normalized);
+}
+function brandOverCloudProduct(normalized, provider) {
+  if (!EMBEDDED_PRODUCT_NAMES.has(normalized)) return null;
+  const refs = [...new Set(listProductPhrases().filter((entry2) => entry2.phrase === normalized && !entry2.isGeneric).map((entry2) => entry2.ref))];
+  const brands = refs.filter((ref2) => providerOf(ref2) === null);
+  if (brands.length !== 1) return null;
+  const named = providersNamedIn(normalized);
+  const atHome = refs.filter((ref2) => {
+    const owner = providerOf(ref2);
+    return owner !== null && (owner === provider || named.includes(owner));
+  });
+  if (atHome.length > 0) return atHome.length === 1 ? atHome[0] ?? null : null;
+  return brands[0] ?? null;
 }
 function embeddedPhrases() {
   embedded ??= listProductPhrases().filter(
@@ -35197,14 +35948,20 @@ function brandBeforeSuffix(normalized) {
 function roleIconFor(text5) {
   const words2 = normalizePhrase(text5).split(" ");
   if (words2.length > ROLE_ICON_MAX_WORDS) return null;
+  let interfaceRole = null;
   for (let end = words2.length; end > 0; end -= 1) {
     for (let start2 = 0; start2 < end; start2 += 1) {
       const phrase2 = words2.slice(start2, end).join(" ");
       if (LAST_WORD_ROLES.has(phrase2) && end !== words2.length) continue;
-      if (Object.hasOwn(ROLE_ICONS, phrase2)) return ROLE_ICONS[phrase2] ?? null;
+      if (!Object.hasOwn(ROLE_ICONS, phrase2)) continue;
+      if (TRAILING_INTERFACE_ROLES.has(phrase2) && end === words2.length) {
+        interfaceRole ??= ROLE_ICONS[phrase2] ?? null;
+        continue;
+      }
+      return ROLE_ICONS[phrase2] ?? null;
     }
   }
-  return null;
+  return interfaceRole;
 }
 function autoIconFor(ask) {
   const provider = ask.provider ?? null;
@@ -35215,7 +35972,9 @@ function autoIconFor(ask) {
     }
   }
   const label = ask.texts[0] ?? null;
-  return ask.roles === true && label !== null ? roleIconFor(label) : null;
+  if (ask.roles !== true || label === null) return null;
+  const role = roleIconFor(label);
+  return role !== null && (ask.fitting === void 0 || ask.fitting.has(role)) ? role : null;
 }
 function readIconMode(option2, ctx) {
   ctx.iconMode = DEFAULT_ICON_MODE;
@@ -139620,7 +140379,13 @@ var init_legend2 = __esm({
       columnGap: 36,
       bandGap: 18,
       /** The most icons the legend names; the rest are counted in one last row. */
-      maxIcons: 40
+      maxIcons: 40,
+      /**
+       * Room inside the panel the legend is drawn on, the same on every side. Less than the canvas padding, so the panel needs no room
+       * of its own. The panel gives the legend's words a ground in its own scheme, so they read on a page of the other one.
+       */
+      panelPadding: 14,
+      panelRadius: 10
     };
     M4 = LEGEND_METRICS;
     LEGEND_NAME_ROLE = "groupLabel";
@@ -140341,7 +141106,8 @@ function providerAround(group2, state) {
 function nodeIcon(option2, type, texts, group2, state) {
   const defaults = FLOW_NODE_TYPE_DEFAULTS[type];
   if (PLAIN_NODE_TYPES.has(type) || defaults.shape === "pill") return resolveIcon(option2, defaults.icon, state);
-  return resolveAutoIcon(option2, defaults.icon, state, { texts, provider: providerAround(group2, state), roles: ROLE_NODE_TYPES.has(type) });
+  const fitting = TYPE_ROLE_SETS[type];
+  return resolveAutoIcon(option2, defaults.icon, state, { texts, provider: providerAround(group2, state), roles: ROLE_NODE_TYPES.has(type) || fitting !== void 0, ...fitting === void 0 ? {} : { fitting } });
 }
 function parseGroupStatement(cursor, state, line5, parent) {
   cursor.next();
@@ -140560,6 +141326,13 @@ function closeScope3(line5, state, scopes) {
     state.report.push(errorAt(DIAGNOSTIC_CODES.syntax, "Unexpected text after }", extra, "Put } on its own line."));
   }
 }
+function queueArrowIcon(edge, state) {
+  if (edge.label === null || edge.icon !== null || edge.hasOwnIcon === true || iconsAreOff(state)) return null;
+  const typeOf2 = (id) => state.nodes.find((node3) => node3.id === id)?.type;
+  if (typeOf2(edge.to) === "queue") return EDGE_STYLES.sends.icon;
+  if (typeOf2(edge.from) === "queue") return EDGE_STYLES.receives.icon;
+  return null;
+}
 function resolveEdges(state) {
   const nodeIds = state.nodes.map((node3) => node3.id);
   const known3 = new Set(nodeIds);
@@ -140580,7 +141353,7 @@ function resolveEdges(state) {
         from: toNodeId(edge.from),
         to: toNodeId(edge.to),
         label: edge.label,
-        icon: edge.icon,
+        icon: edge.icon ?? queueArrowIcon(edge, state),
         ...edge.hasOwnIcon === void 0 ? {} : { hasOwnIcon: edge.hasOwnIcon },
         line: edge.line,
         heads: edge.heads,
@@ -140641,6 +141414,7 @@ var init_flow_parser = __esm({
     init_constants();
     init_core();
     init_flow_statements();
+    init_auto_icon();
     init_line_motion();
     init_overlay_resolve();
     init_suggest();
@@ -140926,8 +141700,19 @@ function paintRow(row, theme) {
   ]);
 }
 function paintLegend2(legend2, theme) {
+  const pad = LEGEND_METRICS.panelPadding;
   return el("g", { "data-legend": "flow" }, [
-    el("line", { x1: legend2.rule.from.x, y1: legend2.rule.from.y, x2: legend2.rule.to.x, y2: legend2.rule.to.y, stroke: theme.border, "stroke-width": 1 }),
+    el("rect", {
+      "data-legend-panel": "",
+      x: legend2.rect.x - pad,
+      y: legend2.rect.y - pad,
+      width: legend2.rect.width + pad * 2,
+      height: legend2.rect.height + pad * 2,
+      rx: LEGEND_METRICS.panelRadius,
+      fill: theme.surface,
+      stroke: theme.border,
+      "stroke-width": 1
+    }),
     paintTextBlock({ x: legend2.title.x, top: legend2.title.top, lines: [legend2.title.text], role: "title", color: theme.ink }),
     ...legend2.columns.map(
       (column) => el("g", { "data-legend-section": column.section }, [
@@ -159070,7 +159855,7 @@ function readRequirement(ctx) {
   if (open2 !== null) ctx.reporter.add(DIAGNOSTIC_CODES.mermaidRepairedBlock, open2.span, `The block of "${open2.name}" was never closed, so it was closed at the end.`, "Add } on its own line after its fields.", "repaired");
   return ir;
 }
-var REQUIREMENT_WORDS, NAME, OPEN2, FORWARD, BACKWARD, CLASS_ON, unquote3, spanOf30;
+var REQUIREMENT_WORDS, NAME2, OPEN2, FORWARD, BACKWARD, CLASS_ON, unquote3, spanOf30;
 var init_read9 = __esm({
   "../../packages/diagrams/src/kinds/requirement/mermaid/read.ts"() {
     "use strict";
@@ -159078,11 +159863,11 @@ var init_read9 = __esm({
     init_context();
     init_limits();
     REQUIREMENT_WORDS = /* @__PURE__ */ new Set(["requirement", "functionalrequirement", "interfacerequirement", "performancerequirement", "physicalrequirement", "designconstraint"]);
-    NAME = String.raw`("[^"]*"|[^\s{}"]+?)`;
-    OPEN2 = new RegExp(String.raw`^([A-Za-z]+)\s+${NAME}((?::::[\w-]+)*)\s*\{\s*(\})?\s*$`);
-    FORWARD = new RegExp(String.raw`^${NAME}\s+-\s*([A-Za-z]+)\s*->\s*${NAME}$`);
-    BACKWARD = new RegExp(String.raw`^${NAME}\s*<-\s*([A-Za-z]+)\s*-\s+${NAME}$`);
-    CLASS_ON = new RegExp(String.raw`^${NAME}((?::::[\w-]+)+)$`);
+    NAME2 = String.raw`("[^"]*"|[^\s{}"]+?)`;
+    OPEN2 = new RegExp(String.raw`^([A-Za-z]+)\s+${NAME2}((?::::[\w-]+)*)\s*\{\s*(\})?\s*$`);
+    FORWARD = new RegExp(String.raw`^${NAME2}\s+-\s*([A-Za-z]+)\s*->\s*${NAME2}$`);
+    BACKWARD = new RegExp(String.raw`^${NAME2}\s*<-\s*([A-Za-z]+)\s*-\s+${NAME2}$`);
+    CLASS_ON = new RegExp(String.raw`^${NAME2}((?::::[\w-]+)+)$`);
     unquote3 = (text5) => {
       const trimmed4 = text5.trim();
       return trimmed4.length >= 2 && trimmed4.startsWith('"') && trimmed4.endsWith('"') ? trimmed4.slice(1, -1) : trimmed4;
@@ -162555,7 +163340,11 @@ function parseActorStatement2(cursor, state, line5) {
     label,
     sub,
     tone: resolveTone(findOption(options3, "tone"), defaults.tone, state),
-    icon: resolveAutoIcon(findOption(options3, "icon"), defaults.icon, state, { texts: [label, sub], roles: ROLE_ACTOR_TYPES.has(type) })
+    icon: resolveAutoIcon(findOption(options3, "icon"), defaults.icon, state, {
+      texts: [label, sub],
+      roles: ROLE_ACTOR_TYPES.has(type) || TYPE_ROLE_SETS[type] !== void 0,
+      ...TYPE_ROLE_SETS[type] === void 0 ? {} : { fitting: TYPE_ROLE_SETS[type] }
+    })
   });
 }
 function parseMessageStatement(cursor, state, line5) {
@@ -174014,7 +174803,7 @@ function readVenn(ctx) {
   }
   return { sets: state.sets, unions: state.unions, styles: state.styles };
 }
-var spanOf43, NAME2, SET, UNION, TEXT2, STYLE, unquoted3, namesOf;
+var spanOf43, NAME3, SET, UNION, TEXT2, STYLE, unquoted3, namesOf;
 var init_read14 = __esm({
   "../../packages/diagrams/src/kinds/venn/mermaid/read.ts"() {
     "use strict";
@@ -174024,13 +174813,13 @@ var init_read14 = __esm({
     init_colour();
     init_constants17();
     spanOf43 = (line5) => ({ line: line5.number, column: line5.text.length - line5.text.trimStart().length + 1, length: Math.max(1, line5.text.trim().length) });
-    NAME2 = String.raw`(?:"[^"]*"|[^\s,\[":]+)`;
-    SET = new RegExp(String.raw`^set\s+(?<name>${NAME2})\s*(?:\[\s*(?<label>"[^"]*"|[^\]]*)\s*\])?\s*(?::\s*(?<size>[^\s]+))?\s*$`);
-    UNION = new RegExp(String.raw`^union\s+(?<names>${NAME2}(?:\s*,\s*${NAME2})+)\s*(?:\[\s*(?<label>"[^"]*"|[^\]]*)\s*\])?\s*(?::\s*(?<size>[^\s]+))?\s*$`);
-    TEXT2 = new RegExp(String.raw`^text\s+(?<name>${NAME2})\s*(?:\[\s*(?<label>"[^"]*"|[^\]]*)\s*\])?\s*$`);
-    STYLE = new RegExp(String.raw`^style\s+(?<targets>${NAME2}(?:\s*,\s*${NAME2})*)\s+(?<properties>.+)$`);
+    NAME3 = String.raw`(?:"[^"]*"|[^\s,\[":]+)`;
+    SET = new RegExp(String.raw`^set\s+(?<name>${NAME3})\s*(?:\[\s*(?<label>"[^"]*"|[^\]]*)\s*\])?\s*(?::\s*(?<size>[^\s]+))?\s*$`);
+    UNION = new RegExp(String.raw`^union\s+(?<names>${NAME3}(?:\s*,\s*${NAME3})+)\s*(?:\[\s*(?<label>"[^"]*"|[^\]]*)\s*\])?\s*(?::\s*(?<size>[^\s]+))?\s*$`);
+    TEXT2 = new RegExp(String.raw`^text\s+(?<name>${NAME3})\s*(?:\[\s*(?<label>"[^"]*"|[^\]]*)\s*\])?\s*$`);
+    STYLE = new RegExp(String.raw`^style\s+(?<targets>${NAME3}(?:\s*,\s*${NAME3})*)\s+(?<properties>.+)$`);
     unquoted3 = (text5) => (text5.length >= 2 && text5.startsWith('"') && text5.endsWith('"') ? text5.slice(1, -1) : text5).trim();
-    namesOf = (text5) => (text5.match(new RegExp(NAME2, "g")) ?? []).map(unquoted3);
+    namesOf = (text5) => (text5.match(new RegExp(NAME3, "g")) ?? []).map(unquoted3);
   }
 });
 
@@ -178245,7 +179034,8 @@ function buildVocabulary() {
     },
     lineOptions: LINE_OPTION_SPECS.map((spec) => ({ ...spec })),
     labelIcons: Object.entries(LABEL_ICON_DEFAULTS).map(([label, icon]) => ({ label, icon })),
-    verbIcons: Object.entries(LABEL_VERB_PHRASES).map(([verb, words2]) => ({ icon: EDGE_STYLES[verb].icon, words: [...words2 ?? []] })),
+    // A few phrases of each relationship, enough to show the pattern: topic icon-words and the generated reference hold every one.
+    verbIcons: Object.entries(LABEL_VERB_PHRASES).map(([verb, words2]) => ({ icon: EDGE_STYLES[verb].icon, words: (words2 ?? []).slice(0, VERB_EXAMPLES) })),
     style: [...STYLE_STEPS],
     autoIcons: { ...ICON_MODE_SPEC },
     roleIcons: roleIconTable(),
@@ -178323,13 +179113,25 @@ function importFormatsOf(full) {
     importFormats: importFormatGuide(IMPORT_FORMATS)
   };
 }
+function iconWordsOf(full) {
+  return {
+    answer: "icon-words",
+    howToGetAKind: "This is the topic icon-words: every role a node label draws an icon for (roleIcons, in kinds that take roles) and every phrase an arrow label draws a relationship icon for (verbIcons, in flow). A label needs no icon= when it uses one of these words. Call get_diagram_syntax with no kind and no topic for the language.",
+    kinds: full.kinds,
+    kindDetails: [],
+    examples: [],
+    roleIcons: full.roleIcons,
+    verbIcons: Object.entries(LABEL_VERB_PHRASES).map(([verb, words2]) => ({ icon: EDGE_STYLES[verb].icon, words: [...words2 ?? []] }))
+  };
+}
 function buildSyntax(kind, topic) {
   const full = buildVocabulary();
   if (topic === "import-formats") return importFormatsOf(full);
+  if (topic === "icon-words") return iconWordsOf(full);
   const detail = full.kindDetails.find((entry2) => entry2.kind === kind);
   return detail === void 0 ? overviewOf(full) : kindOf(full, detail);
 }
-var PLACEMENT, KIND_ONLY_TABLES, OVERVIEW_TEXT;
+var VERB_EXAMPLES, PLACEMENT, KIND_ONLY_TABLES, OVERVIEW_TEXT;
 var init_build_vocabulary = __esm({
   "../../packages/diagrams/src/services/build-vocabulary.ts"() {
     "use strict";
@@ -178341,6 +179143,7 @@ var init_build_vocabulary = __esm({
     init_registry2();
     init_theme();
     init_examples_generated();
+    VERB_EXAMPLES = 6;
     PLACEMENT = {
       kinds: "own",
       kindDetails: "own",
@@ -197599,8 +198402,8 @@ var init_vocabulary27 = __esm({
       examples: external_exports.array(ExampleSchema)
     }).meta({ id: "VocabularyResponse", description: "The diagram language: kinds, node types, arrows, flags, error codes, limits, and examples." });
     SyntaxKindSchema = external_exports.enum(BUILT_KINDS).optional().describe("The one kind to read in full. Omit it for the overview: the language every kind shares and one line about each kind.");
-    SYNTAX_TOPICS = ["import-formats"];
-    SyntaxTopicSchema = external_exports.enum(SYNTAX_TOPICS).optional().describe("import-formats: what import_source reads, draws, and takes, a line each.");
+    SYNTAX_TOPICS = ["import-formats", "icon-words"];
+    SyntaxTopicSchema = external_exports.enum(SYNTAX_TOPICS).optional().describe("import-formats: what import_source reads, draws, and takes, a line each. icon-words: every word a label or an arrow draws an icon from, in full.");
     SyntaxQuerySchema = external_exports.object({ kind: SyntaxKindSchema, topic: SyntaxTopicSchema }).meta({ id: "SyntaxQuery", description: "The kind to read in full, or none for the overview, or a topic." });
     SyntaxInputSchema = external_exports.object({ kind: SyntaxKindSchema, topic: SyntaxTopicSchema }).strict();
     SyntaxKindDetailsSchema = KindDetailsSchema.partial({ statements: true, limits: true }).extend({
@@ -197609,7 +198412,7 @@ var init_vocabulary27 = __esm({
     SyntaxTablesSchema = VocabularyResponseSchema.omit({ kinds: true, kindDetails: true, examples: true }).partial();
     SyntaxResponseSchema = external_exports.object({
       answer: openKindSchema(
-        `What this answer is: overview, a topic (import-formats), or the kind it describes in full (${joinWords(BUILT_KINDS, "or")} today; later versions add kinds, so expect others).`
+        `What this answer is: overview, a topic (import-formats, icon-words), or the kind it describes in full (${joinWords(BUILT_KINDS, "or")} today; later versions add kinds, so expect others).`
       ),
       howToGetAKind: external_exports.string().describe("In plain words: what this answer holds and how to get the rest."),
       kinds: VocabularyResponseSchema.shape.kinds,
@@ -199295,7 +200098,7 @@ lb-p -> app-p
 lb-s -> app-s
 app-p -> db-p
 app-s -> db-s
-db-p ..> db-s : "{{replication}}"
+db-p ..> db-s : "{{replication}}" role=data
 `;
 }
 var SLOTS9, NEUTRAL11, AWS8, AZURE9, GCP9, MULTI_REGION_FAILOVER;
@@ -200324,7 +201127,7 @@ lb-a -> web-a
 lb-b -> web-b
 web-a -> db-a
 web-b -> db-b
-db-a ..> db-b : "{{replication}}"
+db-a ..> db-b : "{{replication}}" role=data
 `;
     };
     NEUTRAL20 = `flow "{{title}}" direction=down desc="{{description}}"
@@ -204673,6 +205476,124 @@ var init_labels = __esm({
   }
 });
 
+// ../../packages/diagrams/src/importers/terraform/provider-icons.ts
+function azureadFamilyIcon(type) {
+  let best = null;
+  for (const entry2 of AZUREAD_FAMILIES) if (type.startsWith(entry2[0]) && (best === null || entry2[0].length > best[0].length)) best = entry2;
+  return best?.[1] ?? null;
+}
+function providerMark(type) {
+  if (type.startsWith("kubernetes_")) {
+    const kind = KUBERNETES_KINDS.get(type.slice("kubernetes_".length).replace(/_v\d+$/, ""));
+    return kind === void 0 ? { icon: "simple:kubernetes", type: "service" } : { icon: kind[0], type: kind[1] };
+  }
+  const provider = PROVIDER_MARKS.find((entry2) => type.startsWith(entry2.prefix));
+  if (provider === void 0) return null;
+  const part = provider.parts?.find(([prefix]) => type.startsWith(prefix));
+  return { icon: part?.[1] ?? provider.icon, type: provider.type };
+}
+var AZUREAD_FAMILIES, KUBERNETES_KINDS, PROVIDER_MARKS;
+var init_provider_icons = __esm({
+  "../../packages/diagrams/src/importers/terraform/provider-icons.ts"() {
+    "use strict";
+    AZUREAD_FAMILIES = [
+      ["azuread_access_package", "azure:identity-governance"],
+      ["azuread_administrative_unit", "azure:administrative-units"],
+      ["azuread_app_role_assignment", "azure:entra-identity-roles-and-administrators"],
+      ["azuread_application", "azure:app-registrations"],
+      ["azuread_authentication_strength_policy", "azure:multi-factor-authentication"],
+      ["azuread_conditional_access", "azure:conditional-access"],
+      ["azuread_custom_directory_role", "azure:entra-identity-custom-roles"],
+      ["azuread_directory_role", "azure:entra-identity-roles-and-administrators"],
+      ["azuread_group", "azure:groups"],
+      ["azuread_identity_governance", "azure:identity-governance"],
+      ["azuread_invitation", "azure:users"],
+      ["azuread_privileged_access_group", "azure:entra-privleged-identity-management"],
+      ["azuread_service_principal", "azure:enterprise-applications"],
+      ["azuread_synchronization", "azure:entra-connect-sync"],
+      ["azuread_user", "azure:users"],
+      ["azuread_", "azure:entra-id"]
+    ];
+    KUBERNETES_KINDS = /* @__PURE__ */ new Map([
+      ["deployment", ["k8s:deployment", "service"]],
+      ["stateful_set", ["k8s:statefulset", "service"]],
+      ["daemon_set", ["k8s:daemonset", "service"]],
+      ["daemonset", ["k8s:daemonset", "service"]],
+      ["replication_controller", ["k8s:replicaset", "service"]],
+      ["pod", ["k8s:pod", "service"]],
+      ["job", ["k8s:job", "service"]],
+      ["cron_job", ["k8s:cronjob", "service"]],
+      ["service", ["k8s:service", "gateway"]],
+      ["ingress", ["k8s:ingress", "gateway"]],
+      ["endpoints", ["k8s:endpoints", "gateway"]],
+      ["network_policy", ["k8s:network-policy", "gateway"]],
+      ["namespace", ["k8s:namespace", "service"]],
+      ["config_map", ["k8s:configmap", "storage"]],
+      ["secret", ["k8s:secret", "secret"]],
+      ["persistent_volume", ["k8s:persistent-volume", "storage"]],
+      ["persistent_volume_claim", ["k8s:persistent-volume-claim", "storage"]],
+      ["storage_class", ["k8s:storage-class", "storage"]],
+      ["service_account", ["k8s:service-account", "identity"]],
+      ["role", ["k8s:role", "identity"]],
+      ["role_binding", ["k8s:role-binding", "identity"]],
+      ["cluster_role", ["k8s:cluster-role", "identity"]],
+      ["cluster_role_binding", ["k8s:cluster-role-binding", "identity"]],
+      ["horizontal_pod_autoscaler", ["k8s:hpa", "service"]],
+      ["limit_range", ["k8s:limit-range", "service"]],
+      ["resource_quota", ["k8s:resource-quota", "service"]],
+      ["pod_security_policy", ["k8s:pod-security-policy", "identity"]],
+      ["custom_resource_definition", ["k8s:crd", "service"]],
+      ["manifest", ["k8s:crd", "service"]]
+    ]);
+    PROVIDER_MARKS = [
+      { prefix: "helm_", icon: "simple:helm", type: "service" },
+      { prefix: "kubectl_", icon: "simple:kubernetes", type: "service" },
+      { prefix: "github_", icon: "simple:github", type: "service", parts: [["github_actions_", "simple:githubactions"]] },
+      { prefix: "gitlab_", icon: "simple:gitlab", type: "service" },
+      { prefix: "azuredevops_", icon: "azure:devops", type: "service" },
+      { prefix: "tfe_", icon: "simple:terraform", type: "service" },
+      { prefix: "vault_", icon: "simple:vault", type: "secret" },
+      { prefix: "consul_", icon: "simple:consul", type: "service" },
+      { prefix: "nomad_", icon: "simple:nomad", type: "service" },
+      { prefix: "cloudflare_", icon: "simple:cloudflare", type: "gateway", parts: [["cloudflare_workers_", "simple:cloudflareworkers"], ["cloudflare_worker_", "simple:cloudflareworkers"], ["cloudflare_pages_", "simple:cloudflarepages"]] },
+      { prefix: "fastly_", icon: "simple:fastly", type: "gateway" },
+      { prefix: "akamai_", icon: "simple:akamai", type: "gateway" },
+      { prefix: "datadog_", icon: "simple:datadog", type: "service" },
+      { prefix: "newrelic_", icon: "simple:newrelic", type: "service" },
+      { prefix: "grafana_", icon: "simple:grafana", type: "service" },
+      { prefix: "dynatrace_", icon: "simple:dynatrace", type: "service" },
+      { prefix: "splunk_", icon: "simple:splunk", type: "service" },
+      { prefix: "sentry_", icon: "simple:sentry", type: "service" },
+      { prefix: "pagerduty_", icon: "simple:pagerduty", type: "service" },
+      { prefix: "opsgenie_", icon: "simple:opsgenie", type: "service" },
+      { prefix: "okta_", icon: "simple:okta", type: "identity" },
+      { prefix: "auth0_", icon: "simple:auth0", type: "identity" },
+      { prefix: "keycloak_", icon: "simple:keycloak", type: "identity" },
+      { prefix: "mongodbatlas_", icon: "simple:mongodb", type: "database" },
+      { prefix: "snowflake_", icon: "simple:snowflake", type: "database" },
+      { prefix: "postgresql_", icon: "simple:postgresql", type: "database" },
+      { prefix: "mysql_", icon: "simple:mysql", type: "database" },
+      { prefix: "confluent_", icon: "simple:apachekafka", type: "queue" },
+      { prefix: "rabbitmq_", icon: "simple:rabbitmq", type: "queue" },
+      { prefix: "ec_", icon: "simple:elasticcloud", type: "database" },
+      { prefix: "elasticstack_", icon: "simple:elasticstack", type: "database" },
+      { prefix: "docker_", icon: "simple:docker", type: "service" },
+      { prefix: "digitalocean_", icon: "simple:digitalocean", type: "service" },
+      { prefix: "linode_", icon: "simple:linode", type: "service" },
+      { prefix: "hcloud_", icon: "simple:hetzner", type: "service" },
+      { prefix: "oci_", icon: "simple:oracle", type: "service" },
+      { prefix: "vercel_", icon: "simple:vercel", type: "service" },
+      { prefix: "netlify_", icon: "simple:netlify", type: "service" },
+      { prefix: "heroku_", icon: "simple:heroku", type: "service" },
+      { prefix: "launchdarkly_", icon: "simple:launchdarkly", type: "service" },
+      { prefix: "supabase_", icon: "simple:supabase", type: "database" },
+      { prefix: "stripe_", icon: "simple:stripe", type: "service" },
+      { prefix: "twilio_", icon: "simple:twilio", type: "service" },
+      { prefix: "slack_", icon: "simple:slack", type: "service" }
+    ];
+  }
+});
+
 // ../../packages/diagrams/src/importers/terraform/resources.ts
 function providerOf2(type) {
   if (type.startsWith("aws_")) return "aws";
@@ -204922,11 +205843,14 @@ function genericRole(type) {
   if (GRANTS.test(type)) return { role: "grant", principal: ["member", "members"], scope: [], label: ["role"] };
   const join8 = JOINS.exec(type);
   if (join8 !== null) return { role: "link", from: [], to: [], label: join8[1] ?? "link" };
-  const icon = iconOfName(type, true) ?? azureFamilyIcon(type) ?? iconOfName(type) ?? familyIcon(type);
+  const icon = iconOfName(type, true) ?? azureadFamilyIcon(type) ?? azureFamilyIcon(type) ?? iconOfName(type) ?? familyIcon(type);
   return { role: "node", type: nodeTypeOf(icon), icon, product: productOf2(type), generic: true };
 }
 function roleOf3(type) {
-  if (providerOf2(type) === null) return { role: "node", type: "service", icon: OTHER_ICONS.get(type) ?? null, product: productOf2(type), generic: true };
+  if (providerOf2(type) === null) {
+    const mark = providerMark(type);
+    return { role: "node", type: mark?.type ?? "service", icon: OTHER_ICONS.get(type) ?? mark?.icon ?? null, product: productOf2(type), generic: true };
+  }
   return RESOURCE_ROLES[type] ?? genericRole(type);
 }
 var GRANTS, JOINS, VAGUE_WORDS, NODE_TYPE_OF_KIND, NODE_TYPE_OF_FOLDER, OTHER_ICONS;
@@ -204937,6 +205861,7 @@ var init_generic = __esm({
     init_icons();
     init_azure_families();
     init_labels();
+    init_provider_icons();
     init_resources();
     GRANTS = /_iam_(?:member|binding)$/;
     JOINS = /_(association|attachment|link)$/;
@@ -213716,8 +214641,8 @@ function readXml2(text5, base = 0) {
       continue;
     }
     if (text5.charAt(lt + 1) === "/") {
-      NAME3.lastIndex = lt + 2;
-      const name3 = NAME3.exec(text5)?.[0] ?? "";
+      NAME4.lastIndex = lt + 2;
+      const name3 = NAME4.exec(text5)?.[0] ?? "";
       const angle = text5.indexOf(">", lt);
       const open3 = stack2.pop();
       if (angle === -1 || open3 === void 0 || open3.name !== name3) return problem2(lt, open3 === void 0 ? `The end tag </${name3}> closes nothing.` : `The end tag </${name3}> does not close <${open3.name}>.`);
@@ -213725,8 +214650,8 @@ function readXml2(text5, base = 0) {
       index2 = angle + 1;
       continue;
     }
-    NAME3.lastIndex = lt + 1;
-    const name2 = NAME3.exec(text5)?.[0];
+    NAME4.lastIndex = lt + 1;
+    const name2 = NAME4.exec(text5)?.[0];
     if (name2 === void 0) return problem2(lt, 'A "<" does not start a tag.', 'Write "<" in a label as &lt;, or save the diagram again from draw.io.');
     elements += 1;
     if (elements > MAX_ELEMENTS) return problem2(lt, `The file holds more than ${MAX_ELEMENTS} elements.`, "Send one page of the diagram at a time.");
@@ -213759,14 +214684,14 @@ function readXml2(text5, base = 0) {
 function childNamed(element, name2) {
   return element.children.find((child) => child.name === name2);
 }
-var MAX_DEPTH15, MAX_ELEMENTS, ENTITIES4, NAME3, ATTRIBUTE3;
+var MAX_DEPTH15, MAX_ELEMENTS, ENTITIES4, NAME4, ATTRIBUTE3;
 var init_xml2 = __esm({
   "../../packages/diagrams/src/importers/drawio/xml.ts"() {
     "use strict";
     MAX_DEPTH15 = 64;
     MAX_ELEMENTS = 4e5;
     ENTITIES4 = { lt: "<", gt: ">", amp: "&", quot: '"', apos: "'", nbsp: "\xA0" };
-    NAME3 = /[A-Za-z_:][\w.:-]*/y;
+    NAME4 = /[A-Za-z_:][\w.:-]*/y;
     ATTRIBUTE3 = /\s*([A-Za-z_:][\w.:-]*)\s*=\s*(?:"([^"]*)"|'([^']*)')/y;
   }
 });
@@ -223022,7 +223947,7 @@ var init_definitions = __esm({
     getDiagramSyntaxTool = defineTool({
       name: "get_diagram_syntax",
       title: "Get diagram syntax",
-      description: "Read the diagram language as data. Call it once with no kind before your first diagram: the overview, the tables every kind shares (node types, arrows including dotted ..> for asynchronous calls, animated and numbered lines, icon sets, size limits, how to edit an existing SVG), and one line about each kind. For one kind in full, call it again with kind set to it: its statements, limits, and a tested example. kind flow adds the group types (type=), overlays, stack= marks, and a complete cloud architecture example; build the group tree top-down with type=, one node per service, and icons from map_icons or search_icons. For a common architecture, find_pattern gives a checked diagram to adapt. topic import-formats lists what import_source reads.",
+      description: "Read the diagram language as data. Call it once with no kind before your first diagram: the overview, the tables every kind shares (node types, arrows including dotted ..> for asynchronous calls, animated and numbered lines, icon sets, size limits, how to edit an existing SVG), and one line about each kind. For one kind in full, call it again with kind set to it: its statements, limits, and a tested example. kind flow adds the group types (type=), overlays, stack= marks, and a complete cloud architecture example; build the group tree top-down with type=, one node per service, and icons from map_icons or search_icons. For a common architecture, find_pattern gives a checked diagram to adapt. topic import-formats lists what import_source reads, and topic icon-words every word a label or an arrow draws an icon from.",
       callExample: { kind: "sequence" },
       compact: {
         description: "Returns the diagram language as data. Call it with kind set to the kind you draw (such as sequence or flow): its statements, limits, and a tested example to copy. With no kind it returns the shared overview, which is long.",
@@ -224307,6 +225232,11 @@ function decide(name2, results, provider) {
     candidates: []
   };
 }
+function isNamedBy(ref2, name2) {
+  const phrase2 = normalizePhrase(name2);
+  const own2 = normalizePhrase(ref2.slice(ref2.indexOf(":") + 1));
+  return own2 === phrase2 || (findIcon(ref2)?.aliases ?? []).some((alias) => normalizePhrase(alias) === phrase2);
+}
 async function mapIcons(input2, ops = ENGINE_OPS) {
   const results = [];
   const gaps = [];
@@ -224315,8 +225245,15 @@ async function mapIcons(input2, ops = ENGINE_OPS) {
     const key = name2.trim().toLowerCase();
     const found = seen.get(key) ?? lookUp(name2.trim(), input2.provider, ops);
     seen.set(key, found);
-    if (found.length === 0) gaps.push({ name: name2, fallback: FALLBACK_ICON, reason: GAP_REASON });
-    else results.push(decide(name2, found, input2.provider));
+    const searched = found.length === 0 ? null : decide(name2, found, input2.provider);
+    const auto = autoIconFor({ texts: [name2.trim()], roles: true, provider: input2.provider ?? null });
+    const searchWeak = searched === null || searched.resolved && searched.confidence !== "exact" && searched.icon !== null && !isNamedBy(searched.icon, name2);
+    const providerFound = input2.provider !== void 0 && found[0] !== void 0 && setOf3(found[0]) === input2.provider;
+    const drawn = searchWeak && !providerFound ? auto : null;
+    if (drawn !== null) {
+      results.push({ name: name2, resolved: true, icon: drawn, confidence: "exact", alternatives: found.filter((ref2) => ref2 !== drawn).slice(0, WORKFLOW_LIMITS.maxIconAlternatives), candidates: [] });
+    } else if (searched === null) gaps.push({ name: name2, fallback: FALLBACK_ICON, reason: GAP_REASON });
+    else results.push(searched);
   }
   const resolvedCount = results.filter((match) => match.resolved).length;
   return {
@@ -224334,6 +225271,7 @@ var init_map_icons2 = __esm({
     "use strict";
     init_constants();
     init_icons();
+    init_auto_icon();
     init_schemas3();
     init_define_tool();
     init_icon_confidence();
@@ -225639,23 +226577,28 @@ var init_strategy = __esm({
 function singular2(word2) {
   return word2.length > 3 && word2.endsWith("s") && !word2.endsWith("ss") ? word2.slice(0, -1) : word2;
 }
-function iconFor(name2) {
+function iconFor(name2, type) {
+  const fitting = type === void 0 ? void 0 : TYPE_ROLE_SETS[type];
+  const drawn = autoIconFor({ texts: [name2], roles: true, provider: null, ...fitting === void 0 ? {} : { fitting } });
+  if (drawn !== null) return drawn;
   const product = iconNamedBy(name2, null);
   if (product !== null) return product;
   for (const word2 of wordsOf7(name2)) {
     const ref2 = ROLE_ICONS2[word2] ?? ROLE_ICONS2[singular2(word2)];
-    if (ref2 !== void 0 && isKnownIcon(ref2)) return ref2;
+    if (ref2 !== void 0 && isKnownIcon(ref2) && (fitting === void 0 || fitting.has(ref2))) return ref2;
   }
   return null;
 }
-function iconOption(name2) {
-  const ref2 = iconFor(name2);
+function iconOption(name2, type) {
+  const ref2 = iconFor(name2, type);
   return ref2 === null ? "" : ` icon=${ref2}`;
 }
 var ROLE_ICONS2;
 var init_icons5 = __esm({
   "../../packages/diagrams/src/guidance/icons.ts"() {
     "use strict";
+    init_constants();
+    init_auto_icon();
     init_registry();
     init_suggest_icons();
     init_text9();
@@ -225669,8 +226612,8 @@ var init_icons5 = __esm({
       member: "lucide:user",
       patient: "lucide:user",
       employee: "lucide:user",
-      support: "lucide:message-square",
-      helpdesk: "lucide:message-square",
+      support: "lucide:headset",
+      helpdesk: "lucide:headset",
       finance: "lucide:wallet",
       accounting: "lucide:wallet",
       accounts: "lucide:wallet",
@@ -225687,9 +226630,6 @@ var init_icons5 = __esm({
       team: "lucide:users",
       hr: "lucide:users",
       people: "lucide:users",
-      developer: "lucide:code",
-      engineer: "lucide:code",
-      engineering: "lucide:code",
       operations: "lucide:activity",
       ops: "lucide:activity",
       security: "lucide:shield",
@@ -225698,31 +226638,31 @@ var init_icons5 = __esm({
       sales: "lucide:handshake",
       partner: "lucide:handshake",
       warehouse: "lucide:warehouse",
-      inventory: "lucide:boxes",
+      inventory: "lucide:package",
       stock: "lucide:boxes",
       order: "lucide:package",
       shipping: "lucide:package",
-      catalog: "lucide:book-open",
+      catalog: "lucide:package-search",
       product: "lucide:package",
       email: "lucide:mail",
       mail: "lucide:mail",
       notification: "lucide:bell",
       search: "lucide:search",
       auth: "lucide:key-round",
-      identity: "lucide:key-round",
+      identity: "lucide:id-card",
       login: "lucide:key-round",
-      gateway: "lucide:route",
-      web: "lucide:globe",
-      website: "lucide:globe",
-      browser: "lucide:globe",
+      gateway: "lucide:router",
+      web: "lucide:app-window",
+      website: "lucide:app-window",
+      browser: "lucide:app-window",
       mobile: "lucide:smartphone",
       app: "lucide:smartphone",
       database: "lucide:database",
       db: "lucide:database",
       storage: "lucide:hard-drive",
       server: "lucide:server",
-      scheduler: "lucide:clock",
-      cron: "lucide:clock",
+      scheduler: "lucide:calendar-clock",
+      cron: "lucide:calendar-clock",
       bot: "lucide:bot",
       agent: "lucide:bot",
       webhook: "lucide:webhook"
@@ -225776,7 +226716,7 @@ function linkedFlow(material, title) {
   const links = material.relations.slice(0, MOST * 2).map((relation2) => ({ from: nodeOf5(relation2.from), to: nodeOf5(relation2.to), verb: relation2.verb }));
   const edges = links.map((link2) => `${link2.from} -> ${link2.to} : ${quoted5(link2.verb)}${roleOption(link2.verb)}`);
   return sourceOf(`flow ${quoted5(title)} direction=${directionFor(longestChain2(links))}`, [
-    ...[...nodes.values()].map((node3) => `node ${node3.id} ${partType(node3.label)} ${quoted5(node3.label)}${iconOption(node3.label)}`),
+    ...[...nodes.values()].map((node3) => `node ${node3.id} ${partType(node3.label)} ${quoted5(node3.label)}${iconOption(node3.label, partType(node3.label))}`),
     "",
     ...edges
   ]);
@@ -227371,9 +228311,7 @@ var init_server_info = __esm({
       "To change a diagram that already exists as a Plotwork SVG, a hosted link such as https://cdn.plotwork.dev/d/<22 characters>.svg or an .svg file in the repository, call read_diagram first with its url or its text, change the source it returns with edit_diagram (rename, set an option, add, remove, or move a statement) or by hand and draw_diagram, then write the SVG file again; compare_diagrams says what changed, for a review.",
       "Set embedSource true on draw_diagram whenever you save an SVG into a repository, so the file carries its source and read_diagram can give it back next time; the source is then readable by anyone who has the file.",
       ...SAVING_INSTRUCTIONS,
-      'An item with no icon= gets the icon its label names when the match is certain, such as the Postgres mark on a node labelled "Postgres", so label items with the product they are; icon=none keeps one item plain and icons=off on the header keeps them all plain.',
-      'For a finished look, label flow arrows with verbs ("reads", "publishes", "deploys to") so they draw icons, add role= (data, async, identity, private) to the lines that carry those, and give groups a type=; style in get_diagram_syntax says more.',
-      "Use map_icons to choose icons for many names at once; it never guesses, so choose from the candidates for an ambiguous name, and never invent an icon.",
+      ...AUTO_ICON_INSTRUCTIONS,
       "To move Mermaid to Plotwork, call convert_mermaid with one diagram, read every diagnostic and its hint, then choose node types and icons; for a whole Markdown file call sync_markdown with the document, its path, and convertMermaid true, write the returned markdown and files, then review the diff.",
       "When the repository has a plotwork.config.json (or .plotwork/config.json) at its root, read it and pass it as settings to every tool that takes settings: its defaults fill the header options the source leaves out, and broken style rules come back as warnings to fix.",
       "Use validate_diagram, outline_diagram, render_diagram, and search_icons only for one fine-grained step.",
