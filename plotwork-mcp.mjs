@@ -65,7 +65,7 @@ var init_icon_art_folder = __esm({
 var package_default;
 var init_package = __esm({
   "package.json"() {
-    package_default = { version: "0.6.1-beta.1" };
+    package_default = { version: "0.7.0-beta.1" };
   }
 });
 
@@ -1658,12 +1658,13 @@ var init_view_links = __esm({
 });
 
 // ../../packages/diagrams/src/constants/terraform-release.ts
-var TERRAFORM_PROVIDER_SOURCE, TERRAFORM_REGISTRY_URL;
+var TERRAFORM_PROVIDER_SOURCE, TERRAFORM_REGISTRY_URL, TERRAFORM_REGISTRY_VERSIONS_URL;
 var init_terraform_release = __esm({
   "../../packages/diagrams/src/constants/terraform-release.ts"() {
     "use strict";
     TERRAFORM_PROVIDER_SOURCE = "plotwork-official/plotwork";
     TERRAFORM_REGISTRY_URL = `https://registry.terraform.io/providers/${TERRAFORM_PROVIDER_SOURCE}/latest`;
+    TERRAFORM_REGISTRY_VERSIONS_URL = `https://registry.terraform.io/v2/providers/${TERRAFORM_PROVIDER_SOURCE}?include=provider-versions`;
   }
 });
 
