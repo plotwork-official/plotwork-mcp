@@ -65,7 +65,7 @@ var init_icon_art_folder = __esm({
 var package_default;
 var init_package = __esm({
   "package.json"() {
-    package_default = { version: "0.6.0" };
+    package_default = { version: "0.6.1-beta.1" };
   }
 });
 
@@ -1606,8 +1606,8 @@ var init_action_release = __esm({
     "use strict";
     ACTION_REPOSITORY = "plotwork-official/plotwork-action";
     ACTION_RELEASE = {
-      version: "1.2.0",
-      sha: "35c08022ae999fc36bc881aad0becab4ae1034e0"
+      version: "1.3.0",
+      sha: "877be568308545bc11529b6b4e607374d051f4e4"
     };
     PINNED_ACTION_LINE = `uses: ${ACTION_REPOSITORY}@${ACTION_RELEASE.sha} # v${ACTION_RELEASE.version}`;
   }
@@ -1650,7 +1650,7 @@ var init_view_links = __esm({
     };
     CLI_RELEASE = {
       packageName: "@buun_group/plotwork",
-      version: "0.3.0",
+      version: "0.4.0",
       onNpm: true
     };
     CLI_SCHEME_FLAG_SINCE = "0.3.0";
@@ -1688,7 +1688,7 @@ var init_gitlab_component_release = __esm({
       /** The component's name: its template is `templates/<name>.yml`. */
       component: "plotwork",
       version: "0.1.0",
-      published: false
+      published: true
     };
     GITLAB_COMPONENT_PATH = `gitlab.com/${GITLAB_COMPONENT_RELEASE.project}/${GITLAB_COMPONENT_RELEASE.component}`;
     GITLAB_COMPONENT_INCLUDE = gitlabComponentInclude();
@@ -1818,7 +1818,7 @@ var init_mcp_release = __esm({
     "use strict";
     MCP_RELEASE = {
       packageName: "@buun_group/plotwork-mcp",
-      version: "0.3.0"
+      version: "0.6.0"
     };
   }
 });
