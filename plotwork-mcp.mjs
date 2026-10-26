@@ -65,7 +65,7 @@ var init_icon_art_folder = __esm({
 var package_default;
 var init_package = __esm({
   "package.json"() {
-    package_default = { version: "0.8.0-beta.1" };
+    package_default = { version: "0.8.0-beta.2" };
   }
 });
 
@@ -531,7 +531,7 @@ var init_spacing = __esm({
 });
 
 // ../../packages/diagrams/src/constants/flow-look.ts
-var EDGE_SHAPES, DEFAULT_EDGE_SHAPE, FIT_VALUES, DEFAULT_FIT, ALIGN_LIMIT, FLOW_LOOK_SPECS;
+var EDGE_SHAPES, DEFAULT_EDGE_SHAPE, FIT_VALUES, DEFAULT_FIT, STYLE_PART_VALUES, ALIGN_LIMIT, FLOW_LOOK_SPECS;
 var init_flow_look = __esm({
   "../../packages/diagrams/src/constants/flow-look.ts"() {
     "use strict";
@@ -540,6 +540,10 @@ var init_flow_look = __esm({
     DEFAULT_EDGE_SHAPE = "orthogonal";
     FIT_VALUES = ["auto", "wide", "tall", "square"];
     DEFAULT_FIT = "auto";
+    STYLE_PART_VALUES = {
+      spacing: { values: SPACING_VALUES, fallback: "normal" },
+      edges: { values: EDGE_SHAPES, fallback: "orthogonal" }
+    };
     ALIGN_LIMIT = 12;
     FLOW_LOOK_SPECS = [
       {
@@ -5991,7 +5995,9 @@ var init_diagnostics = __esm({
       overrideRefused: "S202",
       overridesMissing: "S203",
       // An enforced default (`defaults.enforced`) written over the header's own value; a warning, so the author sees why the picture differs.
-      settingEnforced: "S204"
+      settingEnforced: "S204",
+      // A header's own value the settings do not allow (`defaults.allowed`), written over with one they do; a warning, so the author sees why.
+      settingNotAllowed: "S205"
     };
     STYLE_HINT_CODES = /* @__PURE__ */ new Set([DIAGNOSTIC_CODES.suggestIcon, DIAGNOSTIC_CODES.suggestGroupType, DIAGNOSTIC_CODES.suggestLineRole]);
   }
@@ -181700,6 +181706,10 @@ var init_schema4 = __esm({
       scheme: external_exports.enum(PICTURE_FILE_SCHEMES).optional().describe("The pictures a diagram gets. auto writes one <name>.svg that holds both schemes and follows the reader's light or dark setting, so GitHub shows it right in either theme. light or dark writes one picture in that scheme. light-and-dark writes <name>.svg and <name>.dark.svg from sync and generate, which a <picture> element shows by GitHub's own theme setting, and the light picture from render and publish. Left out: auto from sync and generate, light from render and publish."),
       embedSource: external_exports.boolean().optional().describe("Write the source into every SVG the command line, the GitHub Action, and the drawing tools save."),
       enforced: external_exports.array(external_exports.enum(SHARED_DEFAULT_OPTIONS)).max(SHARED_DEFAULT_OPTIONS.length).optional().describe(`Defaults written over the header's own value, so a diagram cannot turn them the other way: ["legend"] with "legend": "on" draws the legend whatever the header says, with warning S204 where the header said otherwise. The hosted service fills it from an organisation that requires the legend.`),
+      allowed: external_exports.strictObject({
+        spacing: external_exports.array(external_exports.enum(SPACING_VALUES)).min(1).max(SPACING_VALUES.length).optional(),
+        edges: external_exports.array(external_exports.enum(EDGE_SHAPES)).min(1).max(EDGE_SHAPES.length).optional()
+      }).optional().describe(`The values a diagram may use for spacing= and edges=, such as { "edges": ["orthogonal", "spline"] }. A header or default outside the list is written over with an allowed one, with warning S205; a list of one requires it. The hosted service narrows it further with the organisation's own list.`),
       kinds: external_exports.partialRecord(external_exports.enum(DIAGRAM_KINDS), external_exports.record(optionKey, optionValue)).optional().describe('Header options for one kind, such as { "mindmap": { "layout": "radial" } }. A value the kind refuses is left out with warning S200.')
     }, { error: movedKeysError(MOVED_DEFAULTS) }).meta({ id: "SettingsDefaults", description: "Header options a diagram gets when its header does not set them." });
     SettingsBrandSchema = external_exports.strictObject({
@@ -181785,7 +181795,34 @@ function applyDefaults(source, defaults) {
     current2 = candidate2;
     errors = after;
   }
-  return { source: current2, notes };
+  return { source: withAllowed(current2, defaults, notes), notes };
+}
+function withAllowed(source, defaults, notes) {
+  let current2 = source;
+  for (const part of Object.keys(STYLE_PART_VALUES)) {
+    const allowed = defaults.allowed?.[part];
+    const header = headerOf(current2);
+    if (allowed === void 0 || allowed.length === 0 || header === void 0) continue;
+    const own2 = headerValue(header, part);
+    const was = own2 !== void 0 && "text" in own2 ? own2.text : STYLE_PART_VALUES[part].fallback;
+    if (allowed.includes(was)) continue;
+    const wanted2 = defaults[part];
+    const value = wanted2 !== void 0 && allowed.includes(wanted2) ? wanted2 : allowed[0];
+    const errors = headerErrors(current2, header.line);
+    const next = own2 === void 0 ? withOption(current2, header, part, value) : withValue(current2, header, own2, value);
+    if (headerErrors(next, header.line) > errors) continue;
+    current2 = next;
+    if (own2 !== void 0) notes.push(notAllowed(part, was, value, allowed, { line: header.line, column: own2.column, length: own2.length }));
+  }
+  return current2;
+}
+function notAllowed(key, was, value, allowed, at3) {
+  return warningAt(
+    DIAGNOSTIC_CODES.settingNotAllowed,
+    `The settings allow ${key}=${allowed.join(", ")}, so the header's ${key}=${was} was drawn as ${key}=${value}`,
+    at3,
+    `The repository's settings or the organisation allow only ${allowed.join(", ")} for ${key}; write one of those in the header, or ask the organisation's owner.`
+  );
 }
 function meets2(key, was, value) {
   if (was === value) return true;
