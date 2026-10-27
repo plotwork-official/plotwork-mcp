@@ -65,7 +65,7 @@ var init_icon_art_folder = __esm({
 var package_default;
 var init_package = __esm({
   "package.json"() {
-    package_default = { version: "0.8.0" };
+    package_default = { version: "0.8.1-beta.1" };
   }
 });
 
@@ -6025,9 +6025,17 @@ function repeatedHeaderFix(lines, diagnostic) {
   if (same > 1) return { label: `Remove the repeated copy on lines ${line5} to ${line5 + same - 1}`, edits: [deleteLines(lines, line5, line5 + same - 1)] };
   return { label: "Remove the second header", edits: [deleteLines(lines, line5, line5)] };
 }
-function repeatedLineFix(lines, diagnostic) {
+function firstLines(lines) {
+  const first = /* @__PURE__ */ new Map();
+  lines.forEach((line5, index2) => {
+    const text5 = line5.trim();
+    if (!first.has(text5)) first.set(text5, index2 + 1);
+  });
+  return first;
+}
+function repeatedLineFix(lines, firstLine, diagnostic) {
   const text5 = (lines[diagnostic.line - 1] ?? "").trim();
-  if (text5 === "" || !lines.slice(0, diagnostic.line - 1).some((earlier) => earlier.trim() === text5)) return null;
+  if (text5 === "" || (firstLine().get(text5) ?? diagnostic.line) >= diagnostic.line) return null;
   return { label: "Remove the repeated line", edits: [deleteLines(lines, diagnostic.line, diagnostic.line)] };
 }
 function oneChoiceFix(lines, diagnostic) {
@@ -6043,22 +6051,24 @@ function oneChoiceFix(lines, diagnostic) {
   const replacement = quoted6 ? `"${choice3}"` : /^[\w.:-]+$/.test(choice3) ? choice3 : `"${choice3}"`;
   return { label: `Change to ${choice3}`, edits: [{ line: diagnostic.line, column: diagnostic.column, length: diagnostic.length, text: replacement }] };
 }
-function fixFor(lines, diagnostic) {
+function fixFor(lines, firstLine, diagnostic) {
   if (diagnostic.severity !== "error") return null;
   if (diagnostic.code === UNKNOWN_STATEMENT) {
     const header = repeatedHeaderFix(lines, diagnostic);
     if (header !== null) return header;
   }
   if (diagnostic.code === DUPLICATE) {
-    const repeat = repeatedLineFix(lines, diagnostic);
+    const repeat = repeatedLineFix(lines, firstLine, diagnostic);
     if (repeat !== null) return repeat;
   }
   return oneChoiceFix(lines, diagnostic);
 }
 function attachFixes(source, diagnostics) {
   const lines = source.split("\n");
+  let first = null;
+  const firstLine = () => first ??= firstLines(lines);
   return diagnostics.map((diagnostic) => {
-    const fix = fixFor(lines, diagnostic);
+    const fix = fixFor(lines, firstLine, diagnostic);
     return fix === null ? diagnostic : { ...diagnostic, fix };
   });
 }
@@ -210591,6 +210601,9 @@ function tokenize3(text5) {
       index2 += 1;
     } else if (char === " " || char === "	" || char === "\r") {
       index2 += 1;
+    } else if (char === "#" && (tokens2.length === 0 || tokens2[tokens2.length - 1]?.kind === "newline")) {
+      const end = text5.indexOf("\n", index2);
+      index2 = end === -1 ? text5.length : end;
     } else if (char === "/" && next === "/") {
       const end = text5.indexOf("\n", index2);
       index2 = end === -1 ? text5.length : end;
@@ -210641,7 +210654,7 @@ var init_tokens2 = __esm({
 
 // ../../packages/diagrams/src/importers/bicep/parse.ts
 function parseBicep(text5) {
-  const empty = { declarations: [], skipped: [] };
+  const empty = { declarations: [], skipped: [], imports: [] };
   const split = tokenize3(text5);
   if (split.problem !== null) return { file: empty, problem: split.problem };
   try {
@@ -210720,6 +210733,7 @@ var init_parse32 = __esm({
       file() {
         const declarations = [];
         const skipped = [];
+        const imports = [];
         let decorators = [];
         for (; ; ) {
           this.skipLines();
@@ -210731,14 +210745,28 @@ var init_parse32 = __esm({
           }
           if (token.kind === "word" && SKIPPED.has(token.text)) {
             skipped.push({ keyword: token.text, start: token.start });
+            const from = this.index;
             this.skipStatement();
+            if (token.text === "import") {
+              const path = this.importPath(from, this.index);
+              if (path !== null) imports.push(path);
+            }
             decorators = [];
             continue;
           }
           declarations.push(this.declaration(decorators));
           decorators = [];
         }
-        return { declarations, skipped };
+        return { declarations, skipped, imports };
+      }
+      /** The file an `import {...} from '<path>'` or `import * as name from '<path>'` between two tokens names, or null for another import. */
+      importPath(from, to) {
+        for (let at3 = from; at3 + 1 < to; at3 += 1) {
+          const token = this.tokens[at3];
+          const next = this.tokens[at3 + 1];
+          if (token?.kind === "word" && token.text === "from" && next?.kind === "string") return next.text;
+        }
+        return null;
       }
       decorator() {
         this.index += 1;
@@ -211097,8 +211125,8 @@ function parametersFor(root, parameterFiles, context, index2) {
   for (const file2 of picked) for (const [name2, bound] of assignedBy(file2)) out.set(name2, bound);
   return out;
 }
-function rootsOf(units) {
-  const used = /* @__PURE__ */ new Set();
+function rootsOf(units, imported = /* @__PURE__ */ new Set()) {
+  const used = new Set(imported);
   for (const unit3 of units.values()) {
     for (const module of unit3.modules.values()) {
       const path = /^[a-z]+:/i.test(module.path) ? null : joinFolder(unit3.folder, module.path);
@@ -211143,6 +211171,7 @@ function readBicep(text5, context) {
   const index2 = new LineIndex(text5);
   const read = [];
   const parameterFiles = [];
+  const imported = /* @__PURE__ */ new Set();
   const files = filesOf(text5, context);
   for (const file2 of files) {
     const parsed = parseBicep(file2.text);
@@ -211154,12 +211183,16 @@ function readBicep(text5, context) {
     }
     const skipped = parsed.file.skipped[0];
     if (skipped !== void 0) context.report.add(DIAGNOSTIC_CODES.importSkipped, index2.span(file2.start + skipped.start, skipped.keyword.length), `${countOf2(parsed.file.skipped.length, "declaration")} of ${parsed.file.skipped.map((entry3) => entry3.keyword).filter((keyword, at3, all) => all.indexOf(keyword) === at3).join(", ")} draw nothing and were passed over.`, "Types, functions, imports, and metadata are not resources; nothing is missing from the picture.");
+    for (const path of parsed.file.imports) {
+      const joined3 = /^[a-z]+:/i.test(path) ? null : joinFolder(folderOf3(file2.path), path);
+      if (joined3 !== null) imported.add(joined3);
+    }
     const entry2 = { path: file2.path, start: file2.start, declarations: parsed.file.declarations };
     if (/\.bicepparam$/i.test(file2.path) || parsed.file.declarations.some((declaration) => declaration.kind === "using")) parameterFiles.push(entry2);
     else read.push(entry2);
   }
   const units = new Map(read.map((file2) => [file2.path, unitOf(file2)]));
-  const roots = rootsOf(units);
+  const roots = rootsOf(units, imported);
   if (roots.length === 0) {
     context.report.add(DIAGNOSTIC_CODES.importNoShape, START, "No .bicep file was sent, only parameters files.", "Send the .bicep files with the .bicepparam files.");
     return null;
@@ -214942,23 +214975,24 @@ function readInstructions(text5, base = 0) {
     index2 += 1;
     if (trimmed4 === "" || trimmed4.startsWith("#")) continue;
     const lead = line5.text.length - line5.text.trimStart().length;
-    let joined3 = line5.text.trimStart();
-    while (continues(joined3, escape2) && index2 < lines.length) {
-      joined3 = joined3.trimEnd().slice(0, -1);
+    const pieces = [line5.text.trimStart()];
+    let tail = pieces[0];
+    while (continues(tail, escape2) && index2 < lines.length) {
+      tail = tail.trimEnd().slice(0, -1);
       const next = lines[index2];
       index2 += 1;
       const nextTrimmed = next.text.trim();
-      if (nextTrimmed.startsWith("#")) {
-        joined3 += escape2;
+      if (nextTrimmed.startsWith("#") || nextTrimmed === "") {
+        tail += escape2;
+        pieces[pieces.length - 1] = tail;
         continue;
       }
-      if (nextTrimmed === "") {
-        joined3 += escape2;
-        continue;
-      }
-      joined3 += ` ${next.text.trim()}`;
+      pieces[pieces.length - 1] = tail;
+      tail = ` ${nextTrimmed}`;
+      pieces.push(tail);
     }
-    if (continues(joined3, escape2)) joined3 = joined3.trimEnd().slice(0, -1);
+    if (continues(tail, escape2)) pieces[pieces.length - 1] = tail.trimEnd().slice(0, -1);
+    const joined3 = pieces.join("");
     const space = joined3.search(/\s/);
     const keyword = (space === -1 ? joined3 : joined3.slice(0, space)).toUpperCase();
     const args = space === -1 ? "" : joined3.slice(space).trim();
@@ -215212,20 +215246,25 @@ function shortCommand(command) {
   const space = cut.lastIndexOf(" ");
   return space > 12 ? cut.slice(0, space) : cut;
 }
-function stageNamed(stages, name2, before) {
-  const lower = name2.toLowerCase();
-  const earlier = stages.slice(0, before);
-  if (/^\d+$/.test(name2)) return earlier[Number(name2)] ?? null;
-  return earlier.find((stage) => stage.name !== null && stage.name.toLowerCase() === lower) ?? null;
+function stageLookup(stages) {
+  const first = /* @__PURE__ */ new Map();
+  for (const stage of stages) if (stage.name !== null && !first.has(stage.name.toLowerCase())) first.set(stage.name.toLowerCase(), stage);
+  return (name2, before) => {
+    if (/^\d+$/.test(name2)) {
+      const number4 = Number(name2);
+      return number4 < before ? stages[number4] ?? null : null;
+    }
+    const found = first.get(name2.toLowerCase());
+    return found !== void 0 && found.index < before ? found : null;
+  };
 }
-function rootImage(stages, stage) {
-  let current2 = stage;
-  for (let step = 0; step <= stages.length; step += 1) {
-    const parent = stageNamed(stages, current2.base, current2.index);
-    if (parent === null) return current2.base.toLowerCase() === "scratch" ? null : current2.base;
-    current2 = parent;
+function rootImages(stages, named) {
+  const roots = [];
+  for (const stage of stages) {
+    const parent = named(stage.base, stage.index);
+    roots.push(parent === null ? stage.base.toLowerCase() === "scratch" ? null : stage.base : roots[parent.index] ?? null);
   }
-  return null;
+  return roots;
 }
 function folderName(path) {
   const parts = path.split("/").filter((part) => part !== "");
@@ -215266,11 +215305,12 @@ function readDockerfile(text5, context) {
     if (group2 !== null) groups.push({ key: group2, label: cleanText(file2.path, "Dockerfile"), sub: countOf2(build2.stages.length, "stage"), type: "ci-cd", idHint: `${folderName(file2.path) ?? "docker"}_build` });
     const keyOf5 = (stage) => `stage:${framed ? `${file2.path}:` : ""}${stage.name ?? String(stage.index)}`;
     const last = build2.stages[build2.stages.length - 1];
+    const named = stageLookup(build2.stages);
+    const roots = rootImages(build2.stages, named);
     for (const stage of build2.stages) {
       stageCount += 1;
-      const parent = stageNamed(build2.stages, stage.base, stage.index);
-      const root = rootImage(build2.stages, stage);
-      const look = looksOf(root);
+      const parent = named(stage.base, stage.index);
+      const look = looksOf(roots[stage.index] ?? null);
       const final = stage === last;
       const from = parent === null ? stage.base.toLowerCase() === "scratch" ? "from scratch" : stage.base : null;
       const parts = final ? [from, stage.ports.length === 0 ? null : `${stage.ports.length === 1 ? "port" : "ports"} ${stage.ports.join(", ")}`, stage.user === null ? null : `user ${stage.user}`, stage.command === null ? null : `runs ${shortCommand(stage.command)}`] : [from, stage.steps === 0 ? null : countOf2(stage.steps, "step")];
@@ -215279,9 +215319,9 @@ function readDockerfile(text5, context) {
       nodes.push({ key: keyOf5(stage), type: final ? look?.type ?? "service" : "step", label: cleanText(label), sub: sub === "" ? null : cleanText(sub), icon: look?.icon ?? null, group: group2, idHint: stage.name ?? (final ? "image" : `stage_${stage.index + 1}`) });
       if (parent !== null) edges.push({ from: keyOf5(parent), to: keyOf5(stage), label: "builds on", verb: "builds-on" });
       for (const source of stage.sources) {
-        const named = stageNamed(build2.stages, source.from, stage.index);
+        const sourceStage = named(source.from, stage.index);
         let fromKey;
-        if (named !== null) fromKey = keyOf5(named);
+        if (sourceStage !== null) fromKey = keyOf5(sourceStage);
         else {
           fromKey = `image:${source.from}`;
           if (!images2.has(fromKey)) {
