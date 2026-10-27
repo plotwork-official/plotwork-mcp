@@ -65,7 +65,7 @@ var init_icon_art_folder = __esm({
 var package_default;
 var init_package = __esm({
   "package.json"() {
-    package_default = { version: "0.8.1" };
+    package_default = { version: "0.9.0-beta.1" };
   }
 });
 
@@ -1675,8 +1675,8 @@ var init_action_release = __esm({
     "use strict";
     ACTION_REPOSITORY = "plotwork-official/plotwork-action";
     ACTION_RELEASE = {
-      version: "1.5.0",
-      sha: "a66ac576a6daf1b770fc7294386481354e87094e"
+      version: "1.5.1",
+      sha: "a4df8eaf155240df63e49d360bc63e50529a3f26"
     };
     PINNED_ACTION_LINE = `uses: ${ACTION_REPOSITORY}@${ACTION_RELEASE.sha} # v${ACTION_RELEASE.version}`;
   }
@@ -1719,7 +1719,7 @@ var init_view_links = __esm({
     };
     CLI_RELEASE = {
       packageName: "@buun_group/plotwork",
-      version: "0.6.0",
+      version: "0.6.1",
       onNpm: true
     };
     CLI_SCHEME_FLAG_SINCE = "0.3.0";
@@ -1757,7 +1757,7 @@ var init_gitlab_component_release = __esm({
       project: "plotwork/plotwork-component",
       /** The component's name: its template is `templates/<name>.yml`. */
       component: "plotwork",
-      version: "0.1.1",
+      version: "0.1.2",
       published: true
     };
     GITLAB_COMPONENT_PATH = `gitlab.com/${GITLAB_COMPONENT_RELEASE.project}/${GITLAB_COMPONENT_RELEASE.component}`;
@@ -1888,7 +1888,7 @@ var init_mcp_release = __esm({
     "use strict";
     MCP_RELEASE = {
       packageName: "@buun_group/plotwork-mcp",
-      version: "0.8.0"
+      version: "0.8.1"
     };
   }
 });
@@ -140984,7 +140984,8 @@ function nodeLine(node3) {
   const detail = node3.sub === null ? "" : ` (${node3.sub})`;
   const stack2 = node3.stack.length === 0 ? "" : `, stack: ${markNames(node3.stack)}`;
   const change = node3.change === void 0 ? "" : `, change: ${node3.change}`;
-  return `${node3.label}${detail}, ${node3.type}${stack2}${change}`;
+  const part = node3.part === void 0 ? "" : `, drawn in full in part ${node3.part}`;
+  return `${node3.label}${detail}, ${node3.type}${stack2}${change}${part}`;
 }
 function groupLine(group2) {
   const kind = group2.type === null ? "Group" : GROUP_TYPE_SPECS[group2.type].title;
@@ -141425,12 +141426,13 @@ function parseNodeStatement(cursor, state, line5, group2) {
   const labelToken = cursor.peek();
   const label = readLabel(cursor, state, line5, "label", 'node <id> <type> "Label" icon=<set:name>.');
   const options3 = readOptions(cursor, NODE_OPTIONS, state.report, { lists: ["stack"] });
-  rejectTrailing(cursor, state, 'A node is: node id type "Label" sub="..." icon=lucide:name tone=blue stack=simple:angular,simple:typescript change=update');
+  rejectTrailing(cursor, state, 'A node is: node id type "Label" sub="..." icon=lucide:name tone=blue stack=simple:angular,simple:typescript change=update part=2');
   if (id === null || type === void 0 || label === null) return;
   const defaults = FLOW_NODE_TYPE_DEFAULTS[type];
   const sub = findOption(options3, "sub")?.value ?? null;
   const iconOption2 = findOption(options3, "icon");
   const change = resolveChange(findOption(options3, "change"), state);
+  const part = resolvePart(findOption(options3, "part"), state);
   state.nodes.push({
     id: toNodeId(id.text),
     type,
@@ -141441,9 +141443,17 @@ function parseNodeStatement(cursor, state, line5, group2) {
     hasOwnIcon: iconOption2 !== void 0,
     stack: resolveStack(findOption(options3, "stack"), state, defaults.shape === "card"),
     ...change === null ? {} : { change },
+    ...part === null ? {} : { part },
     group: group2,
     labelAt: spanOf7(labelToken)
   });
+}
+function resolvePart(option2, state) {
+  if (option2 === void 0) return null;
+  const value = /^\d+$/.test(option2.value) ? Number(option2.value) : Number.NaN;
+  if (Number.isInteger(value) && value >= 1 && value <= MAX_PART) return value;
+  state.report.push(errorAt(DIAGNOSTIC_CODES.badOptionValue, `Option "part" takes a whole number from 1 to ${MAX_PART}, found "${option2.value}"`, option2.valueToken, "part=2 says this box is drawn in full in part 2 of the same series, so a viewer can open it beside the box."));
+  return null;
 }
 function resolveChange(option2, state) {
   if (option2 === void 0) return null;
@@ -141546,7 +141556,7 @@ function parseOverlayStatement(cursor, state, line5, parent) {
     labelAt
   });
 }
-var NODE_OPTIONS, MOVED_GROUP_OPTIONS, EDGE_OPTIONS, HEADER_OPTIONS4, PLAIN_NODE_TYPES, ROLE_NODE_TYPES;
+var NODE_OPTIONS, MAX_PART, MOVED_GROUP_OPTIONS, EDGE_OPTIONS, HEADER_OPTIONS4, PLAIN_NODE_TYPES, ROLE_NODE_TYPES;
 var init_flow_statements = __esm({
   "../../packages/diagrams/src/parse/flow-statements.ts"() {
     "use strict";
@@ -141562,7 +141572,8 @@ var init_flow_statements = __esm({
     init_statement_helpers();
     init_suggest();
     init_token_cursor();
-    NODE_OPTIONS = ["sub", "icon", "tone", "stack", "change"];
+    NODE_OPTIONS = ["sub", "icon", "tone", "stack", "change", "part"];
+    MAX_PART = 999;
     MOVED_GROUP_OPTIONS = { boundary: "A trust boundary is now a group type: write type=trust-boundary." };
     EDGE_OPTIONS = ["icon", "role", "main", ...LINE_MOTION_OPTIONS];
     HEADER_OPTIONS4 = ["direction", "desc", "provider", "legend", "legendparts", "spacing", "edges", "fit", "icons", ...HEADER_MOTION_OPTIONS];
@@ -141946,7 +141957,7 @@ function paintCard2(frame) {
   }
   if (node3.stack.length > 0) parts.push(...paintMarks(node3.stack, x + textLeft, top + textHeight3 + NODE_METRICS.stackTop, theme, theme.tones.neutral.chipFill));
   if (node3.change !== void 0) parts.push(paintChangeBadge(node3.change, placed.rect, theme));
-  return el("g", { "data-node": node3.id, "data-type": node3.type }, parts);
+  return el("g", { "data-node": node3.id, "data-type": node3.type, ...node3.part === void 0 ? {} : { "data-part": node3.part } }, parts);
 }
 function paintPill(frame) {
   const { node: node3, placed, theme } = frame;
@@ -141964,7 +141975,7 @@ function paintPill(frame) {
     parts.push(paintTextBlock({ x: textX3, top, lines: placed.labelLines, role: "label", color: theme.ink }));
   }
   if (node3.change !== void 0) parts.push(paintChangeBadge(node3.change, placed.rect, theme));
-  return el("g", { "data-node": node3.id, "data-type": node3.type }, parts);
+  return el("g", { "data-node": node3.id, "data-type": node3.type, ...node3.part === void 0 ? {} : { "data-part": node3.part } }, parts);
 }
 function paintNode(node3, placed, theme) {
   const frame = { node: node3, placed, theme };
@@ -163573,8 +163584,27 @@ var init_rows2 = __esm({
 // ../../packages/diagrams/src/layout/sequence/layout-sequence.ts
 function layoutSequence(diagram) {
   const boxes2 = diagram.actors.map((actor) => sizeNode(actorAsNode(actor)));
-  const { centers, rightExtra } = computeColumns(diagram.actors, boxes2, diagram.items);
+  const columns = computeColumns(diagram.actors, boxes2, diagram.items);
   const headerHeight = boxes2.reduce((max, box) => Math.max(max, box.height), 0);
+  const first = placeAll(diagram, boxes2, columns.centers, headerHeight);
+  const overhang = CANVAS_METRICS.padding - (first.rows.extent?.minX ?? CANVAS_METRICS.padding);
+  const placed = overhang > 0 ? placeAll(diagram, boxes2, columns.centers.map((center) => center + overhang), headerHeight) : first;
+  const { actors, blocks: blocks2, notes, messages, rows, centers, lifelineTop } = placed;
+  const lastBox = boxes2[boxes2.length - 1];
+  const lastCenter = centers[centers.length - 1] ?? 0;
+  const columnsRight = lastCenter + (lastBox?.width ?? 0) / 2 + columns.rightExtra;
+  const right = Math.max(columnsRight, rows.extent?.maxX ?? 0);
+  const lifelineBottom = rows.y + SEQUENCE_METRICS.lifelineOvershoot;
+  return {
+    size: { width: Math.ceil(right + CANVAS_METRICS.padding), height: Math.ceil(lifelineBottom + CANVAS_METRICS.padding) },
+    actors,
+    lifelines: buildLifelines(actors, messages, blocks2, lifelineTop, lifelineBottom),
+    blocks: blocks2,
+    notes,
+    messages
+  };
+}
+function placeAll(diagram, boxes2, centers, headerHeight) {
   const actors = diagram.actors.map((actor, index2) => {
     const box = boxes2[index2];
     const centerX = centers[index2] ?? 0;
@@ -163597,19 +163627,7 @@ function layoutSequence(diagram) {
     { centers, indexOf: new Map(diagram.actors.map((actor, index2) => [actor.id, index2])), blocks: blocks2, notes, messages },
     lifelineTop + SEQUENCE_METRICS.headerGap
   );
-  const lastBox = boxes2[boxes2.length - 1];
-  const lastCenter = centers[centers.length - 1] ?? 0;
-  const columnsRight = lastCenter + (lastBox?.width ?? 0) / 2 + rightExtra;
-  const right = Math.max(columnsRight, rows.extent?.maxX ?? 0);
-  const lifelineBottom = rows.y + SEQUENCE_METRICS.lifelineOvershoot;
-  return {
-    size: { width: Math.ceil(right + CANVAS_METRICS.padding), height: Math.ceil(lifelineBottom + CANVAS_METRICS.padding) },
-    actors,
-    lifelines: buildLifelines(actors, messages, blocks2, lifelineTop, lifelineBottom),
-    blocks: blocks2,
-    notes,
-    messages
-  };
+  return { actors, blocks: blocks2, notes, messages, rows, centers, lifelineTop };
 }
 var init_layout_sequence = __esm({
   "../../packages/diagrams/src/layout/sequence/layout-sequence.ts"() {
@@ -203652,7 +203670,8 @@ function overview(draft, parts, units, provider, writeFlow2) {
   const nodes = units.map((unit3, index2) => {
     const type = unit3.frame?.type ?? null;
     const icon = unit3.frame?.icon ?? (type === null || type === void 0 ? "lucide:boxes" : groupIcon(type, provider));
-    return { key: unitKey(index2), type: "service", label: unit3.name, sub: `${countOf2(unit3.boxes.length, "resource")}, part ${(partOf2.get(unit3) ?? 0) + 2}`, icon, group: account === null ? null : account.key, idHint: unit3.name };
+    const part = (partOf2.get(unit3) ?? 0) + 2;
+    return { key: unitKey(index2), type: "service", label: unit3.name, sub: `${countOf2(unit3.boxes.length, "resource")}, part ${part}`, icon, part, group: account === null ? null : account.key, idHint: unit3.name };
   });
   const unitIndex = new Map(units.map((unit3, index2) => [unit3, index2]));
   const unitOfBox = /* @__PURE__ */ new Map();
@@ -203802,7 +203821,7 @@ function writeOneFlow(draft, report3) {
   const nodeLine4 = (node3, depth) => {
     const named2 = node3.type === "decision" || node3.type === "terminal" ? null : iconNamedBy(node3.label, draft.provider ?? null) ?? (node3.sub === void 0 || node3.sub === null ? null : iconNamedBy(node3.sub, draft.provider ?? null));
     const icon = known2(node3.icon ?? null) ?? known2(named2);
-    lines.add(`node ${ids.idFor(`node:${node3.key}`)} ${node3.type} ${quote(node3.label)}${options2({ sub: node3.sub ?? null, icon, tone: node3.tone ?? null, change: node3.change ?? null })}`, depth);
+    lines.add(`node ${ids.idFor(`node:${node3.key}`)} ${node3.type} ${quote(node3.label)}${options2({ sub: node3.sub ?? null, icon, tone: node3.tone ?? null, change: node3.change ?? null, part: node3.part ?? null })}`, depth);
   };
   const writtenGroups = new Set(groups.map((group2) => group2.key));
   const effective = /* @__PURE__ */ new Map();
