@@ -65,7 +65,7 @@ var init_icon_art_folder = __esm({
 var package_default;
 var init_package = __esm({
   "package.json"() {
-    package_default = { version: "0.11.0-beta.1" };
+    package_default = { version: "0.11.0-beta.2" };
   }
 });
 
@@ -229646,6 +229646,7 @@ var init_server_info = __esm({
       "To change a diagram that already exists as a Plotwork SVG, a hosted link such as https://cdn.plotwork.dev/d/<22 characters>.svg or an .svg file in the repository, call read_diagram first with its url or its text, change the source it returns with edit_diagram (rename, set an option, add, remove, or move a statement) or by hand and draw_diagram, then write the SVG file again; compare_diagrams says what changed, for a review.",
       "Set embedSource true on draw_diagram whenever you save an SVG into a repository, so the file carries its source and read_diagram can give it back next time; the source is then readable by anyone who has the file.",
       ...SAVING_INSTRUCTIONS,
+      "When the person wants a diagram in their own web page or React app, interactive and optionally live, call embed_diagram with its hosted link or SVG text (format react for React, live for a /l/ or /o/ link, pin for exactly that picture) and paste the snippet it returns instead of writing an img tag.",
       ...AUTO_ICON_INSTRUCTIONS,
       "To move Mermaid to Plotwork, call convert_mermaid with one diagram, read every diagnostic and its hint, then choose node types and icons; for a whole Markdown file call sync_markdown with the document, its path, and convertMermaid true, write the returned markdown and files, then review the diff.",
       "When the repository has a plotwork.config.json (or .plotwork/config.json) at its root, read it and pass it as settings to every tool that takes settings: its defaults fill the header options the source leaves out, and broken style rules come back as warnings to fix.",
