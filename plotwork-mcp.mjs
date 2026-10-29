@@ -65,7 +65,7 @@ var init_icon_art_folder = __esm({
 var package_default;
 var init_package = __esm({
   "package.json"() {
-    package_default = { version: "0.11.0-beta.2" };
+    package_default = { version: "0.11.0" };
   }
 });
 
@@ -1788,7 +1788,7 @@ var init_gitlab_component_release = __esm({
       project: "plotwork/plotwork-component",
       /** The component's name: its template is `templates/<name>.yml`. */
       component: "plotwork",
-      version: "0.1.3",
+      version: "0.1.4",
       published: true
     };
     GITLAB_COMPONENT_PATH = `gitlab.com/${GITLAB_COMPONENT_RELEASE.project}/${GITLAB_COMPONENT_RELEASE.component}`;
