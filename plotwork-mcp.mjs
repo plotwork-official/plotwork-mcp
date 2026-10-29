@@ -65,7 +65,7 @@ var init_icon_art_folder = __esm({
 var package_default;
 var init_package = __esm({
   "package.json"() {
-    package_default = { version: "0.11.0" };
+    package_default = { version: "0.12.0-beta.1" };
   }
 });
 
