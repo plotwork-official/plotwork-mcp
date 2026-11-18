@@ -65,7 +65,7 @@ var init_icon_art_folder = __esm({
 var package_default;
 var init_package = __esm({
   "package.json"() {
-    package_default = { version: "0.12.0" };
+    package_default = { version: "0.13.0-beta.1" };
   }
 });
 
@@ -1706,8 +1706,8 @@ var init_action_release = __esm({
     "use strict";
     ACTION_REPOSITORY = "plotwork-official/plotwork-action";
     ACTION_RELEASE = {
-      version: "1.7.0",
-      sha: "f1bb2403552880c8dd9c0f2c5ed213b36c3c9390"
+      version: "1.9.0",
+      sha: "62c17dfd42c3e67e29de0f6d0adbad6b4831136a"
     };
     PINNED_ACTION_LINE = `uses: ${ACTION_REPOSITORY}@${ACTION_RELEASE.sha} # v${ACTION_RELEASE.version}`;
   }
@@ -1750,7 +1750,7 @@ var init_view_links = __esm({
     };
     CLI_RELEASE = {
       packageName: "@buun_group/plotwork",
-      version: "0.8.0",
+      version: "0.10.0",
       onNpm: true
     };
     CLI_SCHEME_FLAG_SINCE = "0.3.0";
@@ -1919,7 +1919,7 @@ var init_mcp_release = __esm({
     "use strict";
     MCP_RELEASE = {
       packageName: "@buun_group/plotwork-mcp",
-      version: "0.10.0"
+      version: "0.12.0"
     };
   }
 });
@@ -229322,11 +229322,14 @@ var init_icon_scope = __esm({
 });
 
 // src/constants.ts
-var MAX_BODY_BYTES2;
+var MAX_BODY_BYTES2, BUUN_JWKS_TTL_MS, BUUN_JWKS_REFETCH_MS, BUUN_LINK_MAX_BODY_BYTES;
 var init_constants21 = __esm({
   "src/constants.ts"() {
     "use strict";
     MAX_BODY_BYTES2 = 10 * 1024 * 1024;
+    BUUN_JWKS_TTL_MS = 10 * 60 * 1e3;
+    BUUN_JWKS_REFETCH_MS = 60 * 1e3;
+    BUUN_LINK_MAX_BODY_BYTES = 16 * 1024;
   }
 });
 
