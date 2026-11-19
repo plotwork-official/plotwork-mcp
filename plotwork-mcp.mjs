@@ -65,7 +65,7 @@ var init_icon_art_folder = __esm({
 var package_default;
 var init_package = __esm({
   "package.json"() {
-    package_default = { version: "0.13.0" };
+    package_default = { version: "0.13.1-beta.1" };
   }
 });
 
@@ -229543,8 +229543,15 @@ var init_brand2 = __esm({
       name: "Buun Group",
       /** The company's own site, which the credit links to. */
       website: "https://buungroup.com",
-      /** The company's mark, served by its own site so the credit never shows a stale copy of it. */
-      logoUrl: "https://buungroup.com/logo/logo.svg",
+      /**
+       * The company's mark, served by Buun Group's assets CDN so every product shows the current one: `logoUrl` for a light page,
+       * `logoDarkUrl` for a dark one (`CompanyMark` picks), and `logoPngUrl`, 512 pixels square, where an image must be a raster, as in
+       * structured data. A page that shows the mark allows `assetsOrigin` in its `img-src`.
+       */
+      assetsOrigin: "https://assets.buungroup.com",
+      logoUrl: "https://assets.buungroup.com/brand/logo/buungroup-mark.svg",
+      logoDarkUrl: "https://assets.buungroup.com/brand/logo/buungroup-mark-on-dark.svg",
+      logoPngUrl: "https://assets.buungroup.com/brand/logo/buungroup-mark-512.png",
       /** The registered name, for the privacy policy and every other legal page. */
       legalName: "Buun Group Pty Ltd",
       /** The Australian Business Number, as the company publishes it on its other products' legal pages. */
